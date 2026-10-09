@@ -41,9 +41,6 @@
     "webpack": "^5.111.0",
     "webpackbar": "^7.0.0"
   },
-  "devDependencies": {
-    "@total-typescript/shoehorn": "^0.1.2"
-  },
   "engines": {
     "node": ">=24.21"
   }

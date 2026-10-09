@@ -21,7 +21,8 @@ const uselessBabelConfigMessages: SiteMessageCreator = async ({site}) => {
   const {
     props: {siteDir, siteConfig},
   } = site;
-  if (siteConfig.future.faster.rspackBundler) {
+  // Babel is only used with Webpack
+  if (!siteConfig.webpack) {
     const babelConfigFilePath = await getCustomBabelConfigFilePath(siteDir);
     if (babelConfigFilePath) {
       return [
@@ -37,10 +38,29 @@ const uselessBabelConfigMessages: SiteMessageCreator = async ({site}) => {
   return [];
 };
 
+const webpackDeprecationMessages: SiteMessageCreator = async ({site}) => {
+  if (site.props.siteConfig.webpack) {
+    return [
+      {
+        type: 'warning',
+        message: `Your site uses Webpack and Babel through ${logger.code(
+          'siteConfig.webpack',
+        )}. This is deprecated: Docusaurus now uses Rspack by default, and Webpack/Babel support will be removed in Docusaurus v5. Please remove ${logger.code(
+          'siteConfig.webpack',
+        )} to use Rspack.`,
+      },
+    ];
+  }
+  return [];
+};
+
 export async function collectAllSiteMessages(
   params: Params,
 ): Promise<SiteMessage[]> {
-  const messageCreators: SiteMessageCreator[] = [uselessBabelConfigMessages];
+  const messageCreators: SiteMessageCreator[] = [
+    uselessBabelConfigMessages,
+    webpackDeprecationMessages,
+  ];
   return (
     await Promise.all(
       messageCreators.map((createMessages) => createMessages(params)),

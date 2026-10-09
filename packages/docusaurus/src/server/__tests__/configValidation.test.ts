@@ -10,8 +10,6 @@ import {getVcsPreset} from '@docusaurus/utils';
 import {
   ConfigSchema,
   DEFAULT_CONFIG,
-  DEFAULT_FASTER_CONFIG,
-  DEFAULT_FASTER_CONFIG_FALSE,
   DEFAULT_FUTURE_CONFIG,
   DEFAULT_FUTURE_V4_CONFIG,
   DEFAULT_FUTURE_V4_CONFIG_TRUE,
@@ -19,7 +17,6 @@ import {
   validateConfig,
 } from '../configValidation';
 import type {
-  FasterConfig,
   FutureConfig,
   FutureV4Config,
   StorageConfig,
@@ -70,9 +67,6 @@ describe('normalizeConfig', () => {
         v4: {
           useCssCascadeLayers: true,
           siteStorageNamespacing: true,
-        },
-        faster: {
-          rspackBundler: true,
         },
         experimental_router: 'hash',
       },
@@ -1156,7 +1150,7 @@ describe('storage', () => {
         },
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: The Docusaurus config \`future.experimental_faster\` has been renamed to \`future.faster\`. Please update your Docusaurus config.
+      [Error: The Docusaurus config \`future.experimental_faster\` has been removed. Docusaurus now uses Rspack by default. To keep using Webpack and Babel (deprecated), use \`siteConfig.webpack: true\`.
       ]
     `);
   });
@@ -1525,9 +1519,6 @@ describe('future', () => {
         useCssCascadeLayers: true,
         siteStorageNamespacing: true,
       },
-      faster: {
-        rspackBundler: true,
-      },
       experimental_router: 'hash',
     };
     expect(
@@ -1634,188 +1625,18 @@ describe('future', () => {
     });
   });
 
-  describe('faster', () => {
-    function fasterContaining(faster: Partial<FasterConfig>) {
-      return futureContaining({
-        faster: expect.objectContaining(faster),
-      });
-    }
-
-    it('accepts faster - undefined', () => {
-      expect(
-        normalizeConfig({
-          future: {
-            faster: undefined,
-          },
-        }),
-      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
-    });
-
-    it('accepts faster - empty', () => {
-      expect(
-        normalizeConfig({
-          future: {faster: {}},
-        }),
-      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
-    });
-
-    it('accepts faster - full', () => {
-      const faster: FasterConfig = {
-        rspackBundler: true,
-      };
-      expect(
-        normalizeConfig({
-          future: {
-            v4: true,
-            faster,
-          },
-        }),
-      ).toEqual(fasterContaining(faster));
-    });
-
-    it('accepts faster - false', () => {
-      expect(
-        normalizeConfig({
-          future: {faster: false},
-        }),
-      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_FALSE));
-    });
-
-    it('accepts faster - true (v4: true)', () => {
-      expect(
-        normalizeConfig({
-          future: {
-            v4: true,
-            faster: true,
-          },
-        }),
-      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
-    });
-
-    it('accepts faster - true (v4: false)', () => {
-      expect(
-        normalizeConfig({
-          future: {
-            v4: false,
-            faster: true,
-          },
-        }),
-      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
-    });
-
-    it('accepts faster - true (v4: undefined)', () => {
-      expect(
-        normalizeConfig({
-          future: {
-            v4: undefined,
-            faster: true,
-          },
-        }),
-      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
-    });
-
-    it('rejects faster - number', () => {
-      // @ts-expect-error: invalid
-      const faster: Partial<FasterConfig> = 42;
-      expect(() =>
-        normalizeConfig({
-          future: {
-            faster,
-          },
-        }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        [Error: "future.faster" must be one of [object, boolean]
-        ]
-      `);
-    });
-
-    describe('swcJsLoader', () => {
-      it('rejects - removed option', () => {
-        // @ts-expect-error: removed option
-        const faster: Partial<FasterConfig> = {swcJsLoader: true};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: The Docusaurus config \`future.faster.swcJsLoader\` has been removed. Rspack always uses its built-in SWC loader. Webpack uses Babel by default, and you can provide a custom JS loader with \`siteConfig.webpack.jsLoader\`.
-          ]
-        `);
-      });
-    });
-
-    describe('rspackBundler', () => {
-      it('accepts - undefined', () => {
-        const faster: Partial<FasterConfig> = {
-          rspackBundler: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({rspackBundler: true}));
-      });
-
-      it('accepts - true', () => {
-        const faster: Partial<FasterConfig> = {
-          rspackBundler: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({rspackBundler: true}));
-      });
-
-      it('accepts - false', () => {
-        const faster: Partial<FasterConfig> = {
-          rspackBundler: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({rspackBundler: false}));
-      });
-
-      it('rejects - null', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {rspackBundler: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.rspackBundler" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {rspackBundler: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.rspackBundler" must be a boolean
-          ]
-        `);
-      });
-    });
+  it('rejects future.faster', () => {
+    expect(() =>
+      normalizeConfig({
+        future: {
+          // @ts-expect-error: testing removed config
+          faster: {rspackBundler: true},
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      [Error: The Docusaurus config \`future.faster\` has been removed. Docusaurus now uses Rspack by default. To keep using Webpack and Babel (deprecated), use \`siteConfig.webpack: true\`.
+      ]
+    `);
   });
 
   describe('v4', () => {
@@ -2036,5 +1857,53 @@ describe('future', () => {
         `);
       });
     });
+  });
+});
+
+describe('webpack', () => {
+  it('accepts undefined', () => {
+    expect(normalizeConfig({webpack: undefined}).webpack).toBeUndefined();
+  });
+
+  it('accepts false', () => {
+    expect(normalizeConfig({webpack: false}).webpack).toBeUndefined();
+  });
+
+  it('accepts true', () => {
+    expect(normalizeConfig({webpack: true}).webpack).toEqual({});
+  });
+
+  it('accepts empty object', () => {
+    expect(normalizeConfig({webpack: {}}).webpack).toEqual({});
+  });
+
+  it('accepts jsLoader', () => {
+    expect(normalizeConfig({webpack: {jsLoader: 'babel'}}).webpack).toEqual({
+      jsLoader: 'babel',
+    });
+  });
+
+  it('rejects invalid jsLoader', () => {
+    expect(() =>
+      normalizeConfig({
+        // @ts-expect-error: invalid
+        webpack: {jsLoader: 'swc'},
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      [Error: "webpack.jsLoader" must be one of [babel, function]
+      ]
+    `);
+  });
+
+  it('rejects number', () => {
+    expect(() =>
+      normalizeConfig({
+        // @ts-expect-error: invalid
+        webpack: 42,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      [Error: "webpack" must be one of [boolean, object]
+      ]
+    `);
   });
 });

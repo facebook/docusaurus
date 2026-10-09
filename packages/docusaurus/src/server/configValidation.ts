@@ -21,7 +21,6 @@ import {
 import logger from '@docusaurus/logger';
 import type {
   DocusaurusConfig,
-  FasterConfig,
   FutureConfig,
   FutureV4Config,
   I18nConfig,
@@ -31,6 +30,7 @@ import type {
   StorageConfig,
   VcsConfig,
   VcsPreset,
+  WebpackConfig,
 } from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
@@ -72,15 +72,6 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
   namespace: false,
 };
 
-export const DEFAULT_FASTER_CONFIG: FasterConfig = {
-  rspackBundler: true,
-};
-
-// When using the "faster: false" shortcut
-export const DEFAULT_FASTER_CONFIG_FALSE: FasterConfig = {
-  rspackBundler: false,
-};
-
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
   useCssCascadeLayers: false,
   siteStorageNamespacing: false,
@@ -94,7 +85,6 @@ export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
-  faster: DEFAULT_FASTER_CONFIG,
   experimental_router: 'browser',
 };
 
@@ -263,29 +253,6 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
-const FASTER_CONFIG_SCHEMA = Joi.alternatives()
-  .try(
-    Joi.object<FasterConfig & {swcJsLoader: never}>({
-      rspackBundler: Joi.boolean().default(DEFAULT_FASTER_CONFIG.rspackBundler),
-      swcJsLoader: Joi.any()
-        .forbidden()
-        .messages({
-          'any.unknown': `The Docusaurus config ${logger.code(
-            'future.faster.swcJsLoader',
-          )} has been removed. Rspack always uses its built-in SWC loader. Webpack uses Babel by default, and you can provide a custom JS loader with ${logger.code(
-            'siteConfig.webpack.jsLoader',
-          )}.`,
-        }),
-    }),
-    Joi.boolean()
-      .required()
-      .custom((bool) =>
-        bool ? DEFAULT_FASTER_CONFIG : DEFAULT_FASTER_CONFIG_FALSE,
-      ),
-  )
-  .optional()
-  .default(DEFAULT_FASTER_CONFIG);
-
 const FUTURE_V4_SCHEMA = Joi.alternatives()
   .try(
     Joi.object<FutureV4Config>({
@@ -344,10 +311,22 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
 }).default(() => DEFAULT_CONFIG.vcs);
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<
-  FutureConfig & {experimental_storage: never; experimental_faster: never}
+  FutureConfig & {
+    experimental_storage: never;
+    experimental_faster: never;
+    faster: never;
+  }
 >({
   v4: FUTURE_V4_SCHEMA,
-  faster: FASTER_CONFIG_SCHEMA,
+  faster: Joi.any()
+    .forbidden()
+    .messages({
+      'any.unknown': `The Docusaurus config ${logger.code(
+        'future.faster',
+      )} has been removed. Docusaurus now uses Rspack by default. To keep using Webpack and Babel (deprecated), use ${logger.code(
+        'siteConfig.webpack: true',
+      )}.`,
+    }),
   experimental_router: Joi.string()
     .equal('browser', 'hash')
     .default(DEFAULT_FUTURE_CONFIG.experimental_router),
@@ -365,9 +344,9 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<
     .messages({
       'any.unknown': `The Docusaurus config ${logger.code(
         'future.experimental_faster',
-      )} has been renamed to ${logger.code(
-        'future.faster',
-      )}. Please update your Docusaurus config.`,
+      )} has been removed. Docusaurus now uses Rspack by default. To keep using Webpack and Babel (deprecated), use ${logger.code(
+        'siteConfig.webpack: true',
+      )}.`,
     }),
 })
   .optional()
@@ -476,11 +455,17 @@ export const ConfigSchema = Joi.object<
   tagline: Joi.string().allow('').default(DEFAULT_CONFIG.tagline),
   titleDelimiter: Joi.string().default(DEFAULT_CONFIG.titleDelimiter),
   noIndex: Joi.bool().default(DEFAULT_CONFIG.noIndex),
-  webpack: Joi.object({
-    jsLoader: Joi.alternatives()
-      .try(Joi.string().equal('babel'), Joi.function())
-      .optional(),
-  }).optional(),
+  // Normalized in postProcessDocusaurusConfig
+  webpack: Joi.alternatives()
+    .try(
+      Joi.boolean(),
+      Joi.object<WebpackConfig>({
+        jsLoader: Joi.alternatives()
+          .try(Joi.string().equal('babel'), Joi.function())
+          .optional(),
+      }),
+    )
+    .optional(),
   markdown: Joi.object({
     format: Joi.string()
       .equal('mdx', 'md', 'detect')
@@ -548,6 +533,14 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
   // undefined means "not explicitly set by user"
   if (config.storage.namespace === undefined) {
     config.storage.namespace = config.future.v4.siteStorageNamespacing;
+  }
+
+  // Resolve webpack config: true => {}, false => undefined (Rspack)
+  const webpack = config.webpack as boolean | WebpackConfig | undefined;
+  if (webpack === true) {
+    config.webpack = {};
+  } else if (webpack === false) {
+    delete config.webpack;
   }
 }
 

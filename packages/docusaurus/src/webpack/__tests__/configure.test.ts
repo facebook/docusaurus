@@ -15,19 +15,12 @@ import {
   executePluginsConfigureWebpack,
   createConfigureWebpackUtils,
 } from '../configure';
-import {
-  DEFAULT_FASTER_CONFIG_FALSE,
-  DEFAULT_FUTURE_CONFIG,
-} from '../../server/configValidation';
 import type {Configuration} from 'webpack';
 import type {LoadedPlugin, Plugin} from '@docusaurus/types';
 
 function createTestConfigureWebpackUtils() {
   return createConfigureWebpackUtils({
-    siteConfig: {
-      webpack: {jsLoader: 'babel'},
-      future: {...DEFAULT_FUTURE_CONFIG, faster: DEFAULT_FASTER_CONFIG_FALSE},
-    },
+    siteConfig: {webpack: {jsLoader: 'babel'}},
   });
 }
 

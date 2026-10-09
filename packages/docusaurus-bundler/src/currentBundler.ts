@@ -11,15 +11,11 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {rspack} from './rspack';
 import type {CurrentBundler, DocusaurusConfig} from '@docusaurus/types';
 
-// We inject a site config slice because the Rspack flag might change place
-type SiteConfigSlice = {
-  future: {
-    faster: Pick<DocusaurusConfig['future']['faster'], 'rspackBundler'>;
-  };
-};
+type SiteConfigSlice = Pick<DocusaurusConfig, 'webpack'>;
 
+// Rspack is the default, Webpack is opt-in (deprecated)
 function isRspack(siteConfig: SiteConfigSlice): boolean {
-  return siteConfig.future.faster.rspackBundler;
+  return !siteConfig.webpack;
 }
 
 export async function getCurrentBundler({
