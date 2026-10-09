@@ -107,7 +107,7 @@ export async function loadContext(
   // VCS initialization can be slow for large repos, and we don't want to block
   // VCS integrations should be carefully designed to avoid blocking
   PerfLogger.async('VCS init', () => {
-    return initialSiteConfig.future.experimental_vcs.initialize({siteDir});
+    return initialSiteConfig.vcs.initialize({siteDir});
   });
 
   const currentBundler = await getCurrentBundler({

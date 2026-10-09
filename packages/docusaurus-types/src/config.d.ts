@@ -82,8 +82,8 @@ export type VcsPreset =
   | 'git-eager'
   | 'hardcoded'
   | 'disabled'
-  | 'default-v1'
-  | 'default-v2';
+  | 'default'
+  | 'default-v3';
 
 export type FutureConfig = {
   /**
@@ -92,8 +92,6 @@ export type FutureConfig = {
   v4: FutureV4Config;
 
   faster: FasterConfig;
-
-  experimental_vcs: VcsConfig;
 
   /**
    * Docusaurus can work with 2 router types.
@@ -176,6 +174,13 @@ export type DocusaurusConfig = {
    * @see https://docusaurus.io/docs/api/docusaurus-config#storage
    */
   storage: StorageConfig;
+  /**
+   * The Version Control System (VCS) implementation used to read file info
+   * (creation/last update date/author).
+   *
+   * @see https://docusaurus.io/docs/api/docusaurus-config#vcs
+   */
+  vcs: VcsConfig;
   /**
    * Docusaurus future flags and experimental features.
    * Similar to Remix future flags, see https://remix.run/blog/future-flags
@@ -413,12 +418,12 @@ export type Config = Overwrite<
     title: DocusaurusConfig['title'];
     url: DocusaurusConfig['url'];
     baseUrl: DocusaurusConfig['baseUrl'];
+    vcs?: VcsPreset | VcsConfig | boolean;
     future?: Overwrite<
       DeepPartial<FutureConfig>,
       {
         v4?: boolean | Partial<FutureV4Config>;
         faster?: boolean | Partial<FasterConfig>;
-        experimental_vcs?: VcsPreset | VcsConfig | boolean;
       }
     >;
   }

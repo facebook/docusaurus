@@ -97,7 +97,7 @@ async function doProcessDocMetadata({
     siteDir,
     siteConfig: {
       markdown: {parseFrontMatter},
-      future: {experimental_vcs: vcs},
+      vcs,
     },
   } = context;
 

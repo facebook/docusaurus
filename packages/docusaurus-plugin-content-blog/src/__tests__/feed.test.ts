@@ -69,10 +69,7 @@ async function testGenerateFeeds(
     ...contextInput,
     siteConfig: {
       ...contextInput.siteConfig,
-      future: {
-        ...contextInput.siteConfig?.future,
-        experimental_vcs: TEST_VCS,
-      },
+      vcs: TEST_VCS,
     },
   };
 
