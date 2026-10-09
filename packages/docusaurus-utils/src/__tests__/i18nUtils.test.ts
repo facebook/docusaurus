@@ -104,6 +104,7 @@ describe('getLocaleConfig', () => {
     calendar: 'calendar',
     label: 'EN',
     translate: true,
+    url: 'https://example.com',
     baseUrl: '/',
   };
   const localeConfigFr: I18nLocaleConfig = {
@@ -113,6 +114,7 @@ describe('getLocaleConfig', () => {
     calendar: 'calendar',
     label: 'FR',
     translate: true,
+    url: 'https://example.com',
     baseUrl: '/fr/',
   };
 

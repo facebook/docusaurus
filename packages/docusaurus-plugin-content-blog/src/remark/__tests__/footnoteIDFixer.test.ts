@@ -22,7 +22,7 @@ const processFixture = async (name: string) => {
     remarkPlugins: [gfm, footnoteIDFixer],
   });
 
-  return result.value;
+  return String(result.value);
 };
 
 describe('footnoteIDFixer remark plugin', () => {

@@ -8,7 +8,11 @@
 import {visit} from 'unist-util-visit';
 import npmToYarn from 'npm-to-yarn';
 import type {Code, Literal} from 'mdast';
-import type {MdxJsxFlowElement, MdxJsxAttribute} from 'mdast-util-mdx';
+import type {
+  MdxJsxFlowElement,
+  MdxJsxAttribute,
+  MdxjsEsm,
+} from 'mdast-util-mdx';
 import type {Node, Parent} from 'unist';
 import type {Transformer, Plugin} from 'unified';
 
@@ -128,7 +132,7 @@ const isParent = (node: Node): node is Parent =>
 const isNpm2Yarn = (node: Node): node is Code =>
   node.type === 'code' && (node as Code).meta === 'npm2yarn';
 
-function createImportNode() {
+function createImportNode(): MdxjsEsm {
   return {
     type: 'mdxjsEsm',
     value:
@@ -139,6 +143,7 @@ function createImportNode() {
         body: [
           {
             type: 'ImportDeclaration',
+            attributes: [],
             specifiers: [
               {
                 type: 'ImportDefaultSpecifier',
@@ -153,6 +158,7 @@ function createImportNode() {
           },
           {
             type: 'ImportDeclaration',
+            attributes: [],
             specifiers: [
               {
                 type: 'ImportDefaultSpecifier',

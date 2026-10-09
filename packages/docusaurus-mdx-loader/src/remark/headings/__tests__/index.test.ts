@@ -87,6 +87,7 @@ describe('headings remark plugin', () => {
   it('does not overwrite `data` on headings', async () => {
     const result = await process('# Normal\n', [
       () => (root) => {
+        // @ts-expect-error: test unknown data
         (root as Parent).children[0]!.data = {foo: 'bar'};
       },
     ]);

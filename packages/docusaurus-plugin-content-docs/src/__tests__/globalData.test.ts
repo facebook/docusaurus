@@ -122,6 +122,7 @@ describe('toGlobalDataVersion', () => {
         contentPathLocalized: '',
         sidebarFilePath: '',
         routePriority: 0.5,
+        noIndex: false,
       }),
     ).toMatchSnapshot();
   });

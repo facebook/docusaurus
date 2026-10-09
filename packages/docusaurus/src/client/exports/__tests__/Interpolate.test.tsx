@@ -32,6 +32,7 @@ describe('interpolate', () => {
       object: {hello: 'world'},
       array: ['Hello'],
     };
+    // @ts-expect-error: test invalid object values
     expect(interpolate(text, values)).toMatchInlineSnapshot(
       `"42 Hello [object Object] Hello"`,
     );
@@ -52,6 +53,7 @@ describe('interpolate', () => {
     // Should we emit warnings in such case?
     const text = 'Hello {name} how are you {unprovidedValue}?';
     const values = {name: 'Sébastien', extraValue: 'today'};
+    // @ts-expect-error: test missing values
     expect(interpolate(text, values)).toMatchInlineSnapshot(
       `"Hello Sébastien how are you {unprovidedValue}?"`,
     );
@@ -61,6 +63,7 @@ describe('interpolate', () => {
     // Should we emit warnings in such case?
     const text = 'Hello {name} how are you {day}?';
     expect(interpolate(text)).toEqual(text);
+    // @ts-expect-error: test missing values
     expect(interpolate(text, {})).toEqual(text);
   });
 
@@ -106,6 +109,7 @@ describe('interpolate', () => {
       extraUselessValue1: <div>test</div>,
       extraUselessValue2: 'hi',
     };
+    // @ts-expect-error: test missing values
     expect(interpolate(text, values)).toMatchInlineSnapshot(`
       [
         "Hello ",
@@ -157,6 +161,7 @@ describe('<Interpolate>', () => {
   it('rejects when children is not string', () => {
     expect(() =>
       render(
+        // @ts-expect-error: test invalid children
         <Interpolate>
           <span>aaa</span>
         </Interpolate>,
@@ -165,6 +170,7 @@ describe('<Interpolate>', () => {
       `[Error: The Docusaurus <Interpolate> component only accept simple string values. Received: React element]`,
     );
     expect(() =>
+      // @ts-expect-error: test invalid children
       render(<Interpolate>{null}</Interpolate>),
     ).toThrowErrorMatchingInlineSnapshot(
       `[Error: The Docusaurus <Interpolate> component only accept simple string values. Received: object]`,

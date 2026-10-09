@@ -19,6 +19,7 @@ import type {DocusaurusContext} from '@docusaurus/types';
 
 window.docusaurus = {
   prefetch: vi.fn(),
+  preload: vi.fn(),
 };
 
 type Options = {

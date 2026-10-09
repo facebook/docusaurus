@@ -1137,6 +1137,9 @@ importers:
       '@types/picomatch':
         specifier: ^2.3.4
         version: 2.3.4
+      '@types/react-router-dom':
+        specifier: ^5.3.3
+        version: 5.3.3
       commander:
         specifier: ^15.0.0
         version: 15.0.0
@@ -1705,6 +1708,9 @@ importers:
       '@types/prismjs':
         specifier: ^1.26.6
         version: 1.26.6
+      '@types/react-router-dom':
+        specifier: ^5.3.3
+        version: 5.3.3
       '@types/rtlcss':
         specifier: ^3.5.4
         version: 3.5.4
@@ -1763,6 +1769,9 @@ importers:
       '@total-typescript/shoehorn':
         specifier: ^0.1.2
         version: 0.1.2
+      '@types/react-router-dom':
+        specifier: ^5.3.3
+        version: 5.3.3
       lodash:
         specifier: ^4.18.1
         version: 4.18.1

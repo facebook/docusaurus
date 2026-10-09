@@ -35,6 +35,9 @@ const DefaultI18N: I18n = {
       htmlLang: 'en',
       calendar: 'gregory',
       path: 'en',
+      translate: true,
+      url: 'https://docusaurus.io',
+      baseUrl: '/',
     },
   },
 };

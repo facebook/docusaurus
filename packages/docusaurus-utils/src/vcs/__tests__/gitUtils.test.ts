@@ -25,7 +25,9 @@ import {
 import {createVcsGitEagerConfig} from '../vcsGitEager';
 
 class Git {
-  private constructor(private dir: string) {
+  private dir: string;
+
+  private constructor(dir: string) {
     this.dir = dir;
   }
 
@@ -73,7 +75,7 @@ class Git {
 
   async runOptimisticGitCommand(
     cmd: string,
-    args?: string[],
+    args: string[],
     options?: Options,
   ): Promise<Result> {
     return Git.runOptimisticGitCommand({cwd: this.dir, cmd, args, options});
@@ -129,7 +131,7 @@ class Git {
   }
 
   async addSubmodule(name: string, repoPath: string): Promise<void> {
-    return this.runOptimisticGitCommand('git', [
+    await this.runOptimisticGitCommand('git', [
       '-c protocol.file.allow=always',
       'submodule',
       'add',

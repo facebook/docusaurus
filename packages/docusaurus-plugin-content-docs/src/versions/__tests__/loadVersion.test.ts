@@ -61,7 +61,7 @@ describe('loadVersion', () => {
     it('can load current version', async () => {
       const {options, context, versions} = await siteFixture('site-minimal');
 
-      const version = versions[0];
+      const version = versions[0]!;
       expect(version).toBeDefined();
       expect(version.versionName).toBe('current');
 
