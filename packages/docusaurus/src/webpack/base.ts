@@ -24,6 +24,14 @@ const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
 
+// The RealContentHashPlugin replaces every occurrence of a provisional chunk
+// hash in all assets, even inside unrelated hex strings (file-loader asset
+// names, colors, numbers...). The client and server compilations do it
+// independently, so a false positive can make the SSG HTML reference a missing
+// file. 10 chars instead of 8 makes it ~256x less likely.
+// See https://github.com/web-infra-dev/rspack/issues/8474
+const contentHash = '[contenthash:10]';
+
 function getReactAliases(siteDir: string): Record<string, string> {
   // Escape hatch
   if (process.env.DOCUSAURUS_NO_REACT_ALIASES) {
@@ -156,9 +164,9 @@ export async function createBaseConfig({
     output: {
       pathinfo: false,
       path: outDir,
-      filename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
+      filename: isProd ? `assets/js/[name].${contentHash}.js` : '[name].js',
       chunkFilename: isProd
-        ? 'assets/js/[name].[contenthash:8].js'
+        ? `assets/js/[name].${contentHash}.js`
         : '[name].js',
       publicPath:
         siteConfig.future.experimental_router === 'hash' ? 'auto' : baseUrl,
@@ -298,10 +306,10 @@ export async function createBaseConfig({
     plugins: [
       new CSSExtractPlugin({
         filename: isProd
-          ? 'assets/css/[name].[contenthash:8].css'
+          ? `assets/css/[name].${contentHash}.css`
           : '[name].css',
         chunkFilename: isProd
-          ? 'assets/css/[name].[contenthash:8].css'
+          ? `assets/css/[name].${contentHash}.css`
           : '[name].css',
         // Remove css order warnings if css imports are not sorted
         // alphabetically. See https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422
