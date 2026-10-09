@@ -58,7 +58,6 @@ export default function pluginContentPages(
         // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
         .map(addTrailingPathSeparator),
       options: {
-        useCrossCompilerCache: siteConfig.future.faster.mdxCrossCompilerCache,
         admonitions,
         remarkPlugins,
         rehypePlugins,

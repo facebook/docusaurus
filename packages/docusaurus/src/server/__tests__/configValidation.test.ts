@@ -73,7 +73,6 @@ describe('normalizeConfig', () => {
           swcJsMinimizer: true,
           swcHtmlMinimizer: true,
           lightningCssMinimizer: true,
-          mdxCrossCompilerCache: true,
           rspackBundler: true,
           rspackPersistentCache: true,
           gitEagerVcs: true,
@@ -1410,7 +1409,6 @@ describe('future', () => {
         swcJsMinimizer: true,
         swcHtmlMinimizer: true,
         lightningCssMinimizer: true,
-        mdxCrossCompilerCache: true,
         rspackBundler: true,
         rspackPersistentCache: true,
         gitEagerVcs: true,
@@ -1747,7 +1745,6 @@ describe('future', () => {
         swcJsMinimizer: true,
         swcHtmlMinimizer: true,
         lightningCssMinimizer: true,
-        mdxCrossCompilerCache: true,
         rspackBundler: true,
         rspackPersistentCache: true,
         gitEagerVcs: true,
@@ -2097,77 +2094,6 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           [Error: "future.faster.lightningCssMinimizer" must be a boolean
-          ]
-        `);
-      });
-    });
-
-    describe('mdxCrossCompilerCache', () => {
-      it('accepts - undefined', () => {
-        const faster: Partial<FasterConfig> = {
-          mdxCrossCompilerCache: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
-      });
-
-      it('accepts - true', () => {
-        const faster: Partial<FasterConfig> = {
-          mdxCrossCompilerCache: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({mdxCrossCompilerCache: true}));
-      });
-
-      it('accepts - false', () => {
-        const faster: Partial<FasterConfig> = {
-          mdxCrossCompilerCache: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
-      });
-
-      it('rejects - null', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {mdxCrossCompilerCache: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.mdxCrossCompilerCache" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {mdxCrossCompilerCache: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.mdxCrossCompilerCache" must be a boolean
           ]
         `);
       });

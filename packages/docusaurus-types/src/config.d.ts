@@ -29,7 +29,6 @@ export type FasterConfig = {
   swcJsMinimizer: boolean;
   swcHtmlMinimizer: boolean;
   lightningCssMinimizer: boolean;
-  mdxCrossCompilerCache: boolean;
   rspackBundler: boolean;
   rspackPersistentCache: boolean;
   gitEagerVcs: boolean;
