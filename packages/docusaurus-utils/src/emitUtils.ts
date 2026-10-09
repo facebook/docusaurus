@@ -6,9 +6,8 @@
  */
 
 import path from 'node:path';
-import fs from 'node:fs/promises';
 import {hash} from 'node:crypto';
-import {pathExists, outputFile, queueFileOperation} from '@docusaurus/fs';
+import {fs, pathExists, outputFile} from '@docusaurus/fs';
 import {findAsyncSequential} from './jsUtils';
 
 const fileHash = new Map<string, string>();
@@ -33,18 +32,6 @@ export async function generate(
   file: string,
   content: string,
   skipCache: boolean = process.env.NODE_ENV === 'production',
-): Promise<void> {
-  // Plugins can generate thousands of data files concurrently
-  return queueFileOperation(() =>
-    doGenerate(generatedFilesDir, file, content, skipCache),
-  );
-}
-
-async function doGenerate(
-  generatedFilesDir: string,
-  file: string,
-  content: string,
-  skipCache: boolean,
 ): Promise<void> {
   const filepath = path.resolve(generatedFilesDir, file);
 

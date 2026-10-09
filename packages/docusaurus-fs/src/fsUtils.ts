@@ -6,15 +6,12 @@
  */
 
 // Small helpers to replace fs-extra APIs, with the same semantics.
-// Node APIs are called through the default-imported module object at call
-// time (instead of destructured named imports) so that tests can intercept
-// them with vi.spyOn(fs, 'writeFile')
 
-import fs from 'node:fs/promises';
 import fsCallback from 'node:fs';
 import path from 'node:path';
 import {promisify} from 'node:util';
 import logger from '@docusaurus/logger';
+import {fs} from './fs';
 
 /**
  * Checks if a file or directory exists, without throwing.

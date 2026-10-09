@@ -5,5 +5,5 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export {fs} from './fs';
 export {pathExists, outputFile, readJSON, realpath} from './fsUtils';
-export {queueFileOperation} from './queue';

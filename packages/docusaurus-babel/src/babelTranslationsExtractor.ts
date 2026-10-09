@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import traverse, {type Node} from '@babel/traverse';
 import generate from '@babel/generator';
 import {
@@ -15,7 +14,7 @@ import {
   type TransformOptions,
 } from '@babel/core';
 import {logger} from '@docusaurus/logger';
-import {queueFileOperation} from '@docusaurus/fs';
+import {fs} from '@docusaurus/fs';
 import type {TranslationFileContent} from '@docusaurus/types';
 
 export type SourceCodeFileTranslations = {
@@ -40,9 +39,7 @@ export async function extractSourceCodeFileTranslations(
   babelOptions: TransformOptions,
 ): Promise<SourceCodeFileTranslations> {
   try {
-    const code = await queueFileOperation(() =>
-      fs.readFile(sourceCodeFilePath, 'utf8'),
-    );
+    const code = await fs.readFile(sourceCodeFilePath, 'utf8');
 
     const ast = parse(code, {
       ...babelOptions,

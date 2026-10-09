@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {queueFileOperation} from '../queue';
+import {getFileOperationConcurrency, queueFileOperation} from '../queue';
 
 describe('queueFileOperation', () => {
   it('bounds the number of concurrent operations', async () => {
@@ -33,5 +33,22 @@ describe('queueFileOperation', () => {
     await expect(
       queueFileOperation(() => Promise.reject(new Error('Some error'))),
     ).rejects.toThrow('Some error');
+  });
+});
+
+describe('getFileOperationConcurrency', () => {
+  it('defaults to 100', () => {
+    expect(getFileOperationConcurrency(undefined)).toBe(100);
+    expect(getFileOperationConcurrency('')).toBe(100);
+  });
+
+  it('reads a positive integer', () => {
+    expect(getFileOperationConcurrency('10')).toBe(10);
+  });
+
+  it('ignores invalid values', () => {
+    expect(getFileOperationConcurrency('0')).toBe(100);
+    expect(getFileOperationConcurrency('-5')).toBe(100);
+    expect(getFileOperationConcurrency('abc')).toBe(100);
   });
 });
