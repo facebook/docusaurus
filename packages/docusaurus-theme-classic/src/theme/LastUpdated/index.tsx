@@ -65,9 +65,35 @@ function LastUpdatedByUser({
 export default function LastUpdated({
   lastUpdatedAt,
   lastUpdatedBy,
+  createdAt,
+  createdBy,
 }: Props): ReactNode {
   return (
     <span className={ThemeClassNames.common.lastUpdated}>
+      {createdAt || createdBy ? (
+        <span>
+          <Translate
+            id="theme.lastUpdated.createdAtBy"
+            description="The sentence used to display when a page was created, and by who"
+            values={{
+              atDate: createdAt ? (
+                <LastUpdatedAtDate lastUpdatedAt={createdAt} />
+              ) : (
+                ''
+              ),
+              byUser: createdBy ? (
+                <LastUpdatedByUser lastUpdatedBy={createdBy} />
+              ) : (
+                ''
+              ),
+            }}>
+            {'Created{atDate}{byUser}'}
+          </Translate>
+          {(lastUpdatedAt || lastUpdatedBy) && (
+            <span className="margin-left--sm">&middot;</span>
+          )}
+        </span>
+      ) : null}
       <Translate
         id="theme.lastUpdated.lastUpdatedAtBy"
         description="The sentence used to display when a page has been last updated, and by who"

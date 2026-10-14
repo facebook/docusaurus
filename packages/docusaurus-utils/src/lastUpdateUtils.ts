@@ -25,12 +25,38 @@ export type LastUpdateData = {
   lastUpdatedBy: string | undefined | null;
 };
 
+export type CreationData = {
+  /**
+   * A timestamp in **milliseconds**, usually read from `git log`
+   * `undefined`: not read
+   * `null`: no value to read (usual for untracked files)
+   */
+  createdAt: number | undefined | null;
+  /**
+   * The author's name, usually coming from `git log`
+   * `undefined`: not read
+   * `null`: no value to read (usual for untracked files)
+   */
+  createdBy: string | undefined | null;
+};
+
 type LastUpdateOptions = Pick<
   PluginOptions,
   'showLastUpdateAuthor' | 'showLastUpdateTime'
 >;
 
+type CreationOptions = Pick<PluginOptions, 'showCreatedTime' | 'showCreatedBy'>;
+
 export type FrontMatterLastUpdate = {
+  author?: string;
+  /**
+   * Date can be any
+   * [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).
+   */
+  date?: Date | string;
+};
+
+export type FrontMatterCreation = {
   author?: string;
   /**
    * Date can be any
@@ -99,5 +125,56 @@ export async function readLastUpdateData(
   return {
     lastUpdatedBy,
     lastUpdatedAt,
+  };
+}
+
+export async function readCreationData(
+  filePath: string,
+  options: CreationOptions,
+  creationFrontMatter: FrontMatterCreation | undefined,
+  vcsParam: Pick<VcsConfig, 'getFileCreationInfo'>,
+): Promise<CreationData> {
+  const vcs = vcsParam ?? getVcsPreset('default-v1');
+
+  const {showCreatedTime, showCreatedBy} = options;
+
+  if (!showCreatedBy && !showCreatedTime) {
+    return {createdBy: undefined, createdAt: undefined};
+  }
+
+  const frontMatterAuthor = creationFrontMatter?.author;
+  const frontMatterTimestamp = creationFrontMatter?.date
+    ? new Date(creationFrontMatter.date).getTime()
+    : undefined;
+
+  const getCreationMemoized = _.memoize(() =>
+    vcs.getFileCreationInfo(filePath),
+  );
+  const getCreatedBy = () =>
+    getCreationMemoized().then((info) => {
+      if (info === null) {
+        return null;
+      }
+      return info?.author;
+    });
+  const getCreatedAt = () =>
+    getCreationMemoized().then((info) => {
+      if (info === null) {
+        return null;
+      }
+      return info?.timestamp;
+    });
+
+  const createdBy = showCreatedBy
+    ? (frontMatterAuthor ?? (await getCreatedBy()))
+    : undefined;
+
+  const createdAt = showCreatedTime
+    ? (frontMatterTimestamp ?? (await getCreatedAt()))
+    : undefined;
+
+  return {
+    createdBy,
+    createdAt,
   };
 }

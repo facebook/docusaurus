@@ -12,7 +12,9 @@ declare module '@docusaurus/plugin-content-blog' {
     FrontMatterTag,
     TagMetadata,
     LastUpdateData,
+    CreationData,
     FrontMatterLastUpdate,
+    FrontMatterCreation,
     TagsPluginOptions,
   } from '@docusaurus/utils';
   import type {
@@ -236,6 +238,8 @@ declare module '@docusaurus/plugin-content-blog' {
     toc_max_heading_level?: number;
     /** Allows overriding the last updated author and/or date. */
     last_update?: FrontMatterLastUpdate;
+    /** Allows overriding the creation author and/or date. */
+    created_at?: FrontMatterCreation;
   };
 
   export type BlogPostFrontMatterAuthor = AuthorAttributes & {
@@ -260,61 +264,62 @@ declare module '@docusaurus/plugin-content-blog' {
     | BlogPostFrontMatterAuthor
     | (string | BlogPostFrontMatterAuthor)[];
 
-  export type BlogPostMetadata = LastUpdateData & {
-    /** Path to the Markdown source, with `@site` alias. */
-    readonly source: string;
-    /**
-     * Used to generate the page h1 heading, tab title, and pagination title.
-     */
-    readonly title: string;
-    /**
-     * The publish date of the post. On client side, this will be serialized
-     * into a string.
-     */
-    readonly date: Date;
-    /** Full link including base URL. */
-    readonly permalink: string;
-    /**
-     * Description used in the meta. Could be an empty string (empty content)
-     */
-    readonly description: string;
-    /**
-     * Absolute URL to the editing page of the post. Undefined if the post
-     * shouldn't be edited.
-     */
-    readonly editUrl?: string;
-    /**
-     * Reading time in minutes calculated based on word count.
-     */
-    readonly readingTime?: number;
-    /**
-     * Whether the truncate marker exists in the post's content.
-     */
-    readonly hasTruncateMarker: boolean;
-    /**
-     * Used in pagination. Generated after the other metadata, so not readonly.
-     * Content is just a subset of another post's metadata.
-     */
-    nextItem?: {readonly title: string; readonly permalink: string};
-    /**
-     * Used in pagination. Generated after the other metadata, so not readonly.
-     * Content is just a subset of another post's metadata.
-     */
-    prevItem?: {readonly title: string; readonly permalink: string};
-    /**
-     * Author metadata, normalized. Should be used in joint with
-     * `assets.authorsImageUrls` on client side.
-     */
-    readonly authors: Author[];
-    /** Front matter, as-is. */
-    readonly frontMatter: BlogPostFrontMatter & {[key: string]: unknown};
-    /** Tags, normalized. */
-    readonly tags: TagMetadata[];
-    /**
-     * Marks the post as unlisted and visibly hides it unless directly accessed.
-     */
-    readonly unlisted: boolean;
-  };
+  export type BlogPostMetadata = LastUpdateData &
+    CreationData & {
+      /** Path to the Markdown source, with `@site` alias. */
+      readonly source: string;
+      /**
+       * Used to generate the page h1 heading, tab title, and pagination title.
+       */
+      readonly title: string;
+      /**
+       * The publish date of the post. On client side, this will be serialized
+       * into a string.
+       */
+      readonly date: Date;
+      /** Full link including base URL. */
+      readonly permalink: string;
+      /**
+       * Description used in the meta. Could be an empty string (empty content)
+       */
+      readonly description: string;
+      /**
+       * Absolute URL to the editing page of the post. Undefined if the post
+       * shouldn't be edited.
+       */
+      readonly editUrl?: string;
+      /**
+       * Reading time in minutes calculated based on word count.
+       */
+      readonly readingTime?: number;
+      /**
+       * Whether the truncate marker exists in the post's content.
+       */
+      readonly hasTruncateMarker: boolean;
+      /**
+       * Used in pagination. Generated after the other metadata, so not readonly.
+       * Content is just a subset of another post's metadata.
+       */
+      nextItem?: {readonly title: string; readonly permalink: string};
+      /**
+       * Used in pagination. Generated after the other metadata, so not readonly.
+       * Content is just a subset of another post's metadata.
+       */
+      prevItem?: {readonly title: string; readonly permalink: string};
+      /**
+       * Author metadata, normalized. Should be used in joint with
+       * `assets.authorsImageUrls` on client side.
+       */
+      readonly authors: Author[];
+      /** Front matter, as-is. */
+      readonly frontMatter: BlogPostFrontMatter & {[key: string]: unknown};
+      /** Tags, normalized. */
+      readonly tags: TagMetadata[];
+      /**
+       * Marks the post as unlisted and visibly hides it unless directly accessed.
+       */
+      readonly unlisted: boolean;
+    };
   /**
    * @returns The edit URL that's directly plugged into metadata.
    */
@@ -524,6 +529,10 @@ declare module '@docusaurus/plugin-content-blog' {
       showLastUpdateTime: boolean;
       /** Whether to display the author who last updated the blog post. */
       showLastUpdateAuthor: boolean;
+      /** Whether to display the creation date of the blog post. */
+      showCreatedTime: boolean;
+      /** Whether to display the author who created the blog post. */
+      showCreatedBy: boolean;
       /** An optional function which can be used to transform blog posts
        *  (filter, modify, delete, etc...).
        */
