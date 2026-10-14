@@ -19,6 +19,17 @@ import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 import {listenToServer} from './utils/listenToServer';
 import type {LoadContextParams} from '../server/site';
 
+/**
+ * Does this URL look like a static asset (a file), rather than a page?
+ * The ?search#hash must be removed before looking for a file extension,
+ * like applyTrailingSlash() does, and extensions can be longer than 4
+ * chars (.woff2, .webmanifest...).
+ */
+export function looksLikeAsset(url: string): boolean {
+  const [pathname] = url.split(/[#?]/) as [string, ...string[]];
+  return path.extname(pathname) !== '';
+}
+
 function redirect(res: http.ServerResponse, location: string) {
   res.writeHead(302, {
     Location: location,
@@ -77,8 +88,7 @@ export async function serve(
     if (baseUrl !== '/') {
       // Not super robust, but should be good enough for our use case
       // See https://github.com/facebook/docusaurus/pull/10090
-      const looksLikeAsset = !!req.url.match(/\.[a-z\d]{1,4}$/i);
-      if (!looksLikeAsset) {
+      if (!looksLikeAsset(req.url)) {
         const normalizedUrl = applyTrailingSlash(req.url, {
           trailingSlash,
           baseUrl,
