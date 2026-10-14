@@ -104,12 +104,16 @@ function toAssetRequireNode(
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
 
+  // Prevent Webpack/Rspack from passing linked JS assets through JS transpiler/loaders
+  const isJsAsset = /\.[cm]?[jt]sx?$/i.test(path.extname(relativeAssetPath));
+  const inlineLoaderPrefix = isJsAsset ? '!' : '';
+
   const requireString = `${
     // A hack to stop Webpack from using its built-in loader to parse JSON
     path.extname(relativeAssetPath) === '.json'
       ? `${relativeAssetPath.replace('.json', '.raw')}!=`
       : ''
-  }${context.inlineMarkdownLinkFileLoader}${
+  }${inlineLoaderPrefix}${context.inlineMarkdownLinkFileLoader}${
     escapePath(relativeAssetPath) + search
   }`;
 

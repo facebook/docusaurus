@@ -65,6 +65,13 @@ describe('transformLinks plugin', () => {
     expect(result).toMatchSnapshot();
   });
 
+  it('transforms links to javascript files into asset file-loader with disabled js loaders', async () => {
+    const result = await processContent(`[script](/staticScript.js)`);
+    expect(result).toMatchInlineSnapshot(
+      `"<a target=\"_blank\" data-noBrokenLinkCheck={true} href={require(\"!!<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[contenthash].[ext]!./../static/staticScript.js\").default}>script</a>"`,
+    );
+  });
+
   it('pathname protocol', async () => {
     const result = await processContent(`pathname:///unchecked.pdf)`);
     expect(result).toMatchInlineSnapshot(`"pathname:///unchecked.pdf)"`);
