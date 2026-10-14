@@ -18,7 +18,7 @@ import {createStorageSlot} from '../utils/storageUtils';
 import {ReactContextError} from '../utils/reactUtils';
 import {useThemeConfig} from '../utils/useThemeConfig';
 
-// Keep these keys in sync with the inlined script
+// Keep these keys and the id comparison in sync with the inlined script
 // See packages/docusaurus-theme-classic/src/inlineScripts.ts
 const AnnouncementBarDismissStorage = createStorageSlot(
   'docusaurus.announcement.dismiss',

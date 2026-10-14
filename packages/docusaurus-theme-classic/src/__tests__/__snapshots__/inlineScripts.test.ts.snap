@@ -1,5 +1,24 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`inlineScripts > announcement bar > inline javascript 1`] = `
+"(function() {
+  function isDismissed() {
+    try {
+      var viewedId = localStorage.getItem('docusaurus.announcement.id');
+      if (viewedId === 'annoucement-bar') {
+        viewedId = 'announcement-bar';
+      }
+      if (viewedId !== "announcement-bar") {
+        return false;
+      }
+      return localStorage.getItem('docusaurus.announcement.dismiss') === 'true';
+    } catch (err) {}
+    return false;
+  }
+  document.documentElement.setAttribute('data-announcement-bar-initially-dismissed', isDismissed());
+})();"
+`;
+
 exports[`inlineScripts > inline javascript for default options 1`] = `
 "(function() {
   function getSystemColorMode() {
