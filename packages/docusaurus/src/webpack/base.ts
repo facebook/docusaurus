@@ -25,7 +25,7 @@ const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
 
 // The RealContentHashPlugin replaces every occurrence of a provisional chunk
-// hash in all assets, even inside unrelated hex strings (file-loader asset
+// hash in all assets, even inside unrelated hex strings (asset file
 // names, colors, numbers...). The client and server compilations do it
 // independently, so a false positive can make the SSG HTML reference a missing
 // file. 10 chars instead of 8 makes it ~256x less likely.

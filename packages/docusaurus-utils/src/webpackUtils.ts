@@ -48,6 +48,7 @@ const AssetRequestQueryParam = 'docusaurus-asset';
  * The `!` prefix disables the configured normal loaders, and the resource query
  * selects a dedicated asset rule. This way, other plugins (ideal-image,
  * SVGR...) do not transform those assets.
+ * See https://webpack.js.org/concepts/loaders/#inline
  *
  * @param assetPath the already escaped asset path to require
  * @param search an optional user-provided query string, starting with `?`
