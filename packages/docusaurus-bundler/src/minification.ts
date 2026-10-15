@@ -72,25 +72,23 @@ function getMinifyFunction(name: keyof typeof MinifyFunctions) {
   };
 }
 
+export function getSwcCoreMissingErrorMessage(): string {
+  return logger.interpolate`Docusaurus needs the name=${'@swc/core'} package to minify JavaScript with Webpack, but it is not installed.
+Your site uses the deprecated Webpack bundler because of the code=${'webpack'} site config. You can either:
+- add name=${'@swc/core'} to your site dependencies, for example with code=${'npm install @swc/core'}
+- remove the code=${'webpack'} site config, to use the default Rspack bundler that doesn't need it`;
+}
+
 // @swc/core is an optional peer dependency, only needed to minify JS with
 // Webpack: fail fast with an actionable error instead of a minimizer failure
 // The plugin's worker processes require it from the plugin's own location
-export function ensureSwcCoreInstalled(
-  resolveSwcCore: () => string = () =>
+function ensureSwcCoreInstalled(): void {
+  try {
     createRequire(require.resolve('minimizer-webpack-plugin')).resolve(
       '@swc/core',
-    ),
-): void {
-  try {
-    resolveSwcCore();
-  } catch (error) {
-    throw new Error(
-      logger.interpolate`Docusaurus needs the name=${'@swc/core'} package to minify JavaScript with Webpack, but it is not installed.
-Your site uses the deprecated Webpack bundler because of the code=${'webpack'} site config. You can either:
-- add name=${'@swc/core'} to your site dependencies, for example with code=${'npm install @swc/core'}
-- remove the code=${'webpack'} site config, to use the default Rspack bundler that doesn't need it`,
-      {cause: error},
     );
+  } catch (error) {
+    throw new Error(getSwcCoreMissingErrorMessage(), {cause: error});
   }
 }
 
