@@ -7,7 +7,7 @@
 
 import path from 'node:path';
 import {
-  WEBPACK_URL_LOADER_LIMIT,
+  ASSET_INLINE_MAX_SIZE,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
 } from './constants';
 import type {RuleSetRule, LoaderContext} from 'webpack';
@@ -82,9 +82,6 @@ type AssetRuleUtils = {
 };
 
 function createAssetRuleUtils({isServer}: {isServer: boolean}): AssetRuleUtils {
-  // Files/images < dataUrlMaxSize will be inlined as base64 data URLs
-  const dataUrlMaxSize = Number(WEBPACK_URL_LOADER_LIMIT);
-
   const generator = (folder: AssetFolder) => ({
     filename: path.posix.join(
       OUTPUT_STATIC_ASSETS_DIR_NAME,
@@ -98,7 +95,7 @@ function createAssetRuleUtils({isServer}: {isServer: boolean}): AssetRuleUtils {
   // An asset emitted as a file, or inlined as a data URL if small enough
   const asset = (folder: AssetFolder): RuleSetRule => ({
     type: 'asset',
-    parser: {dataUrlCondition: {maxSize: dataUrlMaxSize}},
+    parser: {dataUrlCondition: {maxSize: ASSET_INLINE_MAX_SIZE}},
     generator: generator(folder),
   });
 

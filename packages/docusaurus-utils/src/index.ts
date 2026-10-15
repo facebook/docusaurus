@@ -21,7 +21,7 @@ export {
   CODE_TRANSLATIONS_FILE_NAME,
   DEFAULT_PORT,
   DEFAULT_PLUGIN_ID,
-  WEBPACK_URL_LOADER_LIMIT,
+  ASSET_INLINE_MAX_SIZE,
 } from './constants';
 export {generate, readOutputHTMLFile} from './emitUtils';
 export {

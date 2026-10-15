@@ -91,10 +91,12 @@ export const DEFAULT_PORT = process.env.PORT
 export const DEFAULT_PLUGIN_ID = 'default';
 
 /**
- * Allow overriding the limit after which the url loader will no longer inline
- * assets.
+ * Max size in bytes under which assets (images, fonts, medias) are inlined in
+ * the bundles as base64 data URLs, instead of being emitted as separate files.
+ * Can be overridden with the `DOCUSAURUS_ASSET_INLINE_MAX_SIZE` env variable.
  *
  * @see https://github.com/facebook/docusaurus/issues/5493
  */
-export const WEBPACK_URL_LOADER_LIMIT =
-  process.env.WEBPACK_URL_LOADER_LIMIT ?? 10000;
+export const ASSET_INLINE_MAX_SIZE = Number(
+  process.env.DOCUSAURUS_ASSET_INLINE_MAX_SIZE ?? 10000,
+);
