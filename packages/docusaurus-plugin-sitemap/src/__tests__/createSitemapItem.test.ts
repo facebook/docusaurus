@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {TEST_VCS} from '@docusaurus/utils';
 import {createSitemapItem} from '../createSitemapItem';
@@ -63,7 +63,7 @@ describe('createSitemapItem', () => {
           }),
         ).resolves.toMatchInlineSnapshot(`
           {
-            "lastmod": null,
+            "lastmod": "2024-01-01",
             "url": "https://example.com/routePath",
           }
         `);
@@ -101,6 +101,17 @@ describe('createSitemapItem', () => {
         `);
       });
 
+      it('lastmod null option', async () => {
+        await expect(
+          test({
+            route,
+            options: {
+              lastmod: null,
+            },
+          }),
+        ).resolves.toMatchObject({lastmod: null});
+      });
+
       it('lastmod from epoch (0) timestamp is not dropped', async () => {
         await expect(
           test({
@@ -124,7 +135,7 @@ describe('createSitemapItem', () => {
           }),
         ).resolves.toMatchInlineSnapshot(`
           {
-            "lastmod": null,
+            "lastmod": "2018-10-14",
             "url": "https://example.com/routePath",
           }
         `);
@@ -163,6 +174,41 @@ describe('createSitemapItem', () => {
       });
     });
 
+    describe('read from git - VCS error', () => {
+      const route = {
+        path: '/routePath',
+        metadata: {sourceFilePath: 'route/file.md'},
+      };
+
+      const siteConfigWithFailingVcs: Partial<DocusaurusConfig> = {
+        vcs: {
+          ...TEST_VCS,
+          getFileLastUpdateInfo: async () => {
+            throw new Error(
+              'This Docusaurus site is outside any Git worktree.',
+            );
+          },
+        },
+      };
+
+      it('omits lastmod and warns only once', async () => {
+        using warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+        await expect(
+          test({route, siteConfig: siteConfigWithFailingVcs}),
+        ).resolves.toMatchObject({lastmod: null});
+        await expect(
+          test({route, siteConfig: siteConfigWithFailingVcs}),
+        ).resolves.toMatchObject({lastmod: null});
+
+        expect(warn).toHaveBeenCalledOnce();
+        expect(warn.mock.calls[0]![0]).toMatch(/route\/file\.md/);
+        expect(warn.mock.calls[0]![0]).toMatch(
+          /This Docusaurus site is outside any Git worktree/,
+        );
+      });
+    });
+
     describe('read from both - route metadata takes precedence', () => {
       const route = {
         path: '/routePath',
@@ -179,7 +225,7 @@ describe('createSitemapItem', () => {
           }),
         ).resolves.toMatchInlineSnapshot(`
           {
-            "lastmod": null,
+            "lastmod": "2024-01-01",
             "url": "https://example.com/routePath",
           }
         `);

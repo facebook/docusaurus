@@ -54,10 +54,7 @@ export type Options = Partial<PluginOptions>;
 export const DEFAULT_OPTIONS: PluginOptions = {
   filename: 'sitemap.xml',
   ignorePatterns: [],
-
-  // TODO Docusaurus v4 breaking change
-  //  change default to "date" if no bug or perf issue reported
-  lastmod: null,
+  lastmod: 'date',
 };
 
 // Removed in Docusaurus v4: Google ignores <changefreq> and <priority>,
