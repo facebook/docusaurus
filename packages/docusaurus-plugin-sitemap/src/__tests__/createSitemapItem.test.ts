@@ -216,6 +216,7 @@ describe('createSitemapItem', () => {
         ).resolves.toMatchObject({lastmod: null});
 
         expect(warn).toHaveBeenCalledOnce();
+        expect(warn.mock.calls[0]![0]).toMatch(/route\/file\.md/);
         expect(warn.mock.calls[0]![0]).toMatch(
           /This Docusaurus site is outside any Git worktree/,
         );
