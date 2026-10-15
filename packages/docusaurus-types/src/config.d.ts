@@ -353,10 +353,9 @@ export type DocusaurusConfig = {
    * customize it, you will have to make sure that your template is compliant
    * with the requirements from upstream.
    *
-   * @see https://docusaurus.io/docs/api/docusaurus-config#ssrTemplate
+   * @see https://docusaurus.io/docs/api/docusaurus-config#ssgTemplate
    */
-  // TODO Docusaurus v4 - rename to ssgTemplate?
-  ssrTemplate?: string;
+  ssgTemplate?: string;
   /**
    * Will be used as title delimiter in the generated `<title>` tag.
    *

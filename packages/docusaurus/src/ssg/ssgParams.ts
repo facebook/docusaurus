@@ -51,7 +51,7 @@ export async function createSSGParams({
     headTags: props.headTags,
     preBodyTags: props.preBodyTags,
     postBodyTags: props.postBodyTags,
-    ssgTemplateContent: props.siteConfig.ssrTemplate ?? DefaultSSGTemplate,
+    ssgTemplateContent: props.siteConfig.ssgTemplate ?? DefaultSSGTemplate,
     noIndex: props.siteConfig.noIndex,
     DOCUSAURUS_VERSION,
     serverBundlePath,
