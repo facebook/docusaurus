@@ -39,6 +39,7 @@ jobs:
 
       # Independent read-only checks: run them concurrently
       # A failing check doesn't hide the results of the other ones
+      # Keep in sync with the "lint" script of package.json
       # See https://github.blog/changelog/2026-06-25-actions-steps-can-now-be-run-in-parallel/
       - parallel:
           - name: ESLint
