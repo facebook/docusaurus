@@ -41,9 +41,7 @@ describe('createSitemapItem', () => {
     await expect(testRoute({path: '/routePath'})).resolves
       .toMatchInlineSnapshot(`
       {
-        "changefreq": "weekly",
         "lastmod": null,
-        "priority": 0.5,
         "url": "https://example.com/routePath",
       }
     `);
@@ -64,13 +62,11 @@ describe('createSitemapItem', () => {
             route,
           }),
         ).resolves.toMatchInlineSnapshot(`
-              {
-                "changefreq": "weekly",
-                "lastmod": null,
-                "priority": 0.5,
-                "url": "https://example.com/routePath",
-              }
-          `);
+          {
+            "lastmod": null,
+            "url": "https://example.com/routePath",
+          }
+        `);
       });
 
       it('lastmod date option', async () => {
@@ -82,13 +78,11 @@ describe('createSitemapItem', () => {
             },
           }),
         ).resolves.toMatchInlineSnapshot(`
-                  {
-                    "changefreq": "weekly",
-                    "lastmod": "2024-01-01",
-                    "priority": 0.5,
-                    "url": "https://example.com/routePath",
-                  }
-              `);
+          {
+            "lastmod": "2024-01-01",
+            "url": "https://example.com/routePath",
+          }
+        `);
       });
 
       it('lastmod datetime option', async () => {
@@ -100,13 +94,11 @@ describe('createSitemapItem', () => {
             },
           }),
         ).resolves.toMatchInlineSnapshot(`
-                  {
-                    "changefreq": "weekly",
-                    "lastmod": "2024-01-01T00:00:00.000Z",
-                    "priority": 0.5,
-                    "url": "https://example.com/routePath",
-                  }
-              `);
+          {
+            "lastmod": "2024-01-01T00:00:00.000Z",
+            "url": "https://example.com/routePath",
+          }
+        `);
       });
 
       it('lastmod from epoch (0) timestamp is not dropped', async () => {
@@ -131,13 +123,11 @@ describe('createSitemapItem', () => {
             route,
           }),
         ).resolves.toMatchInlineSnapshot(`
-              {
-                "changefreq": "weekly",
-                "lastmod": null,
-                "priority": 0.5,
-                "url": "https://example.com/routePath",
-              }
-          `);
+          {
+            "lastmod": null,
+            "url": "https://example.com/routePath",
+          }
+        `);
       });
 
       it('lastmod date option', async () => {
@@ -149,13 +139,11 @@ describe('createSitemapItem', () => {
             },
           }),
         ).resolves.toMatchInlineSnapshot(`
-                  {
-                    "changefreq": "weekly",
-                    "lastmod": "2018-10-14",
-                    "priority": 0.5,
-                    "url": "https://example.com/routePath",
-                  }
-              `);
+          {
+            "lastmod": "2018-10-14",
+            "url": "https://example.com/routePath",
+          }
+        `);
       });
 
       it('lastmod datetime option', async () => {
@@ -167,13 +155,11 @@ describe('createSitemapItem', () => {
             },
           }),
         ).resolves.toMatchInlineSnapshot(`
-                  {
-                    "changefreq": "weekly",
-                    "lastmod": "2018-10-14T07:27:35.000Z",
-                    "priority": 0.5,
-                    "url": "https://example.com/routePath",
-                  }
-              `);
+          {
+            "lastmod": "2018-10-14T07:27:35.000Z",
+            "url": "https://example.com/routePath",
+          }
+        `);
       });
     });
 
@@ -192,13 +178,11 @@ describe('createSitemapItem', () => {
             route,
           }),
         ).resolves.toMatchInlineSnapshot(`
-              {
-                "changefreq": "weekly",
-                "lastmod": null,
-                "priority": 0.5,
-                "url": "https://example.com/routePath",
-              }
-          `);
+          {
+            "lastmod": null,
+            "url": "https://example.com/routePath",
+          }
+        `);
       });
 
       it('lastmod date option', async () => {
@@ -211,9 +195,7 @@ describe('createSitemapItem', () => {
           }),
         ).resolves.toMatchInlineSnapshot(`
           {
-            "changefreq": "weekly",
             "lastmod": "2024-01-01",
-            "priority": 0.5,
             "url": "https://example.com/routePath",
           }
         `);
@@ -229,9 +211,7 @@ describe('createSitemapItem', () => {
           }),
         ).resolves.toMatchInlineSnapshot(`
           {
-            "changefreq": "weekly",
             "lastmod": "2024-01-01T00:00:00.000Z",
-            "priority": 0.5,
             "url": "https://example.com/routePath",
           }
         `);
@@ -253,13 +233,11 @@ describe('createSitemapItem', () => {
             route,
           }),
         ).resolves.toMatchInlineSnapshot(`
-              {
-                "changefreq": "weekly",
-                "lastmod": null,
-                "priority": 0.5,
-                "url": "https://example.com/routePath",
-              }
-          `);
+          {
+            "lastmod": null,
+            "url": "https://example.com/routePath",
+          }
+        `);
       });
 
       it('lastmod date option', async () => {
@@ -272,9 +250,7 @@ describe('createSitemapItem', () => {
           }),
         ).resolves.toMatchInlineSnapshot(`
           {
-            "changefreq": "weekly",
             "lastmod": null,
-            "priority": 0.5,
             "url": "https://example.com/routePath",
           }
         `);
@@ -290,9 +266,7 @@ describe('createSitemapItem', () => {
           }),
         ).resolves.toMatchInlineSnapshot(`
           {
-            "changefreq": "weekly",
             "lastmod": null,
-            "priority": 0.5,
             "url": "https://example.com/routePath",
           }
         `);

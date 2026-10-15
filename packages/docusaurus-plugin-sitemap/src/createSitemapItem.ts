@@ -71,7 +71,7 @@ export async function createSitemapItem({
   siteConfig: DocusaurusConfig;
   options: PluginOptions;
 }): Promise<SitemapItem> {
-  const {changefreq, priority, lastmod} = options;
+  const {lastmod} = options;
   return {
     url: normalizeUrl([
       siteConfig.url,
@@ -80,8 +80,6 @@ export async function createSitemapItem({
         baseUrl: siteConfig.baseUrl,
       }),
     ]),
-    changefreq,
-    priority,
     lastmod: await getRouteLastmod({
       route,
       lastmod,
