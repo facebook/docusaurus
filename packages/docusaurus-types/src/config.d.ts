@@ -193,10 +193,10 @@ export type DocusaurusConfig = {
    */
   onBrokenLinks: ReportingSeverity;
   /**
-   * The behavior of Docusaurus when it detects any broken link.
+   * The behavior of Docusaurus when it detects any broken anchor.
    *
    * @see https://docusaurus.io/docs/api/docusaurus-config#onBrokenAnchors
-   * @default "warn"
+   * @default "throw"
    */
   onBrokenAnchors: ReportingSeverity;
   /**
