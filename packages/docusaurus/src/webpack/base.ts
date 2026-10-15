@@ -261,6 +261,15 @@ export async function createBaseConfig({
           },
     },
     module: {
+      parser: {
+        javascript: {
+          // Allow referencing assets with the standard and portable syntax:
+          // new URL('./img.png', import.meta.url)
+          // Relative URLs are needed for SSR: absolute URLs would otherwise
+          // be resolved against the server bundle file:// URL
+          url: 'relative',
+        },
+      },
       rules: [
         assetRuleUtils.rules.assets(),
         {

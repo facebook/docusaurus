@@ -139,6 +139,22 @@ describe('base webpack config', () => {
     },
   );
 
+  // new URL('./img.png', import.meta.url) must not resolve against the
+  // server bundle file:// URL during SSR
+  it.each(BundlerNames)(
+    'uses relative URLs for new URL() asset references - %s',
+    async (bundlerName) => {
+      const config = await createBaseConfig({
+        props: await createProps(bundlerName),
+        isServer: true,
+        minify: true,
+        configureWebpackUtils:
+          await createTestConfigureWebpackUtils(bundlerName),
+      });
+      expect(config.module?.parser?.javascript?.url).toBe('relative');
+    },
+  );
+
   it('creates webpack aliases', async () => {
     const aliases = ((
       await createBaseConfig({
