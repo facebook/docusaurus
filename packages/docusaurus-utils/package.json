@@ -23,7 +23,6 @@
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "execa": "^10.0.1",
-    "file-loader": "^6.2.0",
     "github-slugger": "^2.0.0",
     "jiti": "^2.7.0",
     "js-yaml": "^5.4.1",
@@ -31,7 +30,6 @@
     "p-queue": "^9.3.3",
     "resolve-pathname": "^3.0.0",
     "tslib": "^2.8.1",
-    "url-loader": "^4.1.1",
     "utility-types": "^3.11.0",
     "webpack": "^5.111.0"
   },

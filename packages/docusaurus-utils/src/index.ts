@@ -21,7 +21,7 @@ export {
   CODE_TRANSLATIONS_FILE_NAME,
   DEFAULT_PORT,
   DEFAULT_PLUGIN_ID,
-  WEBPACK_URL_LOADER_LIMIT,
+  ASSET_INLINE_MAX_SIZE,
 } from './constants';
 export {generate, readOutputHTMLFile} from './emitUtils';
 export {
@@ -93,8 +93,11 @@ export {
 } from './pathUtils';
 export {md5Hash, simpleHash, docuHash} from './hashUtils';
 export {
-  getFileLoaderUtils,
+  getAssetRuleUtils,
+  findAssetRule,
+  createAssetRequest,
   getWebpackLoaderCompilerName,
+  type AssetRequestType,
   type WebpackCompilerName,
 } from './webpackUtils';
 export {loadFreshModule} from './moduleUtils';

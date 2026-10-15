@@ -6,7 +6,11 @@
  */
 
 import logger from '@docusaurus/logger';
-import {escapePath, type WebpackCompilerName} from '@docusaurus/utils';
+import {
+  createAssetRequest,
+  escapePath,
+  type WebpackCompilerName,
+} from '@docusaurus/utils';
 import {getProcessor, type SimpleProcessorResult} from './processor';
 import {validateMDXFrontMatter} from './frontMatter';
 import preprocessor from './preprocessor';
@@ -20,13 +24,7 @@ import type {Options} from './options';
  *
  * `{image: "./myImage.png"}` => `{image: require("./myImage.png")}`
  */
-export function createAssetsExportCode({
-  assets,
-  inlineMarkdownAssetImageFileLoader,
-}: {
-  assets: unknown;
-  inlineMarkdownAssetImageFileLoader: string;
-}): string {
+export function createAssetsExportCode({assets}: {assets: unknown}): string {
   if (
     typeof assets !== 'object' ||
     !assets ||
@@ -47,10 +45,11 @@ export function createAssetsExportCode({
     // We could enhance this logic and check if file exists on disc?
     if (typeof assetValue === 'string' && assetValue.startsWith('./')) {
       // TODO do we have other use-cases than image assets?
-      // Probably not worth adding more support, as we want to move to Webpack 5 new asset system (https://github.com/facebook/docusaurus/pull/4708)
-      return `require("${inlineMarkdownAssetImageFileLoader}${escapePath(
-        assetValue,
-      )}").default`;
+      const request = createAssetRequest({
+        assetPath: escapePath(assetValue),
+        type: 'image-file',
+      });
+      return `require("${request}")`;
     }
     return undefined;
   }

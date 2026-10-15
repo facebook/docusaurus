@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getFileLoaderUtils} from '@docusaurus/utils';
+import {getAssetRuleUtils, findAssetRule} from '@docusaurus/utils';
 
 import type {SVGRConfig, SVGOConfig} from './options';
 import type {Configuration, RuleSetRule} from 'webpack';
@@ -49,20 +49,19 @@ function createSVGRRule(params: Params): RuleSetRule {
 }
 
 export function enhanceConfig(config: Configuration, params: Params): void {
-  const utils = getFileLoaderUtils(params.isServer);
+  const utils = getAssetRuleUtils(params.isServer);
 
-  const rules = config?.module?.rules as RuleSetRule[];
-
-  const existingSvgRule: RuleSetRule = (() => {
-    const rule = rules.find(
-      (r) => String(r.test) === String(utils.rules.svgs().test),
-    );
-    if (!rule) {
+  const {parentRules, rule: existingSvgRule} = (() => {
+    const result = findAssetRule({
+      rules: config?.module?.rules as RuleSetRule[],
+      test: utils.rules.svgs().test,
+    });
+    if (!result) {
       throw new Error(
         "Docusaurus built-in SVG rule couldn't be found. The SVGR plugin can't enhance it.",
       );
     }
-    return rule;
+    return result;
   })();
 
   const newSvgRule: RuleSetRule = {
@@ -71,6 +70,8 @@ export function enhanceConfig(config: Configuration, params: Params): void {
     oneOf: [
       {
         use: [createSVGRRule(params)],
+        // SVGR components are JS modules, not assets
+        type: 'javascript/auto',
         // We don't want to use SVGR loader for non-React source code
         // ie we don't want to use SVGR for CSS files...
         issuer: {
@@ -85,6 +86,6 @@ export function enhanceConfig(config: Configuration, params: Params): void {
   // Adding another extra SVG rule (first or last) will not "override"
   // the default: both rules will be applied (from last to bottom) leading to
   // conflicting behavior.
-  const index = rules.indexOf(existingSvgRule);
-  rules[index] = newSvgRule;
+  const index = parentRules.indexOf(existingSvgRule);
+  parentRules[index] = newSvgRule;
 }

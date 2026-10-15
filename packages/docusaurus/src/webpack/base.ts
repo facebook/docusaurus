@@ -12,7 +12,11 @@ import {
   getCSSExtractPlugin,
   getMinimizers,
 } from '@docusaurus/bundler';
-import {getFileLoaderUtils, md5Hash} from '@docusaurus/utils';
+import {
+  ASSET_INLINE_MAX_SIZE,
+  getAssetRuleUtils,
+  md5Hash,
+} from '@docusaurus/utils';
 import {realpath} from '@docusaurus/fs';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
 import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
@@ -25,7 +29,7 @@ const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
 
 // The RealContentHashPlugin replaces every occurrence of a provisional chunk
-// hash in all assets, even inside unrelated hex strings (file-loader asset
+// hash in all assets, even inside unrelated hex strings (asset file
 // names, colors, numbers...). The client and server compilations do it
 // independently, so a false positive can make the SSG HTML reference a missing
 // file. 10 chars instead of 8 makes it ~256x less likely.
@@ -84,7 +88,7 @@ export async function createBaseConfig({
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd;
 
-  const fileLoaderUtils = getFileLoaderUtils(isServer);
+  const assetRuleUtils = getAssetRuleUtils(isServer);
 
   const name = isServer ? 'server' : 'client';
   const mode = isProd ? 'production' : 'development';
@@ -108,7 +112,9 @@ export async function createBaseConfig({
     // Because Webpack does not evict the cache on alias/swizzle changes,
     // See https://github.com/webpack/webpack/issues/13627
     const themeAliasesHash = md5Hash(JSON.stringify(themeAliases));
-    return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}`;
+    // Asset module parser options are not part of the cache key
+    // Changing the asset inline max size must evict the cache
+    return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}-${ASSET_INLINE_MAX_SIZE}`;
   }
 
   // When one of those modules/dependencies change (including transitive
@@ -256,11 +262,7 @@ export async function createBaseConfig({
     },
     module: {
       rules: [
-        fileLoaderUtils.rules.images(),
-        fileLoaderUtils.rules.svgs(),
-        fileLoaderUtils.rules.fonts(),
-        fileLoaderUtils.rules.media(),
-        fileLoaderUtils.rules.otherAssets(),
+        assetRuleUtils.rules.assets(),
         {
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
