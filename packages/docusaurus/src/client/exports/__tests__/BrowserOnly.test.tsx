@@ -34,6 +34,7 @@ describe('<BrowserOnly>', () => {
       expect(() =>
         render(
           <BrowserOnly>
+            {/* @ts-expect-error: test invalid children */}
             <span>{window.location.href}</span>
           </BrowserOnly>,
         ),
@@ -47,6 +48,7 @@ describe('<BrowserOnly>', () => {
       vi.stubEnv('NODE_ENV', 'development');
       vi.spyOn(console, 'error').mockImplementation(() => {});
       expect(() => {
+        // @ts-expect-error: test invalid children
         render(<BrowserOnly> </BrowserOnly>);
       }).toThrowErrorMatchingInlineSnapshot(`
         [Error: Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
@@ -147,6 +149,7 @@ describe('<BrowserOnly>', () => {
       await expect(
         renderToHtml(
           <BrowserOnly fallback={<span>Loading</span>}>
+            {/* @ts-expect-error: test invalid children */}
             <span>Invalid</span>
           </BrowserOnly>,
         ),

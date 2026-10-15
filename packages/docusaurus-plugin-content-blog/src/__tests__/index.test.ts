@@ -10,6 +10,7 @@ import * as path from 'node:path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {posixPath, getLocaleConfig, TEST_VCS} from '@docusaurus/utils';
 import {DEFAULT_FUTURE_CONFIG} from '@docusaurus/core/src/server/configValidation';
+import {fromPartial} from '@total-typescript/shoehorn';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
 import type {
@@ -28,10 +29,10 @@ import type {
 } from '@docusaurus/plugin-content-blog';
 
 async function getFileCreationDate(filePath: string): Promise<Date> {
-  return new Date((await TEST_VCS.getFileCreationInfo(filePath)).timestamp);
+  return new Date((await TEST_VCS.getFileCreationInfo(filePath))!.timestamp);
 }
 
-const markdown: MarkdownConfig = {
+const markdown = {
   format: 'mdx',
   mermaid: true,
   mdx1Compat: {
@@ -48,7 +49,7 @@ const markdown: MarkdownConfig = {
     return result;
   },
   remarkRehypeOptions: undefined,
-};
+} as MarkdownConfig;
 
 function findByTitle(
   blogPosts: BlogPost[],
@@ -85,6 +86,8 @@ function getI18n(
         direction: 'ltr',
         path: locale,
         translate: true,
+        url: 'https://docusaurus.io',
+        baseUrl: '/',
         ...localeConfigOptions,
       },
     },
@@ -109,7 +112,7 @@ const getPlugin = async (
     i18n.path,
     getLocaleConfig(i18n).path,
   );
-  const siteConfig = {
+  const siteConfig: DocusaurusConfig = fromPartial({
     title: 'Hello',
     baseUrl: '/',
     url: 'https://docusaurus.io',
@@ -117,7 +120,7 @@ const getPlugin = async (
     vcs: TEST_VCS,
     future: DEFAULT_FUTURE_CONFIG,
     staticDirectories: ['static'],
-  } as DocusaurusConfig;
+  });
   return pluginContentBlog(
     {
       siteDir,
@@ -669,7 +672,7 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+    const TestLastUpdate = TEST_VCS.LAST_UPDATE_INFO;
 
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBe(
@@ -699,7 +702,7 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+    const TestLastUpdate = TEST_VCS.LAST_UPDATE_INFO;
 
     expect(blogPosts[0]?.metadata.title).toBe('Both');
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBeUndefined();
@@ -733,7 +736,7 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+    const TestLastUpdate = TEST_VCS.LAST_UPDATE_INFO;
 
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBeUndefined();

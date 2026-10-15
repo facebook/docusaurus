@@ -17,6 +17,8 @@ describe('toTagsProp', () => {
   const tag1: Tag = {
     label: 'Tag 1',
     permalink: '/tag1',
+    description: undefined,
+    inline: false,
     items: ['item1', 'item2'],
     pages: [],
     unlisted: false,
@@ -25,6 +27,8 @@ describe('toTagsProp', () => {
   const tag2: Tag = {
     label: 'Tag 2',
     permalink: '/tag2',
+    description: undefined,
+    inline: false,
     items: ['item3'],
     pages: [],
     unlisted: false,

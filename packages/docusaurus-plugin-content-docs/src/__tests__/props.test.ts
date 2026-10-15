@@ -24,6 +24,8 @@ describe('toTagDocListProp', () => {
     const tag: Tag = {
       label: 'tag1',
       permalink: '/tag1',
+      description: undefined,
+      inline: false,
       docIds: ['id1', 'id3'],
       unlisted: false,
     };

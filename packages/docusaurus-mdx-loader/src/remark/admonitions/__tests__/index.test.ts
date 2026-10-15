@@ -15,6 +15,7 @@ import {read} from 'to-vfile';
 import preprocessor from '../../../preprocessor';
 import plugin, {DefaultAdmonitionOptions} from '../index';
 import type {AdmonitionOptions} from '../index';
+import type {MarkdownConfig} from '@docusaurus/types';
 
 const processFixture = async (
   name: string,
@@ -33,7 +34,7 @@ const processFixture = async (
         comments: false,
         headingIds: false,
       },
-    },
+    } as MarkdownConfig,
   });
 
   /*
@@ -50,7 +51,7 @@ const processFixture = async (
 
   const result = await remark()
     .use(directives)
-    .use(plugin, options)
+    .use(plugin, options ?? {})
     .use(remark2rehype)
     .use(stringify)
     .process(fileContentPreprocessed);

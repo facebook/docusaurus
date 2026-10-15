@@ -57,8 +57,8 @@ describe('normalizeConfig', () => {
       },
       vcs: {
         initialize: (_params) => {},
-        getFileCreationInfo: (_filePath) => null,
-        getFileLastUpdateInfo: (_filePath) => null,
+        getFileCreationInfo: async (_filePath) => null,
+        getFileLastUpdateInfo: async (_filePath) => null,
       },
       future: {
         experimental_router: 'hash',
@@ -315,6 +315,7 @@ describe('headTags', () => {
           {
             tagName: 'link',
             attributes: {
+              // @ts-expect-error: invalid attribute value
               rel: 123,
               href: 'img/docusaurus.png',
             },
@@ -387,7 +388,9 @@ describe('onBrokenLinks', () => {
 });
 
 describe('i18n', () => {
-  function normalizeI18n(i18n: DeepPartial<I18nConfig>): I18nConfig {
+  function normalizeI18n(
+    i18n: DeepPartial<I18nConfig> | undefined,
+  ): I18nConfig {
     return normalizeConfig({i18n}).i18n;
   }
 
@@ -415,7 +418,7 @@ describe('i18n', () => {
   describe('locale config', () => {
     function normalizeLocaleConfig(
       localeConfig?: Partial<I18nLocaleConfig>,
-    ): Partial<I18nLocaleConfig> {
+    ): Partial<I18nLocaleConfig> | undefined {
       return normalizeConfig({
         i18n: {
           defaultLocale: 'fr',
@@ -503,7 +506,7 @@ describe('i18n', () => {
 
 describe('markdown', () => {
   function normalizeMarkdown(
-    markdown: DeepPartial<MarkdownConfig>,
+    markdown: DeepPartial<MarkdownConfig> | undefined,
   ): MarkdownConfig {
     return normalizeConfig({markdown}).markdown;
   }
@@ -598,6 +601,7 @@ describe('markdown', () => {
   it('throw for bad markdown format', () => {
     expect(() =>
       normalizeMarkdown({
+        // @ts-expect-error: bad value
         format: null,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
@@ -618,7 +622,10 @@ describe('markdown', () => {
 
   it('throw for null object', () => {
     expect(() => {
-      normalizeMarkdown(null);
+      normalizeMarkdown(
+        // @ts-expect-error: bad value
+        null,
+      );
     }).toThrowErrorMatchingInlineSnapshot(`
       [Error: "markdown" must be of type object
       ]
@@ -714,7 +721,12 @@ describe('markdown', () => {
       });
 
       it('rejects null', () => {
-        expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
+        expect(() =>
+          normalizeValue(
+            // @ts-expect-error: bad value
+            null,
+          ),
+        ).toThrowErrorMatchingInlineSnapshot(`
           [Error: "markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
           ]
         `);
@@ -767,7 +779,12 @@ describe('markdown', () => {
       });
 
       it('rejects null', () => {
-        expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
+        expect(() =>
+          normalizeValue(
+            // @ts-expect-error: bad value
+            null,
+          ),
+        ).toThrowErrorMatchingInlineSnapshot(`
           [Error: "markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
           ]
         `);
@@ -808,7 +825,12 @@ describe('markdown', () => {
       });
 
       it('rejects null', () => {
-        expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
+        expect(() =>
+          normalizeValue(
+            // @ts-expect-error: bad value
+            null,
+          ),
+        ).toThrowErrorMatchingInlineSnapshot(`
           [Error: "markdown.hooks.onUnusedMarkdownDirectives" does not match any of the allowed types
           ]
         `);
@@ -1250,6 +1272,7 @@ describe('storage', () => {
     });
 
     it('rejects namespace - null', () => {
+      // @ts-expect-error: bad value
       const storage: Partial<StorageConfig> = {namespace: null};
       expect(() =>
         normalizeConfig({
@@ -1373,8 +1396,8 @@ describe('vcs', () => {
     it('accepts vcs - full', () => {
       const vcs: VcsConfig = {
         initialize: (_params) => {},
-        getFileCreationInfo: (_filePath) => null,
-        getFileLastUpdateInfo: (_filePath) => null,
+        getFileCreationInfo: async (_filePath) => null,
+        getFileLastUpdateInfo: async (_filePath) => null,
       };
       expect(
         normalizeConfig({
@@ -1398,8 +1421,8 @@ describe('vcs', () => {
       const vcs: VcsConfig = {
         // @ts-expect-error: invalid arity
         initialize: (_params, _extraParam) => {},
-        getFileCreationInfo: (_filePath) => null,
-        getFileLastUpdateInfo: (_filePath) => null,
+        getFileCreationInfo: async (_filePath) => null,
+        getFileLastUpdateInfo: async (_filePath) => null,
       };
       expect(() =>
         normalizeConfig({
@@ -1415,8 +1438,8 @@ describe('vcs', () => {
       const vcs: VcsConfig = {
         initialize: (_params) => {},
         // @ts-expect-error: invalid arity
-        getFileCreationInfo: (_filePath, _extraParam) => null,
-        getFileLastUpdateInfo: (_filePath) => null,
+        getFileCreationInfo: async (_filePath, _extraParam) => null,
+        getFileLastUpdateInfo: async (_filePath) => null,
       };
       expect(() =>
         normalizeConfig({
@@ -1431,9 +1454,9 @@ describe('vcs', () => {
     it('accepts vcs - bad getFileLastUpdateInfo() arity', () => {
       const vcs: VcsConfig = {
         initialize: (_params) => {},
-        getFileCreationInfo: (_filePath) => null,
+        getFileCreationInfo: async (_filePath) => null,
         // @ts-expect-error: invalid arity
-        getFileLastUpdateInfo: (_filePath, _extraParam) => null,
+        getFileLastUpdateInfo: async (_filePath, _extraParam) => null,
       };
       expect(() =>
         normalizeConfig({
@@ -1533,7 +1556,7 @@ describe('future', () => {
 
     it('rejects router - invalid enum value', () => {
       // @ts-expect-error: invalid
-      const router: Config['future']['experimental_router'] = 'badRouter';
+      const router: FutureConfig['experimental_router'] = 'badRouter';
       expect(() =>
         normalizeConfig({
           future: {
@@ -1547,7 +1570,8 @@ describe('future', () => {
     });
 
     it('rejects router - null', () => {
-      const router: Config['future']['experimental_router'] = null;
+      // @ts-expect-error: invalid
+      const router: FutureConfig['experimental_router'] = null;
       expect(() =>
         normalizeConfig({
           future: {
@@ -1563,7 +1587,7 @@ describe('future', () => {
 
     it('rejects router - number', () => {
       // @ts-expect-error: invalid
-      const router: Config['future']['experimental_router'] = 42;
+      const router: FutureConfig['experimental_router'] = 42;
       expect(() =>
         normalizeConfig({
           future: {
