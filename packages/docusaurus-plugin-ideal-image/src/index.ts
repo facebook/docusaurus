@@ -92,6 +92,7 @@ export default function pluginIdealImage(
       const index = parentRules.indexOf(existingImageRule);
       parentRules[index] = {
         test: existingImageRule.test,
+        with: {type: {not: 'text'}},
         oneOf: [idealImageRule, existingImageRule],
       };
     },
