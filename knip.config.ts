@@ -71,6 +71,10 @@ const config: KnipConfig = {
     'admin/scripts': {
       // Run directly with node, or through the package bin commands
       entry: ['*.js'],
+      ignoreDependencies: [
+        // Resolved from Lerna's own dependencies, see lernaFastPack.js
+        '@npmcli/arborist',
+      ],
     },
     'packages/create-docusaurus': {
       // Used to test the CLI package

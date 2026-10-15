@@ -45,7 +45,8 @@ docker run -d --rm --name "$CONTAINER_NAME" -p 4873:4873 -v "$PWD/admin/verdacci
 pnpm build:packages
 
 # Publish the monorepo
-npx --no-install lerna publish \
+# The preload avoids a slow Lerna packing step, see lernaFastPack.js
+node --import ./admin/scripts/lernaFastPack.js ./node_modules/lerna/dist/cli.js publish \
   --exact \
   --yes \
   --no-verify-access \

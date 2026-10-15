@@ -24,6 +24,8 @@ on:
       - packages/**
       - tsconfig.*.json
       - admin/verdaccio.yaml
+      - admin/scripts/test-release.sh
+      - admin/scripts/lernaFastPack.js
       - .github/workflows/tests-e2e.yml
 
 concurrency:
