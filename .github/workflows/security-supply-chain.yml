@@ -20,6 +20,11 @@ concurrency:
 permissions:
   contents: read
 
+# No GitHub Actions cache on purpose, enforced by GitHub for every step
+# We want SFW to fetch packages
+# See https://docs.github.com/actions/reference/workflows-and-actions/workflow-syntax#cache-mode
+cache-mode: none
+
 jobs:
   # Check our monorepo for new supply chain compromissions
   supply-chain-monorepo:

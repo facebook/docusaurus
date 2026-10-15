@@ -33,6 +33,10 @@ jobs:
       contents: read # for actions/checkout to fetch code
       issues: write # for preactjs/compressed-size-action to create comments
       pull-requests: write # for preactjs/compressed-size-action to write a PR review
+    # ⚠️ No GitHub Actions cache on purpose, enforced by GitHub for every step
+    # This job can write to pull requests, issues and checks
+    # See https://docs.github.com/actions/reference/workflows-and-actions/workflow-syntax#cache-mode
+    cache-mode: none
     name: Build Size Report
     timeout-minutes: 30
     runs-on: ubuntu-latest
@@ -49,7 +53,6 @@ jobs:
         with:
           node-version: lts/*
           check-latest: true
-          cache: pnpm
       - name: Track build size changes
         uses: preactjs/compressed-size-action@f322c295dde06a1cb7ccaef105732dd8a726d1d9 # v2.10.0
         with:

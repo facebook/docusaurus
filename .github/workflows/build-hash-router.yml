@@ -18,6 +18,11 @@ concurrency:
 permissions:
   contents: write
 
+# ⚠️ No GitHub Actions cache on purpose, enforced by GitHub for every step
+# This workflow can write to the repository (GitHub Pages deployment)
+# See https://docs.github.com/actions/reference/workflows-and-actions/workflow-syntax#cache-mode
+cache-mode: none
+
 jobs:
   build:
     name: Build Hash Router
@@ -33,7 +38,6 @@ jobs:
         with:
           node-version: lts/*
           check-latest: true
-          cache: pnpm
       - name: Installation
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 

@@ -18,6 +18,11 @@ jobs:
     permissions:
       contents: write
 
+    # ⚠️ No GitHub Actions cache on purpose, enforced by GitHub for every step
+    # This job can push commits to the repository
+    # See https://docs.github.com/actions/reference/workflows-and-actions/workflow-syntax#cache-mode
+    cache-mode: none
+
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -32,7 +37,6 @@ jobs:
         with:
           node-version: lts/*
           check-latest: true
-          cache: pnpm
 
       - name: Installation
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile

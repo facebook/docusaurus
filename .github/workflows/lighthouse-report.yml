@@ -17,6 +17,10 @@ jobs:
   lighthouse-report:
     permissions:
       pull-requests: write # for marocchino/sticky-pull-request-comment
+    # ⚠️ No GitHub Actions cache on purpose, enforced by GitHub for every step
+    # This job can write to pull requests
+    # See https://docs.github.com/actions/reference/workflows-and-actions/workflow-syntax#cache-mode
+    cache-mode: none
     name: Lighthouse Report
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +35,6 @@ jobs:
         with:
           node-version: lts/*
           check-latest: true
-          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
