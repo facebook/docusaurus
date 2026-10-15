@@ -7,7 +7,7 @@
 
 import type {ReactNode} from 'react';
 import Translate, {translate} from '@docusaurus/Translate';
-import {usePluralForm} from '../utils/usePluralForm';
+import {usePluralForm} from '@docusaurus/theme-common';
 
 // Only used locally
 function useBlogPostsPlural(): (count: number) => string {

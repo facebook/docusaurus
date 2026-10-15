@@ -96,12 +96,3 @@ export {useHideableNavbar} from './hooks/useHideableNavbar';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
-
-export {useDocCardDescriptionCategoryItemsPlural} from './translations/docsTranslations';
-export {
-  useBlogTagsPostsPageTitle,
-  useBlogAuthorPageTitle,
-  translateBlogAuthorsListPageTitle,
-  BlogAuthorsListViewAllLabel,
-  BlogAuthorNoPostsLabel,
-} from './translations/blogTranslations';

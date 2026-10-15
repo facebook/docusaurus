@@ -6,7 +6,7 @@
  */
 
 import {translate} from '@docusaurus/Translate';
-import {usePluralForm} from '../utils/usePluralForm';
+import {usePluralForm} from '@docusaurus/theme-common';
 
 export function useDocCardDescriptionCategoryItemsPlural(): (
   count: number,
