@@ -267,6 +267,7 @@ export async function createBaseConfig({
           // new URL('./img.png', import.meta.url)
           // Relative URLs are needed for SSR: absolute URLs would otherwise
           // be resolved against the server bundle file:// URL
+          // See https://github.com/facebook/docusaurus/pull/12655
           url: 'relative',
         },
       },

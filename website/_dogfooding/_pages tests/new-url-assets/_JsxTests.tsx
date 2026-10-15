@@ -31,6 +31,20 @@ export default function JsxTests(): React.JSX.Element {
         />
       </li>
       <li>
+        Large image with the <code>@site</code> alias:{' '}
+        <img
+          id="jsx-site-alias-image"
+          alt="Docusaurus social card"
+          width={300}
+          src={
+            new URL(
+              '@site/static/img/docusaurus-social-card.png',
+              import.meta.url,
+            ).href
+          }
+        />
+      </li>
+      <li>
         SVG image (not transformed into a React component):{' '}
         <img
           id="jsx-svg-image"
