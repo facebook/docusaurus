@@ -5,11 +5,37 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {normalizeUrl} from '@docusaurus/utils';
 import type {LastModOption, SitemapItem} from './types';
 import type {DocusaurusConfig, RouteConfig, VcsConfig} from '@docusaurus/types';
 import type {PluginOptions} from './options';
+
+// Warn only once: the VCS read error is usually the same for all files
+const warnVcsReadErrorOnce = _.once(
+  (sourceFilePath: string, error: unknown) => {
+    logger.warn`Sitemap: unable to read the last update date of file path=${sourceFilePath} (and possibly other files), their code=${'<lastmod>'} tag will be omitted. Use the sitemap option code=${'lastmod: null'} to disable code=${'<lastmod>'} tags.
+Cause: ${(error as Error).message}`;
+  },
+);
+
+// The sitemap <lastmod> tag is optional SEO metadata, enabled by default
+// We don't want to fail the build when the VCS can't be read
+// This happens notably for sites outside a Git repository
+async function readVcsLastUpdatedAt(
+  sourceFilePath: string,
+  vcs: Pick<VcsConfig, 'getFileLastUpdateInfo'>,
+): Promise<number | null> {
+  try {
+    const lastUpdateInfo = await vcs.getFileLastUpdateInfo(sourceFilePath);
+    return lastUpdateInfo?.timestamp ?? null;
+  } catch (error) {
+    warnVcsReadErrorOnce(sourceFilePath, error);
+    return null;
+  }
+}
 
 async function getRouteLastUpdatedAt(
   route: RouteConfig,
@@ -25,10 +51,7 @@ async function getRouteLastUpdatedAt(
     return route.metadata?.lastUpdatedAt;
   }
   if (route.metadata?.sourceFilePath) {
-    const lastUpdateInfo = await vcs.getFileLastUpdateInfo(
-      route.metadata?.sourceFilePath,
-    );
-    return lastUpdateInfo?.timestamp ?? null;
+    return readVcsLastUpdatedAt(route.metadata.sourceFilePath, vcs);
   }
 
   return undefined;
