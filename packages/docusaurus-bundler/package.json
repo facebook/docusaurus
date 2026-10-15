@@ -24,7 +24,6 @@
     "@docusaurus/types": "workspace:*",
     "@rspack/core": "^2.2.3",
     "@rspack/dev-server": "^2.2.1",
-    "@swc/core": "^1.16.2",
     "@swc/html": "^1.16.2",
     "babel-loader": "^10.1.1",
     "browserslist": "^4.29.0",
@@ -39,6 +38,17 @@
     "tslib": "^2.8.1",
     "webpack": "^5.111.0",
     "webpackbar": "^7.0.0"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.16.2"
+  },
+  "peerDependencies": {
+    "@swc/core": "^1.16.2"
+  },
+  "peerDependenciesMeta": {
+    "@swc/core": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=24.21"

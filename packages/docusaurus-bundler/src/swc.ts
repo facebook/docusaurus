@@ -7,7 +7,7 @@
 
 import browserslist from 'browserslist';
 import semver from 'semver';
-import type {Options as SwcOptions} from '@swc/core';
+import type {SwcLoaderOptions} from '@rspack/core';
 import type {CurrentBundler} from '@docusaurus/types';
 
 export function getSwcLoaderOptions({
@@ -18,7 +18,7 @@ export function getSwcLoaderOptions({
   isServer: boolean;
   bundlerName: CurrentBundler['name'];
   clientBrowserslistQueries: string[];
-}): SwcOptions {
+}): SwcLoaderOptions {
   return {
     env: {
       targets: isServer

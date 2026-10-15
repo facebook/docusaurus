@@ -355,6 +355,12 @@ Use this option to opt out of Rspack and bundle your site with [webpack](https:/
 - `true` or `{}`: use webpack, and transpile your code with the built-in Babel loader.
 - `jsLoader`: the JS loader to use with webpack. `'babel'` (default) uses the built-in Babel loader and preset; otherwise, you can provide a function returning your own webpack rule.
 
+With webpack, production builds minify JavaScript with [SWC](https://swc.rs/), which requires adding the `@swc/core` package to your site dependencies:
+
+```bash npm2yarn
+npm install @swc/core
+```
+
 :::warning Deprecated
 
 Webpack and Babel support is deprecated and will be removed in Docusaurus v5. We recommend using the default Rspack bundler.
