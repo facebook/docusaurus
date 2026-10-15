@@ -50,7 +50,9 @@ jobs:
         with:
           node-version: lts/*
           check-latest: true
-          cache: pnpm
+          # No pnpm cache on Windows on purpose: restoring it takes 20-80s,
+          # more than it saves on "pnpm install"
+          package-manager-cache: false
       - name: Installation
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
       - name: Generate test-website project against main branch
