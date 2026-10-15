@@ -65,6 +65,8 @@ export default function pluginIdealImage(
         test: /\.(?:png|jpe?g)$/i,
         // Ideal images are JS modules, not assets
         type: 'javascript/auto',
+        // new URL('./img.png', import.meta.url) references the image asset URL
+        dependency: {not: 'url'},
         // We don't want to use the image loader for non-React source code
         // ie we don't want to use ideal image loader for CSS files...
         // See https://github.com/facebook/docusaurus/issues/10862

@@ -72,6 +72,8 @@ export function enhanceConfig(config: Configuration, params: Params): void {
         use: [createSVGRRule(params)],
         // SVGR components are JS modules, not assets
         type: 'javascript/auto',
+        // new URL('./img.svg', import.meta.url) references the SVG asset URL
+        dependency: {not: 'url'},
         // We don't want to use SVGR loader for non-React source code
         // ie we don't want to use SVGR for CSS files...
         issuer: {
