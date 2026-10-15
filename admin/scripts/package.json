@@ -6,7 +6,8 @@
   "license": "MIT",
   "type": "module",
   "bin": {
-    "copy-untyped-files": "copyUntypedFiles.js"
+    "copy-untyped-files": "copyUntypedFiles.js",
+    "format-gitignored-files": "formatGitignoredFiles.js"
   },
   "dependencies": {
     "@docusaurus/fs": "workspace:*",
@@ -15,6 +16,7 @@
     "execa": "^10.0.1",
     "image-size": "^2.0.4",
     "lodash": "^4.18.1",
+    "oxfmt": "^0.70.0",
     "sharp": "^0.35.1"
   }
 }
