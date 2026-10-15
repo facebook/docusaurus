@@ -128,15 +128,7 @@ You can find your sitemap at `/sitemap.xml`.
 
 ### Emitting `changefreq` and `priority` {/* #changefreq-priority */}
 
-The plugin doesn't emit `<changefreq>` and `<priority>` tags. [Google ignores them](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap), and Bing [largely disregards them](https://blogs.bing.com/webmaster/february-2023/The-Importance-of-Setting-the-lastmod-Tag-in-Your-Sitemap). Prefer the `lastmod` option to tell crawlers when your pages change.
-
-:::info Docusaurus v4 migration
-
-The `changefreq` and `priority` plugin options have been removed in Docusaurus v4. They used to emit `<changefreq>weekly</changefreq>` and `<priority>0.5</priority>` by default for every URL.
-
-:::
-
-If you still want to emit these tags, you can add them to the sitemap items with the `createSitemapItems` option. The following config restores the Docusaurus v3 default behavior:
+The plugin doesn't emit `<changefreq>` and `<priority>` tags. [Google ignores them](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap), and emitting the same value for all URLs is useless. If you still want these tags, use `createSitemapItems` to emit distinct values per URL:
 
 ```js config-tabs
 // Preset Options: sitemap
@@ -148,15 +140,9 @@ const config = {
     const items = await defaultCreateSitemapItems(rest);
     return items.map((item) => ({
       ...item,
-      changefreq: 'weekly',
-      priority: 0.5,
+      changefreq: item.url.includes('/blog/') ? 'weekly' : 'monthly',
+      priority: item.url.includes('/docs/') ? 0.8 : 0.5,
     }));
   },
 };
 ```
-
-:::tip
-
-The `priority` value is relative to the other URLs of your site: using the same value for all URLs gives no information to crawlers. You can compute a different value for each item based on its `url`.
-
-:::

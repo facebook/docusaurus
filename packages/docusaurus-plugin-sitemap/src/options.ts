@@ -57,6 +57,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   lastmod: 'date',
 };
 
+// TODO Docusaurus v5: remove these migration errors
 // Removed in Docusaurus v4: Google ignores <changefreq> and <priority>,
 // and the same value for all routes does not make sense anyway
 // Users can still emit them per-route with createSitemapItems()
