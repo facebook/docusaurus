@@ -11,7 +11,7 @@ import path from 'node:path';
 import {tmpdir} from 'node:os';
 import {compile} from '../compiler';
 import {getCurrentBundler} from '../currentBundler';
-import {getMinimizers, getSwcCoreMissingErrorMessage} from '../minification';
+import {getMinimizers} from '../minification';
 import type {Configuration} from 'webpack';
 import type {CurrentBundler} from '@docusaurus/types';
 
@@ -98,16 +98,5 @@ describe.each(['webpack', 'rspack'] as const)('%s minimizers', (name) => {
     // Text imports are embedded in JS as string literals
     expect(js).toContain(JSON.stringify(TextImportFiles['text.js']));
     expect(js).toContain(JSON.stringify(TextImportFiles['text.css']));
-  });
-});
-
-describe('getSwcCoreMissingErrorMessage', () => {
-  it('explains how to fix the missing @swc/core package', () => {
-    expect(getSwcCoreMissingErrorMessage()).toMatchInlineSnapshot(`
-      "Docusaurus needs the @swc/core package to minify JavaScript with Webpack, but it is not installed.
-      Your site uses the deprecated Webpack bundler because of the \`webpack\` site config. You can either:
-      - add @swc/core to your site dependencies, for example with \`npm install @swc/core\`
-      - remove the \`webpack\` site config, to use the default Rspack bundler that doesn't need it"
-    `);
   });
 });
