@@ -93,10 +93,12 @@ export const DEFAULT_PLUGIN_ID = 'default';
 /**
  * Max size in bytes under which assets (images, fonts, medias) are inlined in
  * the bundles as base64 data URLs, instead of being emitted as separate files.
- * Can be overridden with the `DOCUSAURUS_ASSET_INLINE_MAX_SIZE` env variable.
+ * Overrides the default max size when the `DOCUSAURUS_ASSET_INLINE_MAX_SIZE`
+ * env variable is set.
  *
  * @see https://github.com/facebook/docusaurus/issues/5493
  */
-export const ASSET_INLINE_MAX_SIZE = Number(
-  process.env.DOCUSAURUS_ASSET_INLINE_MAX_SIZE ?? 10000,
-);
+export const ASSET_INLINE_MAX_SIZE: number | undefined = process.env
+  .DOCUSAURUS_ASSET_INLINE_MAX_SIZE
+  ? parseInt(process.env.DOCUSAURUS_ASSET_INLINE_MAX_SIZE, 10)
+  : undefined;

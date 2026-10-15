@@ -95,7 +95,7 @@ function createAssetRuleUtils({isServer}: {isServer: boolean}): AssetRuleUtils {
   // An asset emitted as a file, or inlined as a data URL if small enough
   const asset = (folder: AssetFolder): RuleSetRule => ({
     type: 'asset',
-    parser: {dataUrlCondition: {maxSize: ASSET_INLINE_MAX_SIZE}},
+    parser: {dataUrlCondition: {maxSize: ASSET_INLINE_MAX_SIZE ?? 10000}},
     generator: generator(folder),
   });
 
