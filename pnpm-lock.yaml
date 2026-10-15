@@ -331,7 +331,7 @@ importers:
     dependencies:
       '@argos-ci/cli':
         specifier: ^6.9.2
-        version: 6.9.2(@types/node@26.6.1)(supports-color@10.2.2)
+        version: 6.9.5(@types/node@26.6.1)(supports-color@10.2.2)
       '@argos-ci/playwright':
         specifier: ^7.5.0
         version: 7.5.0(@types/node@26.6.1)(supports-color@10.2.2)
@@ -481,10 +481,10 @@ importers:
         version: 3.1.1(@types/react@19.3.0)(react@19.3.0)
       '@rspack/core':
         specifier: ^2.2.3
-        version: 2.2.3
+        version: 2.2.8
       '@rspack/dev-server':
         specifier: ^2.2.1
-        version: 2.2.1(@rspack/core@2.2.3)(selfsigned@5.5.0)
+        version: 2.2.1(@rspack/core@2.2.8)(selfsigned@5.5.0)
       boxen:
         specifier: ^9.0.0
         version: 9.0.0
@@ -520,7 +520,7 @@ importers:
         version: 4.18.1
       open:
         specifier: ^11.0.2
-        version: 11.0.2
+        version: 11.0.4
       p-map:
         specifier: ^7.0.8
         version: 7.0.8
@@ -687,10 +687,10 @@ importers:
         version: link:../docusaurus-types
       '@rspack/core':
         specifier: ^2.2.3
-        version: 2.2.3
+        version: 2.2.8
       '@rspack/dev-server':
         specifier: ^2.2.1
-        version: 2.2.1(@rspack/core@2.2.3)(selfsigned@5.5.0)
+        version: 2.2.1(@rspack/core@2.2.8)(selfsigned@5.5.0)
       '@swc/core':
         specifier: ^1.16.2
         version: 1.16.2
@@ -699,13 +699,13 @@ importers:
         version: 1.16.2
       babel-loader:
         specifier: ^10.1.1
-        version: 10.1.1(@babel/core@7.29.7(supports-color@10.2.2))(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+        version: 10.1.1(@babel/core@7.29.7(supports-color@10.2.2))(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
       browserslist:
         specifier: ^4.29.0
         version: 4.29.0
       css-loader:
         specifier: ^7.1.5
-        version: 7.1.5(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+        version: 7.1.5(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
       lightningcss:
         specifier: ^1.33.0
         version: 1.33.0
@@ -720,7 +720,7 @@ importers:
         version: 8.5.28
       postcss-loader:
         specifier: ^8.2.1
-        version: 8.2.1(@rspack/core@2.2.3)(postcss@8.5.28)(typescript@6.0.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+        version: 8.2.1(@rspack/core@2.2.8)(postcss@8.5.28)(typescript@6.0.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
       postcss-preset-env:
         specifier: ^11.5.2
         version: 11.5.2(postcss@8.5.28)
@@ -735,7 +735,7 @@ importers:
         version: 5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)
       webpackbar:
         specifier: ^7.0.0
-        version: 7.0.0(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+        version: 7.0.0(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
 
   packages/docusaurus-fs:
     dependencies:
@@ -1393,10 +1393,10 @@ importers:
         version: link:../docusaurus-utils-validation
       '@rsdoctor/rspack-plugin':
         specifier: ^1.6.3
-        version: 1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+        version: 1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.8)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
       '@rsdoctor/webpack-plugin':
         specifier: ^1.6.3
-        version: 1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+        version: 1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.8)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
       react:
         specifier: ^19.3.0
         version: 19.3.0
@@ -2075,10 +2075,10 @@ importers:
     dependencies:
       '@typescript-eslint/types':
         specifier: ^8.70.0
-        version: 8.70.0
+        version: 8.71.0
       '@typescript-eslint/utils':
         specifier: ^8.70.0
-        version: 8.70.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)
+        version: 8.71.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)
       eslint:
         specifier: '>=8.57.0'
         version: 9.39.5(jiti@2.7.0)(supports-color@10.2.2)
@@ -2421,17 +2421,25 @@ packages:
     resolution: {integrity: sha512-7EdoiHRc4BvuDxp6/8CbkehCMu5bFYEJPjssYFvOR5FqCq50hT9+GxDuQ4pULpbXUZOVl1vhZ4b8ed4fe7rVCQ==}
     engines: {node: '>=22.0.0'}
 
+  '@argos-ci/api-client@0.31.1':
+    resolution: {integrity: sha512-QkJ6/1xzoolhYqYYTtRH4iTc6FFY3TVtLyjb1BFytif4RsvW+uwozhZCU0oPDRxR2rCmBQD9miVB+km9nDhh7Q==}
+    engines: {node: '>=22.0.0'}
+
   '@argos-ci/browser@6.4.5':
     resolution: {integrity: sha512-8qWtsOXG752VTAI6iPeHZyMKLSqN9jqdAqZZMk0Q4+j5WSPX76K5a3feV8nBlSqpr1O4RP2/GWYVoxkGdzJr3w==}
     engines: {node: '>=22.0.0'}
 
-  '@argos-ci/cli@6.9.2':
-    resolution: {integrity: sha512-R4HzhgsV2xBd+j3QkOGU1JvThzUiGiY3Etithmu1FBsu/BJ8YT2E/Kf+8kUAW60sJYxl69YaXwGtXhlxBE+K1w==}
+  '@argos-ci/cli@6.9.5':
+    resolution: {integrity: sha512-cc9jxbGrT7BCeQlV4y9GfmbtNoULLQ+uy1+MOOm6YU7i1tYKWTUUcUnKJG87JBvqPUVAkjsQE9AMO09eKTri5w==}
     engines: {node: '>=22.0.0'}
     hasBin: true
 
   '@argos-ci/core@6.8.3':
     resolution: {integrity: sha512-nMg7oiEJQnno1N4oZ6/iF1c/bQ49Ig3ZJEJr8yUxrSFlWDj9DS3jMlO88D93lMVeIJ/403D+jH+TxhvSfrCGBQ==}
+    engines: {node: '>=22.0.0'}
+
+  '@argos-ci/core@6.8.6':
+    resolution: {integrity: sha512-B8xZUSocftDVc2pw2Su63e6KKPx928iQLLqNjV/xOTqnRrRGUAMnlezsHZZ/T6UpX1U9eRR3at/kDZa4bTVYmQ==}
     engines: {node: '>=22.0.0'}
 
   '@argos-ci/playwright@7.5.0':
@@ -2440,6 +2448,10 @@ packages:
 
   '@argos-ci/util@4.2.0':
     resolution: {integrity: sha512-HZCNwbJqoaL3pwhnEXH+HJYUPeOMv7rWyCrQaT6IcKZCrdYGOFkG72uXbDvoa84y/FvVSWPV2ja2Ryv0I8ViUg==}
+    engines: {node: '>=22.0.0'}
+
+  '@argos-ci/util@4.2.1':
+    resolution: {integrity: sha512-TriX5ahqHmIZg8eiSkL/b7to29bybxZ1x8VRMxwW998RLuYrXqg73vUI+LrhD2zksAchS61KjuCcMF/AC6s7Aw==}
     engines: {node: '>=22.0.0'}
 
   '@asamuzakjp/css-color@7.0.0':
@@ -5493,88 +5505,88 @@ packages:
     peerDependencies:
       webpack: 5.x
 
-  '@rspack/binding-darwin-arm64@2.2.3':
-    resolution: {integrity: sha512-MGLx4lMTY6XEtJi55S+fk83+683GeUDuoqzjixbq6ehHdr/l6nGiHhgvMtV5DYt9sCytUDzyrCkcJ0AWqJxnTA==}
+  '@rspack/binding-darwin-arm64@2.2.8':
+    resolution: {integrity: sha512-d6GuY/k7kJk7SOXmruIz0m+2fIXaLv2SnBHEYsbvBzE7ZO6QXq7fSABWFWNnSnNu+brYHA5Dr/skV81bXgTTCw==}
     cpu: [arm64]
     os: [darwin]
 
-  '@rspack/binding-darwin-x64@2.2.3':
-    resolution: {integrity: sha512-5B/c1YTYEz9m7TyqtGQgTmXMr9PoPewyqsyHB4N0AB7nxDhtgmki0GniP2Lqtx3LJzOvQMjwet+I2lmWxvxwCg==}
+  '@rspack/binding-darwin-x64@2.2.8':
+    resolution: {integrity: sha512-xCVou/jJASjEAjwy1T3hPJcJqA5QZASJfUwHqEk+nA0v44MagwH8tM8lsOvRfhzR7N2+YFac1rfZOUT8uM3awg==}
     cpu: [x64]
     os: [darwin]
 
-  '@rspack/binding-linux-arm64-gnu@2.2.3':
-    resolution: {integrity: sha512-sU+jPGD2xz3BxFvsdBQVGce538YHqrSKMB4ZSfKhj6RSKjeGzpJ1BVl8+IndiQsfTgaUxi7N+r5cs/ezGy1TVQ==}
+  '@rspack/binding-linux-arm64-gnu@2.2.8':
+    resolution: {integrity: sha512-Zy/ss6YAQTjOWKDkcWrbKtu+pySltqT22wn68nlrWKygPWLNmMdU5anlsnwRTIuQ3MF0YJRS42ARauVtlqvRQw==}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@rspack/binding-linux-arm64-musl@2.2.3':
-    resolution: {integrity: sha512-EQuADbqWbVgNAh5ep/u/B7Z/8UUkZjMLzHAOKZJklBpe4Y8mnhFNjieX0xc9NadR+drj9tqmEANxzTOkFtVPyQ==}
+  '@rspack/binding-linux-arm64-musl@2.2.8':
+    resolution: {integrity: sha512-lxgp5O8PhL3St9p82llHoNoeWzp9jltW5S9F00p00XPJZHUIuxbwfLSzn/6Wg86USEmafLoBkyD9CM8rBd3SNQ==}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@rspack/binding-linux-ppc64-gnu@2.2.3':
-    resolution: {integrity: sha512-kyXROzr519a5juBII9ysuc5ZD2apEZ0DJqL5PPCAOVHjzMfThEIBwnX3gicNCmp+kY0CCIOl2LagwbtFaOzoiA==}
+  '@rspack/binding-linux-ppc64-gnu@2.2.8':
+    resolution: {integrity: sha512-MY+YqpT02tcDCMgHy+IewQsaz7ql4mbJaAqqMlTIqvQwAUl9dXEP7BL352OgCxm9VRebTldE5lK99A3wVd3zqA==}
     cpu: [ppc64]
     os: [linux]
     libc: [glibc]
 
-  '@rspack/binding-linux-riscv64-gnu@2.2.3':
-    resolution: {integrity: sha512-F3x6Nu0RUSoLtiaMse3hYQ3Nf5A2de6vTWWDXj14Ll6BpGWXGn+U/eXT/nB199fFnDEYf+CJEa7d6fzcYdwdjA==}
+  '@rspack/binding-linux-riscv64-gnu@2.2.8':
+    resolution: {integrity: sha512-wmN9OigSGNGCKY+AOYaWI8LJcIi8qvs5KjueBueCKOnTV6MPIEujA75QZH1pehTTYKvdGv7r2EtUXUmWpn7/SQ==}
     cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
-  '@rspack/binding-linux-riscv64-musl@2.2.3':
-    resolution: {integrity: sha512-O3HK7OnPvoBxZu4MX2j+t3gk4qiUsFYqj/29L3WgU1iQsdUSIN6PInW2JvbiLqyuzt09VltIEXTKayY8EysCpQ==}
+  '@rspack/binding-linux-riscv64-musl@2.2.8':
+    resolution: {integrity: sha512-ZcQMYR10hLh581zs9MFnFFn0F7wyt5fkDffyukeMHJEoPJrbkfl6cQtsUdpQnZ+mYGYS5KydD1DT9/eMH65jjw==}
     cpu: [riscv64]
     os: [linux]
     libc: [musl]
 
-  '@rspack/binding-linux-s390x-gnu@2.2.3':
-    resolution: {integrity: sha512-SIxfGdwBdAjwJ8pDlPTb8MPIZIv/i2lKHn4/ywuDpFOxlUA4Bo/OKqQOenHx2MFD2mN8jigBZQTF0KVe5YP1uQ==}
+  '@rspack/binding-linux-s390x-gnu@2.2.8':
+    resolution: {integrity: sha512-ahBiE+Ir1FMYvStYicihhSJlS2YRagxtry0jWH8zW287o7C0eiHJ+pteJHHC15T5RJqm0j6w5TuwYe+F9AYxxg==}
     cpu: [s390x]
     os: [linux]
     libc: [glibc]
 
-  '@rspack/binding-linux-x64-gnu@2.2.3':
-    resolution: {integrity: sha512-IzQGcw09WYn/IzwB1SQpg7FQ211MBr+fJB2/WoRrPS6CNdtlkDHZaI8z2oq+2Oc5Su21jgX75VlWFajirUx5Dw==}
+  '@rspack/binding-linux-x64-gnu@2.2.8':
+    resolution: {integrity: sha512-dncEI515NoPXh3zzWk06Rb3mhSV76myiFKqXiJ8K4fVAe5x/RlweMhvPhHhm7RnIMeBld7BeStzOqj38XFsWGA==}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@rspack/binding-linux-x64-musl@2.2.3':
-    resolution: {integrity: sha512-9OKSx2ickrR+PFal94XE6Hkj49AQ2HI3KuR9XeRkKOwSxjwrskV/Pn1wc2itDOHkm/QHP7k+MttsYb4FGuNIqw==}
+  '@rspack/binding-linux-x64-musl@2.2.8':
+    resolution: {integrity: sha512-pfFyU03PjD0GaQG8zOQOHwq51rrJZetXjTGpMmz7iA1hq/f9lChJsDWrC8/7VXeQLwBofLZlOODqe8OM8OBzgA==}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@rspack/binding-wasm32-wasi@2.2.3':
-    resolution: {integrity: sha512-gici3jWJi0GDy9kbYh57LoA57H8A2EAD9cV2jFKp1YoJ2aX2U9lANh4L+xoKPTvVQYpRvleoA5jkAvyfeLQ5bw==}
+  '@rspack/binding-wasm32-wasi@2.2.8':
+    resolution: {integrity: sha512-3mOJuZTrF56jOh/GD9chLMJKbzPZ6Ty2OIML7+lLz0Yk2XS/xWRfLn85Dmnkb/O6UF65x7+p8VPAIZlBtLTclw==}
     cpu: [wasm32]
 
-  '@rspack/binding-win32-arm64-msvc@2.2.3':
-    resolution: {integrity: sha512-1MG66kcuqAGFs9ewiBc+/NJSTQr1jHrkZ2nCVMyhukl1o8embmFZa3BCibYgBYs5P7FRc6Sa+CDXcrfDZOLInQ==}
+  '@rspack/binding-win32-arm64-msvc@2.2.8':
+    resolution: {integrity: sha512-Cu/RMZT/16s+67xhl6X1pswetL3GLSQl+LnugKRh08Ul21A/tR7vxC4g4aih4u9k5SXCAngxFUt8zAjKnHIBqA==}
     cpu: [arm64]
     os: [win32]
 
-  '@rspack/binding-win32-ia32-msvc@2.2.3':
-    resolution: {integrity: sha512-CAigxxh9DYJmEwH9f6FRkSsmt0GhKVqKaFRVFFrF9WDL7gXP3hyE/h/cCeMdmlTzRt8Mht87AvnDX7PG3neMrA==}
+  '@rspack/binding-win32-ia32-msvc@2.2.8':
+    resolution: {integrity: sha512-H/erd6di8OapZhhM0raA/7XduPn9jusfLMeO1XF+AmF9WF3HzHgMjha1j+KwtPgQnaH69w6AhY+G2472VIwQmw==}
     cpu: [ia32]
     os: [win32]
 
-  '@rspack/binding-win32-x64-msvc@2.2.3':
-    resolution: {integrity: sha512-qa5Wc34a+Uux5foZ1Z+9fPQceVRbgTunaIulHezVF/ZxvqKO4DkAC7tFl53shB0YRVBAPg8R78MGd8cByfoxLQ==}
+  '@rspack/binding-win32-x64-msvc@2.2.8':
+    resolution: {integrity: sha512-BziHSUlIQM0MliCqdcHuBXSkQGtPoHQTXJce7fsgnTAzQFgPeog92qTNezYI4IrQ7pQouyiVJ2HPieUbVPRKQQ==}
     cpu: [x64]
     os: [win32]
 
-  '@rspack/binding@2.2.3':
-    resolution: {integrity: sha512-532+T5N6yIdukChiL85H4NFN2vn9oi8wlLa1ByPNtpNYriE9s24fUhn0RiK7w/xACqnNpYmXCqLYCvjOzyCy+w==}
+  '@rspack/binding@2.2.8':
+    resolution: {integrity: sha512-c9flkSua3khHnOKBCRk8BkHGOwU9YB7niv+5JfQXiLZIvJmgKsZ7PD8QrFklMhsJT3oVAc6c9GN7/wy1YkACjA==}
 
-  '@rspack/core@2.2.3':
-    resolution: {integrity: sha512-VHejw+PDd5B5v6VduFyjLSTIFaHBMNGPMKw+Y0zjkMqjYhDD1hjLOBC5frRKjTWcfYdk+Q73auWPp9k/H9PfIQ==}
+  '@rspack/core@2.2.8':
+    resolution: {integrity: sha512-JugsVrnbMGNYzMH++7gR9enygpP/lAo9PbVRq3XmJg0ryIvCpST0XJjBcccaSjYaaPamsjrddihmgVLMFp+yXw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       '@module-federation/runtime-tools': ^0.24.1 || ^2.0.0
@@ -6376,6 +6388,12 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
 
+  '@typescript-eslint/project-service@8.71.0':
+    resolution: {integrity: sha512-aABjw5rjBacYONVPaPiWOCjJu0vEF4a25iQuodlmQYL1trtLZ0X/y+2Vzl3BKI1odM4LnwLE1oUDXYp1wzx1TQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '>=4.8.4 <6.1.0'
+
   '@typescript-eslint/rule-tester@8.70.0':
     resolution: {integrity: sha512-LzXzMo4BHoZ/K5xM3076qRigjG4PMwa/TMg5hOZ+b/4IIvpdRTsXraF5p+cn9i84xoJ5glA5favdGvVQrfIG6g==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -6387,8 +6405,18 @@ packages:
     resolution: {integrity: sha512-8nP3Kwh5hlgZ4FicGvmznAmJe8UL4sdU8tLukrPaMuQmDuk4Y8xYfzu/aYZW4xT2JCgc7H/TpDI5cGlxcWJSqQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@typescript-eslint/scope-manager@8.71.0':
+    resolution: {integrity: sha512-gWF0BhUcnjZxSpLE8ngS/59n2SB0J3YqRxvX1+2aoRJk9hNtHSLOV+TcarFiOr5ipXm3yc1QrI4c9YZc8zyCxw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   '@typescript-eslint/tsconfig-utils@8.70.0':
     resolution: {integrity: sha512-adnkeeNq9Sq1sUf4+FRVc0KdgYghzsgFpZSQVZVvY0LCuUuN0FnQgyGzCJeC4fW1cdXseBAjU2EOqUIjbNcZUw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '>=4.8.4 <6.1.0'
+
+  '@typescript-eslint/tsconfig-utils@8.71.0':
+    resolution: {integrity: sha512-Z1UlWHADEK2Mlb9NpWfDeSjqoZ5EyrOv4R3eQpbkzqn/EwaIdOpXXupEA1+0ZIOSJSZZDBHG0BrQyN8zUG6Pwg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
@@ -6404,8 +6432,18 @@ packages:
     resolution: {integrity: sha512-asTOIYhDg4zdzOScCyaytrsV3cR6B4ecPQlXw/dJIm7J/MZTtCtfVII9JD8Geh4jTCrK/Xe6cg5UevoleMcoJQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@typescript-eslint/types@8.71.0':
+    resolution: {integrity: sha512-cJ4OoxPGWvFnBTnSZyaU+qJzGTqPTGJY+gDchj6cRyLRdmIdt4rcsE4twj+zPfrNiWuVi38wijHzShL++Z9atQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   '@typescript-eslint/typescript-estree@8.70.0':
     resolution: {integrity: sha512-d9NmHMPEKQ7QCLLm1jI3zmoQBwT5KwFYjXBJ9ymZfKCUU+5rmTRykKAFvH5Qn/ZCds3CEAFS9OC9M/jkl0X2bA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '>=4.8.4 <6.1.0'
+
+  '@typescript-eslint/typescript-estree@8.71.0':
+    resolution: {integrity: sha512-PEEF4G5sLLWAS5BpPrUvms4ySZkiBQQZM4z+3ReI46axK5Vqr/vXBQatJQIZZOYdGyPUAKTtsrWzpqKuU+3DEw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
@@ -6417,8 +6455,19 @@ packages:
       eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
       typescript: '>=4.8.4 <6.1.0'
 
+  '@typescript-eslint/utils@8.71.0':
+    resolution: {integrity: sha512-pKR/tEMVrXZG23UFKUn5BQf3zfmfk7KQceI2cGzywZ5nxM5Eu3hEJU1utjWzydtzBbcJAQhHN8iPCxobHpPcZQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+      typescript: '>=4.8.4 <6.1.0'
+
   '@typescript-eslint/visitor-keys@8.70.0':
     resolution: {integrity: sha512-BoC8PiO4Hkdo0TVJh9Ntxr5MxPDI7/oFsrygN5ADelFSeXG/qgNuucIGA+L5Z6JpPTE/uRfcTWtscjbUaufepQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/visitor-keys@8.71.0':
+    resolution: {integrity: sha512-8eQ9R218XORK+KLosnf4bu/QsUXvUyVwTbArg7/0NMB1Pu87OJKvj4nhFblkYE8gQV73mW1dx1ptlPCkwRGa7A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typescript/typescript-aix-ppc64@7.0.2':
@@ -10454,8 +10503,8 @@ packages:
     resolution: {integrity: sha512-mnkeQ1qP5Ue2wd+aivTD3NHd/lZ96Lu0jgf0pwktLPtx6cTZiH7tyeGRRHs0zX0rbrahXPnXlUnbeXyaBBuIaw==}
     engines: {node: '>=18'}
 
-  open@11.0.2:
-    resolution: {integrity: sha512-RWqF+pBSkqecEvCKOn8QYhaNdRMJDZRIrlS/7rTDdLHaPcfXGCZ/h8zb413NfvdeAV0MR7T1yJcA34/q+CSm1Q==}
+  open@11.0.4:
+    resolution: {integrity: sha512-++Zlftm0kVLPmzC06t6epuWmcRMDbI4z5P3NNX979WA/k23+NtSOynEGzsVfZwguKw2mi5umVgnBlJQMwRz4Pg==}
     engines: {node: '>=20'}
 
   openapi-fetch@0.17.0:
@@ -13271,15 +13320,23 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@argos-ci/api-client@0.31.1(supports-color@10.2.2)':
+    dependencies:
+      debug: 4.4.3(supports-color@10.2.2)
+      openapi-fetch: 0.17.0
+      p-retry: 8.0.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@argos-ci/browser@6.4.5': {}
 
-  '@argos-ci/cli@6.9.2(@types/node@26.6.1)(supports-color@10.2.2)':
+  '@argos-ci/cli@6.9.5(@types/node@26.6.1)(supports-color@10.2.2)':
     dependencies:
-      '@argos-ci/api-client': 0.31.0(supports-color@10.2.2)
-      '@argos-ci/core': 6.8.3(@types/node@26.6.1)(supports-color@10.2.2)
+      '@argos-ci/api-client': 0.31.1(supports-color@10.2.2)
+      '@argos-ci/core': 6.8.6(@types/node@26.6.1)(supports-color@10.2.2)
       '@vercel/detect-agent': 1.2.5
       commander: 15.0.0
-      open: 11.0.2
+      open: 11.0.4
       ora: 9.4.1
     transitivePeerDependencies:
       - '@types/node'
@@ -13289,6 +13346,21 @@ snapshots:
     dependencies:
       '@argos-ci/api-client': 0.31.0(supports-color@10.2.2)
       '@argos-ci/util': 4.2.0
+      convict: 6.2.5
+      debug: 4.4.3(supports-color@10.2.2)
+      fast-glob: 3.3.3
+      mime-types: 3.0.2
+      p-retry: 8.0.1
+      sharp: 0.35.4(@types/node@26.6.1)
+      tmp: 0.2.7
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+
+  '@argos-ci/core@6.8.6(@types/node@26.6.1)(supports-color@10.2.2)':
+    dependencies:
+      '@argos-ci/api-client': 0.31.1(supports-color@10.2.2)
+      '@argos-ci/util': 4.2.1
       convict: 6.2.5
       debug: 4.4.3(supports-color@10.2.2)
       fast-glob: 3.3.3
@@ -13312,6 +13384,8 @@ snapshots:
       - supports-color
 
   '@argos-ci/util@4.2.0': {}
+
+  '@argos-ci/util@4.2.1': {}
 
   '@asamuzakjp/css-color@7.0.0':
     dependencies:
@@ -16481,13 +16555,13 @@ snapshots:
 
   '@rsdoctor/client@1.6.3': {}
 
-  '@rsdoctor/core@1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
+  '@rsdoctor/core@1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.8)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
     dependencies:
       '@rsbuild/plugin-check-syntax': 1.6.1
-      '@rsdoctor/graph': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/sdk': 1.6.3(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/utils': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/graph': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/sdk': 1.6.3(@rspack/core@2.2.8)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/utils': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
       '@rspack/resolver': 0.2.8(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)
       browserslist-load-config: 1.0.3
       es-toolkit: 1.52.0
@@ -16505,10 +16579,10 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@rsdoctor/graph@1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
+  '@rsdoctor/graph@1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
     dependencies:
-      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/utils': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/utils': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
       es-toolkit: 1.52.0
       path-browserify: 1.0.1
       source-map: 0.7.6
@@ -16516,15 +16590,15 @@ snapshots:
       - '@rspack/core'
       - webpack
 
-  '@rsdoctor/rspack-plugin@1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
+  '@rsdoctor/rspack-plugin@1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.8)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
     dependencies:
-      '@rsdoctor/core': 1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/graph': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/sdk': 1.6.3(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/utils': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/core': 1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.8)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/graph': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/sdk': 1.6.3(@rspack/core@2.2.8)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/utils': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
     optionalDependencies:
-      '@rspack/core': 2.2.3
+      '@rspack/core': 2.2.8
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -16534,12 +16608,12 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@rsdoctor/sdk@1.6.3(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
+  '@rsdoctor/sdk@1.6.3(@rspack/core@2.2.8)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
     dependencies:
       '@rsdoctor/client': 1.6.3
-      '@rsdoctor/graph': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/utils': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/graph': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/utils': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
       launch-editor: 2.14.1
       safer-buffer: 2.1.2
       socket.io: 4.8.1(supports-color@10.2.2)
@@ -16551,20 +16625,20 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@rsdoctor/types@1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
+  '@rsdoctor/types@1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
     dependencies:
       '@types/connect': 3.4.38
       '@types/estree': 1.0.5
       '@types/tapable': 2.3.0
       source-map: 0.7.6
     optionalDependencies:
-      '@rspack/core': 2.2.3
+      '@rspack/core': 2.2.8
       webpack: 5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)
 
-  '@rsdoctor/utils@1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
+  '@rsdoctor/utils@1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
     dependencies:
       '@babel/code-frame': 7.26.2
-      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
       '@types/estree': 1.0.5
       acorn: 8.18.0
       acorn-import-attributes: 1.9.5(acorn@8.18.0)
@@ -16582,13 +16656,13 @@ snapshots:
       - '@rspack/core'
       - webpack
 
-  '@rsdoctor/webpack-plugin@1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
+  '@rsdoctor/webpack-plugin@1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.8)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))':
     dependencies:
-      '@rsdoctor/core': 1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/graph': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/sdk': 1.6.3(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      '@rsdoctor/utils': 1.6.3(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/core': 1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.8)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/graph': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/sdk': 1.6.3(@rspack/core@2.2.8)(supports-color@10.2.2)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/types': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
+      '@rsdoctor/utils': 1.6.3(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
       webpack: 5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)
     transitivePeerDependencies:
       - '@emnapi/core'
@@ -16599,81 +16673,81 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@rspack/binding-darwin-arm64@2.2.3':
+  '@rspack/binding-darwin-arm64@2.2.8':
     optional: true
 
-  '@rspack/binding-darwin-x64@2.2.3':
+  '@rspack/binding-darwin-x64@2.2.8':
     optional: true
 
-  '@rspack/binding-linux-arm64-gnu@2.2.3':
+  '@rspack/binding-linux-arm64-gnu@2.2.8':
     optional: true
 
-  '@rspack/binding-linux-arm64-musl@2.2.3':
+  '@rspack/binding-linux-arm64-musl@2.2.8':
     optional: true
 
-  '@rspack/binding-linux-ppc64-gnu@2.2.3':
+  '@rspack/binding-linux-ppc64-gnu@2.2.8':
     optional: true
 
-  '@rspack/binding-linux-riscv64-gnu@2.2.3':
+  '@rspack/binding-linux-riscv64-gnu@2.2.8':
     optional: true
 
-  '@rspack/binding-linux-riscv64-musl@2.2.3':
+  '@rspack/binding-linux-riscv64-musl@2.2.8':
     optional: true
 
-  '@rspack/binding-linux-s390x-gnu@2.2.3':
+  '@rspack/binding-linux-s390x-gnu@2.2.8':
     optional: true
 
-  '@rspack/binding-linux-x64-gnu@2.2.3':
+  '@rspack/binding-linux-x64-gnu@2.2.8':
     optional: true
 
-  '@rspack/binding-linux-x64-musl@2.2.3':
+  '@rspack/binding-linux-x64-musl@2.2.8':
     optional: true
 
-  '@rspack/binding-wasm32-wasi@2.2.3':
+  '@rspack/binding-wasm32-wasi@2.2.8':
     dependencies:
       '@emnapi/core': 1.11.3
       '@emnapi/runtime': 1.11.3
       '@napi-rs/wasm-runtime': 1.1.6(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)
     optional: true
 
-  '@rspack/binding-win32-arm64-msvc@2.2.3':
+  '@rspack/binding-win32-arm64-msvc@2.2.8':
     optional: true
 
-  '@rspack/binding-win32-ia32-msvc@2.2.3':
+  '@rspack/binding-win32-ia32-msvc@2.2.8':
     optional: true
 
-  '@rspack/binding-win32-x64-msvc@2.2.3':
+  '@rspack/binding-win32-x64-msvc@2.2.8':
     optional: true
 
-  '@rspack/binding@2.2.3':
+  '@rspack/binding@2.2.8':
     optionalDependencies:
-      '@rspack/binding-darwin-arm64': 2.2.3
-      '@rspack/binding-darwin-x64': 2.2.3
-      '@rspack/binding-linux-arm64-gnu': 2.2.3
-      '@rspack/binding-linux-arm64-musl': 2.2.3
-      '@rspack/binding-linux-ppc64-gnu': 2.2.3
-      '@rspack/binding-linux-riscv64-gnu': 2.2.3
-      '@rspack/binding-linux-riscv64-musl': 2.2.3
-      '@rspack/binding-linux-s390x-gnu': 2.2.3
-      '@rspack/binding-linux-x64-gnu': 2.2.3
-      '@rspack/binding-linux-x64-musl': 2.2.3
-      '@rspack/binding-wasm32-wasi': 2.2.3
-      '@rspack/binding-win32-arm64-msvc': 2.2.3
-      '@rspack/binding-win32-ia32-msvc': 2.2.3
-      '@rspack/binding-win32-x64-msvc': 2.2.3
+      '@rspack/binding-darwin-arm64': 2.2.8
+      '@rspack/binding-darwin-x64': 2.2.8
+      '@rspack/binding-linux-arm64-gnu': 2.2.8
+      '@rspack/binding-linux-arm64-musl': 2.2.8
+      '@rspack/binding-linux-ppc64-gnu': 2.2.8
+      '@rspack/binding-linux-riscv64-gnu': 2.2.8
+      '@rspack/binding-linux-riscv64-musl': 2.2.8
+      '@rspack/binding-linux-s390x-gnu': 2.2.8
+      '@rspack/binding-linux-x64-gnu': 2.2.8
+      '@rspack/binding-linux-x64-musl': 2.2.8
+      '@rspack/binding-wasm32-wasi': 2.2.8
+      '@rspack/binding-win32-arm64-msvc': 2.2.8
+      '@rspack/binding-win32-ia32-msvc': 2.2.8
+      '@rspack/binding-win32-x64-msvc': 2.2.8
 
-  '@rspack/core@2.2.3':
+  '@rspack/core@2.2.8':
     dependencies:
-      '@rspack/binding': 2.2.3
+      '@rspack/binding': 2.2.8
 
-  '@rspack/dev-middleware@2.0.4(@rspack/core@2.2.3)':
+  '@rspack/dev-middleware@2.0.4(@rspack/core@2.2.8)':
     optionalDependencies:
-      '@rspack/core': 2.2.3
+      '@rspack/core': 2.2.8
 
-  '@rspack/dev-server@2.2.1(@rspack/core@2.2.3)(selfsigned@5.5.0)':
+  '@rspack/dev-server@2.2.1(@rspack/core@2.2.8)(selfsigned@5.5.0)':
     dependencies:
-      '@rspack/core': 2.2.3
-      '@rspack/dev-middleware': 2.0.4(@rspack/core@2.2.3)
+      '@rspack/core': 2.2.8
+      '@rspack/dev-middleware': 2.0.4(@rspack/core@2.2.8)
     optionalDependencies:
       selfsigned: 5.5.0
 
@@ -17492,8 +17566,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.70.0(@typescript/typescript6@6.0.2)(supports-color@10.2.2)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.70.0(@typescript/typescript6@6.0.2)
-      '@typescript-eslint/types': 8.70.0
+      '@typescript-eslint/tsconfig-utils': 8.71.0(@typescript/typescript6@6.0.2)
+      '@typescript-eslint/types': 8.71.0
       debug: 4.4.3(supports-color@10.2.2)
       typescript: '@typescript/typescript6@6.0.2'
     transitivePeerDependencies:
@@ -17501,8 +17575,26 @@ snapshots:
 
   '@typescript-eslint/project-service@8.70.0(@typescript/typescript6@6.0.2)(supports-color@7.2.0)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.70.0(@typescript/typescript6@6.0.2)
-      '@typescript-eslint/types': 8.70.0
+      '@typescript-eslint/tsconfig-utils': 8.71.0(@typescript/typescript6@6.0.2)
+      '@typescript-eslint/types': 8.71.0
+      debug: 4.4.3(supports-color@7.2.0)
+      typescript: '@typescript/typescript6@6.0.2'
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/project-service@8.71.0(@typescript/typescript6@6.0.2)(supports-color@10.2.2)':
+    dependencies:
+      '@typescript-eslint/tsconfig-utils': 8.71.0(@typescript/typescript6@6.0.2)
+      '@typescript-eslint/types': 8.71.0
+      debug: 4.4.3(supports-color@10.2.2)
+      typescript: '@typescript/typescript6@6.0.2'
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/project-service@8.71.0(@typescript/typescript6@6.0.2)(supports-color@7.2.0)':
+    dependencies:
+      '@typescript-eslint/tsconfig-utils': 8.71.0(@typescript/typescript6@6.0.2)
+      '@typescript-eslint/types': 8.71.0
       debug: 4.4.3(supports-color@7.2.0)
       typescript: '@typescript/typescript6@6.0.2'
     transitivePeerDependencies:
@@ -17527,7 +17619,16 @@ snapshots:
       '@typescript-eslint/types': 8.70.0
       '@typescript-eslint/visitor-keys': 8.70.0
 
+  '@typescript-eslint/scope-manager@8.71.0':
+    dependencies:
+      '@typescript-eslint/types': 8.71.0
+      '@typescript-eslint/visitor-keys': 8.71.0
+
   '@typescript-eslint/tsconfig-utils@8.70.0(@typescript/typescript6@6.0.2)':
+    dependencies:
+      typescript: '@typescript/typescript6@6.0.2'
+
+  '@typescript-eslint/tsconfig-utils@8.71.0(@typescript/typescript6@6.0.2)':
     dependencies:
       typescript: '@typescript/typescript6@6.0.2'
 
@@ -17544,6 +17645,8 @@ snapshots:
       - supports-color
 
   '@typescript-eslint/types@8.70.0': {}
+
+  '@typescript-eslint/types@8.71.0': {}
 
   '@typescript-eslint/typescript-estree@8.70.0(@typescript/typescript6@6.0.2)(supports-color@10.2.2)':
     dependencies:
@@ -17575,6 +17678,36 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/typescript-estree@8.71.0(@typescript/typescript6@6.0.2)(supports-color@10.2.2)':
+    dependencies:
+      '@typescript-eslint/project-service': 8.71.0(@typescript/typescript6@6.0.2)(supports-color@10.2.2)
+      '@typescript-eslint/tsconfig-utils': 8.71.0(@typescript/typescript6@6.0.2)
+      '@typescript-eslint/types': 8.71.0
+      '@typescript-eslint/visitor-keys': 8.71.0
+      debug: 4.4.3(supports-color@10.2.2)
+      minimatch: 10.2.6
+      semver: 7.8.5
+      tinyglobby: 0.2.17
+      ts-api-utils: 2.5.0(@typescript/typescript6@6.0.2)
+      typescript: '@typescript/typescript6@6.0.2'
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/typescript-estree@8.71.0(@typescript/typescript6@6.0.2)(supports-color@7.2.0)':
+    dependencies:
+      '@typescript-eslint/project-service': 8.71.0(@typescript/typescript6@6.0.2)(supports-color@7.2.0)
+      '@typescript-eslint/tsconfig-utils': 8.71.0(@typescript/typescript6@6.0.2)
+      '@typescript-eslint/types': 8.71.0
+      '@typescript-eslint/visitor-keys': 8.71.0
+      debug: 4.4.3(supports-color@7.2.0)
+      minimatch: 10.2.6
+      semver: 7.8.5
+      tinyglobby: 0.2.17
+      ts-api-utils: 2.5.0(@typescript/typescript6@6.0.2)
+      typescript: '@typescript/typescript6@6.0.2'
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/utils@8.70.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)':
     dependencies:
       '@eslint-community/eslint-utils': 4.10.1(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))
@@ -17597,9 +17730,36 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/utils@8.71.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)':
+    dependencies:
+      '@eslint-community/eslint-utils': 4.10.1(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))
+      '@typescript-eslint/scope-manager': 8.71.0
+      '@typescript-eslint/types': 8.71.0
+      '@typescript-eslint/typescript-estree': 8.71.0(@typescript/typescript6@6.0.2)(supports-color@10.2.2)
+      eslint: 9.39.5(jiti@2.7.0)(supports-color@10.2.2)
+      typescript: '@typescript/typescript6@6.0.2'
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/utils@8.71.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)':
+    dependencies:
+      '@eslint-community/eslint-utils': 4.10.1(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))
+      '@typescript-eslint/scope-manager': 8.71.0
+      '@typescript-eslint/types': 8.71.0
+      '@typescript-eslint/typescript-estree': 8.71.0(@typescript/typescript6@6.0.2)(supports-color@7.2.0)
+      eslint: 9.39.5(jiti@2.7.0)(supports-color@7.2.0)
+      typescript: '@typescript/typescript6@6.0.2'
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/visitor-keys@8.70.0':
     dependencies:
       '@typescript-eslint/types': 8.70.0
+      eslint-visitor-keys: 5.0.1
+
+  '@typescript-eslint/visitor-keys@8.71.0':
+    dependencies:
+      '@typescript-eslint/types': 8.71.0
       eslint-visitor-keys: 5.0.1
 
   '@typescript/typescript-aix-ppc64@7.0.2':
@@ -17688,8 +17848,8 @@ snapshots:
 
   '@vitest/eslint-plugin@1.6.27(@typescript-eslint/eslint-plugin@8.70.0(@typescript-eslint/parser@8.70.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(vitest@5.0.0(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(jsdom@30.1.0)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0)))':
     dependencies:
-      '@typescript-eslint/scope-manager': 8.70.0
-      '@typescript-eslint/utils': 8.70.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)
+      '@typescript-eslint/scope-manager': 8.71.0
+      '@typescript-eslint/utils': 8.71.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)
       eslint: 9.39.5(jiti@2.7.0)(supports-color@7.2.0)
     optionalDependencies:
       '@typescript-eslint/eslint-plugin': 8.70.0(@typescript-eslint/parser@8.70.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)
@@ -18087,12 +18247,12 @@ snapshots:
 
   axobject-query@4.1.0: {}
 
-  babel-loader@10.1.1(@babel/core@7.29.7(supports-color@10.2.2))(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)):
+  babel-loader@10.1.1(@babel/core@7.29.7(supports-color@10.2.2))(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)):
     dependencies:
       '@babel/core': 7.29.7(supports-color@10.2.2)
       find-up: 5.0.0
     optionalDependencies:
-      '@rspack/core': 2.2.3
+      '@rspack/core': 2.2.8
       webpack: 5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)
 
   babel-plugin-dynamic-import-node@2.3.3:
@@ -18866,7 +19026,7 @@ snapshots:
       postcss-selector-parser: 7.1.6
       postcss-value-parser: 4.2.0
 
-  css-loader@7.1.5(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)):
+  css-loader@7.1.5(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)):
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.28)
       postcss: 8.5.28
@@ -18877,7 +19037,7 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.8.5
     optionalDependencies:
-      '@rspack/core': 2.2.3
+      '@rspack/core': 2.2.8
       webpack: 5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)
 
   css-prefers-color-scheme@11.0.1(postcss@8.5.28):
@@ -22649,7 +22809,7 @@ snapshots:
       is-inside-container: 1.0.0
       is-wsl: 3.1.1
 
-  open@11.0.2:
+  open@11.0.4:
     dependencies:
       default-browser: 5.5.1
       define-lazy-prop: 3.0.0
@@ -23211,14 +23371,14 @@ snapshots:
       '@csstools/utilities': 3.0.0(postcss@8.5.28)
       postcss: 8.5.28
 
-  postcss-loader@8.2.1(@rspack/core@2.2.3)(postcss@8.5.28)(typescript@6.0.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)):
+  postcss-loader@8.2.1(@rspack/core@2.2.8)(postcss@8.5.28)(typescript@6.0.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)):
     dependencies:
       cosmiconfig: 9.0.2(typescript@6.0.3)
       jiti: 2.7.0
       postcss: 8.5.28
       semver: 7.8.5
     optionalDependencies:
-      '@rspack/core': 2.2.3
+      '@rspack/core': 2.2.8
       webpack: 5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)
     transitivePeerDependencies:
       - typescript
@@ -25377,7 +25537,7 @@ snapshots:
       http-proxy-middleware: 4.2.0(supports-color@10.2.2)
       ipaddr.js: 2.5.0
       launch-editor: 2.14.1
-      open: 11.0.2
+      open: 11.0.4
       p-retry: 8.0.1
       schema-utils: 4.5.0
       selfsigned: 5.5.0
@@ -25437,14 +25597,14 @@ snapshots:
       - svgo
       - uglify-js
 
-  webpackbar@7.0.0(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)):
+  webpackbar@7.0.0(@rspack/core@2.2.8)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)):
     dependencies:
       ansis: 3.17.0
       consola: 3.4.2
       pretty-time: 1.1.0
       std-env: 3.10.0
     optionalDependencies:
-      '@rspack/core': 2.2.3
+      '@rspack/core': 2.2.8
       webpack: 5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)
 
   whatwg-encoding@3.1.1:
