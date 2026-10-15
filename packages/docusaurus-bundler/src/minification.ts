@@ -46,19 +46,16 @@ const SwcJsMinimizerOptions = {
   },
 } as const satisfies RspackSwcJsMinimizerOptions;
 
-// The env variable keeps its historical name (Terser is not used anymore)
+// Escape hatch to disable or limit the minimizer worker processes
+// For CI environments that don't report their real number of CPUs
 // See https://github.com/webpack/minimizer-webpack-plugin#parallel
-function getMinimizerParallel() {
-  let minimizerParallel: boolean | number = true;
-  if (process.env.TERSER_PARALLEL === 'false') {
-    minimizerParallel = false;
-  } else if (
-    process.env.TERSER_PARALLEL &&
-    parseInt(process.env.TERSER_PARALLEL, 10) > 0
-  ) {
-    minimizerParallel = parseInt(process.env.TERSER_PARALLEL, 10);
+function getMinimizerParallel(): boolean | number {
+  const value = process.env.DOCUSAURUS_BUNDLER_MINIMIZER_PARALLEL;
+  if (value === 'false') {
+    return false;
   }
-  return minimizerParallel;
+  const workers = parseInt(value ?? '', 10);
+  return workers > 0 ? workers : true;
 }
 
 // Minify functions are referenced by module path, so that the plugin's
