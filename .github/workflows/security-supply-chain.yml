@@ -100,6 +100,8 @@ jobs:
           blockExoticSubdeps: true
           strictDepBuilds: true
 
+          # Only needed for published v3 sites (latest dist tag)
+          # TODO remove when v4 is released: v4 sites don't need any
           allowBuilds:
             '@swc/core': false
             core-js: false
