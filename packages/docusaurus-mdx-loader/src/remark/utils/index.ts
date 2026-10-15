@@ -36,7 +36,7 @@ export function assetRequireAttributeValue(
 ): MdxJsxAttributeValueExpression {
   return {
     type: 'mdxJsxAttributeValueExpression',
-    value: `require("${requireString}").default${hash && ` + '${hash}'`}`,
+    value: `require("${requireString}")${hash && ` + '${hash}'`}`,
     data: {
       estree: {
         type: 'Program',
@@ -46,27 +46,18 @@ export function assetRequireAttributeValue(
             expression: {
               type: 'BinaryExpression',
               left: {
-                type: 'MemberExpression',
-                object: {
-                  type: 'CallExpression',
-                  callee: {
-                    type: 'Identifier',
-                    name: 'require',
-                  },
-                  arguments: [
-                    {
-                      type: 'Literal',
-                      value: requireString,
-                      raw: `"${requireString}"`,
-                    },
-                  ],
-                  optional: false,
-                },
-                property: {
+                type: 'CallExpression',
+                callee: {
                   type: 'Identifier',
-                  name: 'default',
+                  name: 'require',
                 },
-                computed: false,
+                arguments: [
+                  {
+                    type: 'Literal',
+                    value: requireString,
+                    raw: `"${requireString}"`,
+                  },
+                ],
                 optional: false,
               },
               operator: '+',

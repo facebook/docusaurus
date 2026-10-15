@@ -47,7 +47,7 @@ Display images using inline CommonJS `require` in JSX image tag:
 
 ```jsx
 <img
-  src={require('./assets/docusaurus-asset-example-banner.png').default}
+  src={require('./assets/docusaurus-asset-example-banner.png')}
   alt="Example banner"
 />
 ```
@@ -91,7 +91,7 @@ In the same way, you can link to existing assets by `require`'ing them and using
 ```md
 # My Markdown page
 
-<a target="\_blank" href={require('./assets/docusaurus-asset-example.docx').default}> Download this docx </a>
+<a target="\_blank" href={require('./assets/docusaurus-asset-example.docx')}> Download this docx </a>
 
 or
 
@@ -100,9 +100,7 @@ or
 
 <BrowserWindow>
 
-<a
-  target="_blank"
-  href={require('../../assets/docusaurus-asset-example.docx').default}>
+<a target="_blank" href={require('../../assets/docusaurus-asset-example.docx')}>
   {'Download this docx'}
 </a>
 

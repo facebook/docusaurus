@@ -12,7 +12,7 @@ import {
   posixPath,
   escapePath,
   findAsyncSequential,
-  getFileLoaderUtils,
+  createAssetRequest,
   parseURLOrPath,
   parseLocalURLPath,
 } from '@docusaurus/utils';
@@ -44,7 +44,6 @@ type Context = {
   siteDir: PluginOptions['siteDir'];
   onBrokenMarkdownImages: OnBrokenMarkdownImagesFunction;
   filePath: string;
-  inlineMarkdownImageFileLoader: string;
 };
 
 function asFunction(
@@ -99,9 +98,11 @@ async function toImageRequireNode(
   const parsedUrl = parseURLOrPath(node.url);
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
-  const requireString = `${context.inlineMarkdownImageFileLoader}${
-    escapePath(relativeImagePath) + search
-  }`;
+  const requireString = createAssetRequest({
+    assetPath: escapePath(relativeImagePath),
+    search,
+    type: 'image',
+  });
   if (node.alt) {
     attributes.push({
       type: 'mdxJsxAttribute',
@@ -243,14 +244,9 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
   const onBrokenMarkdownImages = asFunction(options.onBrokenMarkdownImages);
 
   return async (root, vfile) => {
-    const fileLoaderUtils = getFileLoaderUtils(
-      vfile.data.compilerName === 'server',
-    );
     const context: Context = {
       ...options,
       filePath: vfile.path!,
-      inlineMarkdownImageFileLoader:
-        fileLoaderUtils.loaders.inlineMarkdownImageFileLoader,
       onBrokenMarkdownImages,
     };
 

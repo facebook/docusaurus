@@ -12,7 +12,7 @@ import {
   getCSSExtractPlugin,
   getMinimizers,
 } from '@docusaurus/bundler';
-import {getFileLoaderUtils, md5Hash} from '@docusaurus/utils';
+import {getAssetRuleUtils, md5Hash} from '@docusaurus/utils';
 import {realpath} from '@docusaurus/fs';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
 import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
@@ -84,7 +84,7 @@ export async function createBaseConfig({
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd;
 
-  const fileLoaderUtils = getFileLoaderUtils(isServer);
+  const assetRuleUtils = getAssetRuleUtils(isServer);
 
   const name = isServer ? 'server' : 'client';
   const mode = isProd ? 'production' : 'development';
@@ -256,11 +256,7 @@ export async function createBaseConfig({
     },
     module: {
       rules: [
-        fileLoaderUtils.rules.images(),
-        fileLoaderUtils.rules.svgs(),
-        fileLoaderUtils.rules.fonts(),
-        fileLoaderUtils.rules.media(),
-        fileLoaderUtils.rules.otherAssets(),
+        assetRuleUtils.rules.assets(),
         {
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,

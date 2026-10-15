@@ -73,7 +73,7 @@ describe('transformImage plugin', () => {
     );
     // &#x22; is how remark-mdx serializes " in a double-quoted attribute
     expect(result).toMatchInlineSnapshot(`
-      "<img alt="It's a &#x22;quoted&#x22; & alt" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./../static/img.png").default} title="It's a 'quoted' & title" width="200" height="200" />
+      "<img alt="It's a &#x22;quoted&#x22; & alt" src={require("!./../static/img.png?docusaurus-asset=image")} title="It's a 'quoted' & title" width="200" height="200" />
       "
     `);
   });
