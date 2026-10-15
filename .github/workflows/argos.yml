@@ -53,11 +53,16 @@ jobs:
 
       # Playwright is a dependency of the argos workspace package
       # With the pnpm isolated nodeLinker, its binary isn't available at the root
+      # Installed in the background, concurrently with the website build
       - name: Install Playwright browsers
+        id: playwright-install
         run: pnpm --filter argos exec playwright install --with-deps chromium
+        background: true
 
       - name: Build website for screenshots
         run: pnpm argos:build
+      - name: Wait for Playwright browsers
+        wait: playwright-install
       - name: Take and upload Argos screenshots
         run: pnpm argos:screenshot
 

@@ -34,10 +34,24 @@ jobs:
       - name: Check immutable pnpm-lock.yaml
         run: git diff --exit-code
 
-      - name: Lint
-        run: |
-          echo "::add-matcher::.github/workflows/cspell-problem-matcher.json"
-          pnpm lint:ci
+      - name: Add CSpell problem matcher
+        run: echo "::add-matcher::.github/workflows/cspell-problem-matcher.json"
 
-      - name: Check Formatting
-        run: pnpm format:diff
+      # Independent read-only checks: run them concurrently
+      # A failing check doesn't hide the results of the other ones
+      # See https://github.blog/changelog/2026-06-25-actions-steps-can-now-be-run-in-parallel/
+      - parallel:
+          - name: ESLint
+            run: pnpm lint:js --quiet
+          - name: Stylelint
+            run: pnpm lint:style
+          - name: Spelling
+            run: pnpm lint:spelling
+          - name: Syncpack
+            run: pnpm lint:syncpack
+          - name: Check deduped pnpm-lock.yaml
+            run: pnpm lint:deps
+          - name: Knip
+            run: pnpm lint:knip
+          - name: Check Formatting
+            run: pnpm format:diff
