@@ -77,13 +77,13 @@ jobs:
         if: |
           github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag != 'canary'
         run: |
-          pnpm lerna publish \
+          pnpm lerna version "${{ github.event.inputs.npm_version }}" \
             --force-publish \
-            --exact "${{ github.event.inputs.npm_version }}" \
-            --dist-tag "${{ github.event.inputs.npm_tag }}" \
+            --exact \
             --loglevel verbose \
             --yes \
             --no-push
+          pnpm --recursive publish --tag "${{ github.event.inputs.npm_tag }}" --no-git-checks
           git push origin v"${{ github.event.inputs.npm_version }}"
 
         # TODO should we push the package version local updates to Git?

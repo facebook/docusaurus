@@ -32,7 +32,7 @@ done
 shift $((OPTIND-1))
 
 
-if [ ! -z $EXTRA_OPTS ]
+if [ -n "$EXTRA_OPTS" ]
 then
   echo create-docusaurus extra options = ${EXTRA_OPTS}
 fi
@@ -44,17 +44,17 @@ docker run -d --rm --name "$CONTAINER_NAME" -p 4873:4873 -v "$PWD/admin/verdacci
 # Build packages
 pnpm build:packages
 
-# Publish the monorepo
-npx --no-install lerna publish \
+# Version the monorepo
+# Private init templates are versioned too, create-docusaurus ships them
+npx --no-install lerna version "$NEW_VERSION" \
   --exact \
+  --force-publish \
   --yes \
-  --no-verify-access \
-  --no-git-reset \
   --no-git-tag-version \
-  --no-push \
-  --include-private docusaurus-2-classic-template \
-  --include-private docusaurus-2-classic-typescript-template \
-  --registry "$CUSTOM_REGISTRY_URL" "$NEW_VERSION"
+  --no-push
+
+# Publish the monorepo, private packages are skipped
+pnpm --recursive publish --registry "$CUSTOM_REGISTRY_URL" --no-git-checks
 
 # Revert version changes
 git restore -- '**/package.json' lerna.json pnpm-lock.yaml
