@@ -796,7 +796,7 @@ export default async function createConfigAsync() {
                 to: 'docs/installation',
               },
               {
-                label: 'Migration from v1 to v2',
+                label: 'Upgrading',
                 to: 'docs/migration',
               },
             ],
