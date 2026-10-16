@@ -166,6 +166,28 @@ describe('config warning and error', () => {
   });
 });
 
+describe('ssgTemplate', () => {
+  it('accepts ssgTemplate', () => {
+    expect(normalizeConfig({ssgTemplate: '<html></html>'})).toEqual({
+      ...DEFAULT_CONFIG,
+      ...baseConfig,
+      ssgTemplate: '<html></html>',
+    });
+  });
+
+  it('rejects legacy siteConfig.ssrTemplate', () => {
+    expect(() =>
+      normalizeConfig({
+        // @ts-expect-error: renamed option
+        ssrTemplate: '<html></html>',
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      [Error: The Docusaurus config \`siteConfig.ssrTemplate\` has been renamed to \`siteConfig.ssgTemplate\`. Please rename it in your site config.
+      ]
+    `);
+  });
+});
+
 describe('url', () => {
   it('throws for non-string URLs', () => {
     expect(() =>
