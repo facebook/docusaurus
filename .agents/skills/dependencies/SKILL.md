@@ -11,11 +11,14 @@ description: Add, remove or upgrade npm dependencies in the Docusaurus monorepo.
 - Run `pnpm lint:syncpack`: the same dependency must use the same version range in all packages.
 - Site template dependencies live in `packages/create-docusaurus/templates/`. Never edit `examples/`, it is CLI-generated.
 
-## Dependabot groups
+## Dependency groups
 
-`.github/dependabot.yml` groups packages that must be upgraded atomically in a single PR. Upgrading them separately produces broken intermediate PRs.
+Some packages must always use the same version. They are declared as groups in two places, which must stay in sync:
 
-When you add a dependency, check whether it must stay in sync with other dependencies of the monorepo. It does when, for example:
+- `.github/dependabot.yml` (`groups`): Dependabot upgrades them atomically in a single PR, instead of opening broken intermediate PRs.
+- `.syncpackrc.ts` (`dependencyGroups`): `pnpm lint:syncpack` fails if their versions differ.
+
+Packages belong to a group when, for example:
 
 - One package pins an exact version of the other (`@svgr/webpack` pins `@svgr/core` and `@svgr/plugin-*`).
 - One package has a peer dependency on the exact same version of the other (`@types/react-dom` and `@types/react`).
@@ -23,9 +26,9 @@ When you add a dependency, check whether it must stay in sync with other depende
 - Mixing versions duplicates a singleton package (`react-router` and `react-router-dom`).
 - The packages are released in lockstep and mixing versions breaks typechecking (`typescript-eslint`).
 
-If so, make sure a group of `.github/dependabot.yml` matches the new dependency:
+When you add a dependency, check whether it belongs to a group:
 
-- If an existing group pattern already matches it (`@svgr/*` matches `@svgr/plugin-jsx`), there is nothing to do.
-- Otherwise, add the package to the matching group, or create a new group. Follow the existing groups: one group per family, with a comment explaining why the packages must be upgraded together.
+- If an existing group already matches it (`@svgr/*` matches `@svgr/plugin-jsx`), there is nothing to do.
+- Otherwise, add it to the matching group, or create a new group, in both files. Follow the existing groups: one group per package family, with a comment explaining why the packages must stay in sync.
 
-Do the same when you notice a Dependabot PR that can't pass CI on its own because a related package wasn't upgraded with it.
+Do the same when a Dependabot PR can't pass CI on its own because a related package wasn't upgraded with it.
