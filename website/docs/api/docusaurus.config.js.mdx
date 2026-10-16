@@ -410,7 +410,13 @@ The broken links detection is only available for a production build (`docusaurus
 
 The behavior of Docusaurus when it detects any broken anchor declared with the `Heading` component of Docusaurus.
 
-By default, it prints a warning, to let you know about your broken anchors.
+By default, it throws an error, to ensure you never ship any broken anchor.
+
+:::note
+
+The broken anchors detection is only available for a production build (`docusaurus build`).
+
+:::
 
 ### `onDuplicateRoutes` {/* #onDuplicateRoutes */}
 

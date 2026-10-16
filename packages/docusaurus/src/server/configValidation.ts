@@ -132,7 +132,7 @@ export const DEFAULT_CONFIG: Pick<
   vcs: getVcsPreset('default'),
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
-  onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
+  onBrokenAnchors: 'throw',
   onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
