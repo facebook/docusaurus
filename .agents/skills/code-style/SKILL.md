@@ -39,3 +39,13 @@ async function main() {
 ## Readability over micro-optimizations
 
 Unless the code is on a hot path where performance matters, favor readability over micro-optimizations and clever one-liners. Iterating over a list several times with well-named steps is fine when the list is small.
+
+## Mark retro-compatibility code for removal
+
+Code that only exists for retro-compatibility or to help users migrate must be cleaned up in the next major version. This includes deprecation warnings, `@deprecated` JSDoc tags, Joi `.forbidden()` schemas with a migration error message, `never` types for removed attributes, legacy code paths, escape hatches…
+
+When adding such code, always add a `TODO Docusaurus v<NextVersion>` comment next to it, saying what to clean up. `<NextVersion>` is the major version of `lerna.json` plus one. It makes the code easy to find with a search when we start working on the next set of breaking changes.
+
+```ts
+// TODO Docusaurus v5: remove this migration error
+```

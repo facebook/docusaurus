@@ -304,11 +304,6 @@ const ColorModeSchema = Joi.object({
   respectPrefersColorScheme: Joi.bool().default(
     DEFAULT_COLOR_MODE_CONFIG.respectPrefersColorScheme,
   ),
-  // TODO Docusaurus v5: remove this migration error
-  switchConfig: Joi.any().forbidden().messages({
-    'any.unknown':
-      'colorMode.switchConfig is deprecated. If you want to customize the icons for light and dark mode, swizzle IconLightMode, IconDarkMode, or ColorModeToggle instead.',
-  }),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
 const HtmlMetadataSchema = Joi.object({
@@ -357,17 +352,6 @@ const LogoSchema = Joi.object({
 const PrismLanguage = Joi.string().custom((val) => val.toLowerCase());
 
 export const ThemeConfigSchema = Joi.object<ThemeConfig>({
-  // TODO Docusaurus v5: remove this migration error
-  // @ts-expect-error: forbidden
-  disableDarkMode: Joi.any().forbidden().messages({
-    'any.unknown':
-      'disableDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.disableSwitch = true',
-  }),
-  // TODO Docusaurus v5: remove this migration error
-  defaultDarkMode: Joi.any().forbidden().messages({
-    'any.unknown':
-      'defaultDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.defaultMode = "dark"',
-  }),
   colorMode: ColorModeSchema,
   image: Joi.string(),
   docs: DocsSchema,
@@ -375,13 +359,6 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
   metadata: Joi.array()
     .items(HtmlMetadataSchema)
     .default(DEFAULT_CONFIG.metadata),
-  // TODO Docusaurus v5: remove this migration error
-  // cSpell:ignore metadatas
-  metadatas: Joi.any().forbidden().messages({
-    'any.unknown':
-      // cSpell:ignore metadatas
-      'themeConfig.metadatas has been renamed as themeConfig.metadata. See https://github.com/facebook/docusaurus/pull/5871',
-  }),
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
     content: Joi.string().required(),
@@ -392,11 +369,6 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
   navbar: Joi.object({
     style: Joi.string().equal('dark', 'primary'),
     hideOnScroll: Joi.bool().default(DEFAULT_CONFIG.navbar.hideOnScroll),
-    // TODO Docusaurus v5: remove this migration error
-    links: Joi.any().forbidden().messages({
-      'any.unknown':
-        'themeConfig.navbar.links has been renamed as themeConfig.navbar.items',
-    }),
     items: Joi.array()
       .items(NavbarItemSchema)
       .default(DEFAULT_CONFIG.navbar.items),
@@ -444,19 +416,6 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
   })
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
-  // TODO Docusaurus v5: remove these migration errors
-  hideableSidebar: Joi.forbidden().messages({
-    'any.unknown':
-      'themeConfig.hideableSidebar has been moved to themeConfig.docs.sidebar.hideable.',
-  }),
-  autoCollapseSidebarCategories: Joi.forbidden().messages({
-    'any.unknown':
-      'themeConfig.autoCollapseSidebarCategories has been moved to themeConfig.docs.sidebar.autoCollapseCategories.',
-  }),
-  sidebarCollapsible: Joi.forbidden().messages({
-    'any.unknown':
-      'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
-  }),
   tableOfContents: Joi.object({
     minHeadingLevel: Joi.number()
       .default(DEFAULT_CONFIG.tableOfContents.minHeadingLevel)

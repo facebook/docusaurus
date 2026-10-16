@@ -48,11 +48,6 @@ export const AdmonitionsSchema = JoiFrontMatter.alternatives()
         // .required(),
       ),
       extendDefaults: JoiFrontMatter.boolean(),
-
-      // TODO Docusaurus v5: remove this migration error
-      tag: Joi.any().forbidden().messages({
-        'any.unknown': `It is not possible anymore to use a custom admonition tag. The only admonition tag supported is ':::' (Markdown Directive syntax)`,
-      }),
     }).required(),
   )
   .default(true)
