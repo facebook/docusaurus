@@ -13,7 +13,7 @@ import {
   createCodeBlockMetadata,
   useCodeWordWrap,
 } from '@docusaurus/theme-common/internal';
-import type {Props} from '@theme/CodeBlock/Content/String';
+import type {Props} from '@theme/CodeBlock/String';
 import CodeBlockLayout from '@theme/CodeBlock/Layout';
 
 function useCodeBlockMetadata(props: Props): CodeBlockMetadata {
@@ -30,7 +30,6 @@ function useCodeBlockMetadata(props: Props): CodeBlockMetadata {
   });
 }
 
-// TODO Docusaurus v4: move this component at the root?
 export default function CodeBlockString(props: Props): ReactNode {
   const metadata = useCodeBlockMetadata(props);
   const wordWrap = useCodeWordWrap();

@@ -241,7 +241,6 @@ renderable
 REPONAME
 Retrocompatibility
 retrocompatibility
-Retrocompatible
 retrocompatible
 rmiz
 RSDOCTOR
