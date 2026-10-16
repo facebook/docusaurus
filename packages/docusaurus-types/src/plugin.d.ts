@@ -211,7 +211,11 @@ export type PluginModule<Content = unknown> = {
   validateOptions?: <T, U>(data: OptionValidationContext<T, U>) => U;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
 
-  getSwizzleComponentList?: () => string[] | undefined; // TODO deprecate this one later
+  // TODO Docusaurus v5: remove the deprecated getSwizzleComponentList() API
+  /**
+   * @deprecated Use `getSwizzleConfig` instead.
+   */
+  getSwizzleComponentList?: () => string[] | undefined;
   getSwizzleConfig?: () => SwizzleConfig | undefined;
 };
 
