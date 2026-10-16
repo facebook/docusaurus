@@ -55,7 +55,7 @@ The main CLI commands available
 - `pnpm build:packages` - Build all monorepo packages
 - `pnpm watch` - Incremental build of monorepo packages with file watchers
 - `pnpm format` - Format code with oxfmt
-- `pnpm lint` - Run all the lint checks that CI runs (ESLint + Stylelint + spell check + Syncpack + dedupe check + Knip + formatting check)
+- `pnpm lint` - Run all the lint checks that CI runs (ESLint + Stylelint + spell check + Syncpack + catalogs check + dedupe check + Knip + formatting check)
 - `pnpm dedupe` - Deduplicate `pnpm-lock.yaml` dependencies, run it after any lockfile change
 - `pnpm test` - Run all tests using Vitest
 - `pnpm clear` - Clean all build artifacts and caches
@@ -87,7 +87,8 @@ Update Vitest failing snapshots with the `-u` option. Do not blindly update snap
 - `pnpm lint:js` - ESLint for JS/TS files
 - `pnpm lint:style` - Stylelint for CSS files
 - `pnpm lint:spelling` - CSpell for spell checking
-- `pnpm lint:syncpack` - Syncpack to check consistent dependency versions across packages
+- `pnpm lint:syncpack` - Syncpack to check that dependencies use the pnpm catalogs
+- `pnpm lint:catalogs` - Check the content of the pnpm catalogs
 - `pnpm lint:knip` - Knip to find unused files, exports and dependencies (config in `knip.config.ts`)
 - `pnpm lint:deps` - Check that `pnpm-lock.yaml` is deduplicated (`pnpm dedupe --check`)
 - Add `:fix` suffix to auto-fix issues (e.g., `pnpm lint:js:fix`)
