@@ -46,6 +46,7 @@ function formatDirectiveName(directive: Directives) {
 
 // Helpful hints for directives that used to be supported by Docusaurus
 const removedContainerDirectiveHints: {[name: string]: string} = {
+  // TODO Docusaurus v5: remove this migration hint
   caution:
     'the :::caution admonition has been removed in Docusaurus v4, use :::warning instead',
   secondary:

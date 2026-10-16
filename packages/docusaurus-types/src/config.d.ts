@@ -372,6 +372,7 @@ export type DocusaurusConfig = {
    * @default true
    */
   baseUrlIssueBanner: boolean;
+  // TODO Docusaurus v5: remove Webpack and Babel support
   /**
    * Docusaurus uses Rspack by default.
    * When provided, Docusaurus uses Webpack and Babel instead.
@@ -394,6 +395,7 @@ export type Config = Overwrite<
     url: DocusaurusConfig['url'];
     baseUrl: DocusaurusConfig['baseUrl'];
     vcs?: VcsPreset | VcsConfig | boolean;
+    // TODO Docusaurus v5: remove Webpack and Babel support
     /**
      * Docusaurus uses Rspack by default.
      * Use `true` or an object to use Webpack and Babel instead.

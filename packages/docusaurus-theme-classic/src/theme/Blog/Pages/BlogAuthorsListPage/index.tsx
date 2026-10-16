@@ -47,11 +47,7 @@ export default function BlogAuthorsListPage({
 }: Props): ReactNode {
   const title: string = translateBlogAuthorsListPageTitle();
   return (
-    <HtmlClassNameProvider
-      className={clsx(
-        ThemeClassNames.wrapper.blogPages,
-        ThemeClassNames.page.blogAuthorsListPage,
-      )}>
+    <HtmlClassNameProvider className={ThemeClassNames.page.blogAuthorsListPage}>
       <PageMetadata title={title} />
       <SearchMetadata tag="blog_authors_list" />
       <BlogLayout sidebar={sidebar}>
