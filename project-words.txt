@@ -81,6 +81,7 @@ Endilie
 endilie
 endiliey
 ERRNAMETOOLONG
+etlua
 externalwaiting
 failfast
 Fienny
@@ -310,7 +311,6 @@ Triaging
 triaging
 TSES
 twoslash
-typesafe
 Typesense
 typesense
 Udeadbeefcafe

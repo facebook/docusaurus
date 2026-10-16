@@ -44,7 +44,7 @@ export {
   useDocSidebarItemsExpandedState,
 } from './docSidebarItemsExpandedState';
 
-export {DocsVersionProvider, useDocsVersion} from './docsVersion';
+export {useDocsVersion} from './docsVersion';
 
 export {DocsSidebarProvider, useDocsSidebar} from './docsSidebar';
 

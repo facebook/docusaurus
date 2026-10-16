@@ -30,9 +30,7 @@ export type WebpackConfig = {
    * Babel loader and preset; otherwise, you can provide your custom Webpack
    * rule set.
    */
-  // TODO Docusaurus v4
-  //  Use an object type ({isServer}) so that it conforms to jsLoaderFactory
-  jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule);
+  jsLoader?: 'babel' | ((options: {isServer: boolean}) => RuleSetRule);
 };
 
 // VCS (Version Control System) info about a given change, e.g., a git commit.

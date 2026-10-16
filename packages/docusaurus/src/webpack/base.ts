@@ -6,9 +6,9 @@
  */
 
 import path from 'node:path';
-import {getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {
   createJsLoaderFactory,
+  getBrowserslistQueries,
   getCSSExtractPlugin,
   getMinimizers,
 } from '@docusaurus/bundler';
@@ -95,7 +95,7 @@ export async function createBaseConfig({
 
   const themeAliases = await loadThemeAliases({siteDir, plugins});
 
-  const createJsLoader = await createJsLoaderFactory({siteConfig});
+  const createJsLoader = await createJsLoaderFactory({siteDir, siteConfig});
 
   const CSSExtractPlugin = await getCSSExtractPlugin({
     currentBundler: props.currentBundler,
@@ -112,9 +112,12 @@ export async function createBaseConfig({
     // Because Webpack does not evict the cache on alias/swizzle changes,
     // See https://github.com/webpack/webpack/issues/13627
     const themeAliasesHash = md5Hash(JSON.stringify(themeAliases));
+    // Loader and minimizer options are not part of the cache key
+    // Changing the Browserslist config must evict the cache
+    const browserslistHash = md5Hash(JSON.stringify(getBrowserslistQueries()));
     // Asset module parser options are not part of the cache key
     // Changing the asset inline max size must evict the cache
-    return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}-${ASSET_INLINE_MAX_SIZE}`;
+    return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}-${browserslistHash}-${ASSET_INLINE_MAX_SIZE}`;
   }
 
   // When one of those modules/dependencies change (including transitive
@@ -277,12 +280,7 @@ export async function createBaseConfig({
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           with: notTextImport,
-          use: [
-            createJsLoader({
-              isServer,
-              babelOptions: await getCustomBabelConfigFilePath(siteDir),
-            }),
-          ],
+          use: [createJsLoader({isServer})],
         },
         {
           test: CSS_REGEX,

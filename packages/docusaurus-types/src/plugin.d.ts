@@ -59,12 +59,7 @@ export type ConfigureWebpackUtils = {
     isServer: boolean,
     cssOptions: {[key: string]: unknown},
   ) => RuleSetRule[];
-  getJSLoader: (options: {
-    isServer: boolean;
-    // TODO Docusaurus v4 remove?
-    //  not ideal because JS Loader might not use Babel...
-    babelOptions?: string | {[key: string]: unknown};
-  }) => RuleSetRule;
+  getJSLoader: (options: {isServer: boolean}) => RuleSetRule;
 };
 
 export type AllContent = {

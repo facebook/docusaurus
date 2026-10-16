@@ -129,6 +129,7 @@ const config: KnipConfig = {
         'infima',
         // Knip doesn't detect imports in "declare module" blocks
         '@docusaurus/mdx-loader',
+        'utility-types',
       ],
     }),
     'packages/docusaurus-theme-live-codeblock': themePackageConfig(),
