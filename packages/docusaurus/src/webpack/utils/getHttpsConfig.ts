@@ -156,12 +156,14 @@ You only provided a ${cert ? 'certificate' : 'key'} (with ${fileProvided.source}
   }
 }
 
+export type HttpsConfig = boolean | {cert: Buffer; key: Buffer};
+
 // Get the https config
 // Return cert files if provided via CLI or env, otherwise just true or false.
 // CLI options take precedence over env vars.
 export default async function getHttpsConfig(
   options: Partial<HttpsConfigOptions> = {},
-): Promise<boolean | {cert: Buffer; key: Buffer}> {
+): Promise<HttpsConfig> {
   const cwd = await realpath(process.cwd());
 
   const [cert, key] = await Promise.all([
