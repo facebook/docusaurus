@@ -84,10 +84,10 @@ export function validateThemeConfig({themeConfig, validate}) {
 
 ### TypeScript types {/* #validateThemeConfig-types */}
 
-The `@docusaurus/theme-common` package declares the theme config types with 2 interfaces: `ThemeConfig` after validation and normalization, and `UserThemeConfig` as written in `docusaurus.config.js`. Your theme can add its own fields to them with TypeScript [declaration merging](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation):
+The `@docusaurus/types` package declares the theme config types with 2 interfaces: `ThemeConfig` after validation and normalization, and `UserThemeConfig` as written in `docusaurus.config.js`. Your theme can add its own fields to them with TypeScript [declaration merging](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation):
 
 ```ts title="my-theme/src/index.ts"
-declare module '@docusaurus/theme-common' {
+declare module '@docusaurus/types' {
   interface ThemeConfig {
     myTheme: {position: 'top' | 'bottom'};
   }
@@ -97,4 +97,4 @@ declare module '@docusaurus/theme-common' {
 }
 ```
 
-Once your theme types are loaded, `useThemeConfig().myTheme` is typed, and site authors get autocompletion for `myTheme` in their `themeConfig` with `satisfies Preset.ThemeConfig`.
+Once your theme types are loaded, [`useThemeConfig()`](../../docusaurus-core.mdx#useThemeConfig) returns a typed `myTheme` field, and site authors get autocompletion for `myTheme` in their `themeConfig`.

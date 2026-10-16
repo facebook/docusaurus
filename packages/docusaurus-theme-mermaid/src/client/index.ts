@@ -6,7 +6,8 @@
  */
 
 import {useState, useEffect, useMemo, useId, useRef} from 'react';
-import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
+import useThemeConfig from '@docusaurus/useThemeConfig';
+import {useColorMode} from '@docusaurus/theme-common';
 import {loadMermaid} from './loadMermaid';
 
 import type {RenderResult, MermaidConfig} from 'mermaid';

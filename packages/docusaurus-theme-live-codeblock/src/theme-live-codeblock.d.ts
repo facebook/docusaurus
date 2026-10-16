@@ -19,10 +19,10 @@ declare module '@docusaurus/theme-live-codeblock' {
     liveCodeBlock: ThemeConfigLiveCodeBlock;
   };
 
-  // Adds the theme config fields to the @docusaurus/theme-common interfaces
+  // Adds the theme config fields to the @docusaurus/types interfaces
   // Their names intentionally shadow the ThemeConfig types of this module
   /* eslint-disable @typescript-eslint/no-shadow */
-  module '@docusaurus/theme-common' {
+  module '@docusaurus/types' {
     interface ThemeConfig {
       liveCodeBlock: ThemeConfigLiveCodeBlock;
     }

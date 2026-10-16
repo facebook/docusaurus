@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useCoreThemeConfig from '@docusaurus/useThemeConfig';
 import type {PrismTheme} from 'prism-react-renderer';
 import type {DeepPartial} from 'utility-types';
+import type {ThemeConfig, UserThemeConfig} from '@docusaurus/types';
 import type {MagicCommentConfig} from './codeBlockUtils';
 import type {ColorMode} from '../contexts/colorMode';
 
@@ -135,32 +136,17 @@ export type ClassicThemeConfig = {
   tableOfContents: TableOfContents;
 };
 
-/**
- * Theme config, after validation/normalization.
- *
- * Other themes and plugins can add their own fields with declaration merging:
- *
- * ```ts
- * declare module '@docusaurus/theme-common' {
- *   interface ThemeConfig {
- *     myTheme: {option: string};
- *   }
- * }
- * ```
- */
-export interface ThemeConfig extends ClassicThemeConfig {}
+// Adds the classic theme fields to the @docusaurus/types interfaces
+declare module '@docusaurus/types' {
+  interface ThemeConfig extends ClassicThemeConfig {}
+  interface UserThemeConfig extends DeepPartial<ClassicThemeConfig> {}
+}
+
+export type {ThemeConfig, UserThemeConfig};
 
 /**
- * User-provided theme config, unnormalized.
- *
- * Other themes and plugins can add their own fields with declaration merging,
- * like for {@link ThemeConfig}.
- */
-export interface UserThemeConfig extends DeepPartial<ClassicThemeConfig> {}
-
-/**
- * A convenient/more semantic way to get theme config from context.
+ * Same as the `@docusaurus/useThemeConfig` hook of Docusaurus core.
  */
 export function useThemeConfig(): ThemeConfig {
-  return useDocusaurusContext().siteConfig.themeConfig as ThemeConfig;
+  return useCoreThemeConfig();
 }

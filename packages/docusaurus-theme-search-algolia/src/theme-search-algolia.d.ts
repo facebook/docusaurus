@@ -79,10 +79,10 @@ declare module '@docusaurus/theme-search-algolia' {
     algolia?: UserThemeConfigAlgolia;
   };
 
-  // Adds the theme config fields to the @docusaurus/theme-common interfaces
+  // Adds the theme config fields to the @docusaurus/types interfaces
   // Their names intentionally shadow the ThemeConfig types of this module
   /* eslint-disable @typescript-eslint/no-shadow */
-  module '@docusaurus/theme-common' {
+  module '@docusaurus/types' {
     interface ThemeConfig {
       // Optional: the classic preset only enables this theme when the
       // "algolia" field is provided

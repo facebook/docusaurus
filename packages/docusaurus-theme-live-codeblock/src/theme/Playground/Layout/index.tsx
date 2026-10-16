@@ -6,7 +6,7 @@
  */
 
 import type {ReactNode} from 'react';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import useThemeConfig from '@docusaurus/useThemeConfig';
 import PlaygroundPreview from '@theme/Playground/Preview';
 import PlaygroundEditor from '@theme/Playground/Editor';
 import type {Props} from '@theme/Playground/Layout';
