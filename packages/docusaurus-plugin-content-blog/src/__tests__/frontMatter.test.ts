@@ -140,17 +140,30 @@ describe('validateBlogPostFrontMatter id', () => {
   });
 });
 
-describe('validateBlogPostFrontMatter handles legacy/new author front matter', () => {
-  it('allow legacy author front matter', () => {
-    const frontMatter: BlogPostFrontMatter = {
-      author: 'Sebastien',
-      author_url: 'https://sebastienlorber.com',
-      author_title: 'maintainer',
-      author_image_url: 'https://github.com/slorber.png',
-    };
-    expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
+describe('validateBlogPostFrontMatter legacy author front matter', () => {
+  it('rejects legacy author front matter', () => {
+    expect(() =>
+      validateBlogPostFrontMatter({author: 'Sébastien Lorber'}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "author" blog post front matter is not supported anymore. Use the "authors" front matter instead, with an inline author object (with name, title, url and imageURL attributes) or an author key declared in the authors map file (authors.yml).]`,
+    );
   });
 
+  it.each([
+    'author_title',
+    'authorTitle',
+    'author_url',
+    'authorURL',
+    'author_image_url',
+    'authorImageURL',
+  ])('rejects legacy %s front matter', (key) => {
+    expect(() => validateBlogPostFrontMatter({[key]: 'value'})).toThrow(
+      `"${key}" blog post front matter is not supported anymore.`,
+    );
+  });
+});
+
+describe('validateBlogPostFrontMatter new authors front matter', () => {
   it('allow new authors front matter', () => {
     const frontMatter: BlogPostFrontMatter = {
       authors: [
@@ -160,96 +173,6 @@ describe('validateBlogPostFrontMatter handles legacy/new author front matter', (
       ],
     };
     expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
-  });
-});
-
-describe('validateBlogPostFrontMatter author', () => {
-  testField({
-    prefix: 'author',
-    validFrontMatters: [{author: '123'}, {author: 'author'}],
-    invalidFrontMatters: [[{author: ''}, 'not allowed to be empty']],
-  });
-});
-
-describe('validateBlogPostFrontMatter author_title', () => {
-  testField({
-    prefix: 'author_title',
-    validFrontMatters: [
-      {author: '123', author_title: '123'},
-      {author: '123', author_title: 'author_title'},
-    ],
-    invalidFrontMatters: [[{author_title: ''}, 'not allowed to be empty']],
-  });
-
-  testField({
-    prefix: 'authorTitle',
-    validFrontMatters: [{authorTitle: '123'}, {authorTitle: 'authorTitle'}],
-    invalidFrontMatters: [[{authorTitle: ''}, 'not allowed to be empty']],
-  });
-});
-
-describe('validateBlogPostFrontMatter author_url', () => {
-  testField({
-    prefix: 'author_url',
-    validFrontMatters: [
-      {author_url: 'https://docusaurus.io'},
-      {author_url: '../../relative'},
-      {author_url: '/absolute'},
-    ],
-    invalidFrontMatters: [
-      [
-        {author_url: ''},
-        '"author_url" does not look like a valid url (value=\'\')',
-      ],
-    ],
-  });
-
-  testField({
-    prefix: 'authorURL',
-    validFrontMatters: [
-      {authorURL: 'https://docusaurus.io'},
-      {authorURL: '../../relative'},
-      {authorURL: '/absolute'},
-    ],
-
-    invalidFrontMatters: [
-      [
-        {authorURL: ''},
-        '"authorURL" does not look like a valid url (value=\'\')',
-      ],
-    ],
-  });
-});
-
-describe('validateBlogPostFrontMatter author_image_url', () => {
-  testField({
-    prefix: 'author_image_url',
-    validFrontMatters: [
-      {author_image_url: 'https://docusaurus.io/asset/image.png'},
-      {author_image_url: '../../relative'},
-      {author_image_url: '/absolute'},
-    ],
-    invalidFrontMatters: [
-      [
-        {author_image_url: ''},
-        '"author_image_url" does not look like a valid url (value=\'\')',
-      ],
-    ],
-  });
-
-  testField({
-    prefix: 'authorImageURL',
-    validFrontMatters: [
-      {authorImageURL: 'https://docusaurus.io/asset/image.png'},
-      {authorImageURL: '../../relative'},
-      {authorImageURL: '/absolute'},
-    ],
-    invalidFrontMatters: [
-      [
-        {authorImageURL: ''},
-        '"authorImageURL" does not look like a valid url (value=\'\')',
-      ],
-    ],
   });
 });
 

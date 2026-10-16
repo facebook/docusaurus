@@ -1506,6 +1506,12 @@ importers:
       '@docusaurus/module-type-aliases':
         specifier: workspace:*
         version: link:../docusaurus-module-type-aliases
+      '@svgr/plugin-jsx':
+        specifier: ^8.1.0
+        version: 8.1.0(@svgr/core@8.1.0(supports-color@10.2.2)(typescript@6.0.3))(supports-color@10.2.2)
+      '@svgr/plugin-svgo':
+        specifier: ^8.1.0
+        version: 8.1.0(@svgr/core@8.1.0(supports-color@10.2.2)(typescript@6.0.3))(typescript@6.0.3)
 
   packages/docusaurus-plugin-vercel-analytics:
     dependencies:

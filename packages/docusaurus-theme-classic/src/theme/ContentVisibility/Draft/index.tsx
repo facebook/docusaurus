@@ -18,7 +18,7 @@ import type {Props} from '@theme/ContentVisibility/Draft';
 export default function Draft({className}: Props): ReactNode {
   return (
     <Admonition
-      type="caution"
+      type="warning"
       title={<DraftBannerTitle />}
       className={clsx(className, ThemeClassNames.common.draftBanner)}>
       <DraftBannerMessage />

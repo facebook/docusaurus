@@ -57,40 +57,7 @@ function normalizeAuthorUrl({
   return normalizeImageUrl({imageURL: author.imageURL, baseUrl});
 }
 
-// Legacy v1/early-v2 front matter fields
-// We may want to deprecate those in favor of using only frontMatter.authors
-// TODO Docusaurus v4: remove this legacy front matter
-function getFrontMatterAuthorLegacy({
-  baseUrl,
-  frontMatter,
-}: {
-  baseUrl: string;
-  frontMatter: BlogPostFrontMatter;
-}): Author | undefined {
-  const name = frontMatter.author;
-  const title = frontMatter.author_title ?? frontMatter.authorTitle;
-  const url = frontMatter.author_url ?? frontMatter.authorURL;
-  const imageURL = normalizeImageUrl({
-    imageURL: frontMatter.author_image_url ?? frontMatter.authorImageURL,
-    baseUrl,
-  });
-
-  if (name || title || url || imageURL) {
-    return {
-      name,
-      title,
-      url,
-      imageURL,
-      // legacy front matter authors do not have an author key/page
-      key: null,
-      page: null,
-    };
-  }
-
-  return undefined;
-}
-
-function getFrontMatterAuthors(params: AuthorsParam): Author[] {
+export function getBlogPostAuthors(params: AuthorsParam): Author[] {
   const {authorsMap, frontMatter, baseUrl} = params;
   return normalizeFrontMatterAuthors().map(toAuthor);
 
@@ -153,25 +120,6 @@ ${Object.keys(authorsMap)
       imageURL: normalizeAuthorUrl({author, baseUrl}),
     };
   }
-}
-
-export function getBlogPostAuthors(params: AuthorsParam): Author[] {
-  const authorLegacy = getFrontMatterAuthorLegacy(params);
-  const authors = getFrontMatterAuthors(params);
-
-  if (authorLegacy) {
-    // Technically, we could allow mixing legacy/authors front matter, but do we
-    // really want to?
-    if (authors.length > 0) {
-      throw new Error(
-        `To declare blog post authors, use the 'authors' front matter in priority.
-Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time.`,
-      );
-    }
-    return [authorLegacy];
-  }
-
-  return authors;
 }
 
 /**

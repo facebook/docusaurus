@@ -173,6 +173,12 @@ import DocusaurusSvg from './docusaurus.svg';
   <DocusaurusSvg className="themedDocusaurus" />
 </BrowserWindow>
 
+:::note
+
+SVG ids are [prefixed](../../api/plugins/plugin-svgr.mdx#default-config) to avoid clashes between inline SVGs. Prefer targeting SVG elements with attribute selectors or class names.
+
+:::
+
 ## Themed Images {/* #themed-images */}
 
 Docusaurus supports themed images: the `ThemedImage` component (included in the themes) allows you to switch the image source based on the current theme.

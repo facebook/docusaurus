@@ -8,7 +8,7 @@
 import type {ReactNode} from 'react';
 import type {Props} from '@theme/Admonition/Icon/Warning';
 
-export default function AdmonitionIconCaution(props: Props): ReactNode {
+export default function AdmonitionIconWarning(props: Props): ReactNode {
   return (
     <svg viewBox="0 0 16 16" {...props}>
       <path
