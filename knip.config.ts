@@ -118,10 +118,6 @@ const config: KnipConfig = {
     'packages/docusaurus-plugin-pwa': themePackageConfig({
       entry: ['src/registerSw.ts', 'src/sw.ts'],
     }),
-    'packages/docusaurus-plugin-svgr': {
-      // TODO: used for types, see options.ts
-      ignoreDependencies: ['@svgr/core'],
-    },
     'packages/docusaurus-plugin-vercel-analytics': {
       entry: ['src/analytics.ts'],
     },

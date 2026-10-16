@@ -10,13 +10,17 @@ import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Options} from './options';
 
 export default function pluginSVGR(
-  _context: LoadContext,
+  context: LoadContext,
   options: PluginOptions,
 ): Plugin {
   return {
     name: 'docusaurus-plugin-svgr',
     configureWebpack: (config, isServer) => {
-      enhanceConfig(config, {isServer, svgrConfig: options.svgrConfig});
+      enhanceConfig(config, {
+        siteDir: context.siteDir,
+        isServer,
+        svgrConfig: options.svgrConfig,
+      });
     },
   };
 }
