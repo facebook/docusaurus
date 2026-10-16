@@ -105,6 +105,23 @@ export default {
       pinVersion: 'workspace:*',
     },
 
-    // Default: all remaining dependencies — highest version wins (syncpack default)
+    {
+      label:
+        "Templates can't use catalogs, lintCatalogs.js checks their versions against the catalogs",
+      packages: [
+        'docusaurus-2-classic-template',
+        'docusaurus-2-classic-typescript-template',
+      ],
+      isIgnored: true,
+    },
+
+    {
+      // Runtime dependencies use the default catalog ("catalog:")
+      // Dev-only dependencies use the dev catalog ("catalog:dev")
+      // lintCatalogs.js checks the catalogs content
+      label: 'All the other dependencies must use a pnpm catalog',
+      dependencyTypes: ['prod', 'dev', 'peer'],
+      policy: 'catalog',
+    },
   ],
 } satisfies RcFile;

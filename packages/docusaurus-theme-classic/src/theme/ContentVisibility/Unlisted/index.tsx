@@ -27,7 +27,7 @@ function UnlistedMetadata(): ReactNode {
 function UnlistedBanner({className}: Props) {
   return (
     <Admonition
-      type="caution"
+      type="warning"
       title={<UnlistedBannerTitle />}
       className={clsx(className, ThemeClassNames.common.unlistedBanner)}>
       <UnlistedBannerMessage />

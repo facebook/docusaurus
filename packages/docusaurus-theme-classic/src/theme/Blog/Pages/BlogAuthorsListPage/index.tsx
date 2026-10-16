@@ -12,7 +12,7 @@ import {
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
-import {translateBlogAuthorsListPageTitle} from '@docusaurus/theme-common/internal';
+import {translateBlogAuthorsListPageTitle} from '@docusaurus/plugin-content-blog/client';
 import BlogLayout from '@theme/BlogLayout';
 import type {Props} from '@theme/Blog/Pages/BlogAuthorsListPage';
 import SearchMetadata from '@theme/SearchMetadata';

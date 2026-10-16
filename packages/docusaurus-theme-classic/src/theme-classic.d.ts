@@ -78,16 +78,6 @@ declare module '@theme/Admonition/Type/Tip' {
   export default function AdmonitionTypeTip(props: Props): ReactNode;
 }
 
-// TODO remove before v4: Caution replaced by Warning
-// see https://github.com/facebook/docusaurus/issues/7558
-declare module '@theme/Admonition/Type/Caution' {
-  import type {ReactNode} from 'react';
-  import type {Props as AdmonitionProps} from '@theme/Admonition';
-
-  export interface Props extends AdmonitionProps {}
-  export default function AdmonitionTypeCaution(props: Props): ReactNode;
-}
-
 declare module '@theme/Admonition/Type/Warning' {
   import type {ReactNode} from 'react';
   import type {Props as AdmonitionProps} from '@theme/Admonition';
@@ -517,16 +507,16 @@ declare module '@theme/CodeBlock/Content' {
   export default function CodeBlockContent(props: Props): ReactNode;
 }
 
-declare module '@theme/CodeBlock/Content/Element' {
+declare module '@theme/CodeBlock/Element' {
   import type {ReactNode} from 'react';
   import type {Props} from '@theme/CodeBlock';
 
   export type {Props};
 
-  export default function CodeBlockContentElement(props: Props): ReactNode;
+  export default function CodeBlockElement(props: Props): ReactNode;
 }
 
-declare module '@theme/CodeBlock/Content/String' {
+declare module '@theme/CodeBlock/String' {
   import type {ReactNode} from 'react';
   import type {Props as CodeBlockProps} from '@theme/CodeBlock';
 
@@ -534,7 +524,7 @@ declare module '@theme/CodeBlock/Content/String' {
     readonly children: string;
   }
 
-  export default function CodeBlockContentString(props: Props): ReactNode;
+  export default function CodeBlockString(props: Props): ReactNode;
 }
 
 declare module '@theme/CodeBlock/Line' {

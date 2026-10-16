@@ -8,7 +8,6 @@
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {normalizeUrl} from './urlUtils';
-import type {Optional} from 'utility-types';
 
 export type Tag = {
   /** The display label of a tag */
@@ -51,8 +50,6 @@ export type TagModule = TagsListItem & {
   unlisted: boolean;
 };
 
-export type FrontMatterTag = string | Optional<Tag, 'description'>;
-
 // We always apply tagsBaseRoutePath on purpose. For versioned docs, v1/doc.md
 // and v2/doc.md tags with custom permalinks don't lead to the same created
 // page. tagsBaseRoutePath is different for each doc version
@@ -68,30 +65,16 @@ function normalizeTagPermalink({
 
 function normalizeInlineTag(
   tagsBaseRoutePath: string,
-  frontMatterTag: FrontMatterTag,
+  tag: string,
 ): TagMetadata {
-  function toTagObject(tagString: string): TagMetadata {
-    return {
-      inline: true,
-      label: tagString,
-      permalink: _.kebabCase(tagString),
-      description: undefined,
-    };
-  }
-
-  const tag: Tag =
-    typeof frontMatterTag === 'string'
-      ? toTagObject(frontMatterTag)
-      : {...frontMatterTag, description: frontMatterTag.description};
-
   return {
     inline: true,
-    label: tag.label,
+    label: tag,
     permalink: normalizeTagPermalink({
-      permalink: tag.permalink,
+      permalink: _.kebabCase(tag),
       tagsBaseRoutePath,
     }),
-    description: tag.description,
+    description: undefined,
   };
 }
 
@@ -100,26 +83,23 @@ export function normalizeTag({
   tagsFile,
   tagsBaseRoutePath,
 }: {
-  tag: FrontMatterTag;
+  tag: string;
   tagsBaseRoutePath: string;
   tagsFile: TagsFile | null;
 }): TagMetadata {
-  if (typeof tag === 'string') {
-    const tagDescription = tagsFile?.[tag];
-    if (tagDescription) {
-      // pre-defined tag from tags.yml
-      return {
-        inline: false,
-        label: tagDescription.label,
-        permalink: normalizeTagPermalink({
-          permalink: tagDescription.permalink,
-          tagsBaseRoutePath,
-        }),
-        description: tagDescription.description,
-      };
-    }
+  const tagDescription = tagsFile?.[tag];
+  if (tagDescription) {
+    // pre-defined tag from tags.yml
+    return {
+      inline: false,
+      label: tagDescription.label,
+      permalink: normalizeTagPermalink({
+        permalink: tagDescription.permalink,
+        tagsBaseRoutePath,
+      }),
+      description: tagDescription.description,
+    };
   }
-  // legacy inline tag object, always inline, unknown because isn't a string
   return normalizeInlineTag(tagsBaseRoutePath, tag);
 }
 
@@ -132,7 +112,7 @@ export function normalizeTags({
 }: {
   options: TagsPluginOptions;
   source: string;
-  frontMatterTags: FrontMatterTag[] | undefined;
+  frontMatterTags: string[] | undefined;
   tagsBaseRoutePath: string;
   tagsFile: TagsFile | null;
 }): TagMetadata[] {

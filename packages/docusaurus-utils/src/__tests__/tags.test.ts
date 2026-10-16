@@ -12,14 +12,14 @@ import {
   getTagVisibility,
 } from '@docusaurus/utils';
 import {normalizeTag} from '../tags';
-import type {TagMetadata, FrontMatterTag, TagsFile} from '../tags';
+import type {TagMetadata, TagsFile} from '../tags';
 
 describe('normalizeTag', () => {
   const tagsBaseRoutePath = '/all/tags';
 
   describe('inline', () => {
     it('normalizes simple string tag', () => {
-      const input: FrontMatterTag = 'tag';
+      const input = 'tag';
       const expectedOutput: TagMetadata = {
         inline: true,
         label: 'tag',
@@ -32,43 +32,11 @@ describe('normalizeTag', () => {
     });
 
     it('normalizes complex string tag', () => {
-      const input: FrontMatterTag = 'some more Complex_tag';
+      const input = 'some more Complex_tag';
       const expectedOutput: TagMetadata = {
         inline: true,
         label: 'some more Complex_tag',
         permalink: `${tagsBaseRoutePath}/some-more-complex-tag`,
-        description: undefined,
-      };
-      expect(
-        normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
-      ).toEqual(expectedOutput);
-    });
-
-    it('normalizes simple object tag', () => {
-      const input: FrontMatterTag = {
-        label: 'tag',
-        permalink: 'tagPermalink',
-      };
-      const expectedOutput: TagMetadata = {
-        inline: true,
-        label: 'tag',
-        permalink: `${tagsBaseRoutePath}/tagPermalink`,
-        description: undefined,
-      };
-      expect(
-        normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
-      ).toEqual(expectedOutput);
-    });
-
-    it('normalizes complex string tag with object tag', () => {
-      const input: FrontMatterTag = {
-        label: 'tag complex Label',
-        permalink: '/MoreComplex/Permalink',
-      };
-      const expectedOutput: TagMetadata = {
-        inline: true,
-        label: 'tag complex Label',
-        permalink: `${tagsBaseRoutePath}/MoreComplex/Permalink`,
         description: undefined,
       };
       expect(
@@ -92,7 +60,7 @@ describe('normalizeTag', () => {
     };
 
     it('normalizes tag1 ref', () => {
-      const input: FrontMatterTag = 'tag1';
+      const input = 'tag1';
       const expectedOutput: TagMetadata = {
         inline: false,
         label: tagsFile.tag1!.label,
@@ -105,7 +73,7 @@ describe('normalizeTag', () => {
     });
 
     it('normalizes tag2 ref', () => {
-      const input: FrontMatterTag = 'tag2';
+      const input = 'tag2';
       const expectedOutput: TagMetadata = {
         inline: false,
         label: tagsFile.tag2!.label,
@@ -118,7 +86,7 @@ describe('normalizeTag', () => {
     });
 
     it('normalizes inline tag not declared in tags file', () => {
-      const input: FrontMatterTag = 'inlineTag';
+      const input = 'inlineTag';
       const expectedOutput: TagMetadata = {
         inline: true,
         label: 'inlineTag',

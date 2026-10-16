@@ -12,7 +12,7 @@ import {
   TagsPageLinkLabel,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
-import {useBlogTagsPostsPageTitle} from '@docusaurus/theme-common/internal';
+import {useBlogTagsPostsPageTitle} from '@docusaurus/plugin-content-blog/client';
 import Link from '@docusaurus/Link';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';

@@ -224,7 +224,7 @@ export default {
 ```
 
 - `type`: The browser storage theme authors should use. Possible values are `localStorage` and `sessionStorage`. Defaults to `localStorage`.
-- `namespace`: Whether to namespace the browser storage keys to avoid storage key conflicts when Docusaurus sites are hosted under the same domain, or on localhost. Possible values are `string | boolean`. The namespace is appended at the end of the storage keys `key-namespace`. Use `true` to automatically generate a random namespace from your site `url + baseUrl`. Defaults to `true`. Use `false` to restore the historical behavior (no namespace).
+- `namespace`: Whether to namespace the browser storage keys to avoid storage key conflicts when Docusaurus sites are hosted under the same domain, or on localhost. Possible values are `string | boolean`. The namespace is appended at the end of the storage keys `key-namespace`. Use `true` to automatically generate a random namespace from your site `url + baseUrl`. Defaults to `true`. Use `false` to disable namespacing.
 
 ### `vcs` {/* #vcs */}
 
@@ -256,8 +256,8 @@ export default {
 The available preset names are:
 
 - `default`: the default (`git-eager` in prod, `hardcoded` in dev)
-- `default-v3`: the historical Docusaurus v3 default (`git-ad-hoc` in prod, `hardcoded` in dev)
-- `git-ad-hoc`: the historical `git log <filename>` based strategy.
+- `default-v3`: the Docusaurus v3 default (`git-ad-hoc` in prod, `hardcoded` in dev)
+- `git-ad-hoc`: the Git strategy that runs `git log <filename>` for each file, which can be slow on large repositories.
 - `git-eager`: the Git strategy that reads your whole repository upfront.
 - `hardcoded`: returns hardcoded value, useful in dev/tests to speed up developer experience.
 - `disabled`: returns `null` for all files, considering them untracked.
@@ -410,7 +410,13 @@ The broken links detection is only available for a production build (`docusaurus
 
 The behavior of Docusaurus when it detects any broken anchor declared with the `Heading` component of Docusaurus.
 
-By default, it prints a warning, to let you know about your broken anchors.
+By default, it throws an error, to ensure you never ship any broken anchor.
+
+:::note
+
+The broken anchors detection is only available for a production build (`docusaurus build`).
+
+:::
 
 ### `onDuplicateRoutes` {/* #onDuplicateRoutes */}
 
@@ -860,7 +866,7 @@ export default {
 };
 ```
 
-### `ssrTemplate` {/* #ssrTemplate */}
+### `ssgTemplate` {/* #ssgTemplate */}
 
 An HTML template written in [Eta's syntax](https://eta.js.org/docs/syntax#syntax-overview) that will be used to render your application. This can be used to set custom attributes on the `body` tags, additional `meta` tags, customize the `viewport`, etc. Please note that Docusaurus will rely on the template to be correctly structured in order to function properly, once you do customize it, you will have to make sure that your template is compliant with the requirements from upstream.
 
@@ -870,7 +876,7 @@ Example:
 
 ```js title="docusaurus.config.js"
 export default {
-  ssrTemplate: `<!DOCTYPE html>
+  ssgTemplate: `<!DOCTYPE html>
 <html <%~ it.htmlAttributes %>>
   <head>
     <meta charset="UTF-8">

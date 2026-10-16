@@ -132,7 +132,7 @@ export const DEFAULT_CONFIG: Pick<
   vcs: getVcsPreset('default'),
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
-  onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
+  onBrokenAnchors: 'throw',
   onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
@@ -319,8 +319,9 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<
   .default(DEFAULT_FUTURE_CONFIG);
 
 // TODO move to @docusaurus/utils-validation
+// TODO Docusaurus v5: remove these never types for removed/renamed options
 export const ConfigSchema = Joi.object<
-  DocusaurusConfig & {onBrokenMarkdownLinks: never}
+  DocusaurusConfig & {onBrokenMarkdownLinks: never; ssrTemplate: never}
 >({
   url: SiteUrlSchema.required(),
   baseUrl: BaseUrlSchema.required(),
@@ -379,7 +380,16 @@ export const ConfigSchema = Joi.object<
         '{#label} is invalid. A script must be a plain string (the src), or an object with at least a "src" property.',
     })
     .default(DEFAULT_CONFIG.scripts),
-  ssrTemplate: Joi.string(),
+  ssgTemplate: Joi.string(),
+  ssrTemplate: Joi.any()
+    .forbidden()
+    .messages({
+      'any.unknown': `The Docusaurus config ${logger.code(
+        'siteConfig.ssrTemplate',
+      )} has been renamed to ${logger.code(
+        'siteConfig.ssgTemplate',
+      )}. Please rename it in your site config.`,
+    }),
   headTags: Joi.array()
     .items(
       Joi.object({

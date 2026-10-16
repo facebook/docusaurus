@@ -11,13 +11,13 @@ import {
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
+import Link from '@docusaurus/Link';
 import {
+  useBlogMetadata,
   useBlogAuthorPageTitle,
   BlogAuthorsListViewAllLabel,
   BlogAuthorNoPostsLabel,
-} from '@docusaurus/theme-common/internal';
-import Link from '@docusaurus/Link';
-import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
+} from '@docusaurus/plugin-content-blog/client';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';

@@ -18,6 +18,7 @@ import {
   RouteBasePathSchema,
   ContentVisibilitySchema,
   FrontMatterLastUpdateSchema,
+  FrontMatterTagsSchema,
 } from '../validationSchemas';
 
 function createTestHelpers({
@@ -111,10 +112,7 @@ describe('validation schemas', () => {
     testFail(3);
     testFail([]);
     testFail({unknownAttribute: 'val'});
-    testFail({tag: ''});
     testFail({keywords: ['custom-keyword'], extendDefaults: 42});
-    testFail({tag: '+++'});
-    testFail({tag: '+++', keywords: ['info', 'tip']});
 
     // Legacy types
     testFail({
@@ -241,5 +239,21 @@ describe('validation schemas', () => {
     testFail([]);
     testFail({author: 23});
     testFail({date: '20-20-20'});
+  });
+
+  it('frontMatterTagsSchema schema', () => {
+    const {testFail, testOK} = createTestHelpers({
+      schema: FrontMatterTagsSchema,
+    });
+
+    testOK(undefined);
+    testOK([]);
+    testOK(['tag1', 'tag 2']);
+    testOK([42, 'tag'], {normalizedValue: ['42', 'tag']});
+
+    testFail('tag');
+    testFail(['']);
+    testFail([true]);
+    testFail([{label: 'Tag', permalink: '/tag'}]);
   });
 });

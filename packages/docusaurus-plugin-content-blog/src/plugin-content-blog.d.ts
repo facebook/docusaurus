@@ -9,7 +9,6 @@
 declare module '@docusaurus/plugin-content-blog' {
   import type {LoadedMDXContent, MDXOptions} from '@docusaurus/mdx-loader';
   import type {
-    FrontMatterTag,
     TagMetadata,
     LastUpdateData,
     FrontMatterLastUpdate,
@@ -170,7 +169,7 @@ declare module '@docusaurus/plugin-content-blog' {
      * Front matter tags, unnormalized.
      * @see {@link BlogPostMetadata.tags}
      */
-    tags?: FrontMatterTag[];
+    tags?: string[];
     /** Custom slug appended after `/<baseUrl>/<routeBasePath>/` */
     slug?: string;
     /**
@@ -193,34 +192,6 @@ declare module '@docusaurus/plugin-content-blog' {
      * @see {@link BlogPostMetadata.authors}
      */
     authors?: BlogPostFrontMatterAuthors;
-    /**
-     * To be deprecated
-     * @see {@link BlogPostFrontMatterAuthor.name}
-     */
-    author?: string;
-    /**
-     * To be deprecated
-     * @see {@link BlogPostFrontMatterAuthor.title}
-     */
-    author_title?: string;
-    /**
-     * To be deprecated
-     * @see {@link BlogPostFrontMatterAuthor.url}
-     */
-    author_url?: string;
-    /**
-     * To be deprecated
-     * @see {@link BlogPostFrontMatterAuthor.imageURL}
-     */
-    author_image_url?: string;
-
-    /** @deprecated v1 legacy */
-    authorTitle?: string;
-    /** @deprecated v1 legacy */
-    authorURL?: string;
-    /** @deprecated v1 legacy */
-    authorImageURL?: string;
-
     /** Used in the head meta. Should use `assets.image` in priority. */
     image?: string;
     /** Used in the head meta. */

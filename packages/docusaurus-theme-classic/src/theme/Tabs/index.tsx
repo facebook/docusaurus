@@ -21,7 +21,7 @@ import type {Props} from '@theme/Tabs';
 import styles from './styles.module.css';
 
 function TabList({className}: {className?: string}) {
-  const {selectedValue, selectValue, tabValues, block} = useTabs();
+  const {selectedValue, selectValue, tabValues} = useTabs();
 
   const tabRefs: (HTMLLIElement | null)[] = [];
   const {blockElementScrollPositionUntilNextRender} =
@@ -72,13 +72,7 @@ function TabList({className}: {className?: string}) {
     <ul
       role="tablist"
       aria-orientation="horizontal"
-      className={clsx(
-        'tabs',
-        {
-          'tabs--block': block,
-        },
-        className,
-      )}>
+      className={clsx('tabs', className)}>
       {tabValues.map(({value, label, attributes}) => (
         <li
           // TODO extract TabListItem

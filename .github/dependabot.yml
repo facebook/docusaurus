@@ -34,6 +34,7 @@ updates:
       semver-minor-days: 8
       semver-patch-days: 8
     # Packages that must be upgraded atomically in a single PR
+    # pnpm lint:catalogs checks that the catalog versions of each group match
     groups:
       # Released in lockstep, mixing versions breaks typechecking
       # See https://github.com/facebook/docusaurus/pull/12634
