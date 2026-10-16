@@ -237,7 +237,6 @@ redwoodjs
 Reloadable
 reloadable
 renderable
-REPONAME
 retrocompatibility
 retrocompatible
 rmiz
