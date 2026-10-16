@@ -27,15 +27,15 @@
     "@docusaurus/utils-common": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
     "lodash": "catalog:",
-    "sitemap": "^9.0.1",
+    "sitemap": "catalog:",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@total-typescript/shoehorn": "catalog:"
+    "@total-typescript/shoehorn": "catalog:dev"
   },
   "peerDependencies": {
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "engines": {
     "node": ">=24.21"

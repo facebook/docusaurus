@@ -56,16 +56,16 @@
     "webpack": "catalog:"
   },
   "devDependencies": {
-    "@total-typescript/shoehorn": "catalog:",
-    "@types/picomatch": "^2.3.4",
+    "@total-typescript/shoehorn": "catalog:dev",
+    "@types/picomatch": "catalog:dev",
     "@types/react-router-dom": "catalog:",
     "commander": "catalog:",
-    "picomatch": "^2.3.2",
-    "react-router-dom": "^5.3.4"
+    "picomatch": "catalog:dev",
+    "react-router-dom": "catalog:"
   },
   "peerDependencies": {
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "engines": {
     "node": ">=24.21"

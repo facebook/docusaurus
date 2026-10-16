@@ -18,18 +18,18 @@
   "license": "MIT",
   "dependencies": {
     "mdast-util-mdx": "catalog:",
-    "npm-to-yarn": "^3.2.0",
+    "npm-to-yarn": "catalog:",
     "tslib": "catalog:",
     "unified": "catalog:",
     "unist-util-visit": "catalog:"
   },
   "devDependencies": {
     "@types/mdast": "catalog:",
-    "@types/unist": "catalog:",
-    "dedent": "catalog:",
-    "remark": "catalog:",
+    "@types/unist": "catalog:dev",
+    "dedent": "catalog:dev",
+    "remark": "catalog:dev",
     "remark-mdx": "catalog:",
-    "to-vfile": "catalog:"
+    "to-vfile": "catalog:dev"
   },
   "engines": {
     "node": ">=24.21"

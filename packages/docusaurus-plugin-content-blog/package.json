@@ -44,29 +44,29 @@
     "@docusaurus/utils-validation": "workspace:*",
     "cheerio": "catalog:",
     "combine-promises": "catalog:",
-    "feed": "^6.0.0",
+    "feed": "catalog:",
     "lodash": "catalog:",
     "schema-dts": "catalog:",
-    "srcset": "^5.0.3",
+    "srcset": "catalog:",
     "tslib": "catalog:",
     "unist-util-visit": "catalog:",
     "utility-types": "catalog:",
     "webpack": "catalog:"
   },
   "peerDependencies": {
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "engines": {
     "node": ">=24.21"
   },
   "devDependencies": {
     "@mdx-js/mdx": "catalog:",
-    "@total-typescript/shoehorn": "catalog:",
+    "@total-typescript/shoehorn": "catalog:dev",
     "@types/mdast": "catalog:",
     "remark-gfm": "catalog:",
-    "to-vfile": "catalog:",
-    "tree-node-cli": "catalog:",
+    "to-vfile": "catalog:dev",
+    "tree-node-cli": "catalog:dev",
     "unified": "catalog:"
   }
 }

@@ -18,17 +18,17 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@11ty/gray-matter": "^3.0.0",
+    "@11ty/gray-matter": "catalog:",
     "@docusaurus/fs": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "execa": "catalog:",
-    "github-slugger": "^2.0.0",
+    "github-slugger": "catalog:",
     "jiti": "catalog:",
     "js-yaml": "catalog:",
     "lodash": "catalog:",
     "p-queue": "catalog:",
-    "resolve-pathname": "^3.0.0",
+    "resolve-pathname": "catalog:",
     "tslib": "catalog:",
     "webpack": "catalog:"
   },
@@ -36,7 +36,7 @@
     "node": ">=24.21"
   },
   "devDependencies": {
-    "@types/react-dom": "^19.3.0",
-    "dedent": "catalog:"
+    "@types/react-dom": "catalog:",
+    "dedent": "catalog:dev"
   }
 }

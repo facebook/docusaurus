@@ -8,25 +8,34 @@ description: Add, remove or upgrade npm dependencies in the Docusaurus monorepo.
 ## Lockfile
 
 - Run `pnpm dedupe` after any lockfile change. CI fails if `pnpm-lock.yaml` is not deduplicated (`pnpm lint:deps`).
-- Run `pnpm lint:syncpack`: the same dependency must use the same version range in all packages.
 - Site template dependencies live in `packages/create-docusaurus/templates/`. Never edit `examples/`, it is CLI-generated.
 
-## Catalog
+## Catalogs
 
-Dependencies shared by several monorepo packages use the [pnpm catalog](https://pnpm.io/catalogs): their version is declared once in the `catalog` of `pnpm-workspace.yaml`, and packages reference it with `"catalog:"`. When a dependency becomes shared, move it to the catalog.
+All the monorepo dependencies are declared in the [pnpm catalogs](https://pnpm.io/catalogs) of `pnpm-workspace.yaml`. Packages reference them with the catalog protocol instead of a version range:
 
-These dependencies keep explicit version ranges instead:
+- `"catalog:"`: the default catalog, for dependencies used at runtime by at least one package (`dependencies`, `optionalDependencies` or `peerDependencies`).
+- `"catalog:dev"`: the dev catalog, for dependencies only used as `devDependencies`.
 
-- Dependency group members (see below): syncpack doesn't compare versions across catalog entries.
-- Dependencies of the site templates (`packages/create-docusaurus/templates/`), copied to user sites, and of pnpm `overrides`: syncpack compares their versions with the other packages.
-- `peerDependencies`.
+To add a dependency, add its version to the right catalog, keep the catalog sorted, and reference it with the catalog protocol. Move a dev catalog entry to the default catalog as soon as a package uses it at runtime.
+
+Exceptions, keeping explicit versions:
+
+- The site templates, copied to user sites. Their versions must match the catalogs.
+- pnpm `overrides`. Their versions must match the catalogs.
+- Peer dependencies whose range intentionally differs from the catalog (see the ignored version groups of `.syncpackrc.ts`).
+
+Two checks enforce it:
+
+- `pnpm lint:syncpack`: dependencies must use a catalog.
+- `pnpm lint:catalogs` (`admin/scripts/lintCatalogs.js`): catalog entries are in the right catalog, templates and overrides match the catalogs, and dependency group members use the same version.
 
 ## Dependency groups
 
-Some packages must always use the same version. They are declared as groups in two places, which must stay in sync:
+Some packages must always use the same version. They are declared as `groups` in `.github/dependabot.yml`:
 
-- `.github/dependabot.yml` (`groups`): Dependabot upgrades them atomically in a single PR, instead of opening broken intermediate PRs.
-- `.syncpackrc.ts` (`dependencyGroups`): `pnpm lint:syncpack` fails if their versions differ.
+- Dependabot upgrades them atomically in a single PR, instead of opening broken intermediate PRs.
+- `pnpm lint:catalogs` fails if their catalog versions differ.
 
 Packages belong to a group when, for example:
 
@@ -39,6 +48,6 @@ Packages belong to a group when, for example:
 When you add a dependency, check whether it belongs to a group:
 
 - If an existing group already matches it (`@svgr/*` matches `@svgr/plugin-jsx`), there is nothing to do.
-- Otherwise, add it to the matching group, or create a new group, in both files. Follow the existing groups: one group per package family, with a comment explaining why the packages must stay in sync.
+- Otherwise, add it to the matching group, or create a new group. Follow the existing groups: one group per package family, with a comment explaining why the packages must stay in sync.
 
 Do the same when a Dependabot PR can't pass CI on its own because a related package wasn't upgraded with it.

@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/logger": "workspace:*",
-    "sharp": "^0.35.1",
+    "sharp": "catalog:",
     "tslib": "catalog:"
   },
   "engines": {

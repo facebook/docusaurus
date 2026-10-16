@@ -32,29 +32,29 @@
     "@docusaurus/utils": "workspace:*",
     "@docusaurus/utils-common": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
-    "@mdx-js/react": "^3.1.1",
-    "clsx": "^2.1.1",
+    "@mdx-js/react": "catalog:",
+    "clsx": "catalog:",
     "copy-text-to-clipboard": "catalog:",
-    "infima": "0.2.0-alpha.45",
+    "infima": "catalog:",
     "lodash": "catalog:",
-    "nprogress": "^0.2.0",
+    "nprogress": "catalog:",
     "postcss": "catalog:",
-    "prism-react-renderer": "^2.4.1",
+    "prism-react-renderer": "catalog:",
     "prismjs": "catalog:",
-    "react-router-dom": "^5.3.4",
-    "rtlcss": "^4.3.0",
+    "react-router-dom": "catalog:",
+    "rtlcss": "catalog:",
     "tslib": "catalog:",
     "utility-types": "catalog:"
   },
   "devDependencies": {
-    "@types/nprogress": "^0.2.3",
-    "@types/prismjs": "catalog:",
+    "@types/nprogress": "catalog:dev",
+    "@types/prismjs": "catalog:dev",
     "@types/react-router-dom": "catalog:",
-    "@types/rtlcss": "^3.5.4"
+    "@types/rtlcss": "catalog:dev"
   },
   "peerDependencies": {
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "engines": {
     "node": ">=24.21"

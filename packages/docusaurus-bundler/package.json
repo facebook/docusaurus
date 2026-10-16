@@ -24,26 +24,26 @@
     "@docusaurus/types": "workspace:*",
     "@rspack/core": "catalog:",
     "@rspack/dev-server": "catalog:",
-    "@swc/html": "^1.16.2",
-    "babel-loader": "^10.1.1",
-    "browserslist": "^4.29.0",
-    "css-loader": "^7.1.5",
-    "lightningcss": "^1.33.0",
-    "mini-css-extract-plugin": "^2.10.2",
-    "minimizer-webpack-plugin": "^5.13.0",
+    "@swc/html": "catalog:",
+    "babel-loader": "catalog:",
+    "browserslist": "catalog:",
+    "css-loader": "catalog:",
+    "lightningcss": "catalog:",
+    "mini-css-extract-plugin": "catalog:",
+    "minimizer-webpack-plugin": "catalog:",
     "postcss": "catalog:",
-    "postcss-loader": "^8.2.1",
-    "postcss-preset-env": "^11.5.2",
+    "postcss-loader": "catalog:",
+    "postcss-preset-env": "catalog:",
     "semver": "catalog:",
     "tslib": "catalog:",
     "webpack": "catalog:",
-    "webpackbar": "^7.0.0"
+    "webpackbar": "catalog:"
   },
   "devDependencies": {
-    "@swc/core": "^1.16.2"
+    "@swc/core": "catalog:"
   },
   "peerDependencies": {
-    "@swc/core": "^1.16.2"
+    "@swc/core": "catalog:"
   },
   "peerDependenciesMeta": {
     "@swc/core": {

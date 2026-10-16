@@ -22,12 +22,12 @@
   "dependencies": {
     "@docusaurus/core": "workspace:*",
     "@docusaurus/lqip-loader": "workspace:*",
-    "@docusaurus/responsive-loader": "^1.7.1",
+    "@docusaurus/responsive-loader": "catalog:",
     "@docusaurus/theme-translations": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "@docusaurus/utils": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
-    "sharp": "^0.35.1",
+    "sharp": "catalog:",
     "tslib": "catalog:",
     "webpack": "catalog:"
   },
@@ -35,9 +35,9 @@
     "@docusaurus/module-type-aliases": "workspace:*"
   },
   "peerDependencies": {
-    "jimp": "^1.6.1",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "jimp": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "peerDependenciesMeta": {
     "jimp": {

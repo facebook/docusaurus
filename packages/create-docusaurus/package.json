@@ -25,13 +25,13 @@
     "@docusaurus/fs": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "commander": "catalog:",
-    "cross-spawn": "^7.0.6",
+    "cross-spawn": "catalog:",
     "prompts": "catalog:",
     "semver": "catalog:",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@types/cross-spawn": "^6.0.6"
+    "@types/cross-spawn": "catalog:dev"
   },
   "engines": {
     "node": ">=24.21"
