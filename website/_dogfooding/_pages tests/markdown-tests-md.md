@@ -72,6 +72,12 @@ note
 
 :::
 
+:::tip[**Rich** title with `code`, a [link](/docs/markdown-features/admonitions), <b>HTML</b> and :smile:]
+
+The rich title should be rendered in the admonition heading, like in MDX mode
+
+:::
+
 ## Details
 
 <details>
