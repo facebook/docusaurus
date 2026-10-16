@@ -96,6 +96,7 @@ Update Vitest failing snapshots with the `-u` option. Do not blindly update snap
 
 Task-specific instructions live in skills, following the [Agent Skills](https://agentskills.io) format. Read the matching `SKILL.md` before starting one of these tasks:
 
+- [`code-style`](.agents/skills/code-style/SKILL.md) - Write or modify code that humans can easily review
 - [`dependencies`](.agents/skills/dependencies/SKILL.md) - Add, remove or upgrade npm dependencies, keep dependency groups in sync
 - [`pull-requests`](.agents/skills/pull-requests/SKILL.md) - Create, update, check the CI of, or merge a PR (maintainers only)
 
@@ -106,6 +107,7 @@ Docusaurus maintainers work locally with and env variable `DOCUSAURUS_MAINTAINER
 ### General rules
 
 - Always disclose the usage of AI in any communication (commits, PR, comments, issues, etc.) by adding an `(AI-assisted)` text to all messages.
+- Humans review all the code: always write code that is easy to read and review, following the [`code-style` skill](.agents/skills/code-style/SKILL.md).
 
 ### For Docusaurus maintainers
 
