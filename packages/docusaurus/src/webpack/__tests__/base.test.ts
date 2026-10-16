@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {describe, expect, it} from 'vitest';
+import {afterEach, describe, expect, it, vi} from 'vitest';
 import path from 'node:path';
 import _ from 'lodash';
 import {posixPath} from '@docusaurus/utils';
@@ -153,5 +153,31 @@ describe('base webpack config', () => {
       posixPath(path.relative(props.siteDir, a)),
     );
     expect(relativeAliases).toMatchSnapshot();
+  });
+
+  describe('persistent cache', () => {
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
+
+    async function getCacheVersion(browserslistQuery: string) {
+      // Browserslist reads this env variable before any config file
+      vi.stubEnv('BROWSERSLIST', browserslistQuery);
+      const config = await createBaseConfig({
+        props: await createProps(),
+        isServer: false,
+        minify: true,
+        configureWebpackUtils: await createTestConfigureWebpackUtils(),
+      });
+      return (config.cache as {version: string}).version;
+    }
+
+    it('is evicted when the Browserslist queries change', async () => {
+      const oldBrowsersVersion = await getCacheVersion('chrome 90');
+      const baselineVersion = await getCacheVersion(
+        'baseline widely available',
+      );
+      expect(oldBrowsersVersion).not.toBe(baselineVersion);
+    });
   });
 });
