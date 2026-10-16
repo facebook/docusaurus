@@ -78,6 +78,7 @@ If you still want to emit this sitemap tag, use the ${logger.code(
 }
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
+  // TODO Docusaurus v5: remove this migration error
   // @ts-expect-error: forbidden
   cacheTime: Joi.forbidden().messages({
     'any.unknown':
@@ -96,6 +97,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   ignorePatterns: Joi.array()
     .items(Joi.string())
     .default(DEFAULT_OPTIONS.ignorePatterns),
+  // TODO Docusaurus v5: remove this migration error
   trailingSlash: Joi.forbidden().messages({
     'any.unknown':
       'Please use the new Docusaurus global trailingSlash config instead, and the sitemaps plugin will use it.',

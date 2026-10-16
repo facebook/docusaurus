@@ -48,6 +48,7 @@ const optionsSchema = Joi.object<PluginOptions>({
   swRegister: Joi.alternatives()
     .try(Joi.string(), Joi.bool().valid(false))
     .default(DEFAULT_OPTIONS.swRegister),
+  // TODO Docusaurus v5: remove this migration error
   // @ts-expect-error: forbidden
   reloadPopup: Joi.any().forbidden().messages({
     'any.unknown':

@@ -7,6 +7,7 @@
 
 import {useLayoutEffect} from 'react';
 
+// TODO Docusaurus v5: remove this retro-compatible module
 /**
  * This hook is now just React's `useLayoutEffect`.
  *

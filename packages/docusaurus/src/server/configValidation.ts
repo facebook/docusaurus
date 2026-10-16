@@ -277,6 +277,7 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
   return value;
 }).default(() => DEFAULT_CONFIG.vcs);
 
+// TODO Docusaurus v5: remove these never types for removed/renamed options
 const FUTURE_CONFIG_SCHEMA = Joi.object<
   FutureConfig & {
     experimental_storage: never;
@@ -284,6 +285,7 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<
     faster: never;
   }
 >({
+  // TODO Docusaurus v5: remove this migration error
   faster: Joi.any()
     .forbidden()
     .messages({
@@ -296,6 +298,7 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<
   experimental_router: Joi.string()
     .equal('browser', 'hash')
     .default(DEFAULT_FUTURE_CONFIG.experimental_router),
+  // TODO Docusaurus v5: remove this migration error
   experimental_storage: Joi.any()
     .forbidden()
     .messages({
@@ -305,6 +308,7 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<
         'storage',
       )} config attribute. Please move your storage config to the top level.`,
     }),
+  // TODO Docusaurus v5: remove this migration error
   experimental_faster: Joi.any()
     .forbidden()
     .messages({
@@ -339,6 +343,7 @@ export const ConfigSchema = Joi.object<
   onBrokenAnchors: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onBrokenAnchors),
+  // TODO Docusaurus v5: remove this migration error
   onBrokenMarkdownLinks: Joi.any()
     .forbidden()
     .messages({
@@ -381,6 +386,7 @@ export const ConfigSchema = Joi.object<
     })
     .default(DEFAULT_CONFIG.scripts),
   ssgTemplate: Joi.string(),
+  // TODO Docusaurus v5: remove this migration error
   ssrTemplate: Joi.any()
     .forbidden()
     .messages({

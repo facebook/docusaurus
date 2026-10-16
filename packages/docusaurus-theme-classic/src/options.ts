@@ -304,6 +304,7 @@ const ColorModeSchema = Joi.object({
   respectPrefersColorScheme: Joi.bool().default(
     DEFAULT_COLOR_MODE_CONFIG.respectPrefersColorScheme,
   ),
+  // TODO Docusaurus v5: remove this migration error
   switchConfig: Joi.any().forbidden().messages({
     'any.unknown':
       'colorMode.switchConfig is deprecated. If you want to customize the icons for light and dark mode, swizzle IconLightMode, IconDarkMode, or ColorModeToggle instead.',
@@ -356,13 +357,13 @@ const LogoSchema = Joi.object({
 const PrismLanguage = Joi.string().custom((val) => val.toLowerCase());
 
 export const ThemeConfigSchema = Joi.object<ThemeConfig>({
-  // TODO temporary (@alpha-58)
+  // TODO Docusaurus v5: remove this migration error
   // @ts-expect-error: forbidden
   disableDarkMode: Joi.any().forbidden().messages({
     'any.unknown':
       'disableDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.disableSwitch = true',
   }),
-  // TODO temporary (@alpha-58)
+  // TODO Docusaurus v5: remove this migration error
   defaultDarkMode: Joi.any().forbidden().messages({
     'any.unknown':
       'defaultDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.defaultMode = "dark"',
@@ -374,6 +375,7 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
   metadata: Joi.array()
     .items(HtmlMetadataSchema)
     .default(DEFAULT_CONFIG.metadata),
+  // TODO Docusaurus v5: remove this migration error
   // cSpell:ignore metadatas
   metadatas: Joi.any().forbidden().messages({
     'any.unknown':
@@ -390,7 +392,7 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
   navbar: Joi.object({
     style: Joi.string().equal('dark', 'primary'),
     hideOnScroll: Joi.bool().default(DEFAULT_CONFIG.navbar.hideOnScroll),
-    // TODO temporary (@alpha-58)
+    // TODO Docusaurus v5: remove this migration error
     links: Joi.any().forbidden().messages({
       'any.unknown':
         'themeConfig.navbar.links has been renamed as themeConfig.navbar.items',
@@ -442,6 +444,7 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
   })
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
+  // TODO Docusaurus v5: remove these migration errors
   hideableSidebar: Joi.forbidden().messages({
     'any.unknown':
       'themeConfig.hideableSidebar has been moved to themeConfig.docs.sidebar.hideable.',

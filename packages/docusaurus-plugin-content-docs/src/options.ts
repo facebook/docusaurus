@@ -80,6 +80,7 @@ const OptionsSchema = Joi.object<PluginOptions>({
   editLocalizedFiles: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedFiles),
   routeBasePath: RouteBasePathSchema.default(DEFAULT_OPTIONS.routeBasePath),
   tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
+  // TODO Docusaurus v5: remove this migration error
   // @ts-expect-error: deprecated
   homePageId: Joi.any().forbidden().messages({
     'any.unknown':
