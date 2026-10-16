@@ -96,11 +96,18 @@ Update Vitest failing snapshots with the `-u` option. Do not blindly update snap
 - `pnpm lint:js` - ESLint for JS/TS files
 - `pnpm lint:style` - Stylelint for CSS files
 - `pnpm lint:spelling` - CSpell for spell checking
+- `pnpm lint:spelling:sort` - Sort `project-words.txt`, the words CSpell accepts
 - `pnpm lint:syncpack` - Syncpack to check that dependencies use the pnpm catalogs
 - `pnpm lint:catalogs` - Check the content of the pnpm catalogs
 - `pnpm lint:knip` - Knip to find unused files, exports and dependencies (config in `knip.config.ts`)
 - `pnpm lint:deps` - Check that `pnpm-lock.yaml` is deduplicated (`pnpm dedupe --check`)
 - Add `:fix` suffix to auto-fix issues (e.g., `pnpm lint:js:fix`)
+
+To fix CSpell unknown words, don't run `pnpm lint:spelling:fix`: it checks the whole repository and is slow. Instead:
+
+1. Check the files you changed: `pnpm exec cspell --no-progress --show-context <files>`. Ignore files in dot-directories (`.agents/`, `.github/`...): `pnpm lint:spelling` doesn't check them
+2. Fix the typos, and add the other words to `project-words.txt`
+3. Run `pnpm lint:spelling:sort`. Never sort the words another way: CI commits a fix when the order differs
 
 ## Skills
 
