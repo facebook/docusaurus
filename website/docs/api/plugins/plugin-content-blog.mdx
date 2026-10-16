@@ -254,7 +254,7 @@ Accepted fields:
 | `title_meta` | `string` | `frontMatter.title` | The blog post SEO metadata title, used in `<head>` for `<title>` and `og:title`. Permits to override `title` when the displayed title and SEO title should be different. |
 | `sidebar_label` | `string` | `title` | A custom label for the blog sidebar, replacing the default one (`title`). |
 | `date` | `string` | File name or file creation time | The blog post creation date. If not specified, this can be extracted from the file or folder name, e.g, `2021-04-15-blog-post.mdx`, `2021-04-15-blog-post/index.mdx`, `2021/04/15/blog-post.mdx`. Otherwise, it is the Markdown file creation time. |
-| `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. Strings can be a reference to keys of a [tags file](#tags-file) (usually `tags.yml`) |
+| `tags` | `string[]` | `undefined` | A list of tags for your post. Each tag can either reference a key of the [tags file](#tags-file) (usually `tags.yml`), or be an inline tag. Customize a tag's label, permalink and description in the tags file. |
 | `draft` | `boolean` | `false` | Draft blog posts will only be available during development. |
 | `unlisted` | `boolean` | `false` | Unlisted blog posts will be available in both development and production. They will be "hidden" in production, not indexed, excluded from sitemaps, and can only be accessed by users having a direct link. |
 | `hide_table_of_contents` | `boolean` | `false` | Whether to hide the table of contents to the right. |
@@ -272,8 +272,6 @@ Accepted fields:
 
 ```ts
 type FrontMatterLastUpdate = {date?: string; author?: string};
-
-type Tag = string | {label: string; permalink: string};
 
 // An author key references an author from the global plugin authors.yml file
 type AuthorKey = string;

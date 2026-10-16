@@ -55,7 +55,6 @@ export {
   type TagMetadata,
   type TagsListItem,
   type TagModule,
-  type FrontMatterTag,
   type TagsPluginOptions,
   groupTaggedItems,
   getTagVisibility,

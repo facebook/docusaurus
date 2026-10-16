@@ -7,8 +7,7 @@ tags:
   - tag 1
   - globalTag1
   - tag-1
-  - label: tag 2
-    permalink: tag2-custom-permalink
+  - tag 2
 ---
 
 # Baz Markdown title

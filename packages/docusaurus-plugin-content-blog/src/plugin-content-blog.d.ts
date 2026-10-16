@@ -9,7 +9,6 @@
 declare module '@docusaurus/plugin-content-blog' {
   import type {LoadedMDXContent, MDXOptions} from '@docusaurus/mdx-loader';
   import type {
-    FrontMatterTag,
     TagMetadata,
     LastUpdateData,
     FrontMatterLastUpdate,
@@ -170,7 +169,7 @@ declare module '@docusaurus/plugin-content-blog' {
      * Front matter tags, unnormalized.
      * @see {@link BlogPostMetadata.tags}
      */
-    tags?: FrontMatterTag[];
+    tags?: string[];
     /** Custom slug appended after `/<baseUrl>/<routeBasePath>/` */
     slug?: string;
     /**

@@ -12,7 +12,6 @@ declare module '@docusaurus/plugin-content-docs' {
 
   import type {
     ContentPaths,
-    FrontMatterTag,
     TagsListItem,
     TagModule,
     FrontMatterLastUpdate,
@@ -316,7 +315,7 @@ declare module '@docusaurus/plugin-content-docs' {
      * Front matter tags, unnormalized.
      * @see {@link DocMetadata.tags}
      */
-    tags?: FrontMatterTag[];
+    tags?: string[];
     /**
      * If there isn't a Markdown h1 heading (which, if there is, we don't
      * remove), this front matter will cause the front matter title to not be
