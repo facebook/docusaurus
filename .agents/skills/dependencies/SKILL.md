@@ -17,7 +17,12 @@ All the monorepo dependencies are declared in the [pnpm catalogs](https://pnpm.i
 - `"catalog:"`: the default catalog, for dependencies used at runtime by at least one package (`dependencies`, `optionalDependencies` or `peerDependencies`).
 - `"catalog:dev"`: the dev catalog, for dependencies only used as `devDependencies`.
 
-To add a dependency, add its version to the right catalog, keep the catalog sorted, and reference it with the catalog protocol. Move a dev catalog entry to the default catalog as soon as a package uses it at runtime.
+Use pnpm commands to add and remove dependencies:
+
+- `pnpm add` only accepts catalog versions (`catalogMode: strict`), and adds new dependencies to the default catalog. Move dev-only dependencies to the dev catalog.
+- `pnpm remove` removes the catalog entries that are no longer used (`catalogPrune: true`). Manual `package.json` edits don't.
+
+Move a dev catalog entry to the default catalog as soon as a package uses it at runtime.
 
 Exceptions, keeping explicit versions:
 
@@ -28,7 +33,7 @@ Exceptions, keeping explicit versions:
 Two checks enforce it:
 
 - `pnpm lint:syncpack`: dependencies must use a catalog.
-- `pnpm lint:catalogs` (`admin/scripts/lintCatalogs.js`): catalog entries are in the right catalog, templates and overrides match the catalogs, and dependency group members use the same version.
+- `pnpm lint:catalogs` (`admin/scripts/lintCatalogs.js`): catalog entries are used and in the right catalog, templates and overrides match the catalogs, and dependency group members use the same version.
 
 ## Dependency groups
 

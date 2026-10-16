@@ -29,6 +29,7 @@ async function main() {
   const monorepo = await loadMonorepo();
 
   const errors = [
+    ...checkUnusedCatalogEntries(monorepo),
     ...checkCatalogsSplit(monorepo),
     ...checkTemplatesMatchCatalogs(monorepo),
     ...checkOverridesMatchCatalogs(monorepo),
@@ -99,6 +100,31 @@ function getDependabotNpmGroups(dependabot) {
 // ---------------------------------------------------------------------------
 
 /**
+ * Catalog entries must be used by at least one package.
+ * pnpm removes them automatically with "pnpm remove" (catalogPrune setting),
+ * but not when editing a package.json manually.
+ * @param {Monorepo} monorepo
+ * @returns {string[]}
+ */
+function checkUnusedCatalogEntries({catalogs, packages}) {
+  const usedNames = new Set(
+    packages
+      .flatMap((pkg) => getDependencies(pkg, AllDependencyTypes))
+      .map((dependency) => dependency.name),
+  );
+  const catalogNames = [
+    ...Object.keys(catalogs.default),
+    ...Object.keys(catalogs.dev),
+  ];
+  return catalogNames
+    .filter((name) => !usedNames.has(name))
+    .map(
+      (name) =>
+        `pnpm-workspace.yaml: ${name} isn't used by any package, remove it from the catalog`,
+    );
+}
+
+/**
  * The default catalog contains the dependencies used at runtime by at least
  * one package, the dev catalog contains the dependencies only used as
  * devDependencies.
@@ -121,6 +147,9 @@ function checkCatalogsSplit({catalogs, packages}) {
         `${dependency.filePath}: ${dependency.dependencyType} ${dependency.name} can't use the dev catalog, move it to the default catalog`,
     );
 
+  const usedNames = new Set(
+    allDependencies.map((dependency) => dependency.name),
+  );
   const runtimeDependencyNames = new Set(
     allDependencies
       .filter((dependency) =>
@@ -128,11 +157,12 @@ function checkCatalogsSplit({catalogs, packages}) {
       )
       .map((dependency) => dependency.name),
   );
-  const defaultCatalogUnusedAtRuntime = Object.keys(catalogs.default)
-    .filter((name) => !runtimeDependencyNames.has(name))
+  // Unused entries are reported by checkUnusedCatalogEntries()
+  const defaultCatalogOnlyUsedByDevDependencies = Object.keys(catalogs.default)
+    .filter((name) => usedNames.has(name) && !runtimeDependencyNames.has(name))
     .map(
       (name) =>
-        `pnpm-workspace.yaml: ${name} isn't used at runtime (dependencies, optionalDependencies, peerDependencies), move it to the dev catalog`,
+        `pnpm-workspace.yaml: ${name} is only used by devDependencies, move it to the dev catalog`,
     );
 
   const inBothCatalogs = Object.keys(catalogs.dev)
@@ -144,7 +174,7 @@ function checkCatalogsSplit({catalogs, packages}) {
 
   return [
     ...devCatalogUsedAtRuntime,
-    ...defaultCatalogUnusedAtRuntime,
+    ...defaultCatalogOnlyUsedByDevDependencies,
     ...inBothCatalogs,
   ];
 }

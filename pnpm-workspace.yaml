@@ -13,6 +13,11 @@ packages:
   - 'admin/test-bad-package'
   - 'admin/new.docusaurus.io'
 
+# pnpm add only accepts catalog versions
+catalogMode: strict
+# pnpm install removes the unused catalog entries
+catalogPrune: true
+
 # Versions of all the monorepo dependencies, referenced with the catalog: protocol
 # Dependencies used at runtime by at least one package
 catalog:
