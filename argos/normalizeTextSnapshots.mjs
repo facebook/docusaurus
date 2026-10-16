@@ -10,6 +10,7 @@
 // emits debug attributes that production never emits, including a full
 // component stack with line numbers, creating noisy text snapshot diffs.
 // Digest "" means an intentional browser() bailout, not an SSR error.
+// Blog feeds embed the blog post HTML, so they contain these attributes too.
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -21,16 +22,39 @@ const BrowserBailoutTemplateRegex =
   /<template data-dgst=""(?: data-(?:msg|stck|cstck)="[^"]*")+><\/template>/g;
 
 let count = 0;
-for await (const file of fs.glob('**/*.html', {cwd: buildDir})) {
-  const filePath = path.join(buildDir, file);
-  const html = await fs.readFile(filePath, 'utf8');
-  const normalized = html.replace(BrowserBailoutTemplateRegex, () => {
+function normalizeBrowserBailouts(html) {
+  return html.replace(BrowserBailoutTemplateRegex, () => {
     count += 1;
     return '<template data-dgst=""></template>';
   });
+}
+
+// RSS and Atom feeds embed the blog post HTML as-is, in CDATA sections
+for await (const file of fs.glob(['**/*.html', '**/rss.xml', '**/atom.xml'], {
+  cwd: buildDir,
+})) {
+  const filePath = path.join(buildDir, file);
+  const html = await fs.readFile(filePath, 'utf8');
+  const normalized = normalizeBrowserBailouts(html);
   if (normalized !== html) {
     await fs.writeFile(filePath, normalized);
   }
+}
+
+// JSON feeds escape newlines, putting each blog post HTML on a single huge
+// line: we split it into an array of lines so that Argos diffs are reviewable
+for await (const file of fs.glob('**/feed.json', {cwd: buildDir})) {
+  const filePath = path.join(buildDir, file);
+  const feed = JSON.parse(await fs.readFile(filePath, 'utf8'));
+  for (const item of feed.items) {
+    if (typeof item.content_html === 'string') {
+      // eslint-disable-next-line camelcase
+      item.content_html = normalizeBrowserBailouts(item.content_html).split(
+        '\n',
+      );
+    }
+  }
+  await fs.writeFile(filePath, JSON.stringify(feed, null, 2));
 }
 
 console.log(`Normalized ${count} browser-only Suspense boundaries`);
