@@ -193,6 +193,7 @@ osascript
 Outerbounds
 outerbounds
 overrideable
+oxor
 ozaki
 ozakione
 O’Shannessy
