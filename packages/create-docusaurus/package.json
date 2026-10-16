@@ -24,11 +24,11 @@
   "dependencies": {
     "@docusaurus/fs": "workspace:*",
     "@docusaurus/logger": "workspace:*",
-    "commander": "^15.0.0",
+    "commander": "catalog:",
     "cross-spawn": "^7.0.6",
-    "prompts": "^2.4.2",
-    "semver": "^7.8.5",
-    "tslib": "^2.8.1"
+    "prompts": "catalog:",
+    "semver": "catalog:",
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.6"

@@ -11,6 +11,16 @@ description: Add, remove or upgrade npm dependencies in the Docusaurus monorepo.
 - Run `pnpm lint:syncpack`: the same dependency must use the same version range in all packages.
 - Site template dependencies live in `packages/create-docusaurus/templates/`. Never edit `examples/`, it is CLI-generated.
 
+## Catalog
+
+Dependencies shared by several monorepo packages use the [pnpm catalog](https://pnpm.io/catalogs): their version is declared once in the `catalog` of `pnpm-workspace.yaml`, and packages reference it with `"catalog:"`. When a dependency becomes shared, move it to the catalog.
+
+These dependencies keep explicit version ranges instead:
+
+- Dependency group members (see below): syncpack doesn't compare versions across catalog entries.
+- Dependencies of the site templates (`packages/create-docusaurus/templates/`), copied to user sites, and of pnpm `overrides`: syncpack compares their versions with the other packages.
+- `peerDependencies`.
+
 ## Dependency groups
 
 Some packages must always use the same version. They are declared as groups in two places, which must stay in sync:

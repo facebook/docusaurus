@@ -59,4 +59,5 @@ jobs:
           node ./packages/create-docusaurus/bin/index.js template/docusaurus-classic-ts classic --typescript -p npm
 
       - name: Release
-        run: pnpm pkg-pr-new publish './packages/*' --template './template/*' --compact --comment=off
+        # --pnpm: use pnpm pack, which replaces the catalog: protocol with versions
+        run: pnpm pkg-pr-new publish './packages/*' --template './template/*' --compact --comment=off --pnpm

@@ -23,7 +23,7 @@
     "@docusaurus/utils-validation": "workspace:*",
     "@rsdoctor/rspack-plugin": "^1.6.3",
     "@rsdoctor/webpack-plugin": "^1.6.3",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "workspace:*"

@@ -26,12 +26,12 @@
     "@docusaurus/utils": "workspace:*",
     "@docusaurus/utils-common": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
-    "lodash": "^4.18.1",
+    "lodash": "catalog:",
     "sitemap": "^9.0.1",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
-    "@total-typescript/shoehorn": "^0.1.2"
+    "@total-typescript/shoehorn": "catalog:"
   },
   "peerDependencies": {
     "react": "^19.3.0",

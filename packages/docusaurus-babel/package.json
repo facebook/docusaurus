@@ -28,7 +28,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.29.7",
+    "@babel/core": "catalog:",
     "@babel/generator": "^7.29.8",
     "@babel/plugin-transform-runtime": "^7.29.7",
     "@babel/preset-env": "^7.29.7",
@@ -41,7 +41,7 @@
     "@docusaurus/types": "workspace:*",
     "@docusaurus/utils": "workspace:*",
     "babel-plugin-dynamic-import-node": "^2.3.3",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@types/babel__core": "^7.20.5",

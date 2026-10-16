@@ -25,8 +25,8 @@
     "@docusaurus/types": "workspace:*",
     "@docusaurus/utils": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
-    "tslib": "^2.8.1",
-    "webpack": "^5.111.0"
+    "tslib": "catalog:",
+    "webpack": "catalog:"
   },
   "peerDependencies": {
     "react": "^19.3.0",

@@ -34,22 +34,22 @@
     "@docusaurus/utils-validation": "workspace:*",
     "@mdx-js/react": "^3.1.1",
     "clsx": "^2.1.1",
-    "copy-text-to-clipboard": "^3.2.2",
+    "copy-text-to-clipboard": "catalog:",
     "infima": "0.2.0-alpha.45",
-    "lodash": "^4.18.1",
+    "lodash": "catalog:",
     "nprogress": "^0.2.0",
-    "postcss": "^8.5.28",
+    "postcss": "catalog:",
     "prism-react-renderer": "^2.4.1",
-    "prismjs": "^1.30.0",
+    "prismjs": "catalog:",
     "react-router-dom": "^5.3.4",
     "rtlcss": "^4.3.0",
-    "tslib": "^2.8.1",
-    "utility-types": "^3.11.0"
+    "tslib": "catalog:",
+    "utility-types": "catalog:"
   },
   "devDependencies": {
     "@types/nprogress": "^0.2.3",
-    "@types/prismjs": "^1.26.6",
-    "@types/react-router-dom": "^5.3.3",
+    "@types/prismjs": "catalog:",
+    "@types/react-router-dom": "catalog:",
     "@types/rtlcss": "^3.5.4"
   },
   "peerDependencies": {
