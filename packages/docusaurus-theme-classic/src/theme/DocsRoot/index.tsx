@@ -9,7 +9,7 @@ import type {ReactNode} from 'react';
 import renderRoutes from '@docusaurus/renderRoutes';
 import Layout from '@theme/Layout';
 
-import type {Props} from '@theme/DocVersionRoot';
+import type {Props} from '@theme/DocsRoot';
 
 export default function DocsRoot(props: Props): ReactNode {
   return <Layout>{renderRoutes(props.route.routes!)}</Layout>;
