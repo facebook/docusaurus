@@ -346,7 +346,6 @@ describe('validateBlogPostFrontMatter tags', () => {
       {tags: ['hello']},
       {tags: ['hello', 'world']},
       {tags: ['hello', 'world']},
-      {tags: ['hello', {label: 'tagLabel', permalink: '/tagPermalink'}]},
     ],
     invalidFrontMatters: [
       [
@@ -354,15 +353,13 @@ describe('validateBlogPostFrontMatter tags', () => {
         '"tags" does not look like a valid front matter Yaml array.',
       ],
       [{tags: ['']}, 'not allowed to be empty'],
-    ],
-    // See https://github.com/facebook/docusaurus/issues/4642
-    convertibleFrontMatter: [
-      [{tags: [42]}, {tags: ['42']}],
       [
-        {tags: [{label: 84, permalink: '/tagPermalink'}]},
-        {tags: [{label: '84', permalink: '/tagPermalink'}]},
+        {tags: ['hello', {label: 'tagLabel', permalink: '/tagPermalink'}]},
+        '"tags[1]" does not look like a valid tag: front matter tags must be strings.',
       ],
     ],
+    // See https://github.com/facebook/docusaurus/issues/4642
+    convertibleFrontMatter: [[{tags: [42]}, {tags: ['42']}]],
   });
 });
 

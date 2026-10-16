@@ -46,6 +46,22 @@ exports[`validation schemas > frontMatterLastUpdateSchema schema > for value=nul
 
 exports[`validation schemas > frontMatterLastUpdateSchema schema > for value=true 1`] = `[ValidationError: "value" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date.]`;
 
+exports[`validation schemas > frontMatterTagsSchema schema > for value="tag" 1`] = `[ValidationError: "value" does not look like a valid front matter Yaml array.]`;
+
+exports[`validation schemas > frontMatterTagsSchema schema > for value=[""] 1`] = `[ValidationError: "[0]" is not allowed to be empty]`;
+
+exports[`validation schemas > frontMatterTagsSchema schema > for value=[{"label":"Tag","permalink":"/tag"}] 1`] = `
+[ValidationError: "[0]" does not look like a valid tag: front matter tags must be strings.
+Tag objects with a custom label or permalink are not supported anymore: declare tags in a tags file (usually tags.yml) and reference them by key instead.
+See https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#tags-file]
+`;
+
+exports[`validation schemas > frontMatterTagsSchema schema > for value=[true] 1`] = `
+[ValidationError: "[0]" does not look like a valid tag: front matter tags must be strings.
+Tag objects with a custom label or permalink are not supported anymore: declare tags in a tags file (usually tags.yml) and reference them by key instead.
+See https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#tags-file]
+`;
+
 exports[`validation schemas > pathnameSchema > for value="foo" 1`] = `[ValidationError: "value" (foo) is not a valid pathname. Pathname should start with slash and not contain any domain or query string.]`;
 
 exports[`validation schemas > pathnameSchema > for value="https://github.com/foo" 1`] = `[ValidationError: "value" (https://github.com/foo) is not a valid pathname. Pathname should start with slash and not contain any domain or query string.]`;

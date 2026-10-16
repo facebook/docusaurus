@@ -8,7 +8,6 @@
 import {
   isValidPathname,
   DEFAULT_PLUGIN_ID,
-  type FrontMatterTag,
   type FrontMatterLastUpdate,
 } from '@docusaurus/utils';
 import {addLeadingSlash} from '@docusaurus/utils-common';
@@ -114,20 +113,11 @@ export const RouteBasePathSchema = Joi
     addLeadingSlash(value),
   );
 
-const FrontMatterTagSchema = JoiFrontMatter.alternatives()
-  .try(
-    JoiFrontMatter.string().required(),
-    // TODO Docusaurus v4 remove this legacy front matter tag object form
-    //  users should use tags.yml instead
-    JoiFrontMatter.object<FrontMatterTag>({
-      label: JoiFrontMatter.string().required(),
-      permalink: JoiFrontMatter.string().required(),
-    }).required(),
-  )
-  .messages({
-    'alternatives.match': '{{#label}} does not look like a valid tag',
-    'alternatives.types': '{{#label}} does not look like a valid tag',
-  });
+const FrontMatterTagSchema = JoiFrontMatter.string().messages({
+  'string.base': `{{#label}} does not look like a valid tag: front matter tags must be strings.
+Tag objects with a custom label or permalink are not supported anymore: declare tags in a tags file (usually tags.yml) and reference them by key instead.
+See https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#tags-file`,
+});
 
 export const FrontMatterTagsSchema = JoiFrontMatter.array()
   .items(FrontMatterTagSchema)

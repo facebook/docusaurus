@@ -362,12 +362,7 @@ describe('simple site', () => {
         slug: 'bazSlug.html',
         title: 'baz',
         pagination_label: 'baz pagination_label',
-        tags: [
-          'tag 1',
-          'globalTag1',
-          'tag-1',
-          {label: 'tag 2', permalink: 'tag2-custom-permalink'},
-        ],
+        tags: ['tag 1', 'globalTag1', 'tag-1', 'tag 2'],
       },
       tags: [
         {
@@ -392,7 +387,7 @@ describe('simple site', () => {
           label: 'tag 2',
           description: undefined,
           inline: true,
-          permalink: '/docs/tags/tag2-custom-permalink',
+          permalink: '/docs/tags/tag-2',
         },
       ],
       unlisted: false,
@@ -454,12 +449,7 @@ describe('simple site', () => {
         slug: 'bazSlug.html',
         title: 'baz',
         pagination_label: 'baz pagination_label',
-        tags: [
-          'tag 1',
-          'globalTag1',
-          'tag-1',
-          {label: 'tag 2', permalink: 'tag2-custom-permalink'},
-        ],
+        tags: ['tag 1', 'globalTag1', 'tag-1', 'tag 2'],
       },
       tags: [
         {
@@ -484,7 +474,7 @@ describe('simple site', () => {
           description: undefined,
           inline: true,
           label: 'tag 2',
-          permalink: '/docs/tags/tag2-custom-permalink',
+          permalink: '/docs/tags/tag-2',
         },
       ],
       unlisted: false,
@@ -930,14 +920,7 @@ describe('versioned site', () => {
       sidebarPosition: undefined,
       frontMatter: {
         slug: 'barSlug',
-        tags: [
-          'barTag 1',
-          'barTag-2',
-          {
-            label: 'barTag 3',
-            permalink: 'barTag-3-permalink',
-          },
-        ],
+        tags: ['barTag 1', 'barTag-2', 'barTag 3'],
       },
       tags: [
         {
@@ -955,7 +938,7 @@ describe('versioned site', () => {
         {
           label: 'barTag 3',
           inline: true,
-          permalink: '/docs/next/tags/barTag-3-permalink',
+          permalink: '/docs/next/tags/bar-tag-3',
           description: undefined,
         },
       ],

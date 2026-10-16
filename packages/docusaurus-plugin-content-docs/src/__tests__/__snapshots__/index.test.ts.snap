@@ -192,10 +192,7 @@ exports[`simple website > content > data 1`] = `
         "tag 1",
         "globalTag1",
         "tag-1",
-        {
-          "label": "tag 2",
-          "permalink": "tag2-custom-permalink",
-        },
+        "tag 2",
       ],
       "title": "baz",
     },
@@ -239,7 +236,7 @@ exports[`simple website > content > data 1`] = `
         "description": undefined,
         "inline": true,
         "label": "tag 2",
-        "permalink": "/docs/tags/tag2-custom-permalink",
+        "permalink": "/docs/tags/tag-2",
       },
     ],
     "title": "baz",
@@ -1178,7 +1175,7 @@ exports[`simple website > content > route config 1`] = `
                   "count": 1,
                   "description": undefined,
                   "label": "tag 2",
-                  "permalink": "/docs/tags/tag2-custom-permalink",
+                  "permalink": "/docs/tags/tag-2",
                 },
                 {
                   "count": 1,
@@ -1244,6 +1241,29 @@ exports[`simple website > content > route config 1`] = `
           {
             "component": "@theme/DocTagDocListPage",
             "exact": true,
+            "path": "/docs/tags/tag-2",
+            "props": {
+              "tag": {
+                "allTagsPath": "/docs/tags",
+                "count": 1,
+                "description": undefined,
+                "items": [
+                  {
+                    "description": "Images",
+                    "id": "foo/baz",
+                    "permalink": "/docs/foo/bazSlug.html",
+                    "title": "baz",
+                  },
+                ],
+                "label": "tag 2",
+                "permalink": "/docs/tags/tag-2",
+                "unlisted": false,
+              },
+            },
+          },
+          {
+            "component": "@theme/DocTagDocListPage",
+            "exact": true,
             "path": "/docs/tags/tag-3",
             "props": {
               "tag": {
@@ -1260,29 +1280,6 @@ exports[`simple website > content > route config 1`] = `
                 ],
                 "label": "tag 3",
                 "permalink": "/docs/tags/tag-3",
-                "unlisted": false,
-              },
-            },
-          },
-          {
-            "component": "@theme/DocTagDocListPage",
-            "exact": true,
-            "path": "/docs/tags/tag2-custom-permalink",
-            "props": {
-              "tag": {
-                "allTagsPath": "/docs/tags",
-                "count": 1,
-                "description": undefined,
-                "items": [
-                  {
-                    "description": "Images",
-                    "id": "foo/baz",
-                    "permalink": "/docs/foo/bazSlug.html",
-                    "title": "baz",
-                  },
-                ],
-                "label": "tag 2",
-                "permalink": "/docs/tags/tag2-custom-permalink",
                 "unlisted": false,
               },
             },
@@ -1616,10 +1613,7 @@ exports[`simple website > content 1`] = `
       "tag 1",
       "globalTag1",
       "tag-1",
-      {
-        "label": "tag 2",
-        "permalink": "tag2-custom-permalink",
-      },
+      "tag 2",
     ],
     "title": "baz",
   },
@@ -1663,7 +1657,7 @@ exports[`simple website > content 1`] = `
       "description": undefined,
       "inline": true,
       "label": "tag 2",
-      "permalink": "/docs/tags/tag2-custom-permalink",
+      "permalink": "/docs/tags/tag-2",
     },
   ],
   "title": "baz",
@@ -3430,10 +3424,7 @@ exports[`versioned website > content > data 1`] = `
       "tags": [
         "barTag 1",
         "barTag-2",
-        {
-          "label": "barTag 3",
-          "permalink": "barTag-3-permalink",
-        },
+        "barTag 3",
       ],
     },
     "id": "foo/bar",
@@ -3467,7 +3458,7 @@ exports[`versioned website > content > data 1`] = `
         "description": undefined,
         "inline": true,
         "label": "barTag 3",
-        "permalink": "/docs/next/tags/barTag-3-permalink",
+        "permalink": "/docs/next/tags/bar-tag-3",
       },
     ],
     "title": "bar",
@@ -4445,7 +4436,7 @@ exports[`versioned website > content > route config 1`] = `
                   "count": 1,
                   "description": undefined,
                   "label": "barTag 3",
-                  "permalink": "/docs/next/tags/barTag-3-permalink",
+                  "permalink": "/docs/next/tags/bar-tag-3",
                 },
               ],
             },
@@ -4499,7 +4490,7 @@ exports[`versioned website > content > route config 1`] = `
           {
             "component": "@theme/DocTagDocListPage",
             "exact": true,
-            "path": "/docs/next/tags/barTag-3-permalink",
+            "path": "/docs/next/tags/bar-tag-3",
             "props": {
               "tag": {
                 "allTagsPath": "/docs/next/tags",
@@ -4514,7 +4505,7 @@ exports[`versioned website > content > route config 1`] = `
                   },
                 ],
                 "label": "barTag 3",
-                "permalink": "/docs/next/tags/barTag-3-permalink",
+                "permalink": "/docs/next/tags/bar-tag-3",
                 "unlisted": false,
               },
             },
@@ -5004,10 +4995,7 @@ exports[`versioned website > content 1`] = `
     "tags": [
       "barTag 1",
       "barTag-2",
-      {
-        "label": "barTag 3",
-        "permalink": "barTag-3-permalink",
-      },
+      "barTag 3",
     ],
   },
   "id": "foo/bar",
@@ -5041,7 +5029,7 @@ exports[`versioned website > content 1`] = `
       "description": undefined,
       "inline": true,
       "label": "barTag 3",
-      "permalink": "/docs/next/tags/barTag-3-permalink",
+      "permalink": "/docs/next/tags/bar-tag-3",
     },
   ],
   "title": "bar",
