@@ -6,7 +6,6 @@
  */
 
 import type {ReactNode} from 'react';
-import clsx from 'clsx';
 import {
   PageMetadata,
   HtmlClassNameProvider,
@@ -71,10 +70,7 @@ function Content({author, items, sidebar, listMetadata}: Props): ReactNode {
 export default function BlogAuthorsPostsPage(props: Props): ReactNode {
   return (
     <HtmlClassNameProvider
-      className={clsx(
-        ThemeClassNames.wrapper.blogPages,
-        ThemeClassNames.page.blogAuthorsPostsPage,
-      )}>
+      className={ThemeClassNames.page.blogAuthorsPostsPage}>
       <Metadata {...props} />
       <Content {...props} />
     </HtmlClassNameProvider>
