@@ -96,6 +96,7 @@ Update Vitest failing snapshots with the `-u` option. Do not blindly update snap
 
 Task-specific instructions live in skills, following the [Agent Skills](https://agentskills.io) format. Read the matching `SKILL.md` before starting one of these tasks:
 
+- [`dependencies`](.agents/skills/dependencies/SKILL.md) - Add, remove or upgrade npm dependencies, keep Dependabot groups up to date
 - [`pull-requests`](.agents/skills/pull-requests/SKILL.md) - Create, update, check the CI of, or merge a PR (maintainers only)
 
 ## Contributing, Issue and PR Guidelines
