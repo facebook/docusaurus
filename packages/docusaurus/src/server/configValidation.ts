@@ -277,6 +277,57 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
   return value;
 }).default(() => DEFAULT_CONFIG.vcs);
 
+// TODO Docusaurus v5: remove this migration error for legacy template variables
+const LegacySSGTemplateVariables: {[name: string]: string} = {
+  appHtml: logger.code('it.body.appHtml'),
+  htmlAttributes: logger.code('it.html.attributes'),
+  bodyAttributes: logger.code('it.body.attributes'),
+  metaAttributes: `${logger.code('it.head.pageTags')} (a string)`,
+  headTags: logger.code('it.head.pluginTags'),
+  preBodyTags: logger.code('it.body.preTags'),
+  postBodyTags: logger.code('it.body.postTags'),
+  stylesheets: `${logger.code('it.assets.stylesheets')} (URLs including the baseUrl)`,
+  scripts: `${logger.code('it.assets.scripts')} (URLs including the baseUrl)`,
+  noIndex: `removed: the ${logger.code('<meta name="robots">')} tag is part of ${logger.code('it.head.pageTags')}`,
+};
+
+function getLegacySSGTemplateVariablesMessage(
+  template: string,
+): string | undefined {
+  const usedLegacyVariables = Object.keys(LegacySSGTemplateVariables).filter(
+    (name) => new RegExp(String.raw`\bit\.${name}\b`).test(template),
+  );
+  if (usedLegacyVariables.length === 0) {
+    return undefined;
+  }
+  return usedLegacyVariables
+    .map(
+      (name) =>
+        `- ${logger.code(`it.${name}`)} => ${LegacySSGTemplateVariables[name]}`,
+    )
+    .join('\n');
+}
+
+const SSG_TEMPLATE_SCHEMA = Joi.string()
+  // TODO Docusaurus v5: remove this migration error
+  .custom((template: string, helpers) => {
+    const legacyVariablesMessage =
+      getLegacySSGTemplateVariablesMessage(template);
+    if (legacyVariablesMessage) {
+      return helpers.error('docusaurus.legacyVariables', {
+        legacyVariablesMessage,
+      });
+    }
+    return template;
+  })
+  .messages({
+    'docusaurus.legacyVariables': `The Docusaurus config ${logger.code(
+      'siteConfig.ssgTemplate',
+    )} uses template variables that have been renamed or removed:
+{#legacyVariablesMessage}
+Please update your template.`,
+  });
+
 // TODO Docusaurus v5: remove these never types for removed/renamed options
 const FUTURE_CONFIG_SCHEMA = Joi.object<
   FutureConfig & {
@@ -385,7 +436,7 @@ export const ConfigSchema = Joi.object<
         '{#label} is invalid. A script must be a plain string (the src), or an object with at least a "src" property.',
     })
     .default(DEFAULT_CONFIG.scripts),
-  ssgTemplate: Joi.string(),
+  ssgTemplate: SSG_TEMPLATE_SCHEMA,
   // TODO Docusaurus v5: remove this migration error
   ssrTemplate: Joi.any()
     .forbidden()
