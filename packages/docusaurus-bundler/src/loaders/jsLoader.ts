@@ -5,21 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getBabelOptions} from '@docusaurus/babel';
+import {getBabelOptions, getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {getSwcLoaderOptions} from '../swc';
 import {getCurrentBundler} from '../currentBundler';
 import {getBrowserslistQueries} from '../browserslist';
 import type {ConfigureWebpackUtils, DocusaurusConfig} from '@docusaurus/types';
 
-const BabelJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = ({
-  isServer,
-  babelOptions,
-}) => {
-  return {
-    loader: require.resolve('babel-loader'),
-    options: getBabelOptions({isServer, babelOptions}),
+async function createBabelJsLoaderFactory({
+  siteDir,
+}: {
+  siteDir: string;
+}): Promise<ConfigureWebpackUtils['getJSLoader']> {
+  const configFile = await getCustomBabelConfigFilePath(siteDir);
+  return ({isServer}) => {
+    return {
+      loader: require.resolve('babel-loader'),
+      options: getBabelOptions({isServer, configFile}),
+    };
   };
-};
+}
 
 function createRspackSwcJsLoaderFactory(): ConfigureWebpackUtils['getJSLoader'] {
   const loader = 'builtin:swc-loader';
@@ -40,8 +44,10 @@ function createRspackSwcJsLoaderFactory(): ConfigureWebpackUtils['getJSLoader'] 
 // This is done on purpose because the js loader factory is a public API
 // It is injected in configureWebpack plugin lifecycle for plugin authors
 export async function createJsLoaderFactory({
+  siteDir,
   siteConfig,
 }: {
+  siteDir: string;
   siteConfig: Pick<DocusaurusConfig, 'webpack'>;
 }): Promise<ConfigureWebpackUtils['getJSLoader']> {
   const currentBundler = await getCurrentBundler({siteConfig});
@@ -51,10 +57,10 @@ export async function createJsLoaderFactory({
 
   const jsLoader = siteConfig.webpack?.jsLoader ?? 'babel';
   if (jsLoader instanceof Function) {
-    return ({isServer}) => jsLoader(isServer);
+    return jsLoader;
   }
   if (jsLoader === 'babel') {
-    return BabelJsLoaderFactory;
+    return createBabelJsLoaderFactory({siteDir});
   }
   throw new Error(`Docusaurus bug: unexpected jsLoader value${jsLoader}`);
 }

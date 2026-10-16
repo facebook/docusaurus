@@ -310,7 +310,7 @@ describe('simple website', () => {
   });
 
   it('configureWebpack', async () => {
-    const {plugin} = await loadSite();
+    const {siteDir, plugin} = await loadSite();
 
     const content = await plugin.loadContent?.();
 
@@ -327,6 +327,7 @@ describe('simple website', () => {
       },
       isServer: false,
       configureWebpackUtils: await createConfigureWebpackUtils({
+        siteDir,
         siteConfig: {},
       }),
       content,

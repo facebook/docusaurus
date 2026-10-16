@@ -161,6 +161,7 @@ export async function createWebpackDevServer({
   openUrlContext: OpenUrlContext;
 }): Promise<WebpackDevServer | RspackDevServer> {
   const configureWebpackUtils = await createConfigureWebpackUtils({
+    siteDir: props.siteDir,
     siteConfig: props.siteConfig,
   });
 
