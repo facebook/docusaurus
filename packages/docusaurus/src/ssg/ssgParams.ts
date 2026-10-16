@@ -22,7 +22,6 @@ export type SSGParams = {
   postBodyTags: string;
   outDir: string;
   baseUrl: string;
-  noIndex: boolean;
   DOCUSAURUS_VERSION: string;
 
   serverBundlePath: string;
@@ -52,7 +51,6 @@ export async function createSSGParams({
     preBodyTags: props.preBodyTags,
     postBodyTags: props.postBodyTags,
     ssgTemplateContent: props.siteConfig.ssgTemplate ?? DefaultSSGTemplate,
-    noIndex: props.siteConfig.noIndex,
     DOCUSAURUS_VERSION,
     serverBundlePath,
   };
