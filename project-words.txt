@@ -310,7 +310,6 @@ Triaging
 triaging
 TSES
 twoslash
-typesafe
 Typesense
 typesense
 Udeadbeefcafe
