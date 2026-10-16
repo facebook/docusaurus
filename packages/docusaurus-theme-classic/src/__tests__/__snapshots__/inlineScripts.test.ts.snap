@@ -1,5 +1,61 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`inlineScripts > getAnnouncementBarInlineScript > matches snapshot for custom announcement bar 1`] = `
+"(function() {
+  function isDismissed() {
+    try {
+      if (localStorage.getItem('docusaurus.announcement.dismiss') !== 'true') {
+        return false;
+      }
+      var storedId = localStorage.getItem('docusaurus.announcement.id');
+      // Retrocompatibility due to spelling mistake of default id
+      // see https://github.com/facebook/docusaurus/issues/3338
+      // cSpell:ignore annoucement
+      if (storedId === 'annoucement-bar') {
+        storedId = 'announcement-bar';
+      }
+      return storedId === "announcement-v2";
+    } catch (err) {}
+    return false;
+  }
+  document.documentElement.setAttribute('data-announcement-bar-initially-dismissed', isDismissed());
+})();"
+`;
+
+exports[`inlineScripts > getAnnouncementBarInlineScript > matches snapshot for default options 1`] = `
+"(function() {
+  function isDismissed() {
+    try {
+      if (localStorage.getItem('docusaurus.announcement.dismiss') !== 'true') {
+        return false;
+      }
+      var storedId = localStorage.getItem('docusaurus.announcement.id');
+      // Retrocompatibility due to spelling mistake of default id
+      // see https://github.com/facebook/docusaurus/issues/3338
+      // cSpell:ignore annoucement
+      if (storedId === 'annoucement-bar') {
+        storedId = 'announcement-bar';
+      }
+      return storedId === "announcement-bar";
+    } catch (err) {}
+    return false;
+  }
+  document.documentElement.setAttribute('data-announcement-bar-initially-dismissed', isDismissed());
+})();"
+`;
+
+exports[`inlineScripts > getAnnouncementBarInlineScript > matches snapshot for non-closeable announcement bar 1`] = `
+"(function() {
+  function isDismissed() {
+    try {
+      return false;
+    } catch (err) {}
+    return false;
+  }
+  document.documentElement.setAttribute('data-announcement-bar-initially-dismissed', isDismissed());
+})();"
+`;
+
 exports[`inlineScripts > inline javascript for default options 1`] = `
 "(function() {
   function getSystemColorMode() {

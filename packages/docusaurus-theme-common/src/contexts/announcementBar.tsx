@@ -16,7 +16,7 @@ import React, {
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {createStorageSlot} from '../utils/storageUtils';
 import {ReactContextError} from '../utils/reactUtils';
-import {useThemeConfig} from '../utils/useThemeConfig';
+import {useThemeConfig, type ThemeConfig} from '../utils/useThemeConfig';
 
 // Keep these keys in sync with the inlined script
 // See packages/docusaurus-theme-classic/src/inlineScripts.ts
@@ -25,8 +25,26 @@ const AnnouncementBarDismissStorage = createStorageSlot(
 );
 const IdStorage = createStorageSlot('docusaurus.announcement.id');
 
-const isDismissedInStorage = () =>
-  AnnouncementBarDismissStorage.get() === 'true';
+const isDismissedInStorage = (
+  announcementBar?: ThemeConfig['announcementBar'],
+): boolean => {
+  if (!announcementBar || announcementBar.isCloseable === false) {
+    return false;
+  }
+  let viewedId = IdStorage.get();
+
+  // Retrocompatibility due to spelling mistake of default id
+  // see https://github.com/facebook/docusaurus/issues/3338
+  // cSpell:ignore annoucement
+  if (viewedId === 'annoucement-bar') {
+    viewedId = 'announcement-bar';
+  }
+
+  return (
+    AnnouncementBarDismissStorage.get() === 'true' &&
+    viewedId === announcementBar.id
+  );
+};
 const setDismissedInStorage = (bool: boolean) =>
   AnnouncementBarDismissStorage.set(String(bool));
 
@@ -48,14 +66,14 @@ function useContextValue(): ContextValue {
   const [isClosed, setClosed] = useState(() =>
     isBrowser
       ? // On client navigation: init with local storage value
-        isDismissedInStorage()
+        isDismissedInStorage(announcementBar)
       : // On server/hydration: always visible to prevent layout shifts (will be hidden with css if needed)
         false,
   );
   // Update state after hydration
   useEffect(() => {
-    setClosed(isDismissedInStorage());
-  }, []);
+    setClosed(isDismissedInStorage(announcementBar));
+  }, [announcementBar]);
 
   const handleClose = useCallback(() => {
     setDismissedInStorage(true);
@@ -85,7 +103,7 @@ function useContextValue(): ContextValue {
       setDismissedInStorage(false);
     }
 
-    if (isNewAnnouncement || !isDismissedInStorage()) {
+    if (isNewAnnouncement || !isDismissedInStorage(announcementBar)) {
       setClosed(false);
     }
   }, [announcementBar]);
