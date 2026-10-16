@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import {getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {
   createJsLoaderFactory,
   getCSSExtractPlugin,
@@ -95,7 +94,7 @@ export async function createBaseConfig({
 
   const themeAliases = await loadThemeAliases({siteDir, plugins});
 
-  const createJsLoader = await createJsLoaderFactory({siteConfig});
+  const createJsLoader = await createJsLoaderFactory({siteDir, siteConfig});
 
   const CSSExtractPlugin = await getCSSExtractPlugin({
     currentBundler: props.currentBundler,
@@ -277,12 +276,7 @@ export async function createBaseConfig({
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           with: notTextImport,
-          use: [
-            createJsLoader({
-              isServer,
-              babelOptions: await getCustomBabelConfigFilePath(siteDir),
-            }),
-          ],
+          use: [createJsLoader({isServer})],
         },
         {
           test: CSS_REGEX,

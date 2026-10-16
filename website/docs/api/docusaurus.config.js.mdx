@@ -346,14 +346,14 @@ export default {
 
 ### `webpack` {/* #webpack */}
 
-- Type: `boolean | { jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule) }`
+- Type: `boolean | { jsLoader?: 'babel' | (({isServer}: {isServer: boolean}) => RuleSetRule) }`
 
 Docusaurus uses [Rspack](https://rspack.dev/) to bundle your site by default. Rspack transpiles your code with its [built-in SWC loader](https://rspack.dev/guide/features/builtin-swc-loader), and uses its [persistent cache](https://rspack.dev/config/cache) to re-build your site faster on subsequent builds, which requires persisting `./node_modules/.cache` across rebuilds.
 
 Use this option to opt out of Rspack and bundle your site with [webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/) instead:
 
 - `true` or `{}`: use webpack, and transpile your code with the built-in Babel loader.
-- `jsLoader`: the JS loader to use with webpack. `'babel'` (default) uses the built-in Babel loader and preset; otherwise, you can provide a function returning your own webpack rule.
+- `jsLoader`: the JS loader to use with webpack. `'babel'` (default) uses the built-in Babel loader, configured by your site's `babel.config.js` file if it exists, or the Docusaurus Babel preset otherwise. You can also provide a function that receives `{isServer}` and returns your own webpack rule.
 
 With webpack, production builds minify JavaScript with [SWC](https://swc.rs/), which requires adding the `@swc/core` package to your site dependencies:
 
