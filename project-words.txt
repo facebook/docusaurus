@@ -1,4 +1,4 @@
-# Project Words - DO NOT TOUCH - This is updated through CI
+# Project Words - Run pnpm lint:spelling:sort after adding words
 abernathyca
 Adriaan
 aldridged
