@@ -6,7 +6,7 @@
  */
 
 import {logger} from '@docusaurus/logger';
-import {Command} from 'commander';
+import {Command, Option} from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
 import {build} from './build/build';
@@ -16,7 +16,7 @@ import {externalCommand} from './external';
 import {serve} from './serve';
 import {start} from './start/start';
 import {swizzle} from './swizzle';
-import {writeHeadingIds} from './writeHeadingIds';
+import {writeHeadingIds, HeadingIdSyntaxes} from './writeHeadingIds';
 import {writeTranslations} from './writeTranslations';
 
 function concatLocaleOptions(locale: string, locales: string[] = []): string[] {
@@ -265,9 +265,11 @@ export async function createCLIProgram({
   cli
     .command('write-heading-ids [siteDir] [files...]')
     .description('Generate heading ids in Markdown content.')
-    .option(
-      '--syntax <syntax>',
-      'heading ID syntax: "classic" ({#id}) or "mdx-comment" ({/* #id */}) (default: "classic")',
+    .addOption(
+      new Option(
+        '--syntax <syntax>',
+        'heading ID syntax: "classic" ({#id}) or "mdx-comment" ({/* #id */}) (default: "classic" for files compiled as CommonMark, "mdx-comment" for files compiled as MDX)',
+      ).choices(HeadingIdSyntaxes),
     )
     .option(
       '--migrate',

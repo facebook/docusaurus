@@ -74,10 +74,12 @@ The heading id comment must start with `#`, be placed at the **end** of the head
 
 Use the **[`write-heading-ids`](../../cli.mdx#docusaurus-write-heading-ids-sitedir)** CLI command to add explicit IDs to all your Markdown documents.
 
-The `--syntax` option lets you choose which syntax you prefer:
+By default, it uses the syntax that compiles for each file, according to the [`markdown.format`](../../api/docusaurus.config.js.mdx#markdown) config option:
 
-- The `classic` syntax for `{#headingId}`
-- The `mdx-comment` syntax for `{/* #headingId */}`
+- The `classic` syntax `{#headingId}` for files compiled as CommonMark
+- The `mdx-comment` syntax `{/* #headingId */}` for files compiled as MDX
+
+The `--syntax` option lets you choose another syntax.
 
 :::
 
