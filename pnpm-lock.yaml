@@ -13192,11 +13192,6 @@ packages:
     peerDependencies:
       react: '>= 16.8.0'
 
-  use-sync-external-store@1.6.0:
-    resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
   use-sync-external-store@1.7.0:
     resolution: {integrity: sha512-6L+EeigHMQhdaIPNIFUKwfWJSwWFQ8gJbJ2DLOs5sDIegTwR9fRxvnM3uciHKjIZhFz+KAv2emhWMRvDmMcY8A==}
     peerDependencies:
@@ -25388,7 +25383,7 @@ snapshots:
     dependencies:
       dequal: 2.0.3
       react: 19.3.0
-      use-sync-external-store: 1.6.0(react@19.3.0)
+      use-sync-external-store: 1.7.0(react@19.3.0)
 
   syncpack-darwin-arm64@15.3.3:
     optional: true
@@ -25826,10 +25821,6 @@ snapshots:
       punycode: 2.3.1
 
   use-editable@2.3.3(react@19.3.0):
-    dependencies:
-      react: 19.3.0
-
-  use-sync-external-store@1.6.0(react@19.3.0):
     dependencies:
       react: 19.3.0
 
