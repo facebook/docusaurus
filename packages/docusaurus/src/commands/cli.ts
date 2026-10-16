@@ -204,15 +204,15 @@ export async function createCLIProgram({
     )
     .option(
       '--https',
-      'serve the dev site over HTTPS using a self-signed cert (default: false). Preferred over the HTTPS=true env var. Implied when both --ssl-cert and --ssl-key are provided.',
+      'serve the dev site over HTTPS using a self-signed cert (default: false). Implied when both --ssl-cert and --ssl-key are provided. Takes precedence over the DOCUSAURUS_HTTPS env var.',
     )
     .option(
       '--ssl-cert <path>',
-      'path to a TLS certificate file (implies HTTPS). Preferred over the SSL_CRT_FILE env var; CLI takes precedence if both are set.',
+      'path to a TLS certificate file (implies HTTPS). Takes precedence over the DOCUSAURUS_SSL_CRT_FILE env var.',
     )
     .option(
       '--ssl-key <path>',
-      'path to a TLS private key file (implies HTTPS). Preferred over the SSL_KEY_FILE env var; CLI takes precedence if both are set.',
+      'path to a TLS private key file (implies HTTPS). Takes precedence over the DOCUSAURUS_SSL_KEY_FILE env var.',
     )
     .action(start);
 

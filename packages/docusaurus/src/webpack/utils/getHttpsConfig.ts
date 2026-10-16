@@ -57,9 +57,6 @@ function getExplicitHttps(
     options.https ??
     (typeof process.env.DOCUSAURUS_HTTPS !== 'undefined'
       ? process.env.DOCUSAURUS_HTTPS == 'true'
-      : undefined) ??
-    (typeof process.env.HTTPS !== 'undefined'
-      ? process.env.HTTPS == 'true'
       : undefined)
   );
 }
@@ -109,12 +106,6 @@ function getCert(
       'env DOCUSAURUS_SSL_CRT_FILE',
     );
   }
-  if (process.env.SSL_CRT_FILE) {
-    return readCryptoFile(
-      path.resolve(cwd, process.env.SSL_CRT_FILE),
-      'env SSL_CRT_FILE',
-    );
-  }
   return null;
 }
 
@@ -132,12 +123,6 @@ function getKeyFile(
     return readCryptoFile(
       path.resolve(cwd, process.env.DOCUSAURUS_SSL_KEY_FILE),
       'env DOCUSAURUS_SSL_KEY_FILE',
-    );
-  }
-  if (process.env.SSL_KEY_FILE) {
-    return readCryptoFile(
-      path.resolve(cwd, process.env.SSL_KEY_FILE),
-      'env SSL_KEY_FILE',
     );
   }
   return null;
