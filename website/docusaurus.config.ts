@@ -500,8 +500,7 @@ export default async function createConfigAsync() {
               return `https://github.com/facebook/docusaurus/edit/main/website/${nextVersionDocsDirPath}/${docPath}`;
             },
             admonitions: {
-              // 'caution' was removed in v4, but older versioned docs use it
-              keywords: ['my-custom-admonition', 'caution'],
+              keywords: ['my-custom-admonition'],
             },
             showLastUpdateAuthor: showLastUpdate,
             showLastUpdateTime: showLastUpdate,
@@ -546,10 +545,6 @@ export default async function createConfigAsync() {
               return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
             },
             remarkPlugins: [npm2yarn],
-            admonitions: {
-              // 'caution' was removed in v4, but older blog posts use it
-              keywords: ['caution'],
-            },
             postsPerPage: 5,
             feedOptions: {
               type: 'all',
