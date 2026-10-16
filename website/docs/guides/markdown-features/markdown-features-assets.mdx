@@ -175,7 +175,7 @@ import DocusaurusSvg from './docusaurus.svg';
 
 :::note
 
-Docusaurus optimizes inline SVGs with [SVGO](https://svgo.dev/), and [prefixes their ids](../../api/plugins/plugin-svgr.mdx#svg-ids) to avoid clashes between SVGs of the same page. Prefer targeting SVG elements with attribute selectors or class names, rather than ids.
+SVG ids are [prefixed](../../api/plugins/plugin-svgr.mdx#default-config) to avoid clashes between inline SVGs. Prefer targeting SVG elements with attribute selectors or class names.
 
 :::
 
