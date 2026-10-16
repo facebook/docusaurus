@@ -21,7 +21,7 @@
     "@docusaurus/core": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
-    "@rsdoctor/rspack-plugin": "catalog:",
+    "@rsdoctor/core": "catalog:",
     "@rsdoctor/webpack-plugin": "catalog:",
     "tslib": "catalog:"
   },

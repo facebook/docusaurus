@@ -68,7 +68,3 @@ updates:
       svgr:
         patterns:
           - '@svgr/*'
-      # Rsdoctor plugins pin exact @rsdoctor/core and @rsdoctor/sdk versions
-      rsdoctor:
-        patterns:
-          - '@rsdoctor/*'
