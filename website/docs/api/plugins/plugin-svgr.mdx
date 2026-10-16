@@ -33,7 +33,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `svgrConfig` | `object` | `{}` | The [SVGR config options](https://react-svgr.com/docs/options/), forwarded as is |
+| `svgrConfig` | `object` | `{}` | The [SVGR config options](https://react-svgr.com/docs/options/), shallow-merged over the [default SVGR config](#default-config) |
 
 ```mdx-code-block
 </APITable>
@@ -51,3 +51,94 @@ const config = {
   svgrConfig: {/* SVGR config */},
 };
 ```
+
+## Default config {/* #default-config */}
+
+By default, the plugin uses the following SVGR config:
+
+```js
+const defaultSvgrConfig = {
+  prettier: false,
+  svgo: true,
+  titleProp: true,
+  svgoConfig: {
+    plugins: [
+      {
+        name: 'preset-default',
+        params: {
+          overrides: {
+            removeTitle: false,
+            removeViewBox: false,
+          },
+        },
+      },
+      {
+        name: 'prefixIds',
+        params: {
+          delim: '',
+          // Short hash of the SVG file path, relative to the site directory
+          prefix: (node, info) => `svg-${hash(info.path)}-`,
+          prefixClassNames: false,
+        },
+      },
+    ],
+  },
+};
+```
+
+The `svgrConfig` option is shallow-merged over this default config. If you provide an `svgoConfig` attribute, it replaces the default [SVGO](https://svgo.dev/) config entirely: copy the default plugins you want to keep.
+
+:::tip
+
+Use `svgoConfig: undefined` to let SVGR read your own [`svgo.config.js` file](https://svgo.dev/docs/introduction/#configuration) instead.
+
+:::
+
+### SVG ids {/* #svg-ids */}
+
+SVGs often use ids to reference their gradients, masks, clip paths and other definitions. The SVGO [`cleanupIds`](https://svgo.dev/docs/plugins/cleanupIds/) plugin minifies the ids of each SVG file independently, so different SVG files often end up using the same ids (`a`, `b`, `c`...). When several SVGs are inlined in the same page, these ids clash, and SVGs render with the gradients or masks of another SVG.
+
+To avoid these clashes, the SVGO [`prefixIds`](https://svgo.dev/docs/plugins/prefixIds/) plugin prefixes all the ids (and the references to them) with a short hash of the SVG file path, relative to the site directory. For example, `<linearGradient id="a">` becomes `<linearGradient id="svg-3f2a1c-a">`. Class names are not prefixed.
+
+As a consequence, avoid targeting ids inside SVGs with your own CSS or JavaScript code. Use class names or attribute selectors instead (see [inline SVGs](../../guides/markdown-features/markdown-features-assets.mdx#inline-svgs)).
+
+:::warning Docusaurus v4 breaking change
+
+Before Docusaurus v4, SVG ids were not prefixed by default. This change can affect your site if your CSS code, your JavaScript code or a URL fragment targets an id inside an inline SVG, for example `#my-shape` or `document.getElementById('my-shape')`.
+
+In practice, only SVGs containing a `<style>` or `<script>` element are affected: SVGO keeps their ids unchanged, while it already removes or minifies the ids of other SVGs.
+
+If you don't want to update your code, [restore the Docusaurus v3 behavior](#restore-v3).
+
+:::
+
+### Restoring the Docusaurus v3 behavior {/* #restore-v3 */}
+
+Docusaurus v3 used the following SVGO config, without the `prefixIds` plugin. You can restore it with the `svgoConfig` attribute:
+
+```js config-tabs
+// Preset Options: svgr
+// Plugin Options: @docusaurus/plugin-svgr
+
+const config = {
+  svgrConfig: {
+    svgoConfig: {
+      plugins: [
+        {
+          name: 'preset-default',
+          params: {
+            overrides: {
+              removeTitle: false,
+              removeViewBox: false,
+            },
+          },
+        },
+      ],
+    },
+  },
+};
+```
+
+With this config, SVG ids are no longer prefixed, and several SVGs inlined in the same page can clash again.
+
+If you already provide your own `svgoConfig`, or use `svgoConfig: undefined` with an `svgo.config.js` file, your SVGO config replaces the default one, and this change doesn't affect your site.

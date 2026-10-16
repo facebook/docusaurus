@@ -28,7 +28,9 @@
     "webpack": "^5.111.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "workspace:*"
+    "@docusaurus/module-type-aliases": "workspace:*",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@svgr/plugin-svgo": "^8.1.0"
   },
   "peerDependencies": {
     "react": "^19.3.0",
