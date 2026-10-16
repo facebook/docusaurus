@@ -252,7 +252,6 @@ type CreateAllRoutesParam = {
   versions: FullVersion[];
   options: PluginOptions;
   actions: PluginContentLoadedActions;
-  aliasedSource: (str: string) => string;
 };
 
 export async function createAllRoutes(
