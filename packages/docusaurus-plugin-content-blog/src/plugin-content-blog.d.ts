@@ -143,6 +143,7 @@ declare module '@docusaurus/plugin-content-blog' {
    * preserved as-is. Default values will be applied when generating metadata
    */
   export type BlogPostFrontMatter = {
+    // TODO Docusaurus v5: remove the deprecated id front matter
     /**
      * @deprecated Use `slug` instead.
      */
