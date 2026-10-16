@@ -978,6 +978,9 @@ importers:
       cheerio:
         specifier: 'catalog:'
         version: 1.2.0
+      oxfmt:
+        specifier: 'catalog:'
+        version: 0.70.0
       xml-formatter:
         specifier: 'catalog:'
         version: 3.7.0
