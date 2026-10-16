@@ -238,7 +238,6 @@ redwoodjs
 Reloadable
 reloadable
 renderable
-REPONAME
 Retrocompatibility
 retrocompatibility
 retrocompatible
