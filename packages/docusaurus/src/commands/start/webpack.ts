@@ -13,7 +13,6 @@ import {
   RspackDevServer,
 } from '@docusaurus/bundler';
 import logger from '@docusaurus/logger';
-import evalSourceMapMiddleware from '../utils/legacy/evalSourceMapMiddleware';
 import {createPollingOptions} from './watcher';
 import getHttpsConfig from '../../webpack/utils/getHttpsConfig';
 import {
@@ -126,11 +125,6 @@ async function createDevServerConfig({
     allowedHosts: 'all',
     host,
     port,
-    setupMiddlewares: (middlewares, devServer) => {
-      // This lets us fetch source contents from webpack for the error overlay.
-      middlewares.unshift(evalSourceMapMiddleware(devServer));
-      return middlewares;
-    },
   };
 }
 

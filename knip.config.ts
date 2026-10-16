@@ -92,8 +92,6 @@ const config: KnipConfig = {
       ignoreDependencies: [
         // Resolved from the site dir, only when using a theme
         '@docusaurus/theme-common',
-        // JSDoc type, provided by webpack-dev-server
-        'express',
       ],
     },
     'packages/docusaurus-module-type-aliases': {
