@@ -86,15 +86,12 @@ const config: KnipConfig = {
         'src/client/exports/*.{ts,tsx}',
         'src/client/theme-fallback/**/*.tsx',
         'src/ssg/ssgWorkerThread.ts',
-        'src/babel/preset.ts',
         // Ambient declarations with triple-slash directives
         'src/**/*.d.ts',
       ],
       ignoreDependencies: [
         // Resolved from the site dir, only when using a theme
         '@docusaurus/theme-common',
-        // JSDoc type, provided by webpack-dev-server
-        'express',
       ],
     },
     'packages/docusaurus-module-type-aliases': {

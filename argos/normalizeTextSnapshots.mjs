@@ -14,6 +14,7 @@
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {format} from 'oxfmt';
 import xmlFormat from 'xml-formatter';
 
 const buildDir = path.resolve(import.meta.dirname, '../website/build');
@@ -29,16 +30,61 @@ function normalizeBrowserBailouts(html) {
   });
 }
 
-// RSS and Atom feeds embed the blog post HTML as-is, in CDATA sections
-for await (const file of fs.glob(['**/*.html', '**/rss.xml', '**/atom.xml'], {
-  cwd: buildDir,
-})) {
+// Code blocks render each code line as a "token-line" element, without
+// newlines in between. Formatters can't add any inside <pre>, so each code
+// block ends up on a single huge line: we put each code line on its own line
+const CodeBlockLineBoundaryRegex = /<\/div>(?=<div class="token-line)/g;
+
+function normalizeHtml(html) {
+  return normalizeBrowserBailouts(html).replace(
+    CodeBlockLineBoundaryRegex,
+    '</div>\n',
+  );
+}
+
+// Blog feeds embed the blog post HTML unformatted: we format it like pages
+async function formatFeedHtml(html, file) {
+  const {code, errors} = await format('feed.html', normalizeHtml(html), {
+    printWidth: 80,
+  });
+  if (errors.length > 0) {
+    throw new Error(`Can't format blog post HTML of feed ${file}`, {
+      cause: errors,
+    });
+  }
+  return code.trimEnd();
+}
+
+for await (const file of fs.glob('**/*.html', {cwd: buildDir})) {
   const filePath = path.join(buildDir, file);
   const html = await fs.readFile(filePath, 'utf8');
-  const normalized = normalizeBrowserBailouts(html);
+  const normalized = normalizeHtml(html);
   if (normalized !== html) {
     await fs.writeFile(filePath, normalized);
   }
+}
+
+// RSS and Atom feeds embed the blog post HTML as-is, in CDATA sections
+const XmlFeedContentRegex =
+  /(?<=<content type="html">|<content:encoded>)<!\[CDATA\[(?<html>[\s\S]*?)\]\]>/g;
+
+for await (const file of fs.glob(['**/rss.xml', '**/atom.xml'], {
+  cwd: buildDir,
+})) {
+  const filePath = path.join(buildDir, file);
+  const xml = await fs.readFile(filePath, 'utf8');
+  const contents = await Promise.all(
+    Array.from(xml.matchAll(XmlFeedContentRegex), (match) =>
+      formatFeedHtml(match.groups.html, file),
+    ),
+  );
+  await fs.writeFile(
+    filePath,
+    xml.replace(
+      XmlFeedContentRegex,
+      () => `<![CDATA[\n${contents.shift()}\n]]>`,
+    ),
+  );
 }
 
 // JSON feeds escape newlines, putting each blog post HTML on a single huge
@@ -46,14 +92,15 @@ for await (const file of fs.glob(['**/*.html', '**/rss.xml', '**/atom.xml'], {
 for await (const file of fs.glob('**/feed.json', {cwd: buildDir})) {
   const filePath = path.join(buildDir, file);
   const feed = JSON.parse(await fs.readFile(filePath, 'utf8'));
-  for (const item of feed.items) {
-    if (typeof item.content_html === 'string') {
-      // eslint-disable-next-line camelcase
-      item.content_html = normalizeBrowserBailouts(item.content_html).split(
-        '\n',
-      );
-    }
-  }
+  await Promise.all(
+    feed.items.map(async (item) => {
+      if (typeof item.content_html === 'string') {
+        const html = await formatFeedHtml(item.content_html, file);
+        // eslint-disable-next-line camelcase
+        item.content_html = html.split('\n');
+      }
+    }),
+  );
   await fs.writeFile(filePath, JSON.stringify(feed, null, 2));
 }
 

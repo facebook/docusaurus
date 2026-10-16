@@ -15,6 +15,7 @@
     "@argos-ci/playwright": "catalog:",
     "@playwright/test": "catalog:",
     "cheerio": "catalog:",
+    "oxfmt": "catalog:",
     "xml-formatter": "catalog:"
   }
 }
