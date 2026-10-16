@@ -166,7 +166,6 @@ const config: KnipConfig = {
         'src/plugins/featureRequests/FeatureRequestsPlugin.js',
         'src/plugins/featureRequests/FeatureRequestsPage.tsx',
         'src/sw.js',
-        'svgo.config.js',
       ],
       ignore: [
         // Intentionally broken files for testing purposes

@@ -596,11 +596,6 @@ export default async function createConfigAsync() {
                 ['/tests/{blog,pages}/**'],
             lastmod: showLastUpdate ? 'date' : null,
           },
-          svgr: {
-            svgrConfig: {
-              svgoConfig: undefined, // Use .svgo.config.js
-            },
-          },
         } satisfies Preset.Options,
       ],
     ],
