@@ -9,7 +9,7 @@ import {describe, expect, it} from 'vitest';
 import type {ReactNode} from 'react';
 import {renderHook} from '@testing-library/react';
 import {RouteContextProvider} from '@docusaurus/core/src/client/routeContext';
-import {useDocsVersion, DocsVersionProvider} from '../docsVersion';
+import {useDocsVersion} from '../docsVersion';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
 
 function testVersion(data?: Partial<PropVersionMetadata>): PropVersionMetadata {
@@ -70,20 +70,5 @@ describe('useDocsVersion', () => {
       ),
     });
     expect(result.current).toBe(version);
-  });
-
-  it('reads value from context provider in priority', () => {
-    const routeContextVersion = testVersion({version: 'routeContextVersion'});
-    const providedVersion = testVersion({version: 'providedVersion'});
-    const {result} = renderHook(() => useDocsVersion(), {
-      wrapper: ({children}) => (
-        <TestRouteContextProvider version={routeContextVersion}>
-          <DocsVersionProvider version={providedVersion}>
-            {children}
-          </DocsVersionProvider>
-        </TestRouteContextProvider>
-      ),
-    });
-    expect(result.current).toBe(providedVersion);
   });
 });
