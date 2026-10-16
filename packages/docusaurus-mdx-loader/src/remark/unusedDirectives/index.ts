@@ -44,9 +44,25 @@ function formatDirectiveName(directive: Directives) {
   return `${prefix}${directive.name}`;
 }
 
+// Helpful hints for directives that used to be supported by Docusaurus
+const removedContainerDirectiveHints: {[name: string]: string} = {
+  caution:
+    'the :::caution admonition has been removed in Docusaurus v4, use :::warning instead',
+};
+
+function formatDirectiveHint(directive: Directives): string {
+  const hint =
+    directive.type === 'containerDirective'
+      ? removedContainerDirectiveHints[directive.name]
+      : undefined;
+  return hint ? ` - ${hint}` : '';
+}
+
 function formatUnusedDirectiveMessage(directive: Directives) {
   const name = formatDirectiveName(directive);
-  return `- ${name}${formatNodePositionExtraMessage(directive)}`;
+  return `- ${name}${formatNodePositionExtraMessage(
+    directive,
+  )}${formatDirectiveHint(directive)}`;
 }
 
 function formatUnusedDirectivesMessage({

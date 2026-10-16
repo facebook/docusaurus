@@ -31,8 +31,6 @@
   "theme.NotFound.title___DESCRIPTION": "The title of the 404 page",
   "theme.TOCCollapsible.toggleButtonLabel": "On this page",
   "theme.TOCCollapsible.toggleButtonLabel___DESCRIPTION": "The label used by the button on the collapsible TOC component",
-  "theme.admonition.caution": "caution",
-  "theme.admonition.caution___DESCRIPTION": "The default label used for the Caution admonition (:::caution)",
   "theme.admonition.danger": "danger",
   "theme.admonition.danger___DESCRIPTION": "The default label used for the Danger admonition (:::danger)",
   "theme.admonition.info": "info",

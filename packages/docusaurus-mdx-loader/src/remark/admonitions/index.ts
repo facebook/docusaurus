@@ -24,7 +24,6 @@ export const DefaultAdmonitionOptions: AdmonitionOptions = {
     'tip',
     'warning',
     'important',
-    'caution',
   ],
   extendDefaults: true,
 };

@@ -102,6 +102,15 @@ describe('directives remark plugin - client compiler', () => {
           To ignore this error, use the \`siteConfig.markdown.hooks.onUnusedMarkdownDirectives\` option.]
         `);
       });
+      it('if file contains removed caution admonition, with hint', async () => {
+        await expect(processFixture('cautionAdmonition', fileData, options))
+          .rejects.toThrowErrorMatchingInlineSnapshot(`
+          [Error: Docusaurus found 1 unused Markdown directives in file "packages/docusaurus-mdx-loader/src/remark/unusedDirectives/__tests__/__fixtures__/cautionAdmonition.md"
+          - :::caution (7:1) - the :::caution admonition has been removed in Docusaurus v4, use :::warning instead
+          Your content might render in an unexpected way. Visit https://github.com/facebook/docusaurus/pull/9394 to find out why and how to fix it.
+          To ignore this error, use the \`siteConfig.markdown.hooks.onUnusedMarkdownDirectives\` option.]
+        `);
+      });
     });
 
     describe('function form', () => {
