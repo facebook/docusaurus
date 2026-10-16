@@ -319,6 +319,7 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<
   .default(DEFAULT_FUTURE_CONFIG);
 
 // TODO move to @docusaurus/utils-validation
+// TODO Docusaurus v5: remove these never types for removed/renamed options
 export const ConfigSchema = Joi.object<
   DocusaurusConfig & {onBrokenMarkdownLinks: never; ssrTemplate: never}
 >({
