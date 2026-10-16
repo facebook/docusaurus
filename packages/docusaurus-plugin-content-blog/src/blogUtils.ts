@@ -309,11 +309,6 @@ async function processBlogSourceFile(
     return undefined;
   }
 
-  // TODO Docusaurus v5: remove the deprecated id front matter
-  if (frontMatter.id) {
-    logger.warn`name=${'id'} header option is deprecated in path=${blogSourceRelative} file. Please use name=${'slug'} option instead.`;
-  }
-
   const parsedBlogFileName = parseBlogFileName(blogSourceRelative);
 
   const date = await getBlogPostDate({

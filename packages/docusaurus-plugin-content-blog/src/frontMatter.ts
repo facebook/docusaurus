@@ -38,7 +38,6 @@ const LegacyAuthorFrontMatterSchema = Joi.any().forbidden().messages({
 });
 
 const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
-  id: Joi.string(),
   title: Joi.string().allow(''),
   title_meta: Joi.string().allow(''),
   sidebar_label: Joi.string().allow(''),
