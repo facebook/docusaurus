@@ -7,7 +7,7 @@
 
 import {useLayoutEffect} from 'react';
 
-// TODO Docusaurus v5: remove this retro-compatible module
+// TODO Docusaurus v5: remove this deprecated hook
 /**
  * This hook is now just React's `useLayoutEffect`.
  *
@@ -15,9 +15,10 @@ import {useLayoutEffect} from 'react';
  * `useLayoutEffect` SSR warning, which React 19 removed.
  * See https://github.com/facebook/react/pull/26395
  *
- * It is unnecessary since React 19: use `useLayoutEffect` directly.
  * We only keep it for retro-compatibility, because third-party code might
  * import `@docusaurus/useIsomorphicLayoutEffect`.
+ *
+ * @deprecated Use React's `useLayoutEffect` instead.
  */
 const useIsomorphicLayoutEffect = useLayoutEffect;
 

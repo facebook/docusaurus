@@ -49,6 +49,12 @@ const removedContainerDirectiveHints: {[name: string]: string} = {
   // TODO Docusaurus v5: remove this migration hint
   caution:
     'the :::caution admonition has been removed in Docusaurus v4, use :::warning instead',
+  secondary:
+    'the :::secondary admonition has been removed in Docusaurus v4, use :::note instead',
+  success:
+    'the :::success admonition has been removed in Docusaurus v4, use :::tip instead',
+  important:
+    'the :::important admonition has been removed in Docusaurus v4, use :::info instead',
 };
 
 function formatDirectiveHint(directive: Directives): string {

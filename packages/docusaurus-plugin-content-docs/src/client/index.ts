@@ -62,6 +62,8 @@ export {
 
 export {useBreadcrumbsStructuredData} from './structuredDataUtils';
 
+export {useDocCardDescriptionCategoryItemsPlural} from './docsTranslations';
+
 export type ActivePlugin = {
   pluginId: string;
   pluginData: GlobalPluginData;
