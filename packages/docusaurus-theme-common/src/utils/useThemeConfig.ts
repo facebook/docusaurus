@@ -104,9 +104,8 @@ type TableOfContents = {
   maxHeadingLevel: number;
 };
 
-// TODO Docusaurus v4: use interface + declaration merging to enhance
-// Theme config after validation/normalization
-export type ThemeConfig = {
+// Theme config fields of the classic theme, after validation/normalization
+export type ClassicThemeConfig = {
   docs: {
     versionPersistence: DocsVersionPersistence;
     sidebar: {
@@ -136,8 +135,28 @@ export type ThemeConfig = {
   tableOfContents: TableOfContents;
 };
 
-// User-provided theme config, unnormalized
-export type UserThemeConfig = DeepPartial<ThemeConfig>;
+/**
+ * Theme config, after validation/normalization.
+ *
+ * Other themes and plugins can add their own fields with declaration merging:
+ *
+ * ```ts
+ * declare module '@docusaurus/theme-common' {
+ *   interface ThemeConfig {
+ *     myTheme: {option: string};
+ *   }
+ * }
+ * ```
+ */
+export interface ThemeConfig extends ClassicThemeConfig {}
+
+/**
+ * User-provided theme config, unnormalized.
+ *
+ * Other themes and plugins can add their own fields with declaration merging,
+ * like for {@link ThemeConfig}.
+ */
+export interface UserThemeConfig extends DeepPartial<ClassicThemeConfig> {}
 
 /**
  * A convenient/more semantic way to get theme config from context.

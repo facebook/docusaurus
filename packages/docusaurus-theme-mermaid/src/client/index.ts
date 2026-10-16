@@ -10,13 +10,13 @@ import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
 import {loadMermaid} from './loadMermaid';
 
 import type {RenderResult, MermaidConfig} from 'mermaid';
-import type {ThemeConfig} from '@docusaurus/theme-mermaid';
+import type {ThemeConfigMermaid} from '@docusaurus/theme-mermaid';
 
 // Stable className to allow users to easily target with CSS
 export const MermaidContainerClassName = 'docusaurus-mermaid-container';
 
-export function useMermaidThemeConfig(): ThemeConfig['mermaid'] {
-  return (useThemeConfig() as unknown as ThemeConfig).mermaid;
+export function useMermaidThemeConfig(): ThemeConfigMermaid {
+  return useThemeConfig().mermaid;
 }
 
 export function useMermaidConfig(): MermaidConfig {
