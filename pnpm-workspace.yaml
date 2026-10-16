@@ -39,7 +39,7 @@ catalog:
   '@mdx-js/mdx': ^3.1.1
   '@mdx-js/react': ^3.1.1
   '@playwright/test': ^1.63.0
-  '@rsdoctor/rspack-plugin': ^1.6.3
+  '@rsdoctor/core': ^2.0.0
   '@rsdoctor/webpack-plugin': ^1.6.3
   '@rspack/core': ^2.2.3
   '@rspack/dev-server': ^2.2.1
@@ -260,6 +260,9 @@ minimumReleaseAgeExclude:
   - '@types/react@19.3.0'
   - '@types/react-dom@19.3.0'
   - tar@7.5.16
+  - '@rsdoctor/core@2.0.0'
+  - '@rsdoctor/client@2.0.0'
+  - '@rsdoctor/shared@2.0.0'
   - pnpm
   - typescript
   - '@rspack/*'

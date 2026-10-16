@@ -307,13 +307,8 @@ export default async function createConfigAsync() {
         'rsdoctor',
         {
           rsdoctorOptions: {
-            disableTOSUpload: true,
-            supports: {
-              // https://rsdoctor.dev/config/options/options#generatetilegraph
-              generateTileGraph: true,
-            },
             linter: {
-              // See https://rsdoctor.dev/guide/usage/rule-config
+              // See https://rsdoctor.rs/guide/usage/rule-config
               rules: {
                 'ecma-version-check': 'off',
                 'duplicate-package': 'off',
