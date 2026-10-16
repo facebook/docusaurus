@@ -8,6 +8,7 @@
 import type {ReactNode} from 'react';
 import type {Props} from '@theme/Admonition';
 import DefaultAdmonitionTypes from '@theme-original/Admonition/Types';
+import AdmonitionTypeWarning from '@theme/Admonition/Type/Warning';
 import Heading from '@theme/Heading';
 
 function MyCustomAdmonition(props: Props): ReactNode {
@@ -27,6 +28,12 @@ const AdmonitionTypes = {
   // Add all your custom admonition types here...
   // you can also override the default ones
   'my-custom-admonition': MyCustomAdmonition,
+
+  // Docusaurus v4 removed 'caution', but older blog posts and versioned docs
+  // still use it: we render it as a warning, keeping the legacy title
+  caution: (props: Props) => (
+    <AdmonitionTypeWarning title="caution" {...props} />
+  ),
 };
 
 export default AdmonitionTypes;

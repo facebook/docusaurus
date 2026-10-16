@@ -70,14 +70,6 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The folder containing all the admonition type components.',
       },
-      'Admonition/Type/Caution': {
-        actions: {
-          eject: 'safe',
-          wrap: 'safe',
-        },
-        description:
-          'The component responsible for rendering a :::caution admonition type',
-      },
       'Admonition/Type/Danger': {
         actions: {
           eject: 'safe',

@@ -51,7 +51,7 @@ function VersionNotice() {
       !location.includes('deploy-preview')
     ) {
       return (
-        <Admonition type="caution">
+        <Admonition type="warning">
           <p>
             <Translate
               id="upgradeGuide.archivedVersion.notice"
@@ -101,7 +101,7 @@ function VersionNotice() {
   }
   if (activeVersion.name !== latestVersion.name) {
     return (
-      <Admonition type="caution">
+      <Admonition type="warning">
         <p>
           <Translate id="upgradeGuide.outdatedVersion.notice">
             You are browsing the documentation of an outdated version. The

@@ -7,7 +7,7 @@ slug: /api/plugins/@docusaurus/plugin-css-cascade-layers
 
 import APITable from '@site/src/components/APITable';
 
-:::caution Experimental
+:::warning Experimental
 
 This plugin is mostly designed to be used internally by the classic preset, although it can also be used as a standalone plugin. Please [let us know here](https://github.com/facebook/docusaurus/pull/11142) if you have a use case for it and help us design an API that makes sense for the future of Docusaurus.
 
@@ -20,7 +20,7 @@ Use this plugin to:
 - apply a top-level `@layer myLayer { ... }` block rule around any CSS module, including un-layered third-party CSS.
 - define an explicit layer ordering
 
-:::caution
+:::warning
 
 To use this plugin properly, it's recommended to have a solid understanding of [CSS Cascade Layers](https://css-tricks.com/css-cascade-layers/), the [CSS Cascade](https://developer.mozilla.org/docs/Web/CSS/CSS_cascade/Cascade) and [specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascade/Specificity).
 
@@ -70,7 +70,7 @@ The `layers` object is defined by:
 - key: the name of a layer
 - value: a function to define if a given CSS module file should be in that layer
 
-:::caution Order matters
+:::warning Order matters
 
 The object order matters:
 

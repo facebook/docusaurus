@@ -139,7 +139,7 @@ describe('createExcerpt', () => {
       createExcerpt(dedent`
           import Component from '@site/src/components/Component'
 
-          :::caution
+          :::warning
 
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
@@ -1331,7 +1331,7 @@ text\r
 });
 
 describe('admonitionTitleToDirectiveLabel', () => {
-  const directives = ['info', 'note', 'tip', 'caution'];
+  const directives = ['info', 'note', 'tip', 'warning'];
 
   it('does not transform markdown without any admonition', () => {
     expect(
@@ -1533,18 +1533,18 @@ after
         `
 before
 
-> :::caution There be dragons
+> :::warning There be dragons
 >
 > This is the admonition content
 >
 > :::
 >
->> :::caution There be dragons
+>> :::warning There be dragons
 >>
 >> This is the admonition content
 >>
 >> :::
-> > :::caution There be dragons
+> > :::warning There be dragons
 > >
 > > This is the admonition content
 > >
@@ -1557,18 +1557,18 @@ after
     ).toBe(`
 before
 
-> :::caution[There be dragons]
+> :::warning[There be dragons]
 >
 > This is the admonition content
 >
 > :::
 >
->> :::caution[There be dragons]
+>> :::warning[There be dragons]
 >>
 >> This is the admonition content
 >>
 >> :::
-> > :::caution[There be dragons]
+> > :::warning[There be dragons]
 > >
 > > This is the admonition content
 > >

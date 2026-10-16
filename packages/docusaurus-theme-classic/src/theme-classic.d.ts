@@ -78,16 +78,6 @@ declare module '@theme/Admonition/Type/Tip' {
   export default function AdmonitionTypeTip(props: Props): ReactNode;
 }
 
-// TODO remove before v4: Caution replaced by Warning
-// see https://github.com/facebook/docusaurus/issues/7558
-declare module '@theme/Admonition/Type/Caution' {
-  import type {ReactNode} from 'react';
-  import type {Props as AdmonitionProps} from '@theme/Admonition';
-
-  export interface Props extends AdmonitionProps {}
-  export default function AdmonitionTypeCaution(props: Props): ReactNode;
-}
-
 declare module '@theme/Admonition/Type/Warning' {
   import type {ReactNode} from 'react';
   import type {Props as AdmonitionProps} from '@theme/Admonition';
