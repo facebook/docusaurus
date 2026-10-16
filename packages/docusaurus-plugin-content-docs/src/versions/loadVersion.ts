@@ -11,7 +11,6 @@ import {aliasedSitePathToRelativePath, createSlugger} from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import logger from '@docusaurus/logger';
 import {
-  addDocNavigation,
   createDocsByIdIndex,
   type DocEnv,
   processDocMetadata,
@@ -158,10 +157,7 @@ async function doLoadVersion({
 
   return {
     ...versionMetadata,
-    docs: addDocNavigation({
-      docs,
-      sidebarsUtils,
-    }),
+    docs,
     drafts,
     sidebars,
   };
