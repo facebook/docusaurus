@@ -15,16 +15,7 @@ export type AdmonitionOptions = {
 };
 
 export const DefaultAdmonitionOptions: AdmonitionOptions = {
-  keywords: [
-    'secondary',
-    'info',
-    'success',
-    'danger',
-    'note',
-    'tip',
-    'warning',
-    'important',
-  ],
+  keywords: ['note', 'tip', 'info', 'warning', 'danger'],
   extendDefaults: true,
 };
 
