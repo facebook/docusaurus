@@ -45,6 +45,15 @@ Use:
   - `src/` - Website source code, JS/MDX pages, custom React components, and theme overrides
   - `_dogfooding/` - Hidden docs, blog and pages plugin instances for dogfooding, testing features and edge cases, making it easier to review on PR deploy previews
 
+### Writing documentation
+
+`website/docs` describes the behavior of the current version only, concisely. When changing a feature, rewrite its docs to describe the new behavior as if it had always been this way:
+
+- Don't mention how previous Docusaurus versions behaved ("In v3…", "Since v4…", "the historical behavior", "now defaults to…", "no longer…").
+- Don't document how to restore a former behavior or default.
+- Exception: an API whose name references a version (like the `default-v3` VCS preset) can say which version it comes from.
+- Version changes, upgrade steps, and how to restore former behaviors belong in release blog posts, migration guides (`website/docs/migration/`), and PR descriptions.
+
 ## Commands
 
 The main CLI commands available
