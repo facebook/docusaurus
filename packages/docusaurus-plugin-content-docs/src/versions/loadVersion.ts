@@ -151,14 +151,9 @@ async function doLoadVersion({
   const docsById = createDocsByIdIndex(docs);
   const allDocIds = Object.keys(docsById);
 
-  sidebarsUtils.checkLegacyVersionedSidebarNames({
-    sidebarFilePath: versionMetadata.sidebarFilePath as string,
-    versionMetadata,
-  });
   sidebarsUtils.checkSidebarsDocIds({
     allDocIds,
     sidebarFilePath: versionMetadata.sidebarFilePath as string,
-    versionMetadata,
   });
 
   return {
