@@ -20,6 +20,27 @@ export default {
     'packages/create-docusaurus/templates/*/package.json',
   ],
 
+  // Packages that must use the same version, treated as a single dependency
+  // Keep in sync with the groups of .github/dependabot.yml
+  dependencyGroups: [
+    {aliasName: 'svgr', dependencies: ['@svgr/**']},
+    {aliasName: 'workbox', dependencies: ['workbox-*']},
+    {aliasName: 'rsdoctor', dependencies: ['@rsdoctor/**']},
+    {aliasName: 'react', dependencies: ['react', 'react-dom']},
+    {
+      aliasName: 'react-types',
+      dependencies: ['@types/react', '@types/react-dom'],
+    },
+    {
+      aliasName: 'react-router',
+      dependencies: ['react-router', 'react-router-dom'],
+    },
+    {
+      aliasName: 'typescript-eslint',
+      dependencies: ['typescript-eslint', '@typescript-eslint/**'],
+    },
+  ],
+
   semverGroups: [
     {
       label: 'Use ~ for TypeScript monorepo root and init templates',
@@ -51,9 +72,9 @@ export default {
         '@docusaurus/types',
       ],
       dependencies: [
+        // Aliases from dependencyGroups
         'react',
-        'react-dom',
-        '@types/react',
+        'react-types',
         '@types/react-router-config',
         '@types/react-router-dom',
       ],

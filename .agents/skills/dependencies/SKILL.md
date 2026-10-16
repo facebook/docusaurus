@@ -1,0 +1,34 @@
+---
+name: dependencies
+description: Add, remove or upgrade npm dependencies in the Docusaurus monorepo. Use before editing any `package.json` dependency field, running `pnpm add`/`pnpm remove`/`pnpm update`, or changing `pnpm-lock.yaml`.
+---
+
+# Dependencies
+
+## Lockfile
+
+- Run `pnpm dedupe` after any lockfile change. CI fails if `pnpm-lock.yaml` is not deduplicated (`pnpm lint:deps`).
+- Run `pnpm lint:syncpack`: the same dependency must use the same version range in all packages.
+- Site template dependencies live in `packages/create-docusaurus/templates/`. Never edit `examples/`, it is CLI-generated.
+
+## Dependency groups
+
+Some packages must always use the same version. They are declared as groups in two places, which must stay in sync:
+
+- `.github/dependabot.yml` (`groups`): Dependabot upgrades them atomically in a single PR, instead of opening broken intermediate PRs.
+- `.syncpackrc.ts` (`dependencyGroups`): `pnpm lint:syncpack` fails if their versions differ.
+
+Packages belong to a group when, for example:
+
+- One package pins an exact version of the other (`@svgr/webpack` pins `@svgr/core` and `@svgr/plugin-*`).
+- One package has a peer dependency on the exact same version of the other (`@types/react-dom` and `@types/react`).
+- The packages check at runtime that their versions match (`react` and `react-dom`).
+- Mixing versions duplicates a singleton package (`react-router` and `react-router-dom`).
+- The packages are released in lockstep and mixing versions breaks typechecking (`typescript-eslint`).
+
+When you add a dependency, check whether it belongs to a group:
+
+- If an existing group already matches it (`@svgr/*` matches `@svgr/plugin-jsx`), there is nothing to do.
+- Otherwise, add it to the matching group, or create a new group, in both files. Follow the existing groups: one group per package family, with a comment explaining why the packages must stay in sync.
+
+Do the same when a Dependabot PR can't pass CI on its own because a related package wasn't upgraded with it.
