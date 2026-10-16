@@ -86,7 +86,6 @@ const config: KnipConfig = {
         'src/client/exports/*.{ts,tsx}',
         'src/client/theme-fallback/**/*.tsx',
         'src/ssg/ssgWorkerThread.ts',
-        'src/babel/preset.ts',
         // Ambient declarations with triple-slash directives
         'src/**/*.d.ts',
       ],
