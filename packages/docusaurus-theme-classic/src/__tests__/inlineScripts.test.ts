@@ -6,7 +6,10 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {getThemeInlineScript} from '../inlineScripts';
+import {
+  getAnnouncementBarInlineScript,
+  getThemeInlineScript,
+} from '../inlineScripts';
 
 describe('inlineScripts', () => {
   it('inline javascript for default options', () => {
@@ -39,5 +42,70 @@ describe('inlineScripts', () => {
         },
       }),
     ).toMatchSnapshot();
+  });
+
+  describe('announcement bar', () => {
+    function getInitiallyDismissed(
+      announcementBarId: string,
+      storage: {[key: string]: string},
+    ): string | undefined {
+      const attributes: {[name: string]: string} = {};
+      const script = getAnnouncementBarInlineScript({
+        siteStorage: {type: 'localStorage', namespace: ''},
+        announcementBarId,
+      });
+      new Function('localStorage', 'document', script)(
+        {getItem: (key: string) => storage[key] ?? null},
+        {
+          documentElement: {
+            setAttribute: (name: string, value: unknown) => {
+              attributes[name] = String(value);
+            },
+          },
+        },
+      );
+      return attributes['data-announcement-bar-initially-dismissed'];
+    }
+
+    it('inline javascript', () => {
+      expect(
+        getAnnouncementBarInlineScript({
+          siteStorage: {type: 'localStorage', namespace: ''},
+          announcementBarId: 'announcement-bar',
+        }),
+      ).toMatchSnapshot();
+    });
+
+    it('is dismissed when the current announcement was dismissed', () => {
+      expect(
+        getInitiallyDismissed('announcement-1', {
+          'docusaurus.announcement.id': 'announcement-1',
+          'docusaurus.announcement.dismiss': 'true',
+        }),
+      ).toBe('true');
+    });
+
+    it('is not dismissed when a previous announcement was dismissed', () => {
+      expect(
+        getInitiallyDismissed('announcement-2', {
+          'docusaurus.announcement.id': 'announcement-1',
+          'docusaurus.announcement.dismiss': 'true',
+        }),
+      ).toBe('false');
+    });
+
+    it('is not dismissed when no announcement was viewed', () => {
+      expect(getInitiallyDismissed('announcement-1', {})).toBe('false');
+    });
+
+    it('treats the misspelled legacy id as the default id', () => {
+      expect(
+        getInitiallyDismissed('announcement-bar', {
+          // cSpell:ignore annoucement
+          'docusaurus.announcement.id': 'annoucement-bar',
+          'docusaurus.announcement.dismiss': 'true',
+        }),
+      ).toBe('true');
+    });
   });
 });
