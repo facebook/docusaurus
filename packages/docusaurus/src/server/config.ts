@@ -6,13 +6,13 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {
   DEFAULT_CONFIG_FILE_NAME,
   findAsyncSequential,
   loadFreshModule,
 } from '@docusaurus/utils';
+import {pathExists} from '@docusaurus/fs';
 import {validateConfig} from './configValidation';
 import type {LoadContext} from '@docusaurus/types';
 
@@ -23,7 +23,7 @@ async function findConfig(siteDir: string) {
   );
   const configPath = await findAsyncSequential(
     candidates.map((file) => path.join(siteDir, file)),
-    fs.pathExists,
+    pathExists,
   );
   if (!configPath) {
     const relativeSiteDir = path.relative(process.cwd(), siteDir);
@@ -46,7 +46,7 @@ export async function loadSiteConfig({
     ? path.resolve(siteDir, customConfigFilePath)
     : await findConfig(siteDir);
 
-  if (!(await fs.pathExists(siteConfigPath))) {
+  if (!(await pathExists(siteConfigPath))) {
     throw new Error(`Config file at "${siteConfigPath}" not found.`);
   }
 

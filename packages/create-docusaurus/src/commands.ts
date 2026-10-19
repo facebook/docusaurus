@@ -8,7 +8,6 @@
 // We use cross-spawn instead of spawn because of Windows compatibility issues.
 // For example, "yarn" doesn't work on Windows, it requires "yarn.cmd"
 import crossSpawn from 'cross-spawn';
-import supportsColor from 'supports-color';
 import {
   PackageManagers,
   type PackageManager,
@@ -21,18 +20,24 @@ import {askForCustomGitCloneCommand} from './prompts.js';
 // cross-spawn directly to ensure direct compatibility.
 type SpawnOptions = NonNullable<Parameters<typeof crossSpawn>[2]>;
 
+type CommandResult = {
+  exitCode: number;
+  stdout: string;
+  stderr: string;
+};
+
 /**
  * Run a command, similar to execa(cmd,args) but simpler
  * @param command
  * @param args
  * @param options
- * @returns the command exit code
+ * @returns the command exit code and output
  */
-async function runCommand(
+export async function runCommand(
   command: string,
   args: string[] = [],
   options: SpawnOptions = {},
-): Promise<number> {
+): Promise<CommandResult> {
   // This does something similar to execa.command()
   // we split a string command (with optional args) into command+args
   // this way it's compatible with spawn()
@@ -42,21 +47,39 @@ async function runCommand(
     throw new Error(`Invalid command: ${command}`);
   }
 
-  return new Promise<number>((resolve, reject) => {
-    const p = crossSpawn(realCommand, allArgs, {stdio: 'ignore', ...options});
+  return new Promise<CommandResult>((resolve, reject) => {
+    const p = crossSpawn(realCommand, allArgs, {
+      stdio: ['ignore', 'pipe', 'pipe'],
+      ...options,
+    });
+    let stdout = '';
+    let stderr = '';
+    p.stdout?.setEncoding('utf8').on('data', (chunk: string) => {
+      stdout += chunk;
+    });
+    p.stderr?.setEncoding('utf8').on('data', (chunk: string) => {
+      stderr += chunk;
+    });
     p.on('error', reject);
     p.on('close', (exitCode) =>
       exitCode !== null
-        ? resolve(exitCode)
+        ? resolve({exitCode, stdout, stderr})
         : reject(new Error(`No exit code for command ${command}`)),
     );
   });
 }
 
+// Gives the user a hint about why a command failed
+function printCommandOutput({stdout, stderr}: CommandResult): void {
+  process.stdout.write(stdout);
+  process.stderr.write(stderr);
+}
+
 async function hasPackageManager(
   packageManager: PackageManager,
 ): Promise<boolean> {
-  return (await runCommand(packageManager, ['--version'])) === 0;
+  const {exitCode} = await runCommand(packageManager, ['--version']);
+  return exitCode === 0;
 }
 
 export async function getAvailablePackageManagers(): Promise<PackageManager[]> {
@@ -72,21 +95,24 @@ export async function runPackageManagerInstallCommand(
   pkgManager: PackageManager,
 ): Promise<boolean> {
   const installCommand =
-    pkgManager === 'yarn'
-      ? 'yarn'
-      : pkgManager === 'bun'
-        ? 'bun install'
-        : `${pkgManager} install --color always`;
+    pkgManager === 'yarn' ? 'yarn' : `${pkgManager} install`;
 
-  return (
-    (await runCommand(installCommand, [], {
-      env: {
-        ...process.env,
-        // Force coloring the output
-        ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
-      },
-    })) === 0
-  );
+  // The output is piped, so package managers can't detect color support
+  // hasColors() is undefined when stdout is not a TTY
+  const forceColor = process.stdout.hasColors?.() ?? false;
+  // npm ignores FORCE_COLOR (pnpm 12 ignores --color=always and parses
+  // "--color always" as "pnpm add always")
+  const colorArgs =
+    forceColor && pkgManager === 'npm' ? ['--color=always'] : [];
+
+  const result = await runCommand(installCommand, colorArgs, {
+    env: {...process.env, ...(forceColor ? {FORCE_COLOR: '1'} : {})},
+  });
+  // The install output is noisy: only print it on failure
+  if (result.exitCode !== 0) {
+    printCommandOutput(result);
+  }
+  return result.exitCode === 0;
 }
 
 async function getGitCloneCommand(
@@ -110,5 +136,9 @@ export async function runGitCloneCommand(
   dest: string,
 ): Promise<boolean> {
   const gitCommand = await getGitCloneCommand(source.strategy);
-  return (await runCommand(gitCommand, [source.url, dest])) === 0;
+  const result = await runCommand(gitCommand, [source.url, dest]);
+  if (result.exitCode !== 0) {
+    printCommandOutput(result);
+  }
+  return result.exitCode === 0;
 }

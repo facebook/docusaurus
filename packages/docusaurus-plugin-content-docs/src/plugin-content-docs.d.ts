@@ -12,7 +12,6 @@ declare module '@docusaurus/plugin-content-docs' {
 
   import type {
     ContentPaths,
-    FrontMatterTag,
     TagsListItem,
     TagModule,
     FrontMatterLastUpdate,
@@ -316,7 +315,7 @@ declare module '@docusaurus/plugin-content-docs' {
      * Front matter tags, unnormalized.
      * @see {@link DocMetadata.tags}
      */
-    tags?: FrontMatterTag[];
+    tags?: string[];
     /**
      * If there isn't a Markdown h1 heading (which, if there is, we don't
      * remove), this front matter will cause the front matter title to not be
@@ -558,8 +557,8 @@ declare module '@docusaurus/plugin-content-docs' {
   };
 
   export type LoadedVersion = VersionMetadata & {
-    docs: DocMetadata[];
-    drafts: DocMetadata[];
+    docs: DocMetadataBase[];
+    drafts: DocMetadataBase[];
     sidebars: import('./sidebars/types').Sidebars;
   };
 
@@ -645,13 +644,10 @@ declare module '@theme/DocsRoot' {
 
 declare module '@theme/DocVersionRoot' {
   import type {ReactNode} from 'react';
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
   import type {RouteConfigComponentProps} from 'react-router-config';
   import type {Required} from 'utility-types';
 
-  export interface Props extends Required<RouteConfigComponentProps, 'route'> {
-    readonly version: PropVersionMetadata;
-  }
+  export interface Props extends Required<RouteConfigComponentProps, 'route'> {}
 
   export default function DocVersionRoot(props: Props): ReactNode;
 }

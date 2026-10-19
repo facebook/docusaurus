@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import _ from 'lodash';
 import {
   aliasedSitePath,
@@ -22,6 +21,7 @@ import {
   normalizeTags,
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
+import {fs} from '@docusaurus/fs';
 import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
@@ -35,7 +35,6 @@ import type {
   DocMetadata,
   PropNavigationLink,
   VersionMetadata,
-  LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import type {SidebarsUtils} from './sidebars/utils';
@@ -97,7 +96,7 @@ async function doProcessDocMetadata({
     siteDir,
     siteConfig: {
       markdown: {parseFrontMatter},
-      future: {experimental_vcs: vcs},
+      vcs,
     },
   } = context;
 
@@ -273,7 +272,7 @@ export function addDocNavigation({
 }: {
   docs: DocMetadataBase[];
   sidebarsUtils: SidebarsUtils;
-}): LoadedVersion['docs'] {
+}): DocMetadata[] {
   const docsById = createDocsByIdIndex(docs);
   const unlistedIds = getUnlistedIds(docs);
 

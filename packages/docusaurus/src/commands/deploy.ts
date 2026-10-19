@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import os from 'node:os';
 import logger from '@docusaurus/logger';
 import {execa} from 'execa';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
+import {fs, realpath} from '@docusaurus/fs';
 import {loadContext, type LoadContextParams} from '../server/site';
 import {build} from './build/build';
 
@@ -74,7 +74,7 @@ export async function deploy(
   siteDirParam: string = '.',
   cliOptions: Partial<DeployCLIOptions> = {},
 ): Promise<void> {
-  const siteDir = await fs.realpath(siteDirParam);
+  const siteDir = await realpath(siteDirParam);
 
   const {outDir, siteConfig, siteConfigPath} = await loadContext({
     siteDir,
@@ -126,9 +126,7 @@ This behavior can have SEO impacts and create relative link issues.
   }
 
   const organizationName =
-    process.env.ORGANIZATION_NAME ??
-    process.env.CIRCLE_PROJECT_USERNAME ??
-    siteConfig.organizationName;
+    process.env.ORGANIZATION_NAME ?? siteConfig.organizationName;
   if (!organizationName) {
     throw new Error(
       `Missing project organization name. Did you forget to define "organizationName" in ${siteConfigPath}? You may also export it via the ORGANIZATION_NAME environment variable.`,
@@ -136,24 +134,13 @@ This behavior can have SEO impacts and create relative link issues.
   }
   logger.info`organizationName: name=${organizationName}`;
 
-  const projectName =
-    process.env.PROJECT_NAME ??
-    process.env.CIRCLE_PROJECT_REPONAME ??
-    siteConfig.projectName;
+  const projectName = process.env.PROJECT_NAME ?? siteConfig.projectName;
   if (!projectName) {
     throw new Error(
       `Missing project name. Did you forget to define "projectName" in ${siteConfigPath}? You may also export it via the PROJECT_NAME environment variable.`,
     );
   }
   logger.info`projectName: name=${projectName}`;
-
-  // We never deploy on pull request.
-  const isPullRequest =
-    process.env.CI_PULL_REQUEST ?? process.env.CIRCLE_PULL_REQUEST;
-  if (isPullRequest) {
-    logger.info('Skipping deploy on a pull request.');
-    process.exit(0);
-  }
 
   // github.io indicates organization repos that deploy via default branch. All
   // others use gh-pages (either case can be configured actually, but we can
@@ -254,7 +241,11 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
 
     const targetPath = path.join(toPath, targetDirectory);
     try {
-      await fs.copy(fromPath, targetPath);
+      // verbatimSymlinks: keep relative symlinks relative
+      await fs.cp(fromPath, targetPath, {
+        recursive: true,
+        verbatimSymlinks: true,
+      });
     } catch (err) {
       throw new Error(
         `Failed to copy build assets from path=${fromPath} to path=${targetPath}.`,

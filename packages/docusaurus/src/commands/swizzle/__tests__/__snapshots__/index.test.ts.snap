@@ -54,9 +54,7 @@ exports[`swizzle eject > ComponentInFolder TS > ComponentInFolder/ComponentInSub
 `;
 
 exports[`swizzle eject > ComponentInFolder TS > ComponentInFolder/ComponentInSubFolder/index.tsx 1`] = `
-"import React from 'react';
-
-export default function ComponentInSubFolder() {
+"export default function ComponentInSubFolder() {
   return <div>ComponentInSubFolder</div>;
 }
 "
@@ -84,9 +82,7 @@ exports[`swizzle eject > ComponentInFolder TS > ComponentInFolder/Sibling.css 1`
 `;
 
 exports[`swizzle eject > ComponentInFolder TS > ComponentInFolder/Sibling.tsx 1`] = `
-"import React from 'react';
-
-export default function Sibling() {
+"export default function Sibling() {
   return <div>Sibling</div>;
 }
 "
@@ -100,9 +96,7 @@ exports[`swizzle eject > ComponentInFolder TS > ComponentInFolder/index.css 1`] 
 `;
 
 exports[`swizzle eject > ComponentInFolder TS > ComponentInFolder/index.tsx 1`] = `
-"import React from 'react';
-
-export default function ComponentInFolder() {
+"export default function ComponentInFolder() {
   return <div>ComponentInFolder</div>;
 }
 "
@@ -160,9 +154,7 @@ exports[`swizzle eject > ComponentInFolder/ComponentInSubFolder TS > ComponentIn
 `;
 
 exports[`swizzle eject > ComponentInFolder/ComponentInSubFolder TS > ComponentInFolder/ComponentInSubFolder/index.tsx 1`] = `
-"import React from 'react';
-
-export default function ComponentInSubFolder() {
+"export default function ComponentInSubFolder() {
   return <div>ComponentInSubFolder</div>;
 }
 "
@@ -213,9 +205,7 @@ exports[`swizzle eject > ComponentInFolder/Sibling TS > ComponentInFolder/Siblin
 `;
 
 exports[`swizzle eject > ComponentInFolder/Sibling TS > ComponentInFolder/Sibling.tsx 1`] = `
-"import React from 'react';
-
-export default function Sibling() {
+"export default function Sibling() {
   return <div>Sibling</div>;
 }
 "
@@ -248,9 +238,7 @@ exports[`swizzle eject > FirstLevelComponent TS > FirstLevelComponent.css 1`] = 
 `;
 
 exports[`swizzle eject > FirstLevelComponent TS > FirstLevelComponent.tsx 1`] = `
-"import React from 'react';
-
-export default function FirstLevelComponent() {
+"export default function FirstLevelComponent() {
   return <div>First level component</div>;
 }
 "
@@ -263,8 +251,7 @@ exports[`swizzle eject > FirstLevelComponent TS > theme dir tree 1`] = `
 `;
 
 exports[`swizzle wrap > ComponentInFolder JS > ComponentInFolder/index.js 1`] = `
-"import React from 'react';
-import ComponentInFolder from '@theme-original/ComponentInFolder';
+"import ComponentInFolder from '@theme-original/ComponentInFolder';
 
 export default function ComponentInFolderWrapper(props) {
   return (
@@ -283,7 +270,7 @@ exports[`swizzle wrap > ComponentInFolder JS > theme dir tree 1`] = `
 `;
 
 exports[`swizzle wrap > ComponentInFolder TS > ComponentInFolder/index.tsx 1`] = `
-"import React, {type ReactNode} from 'react';
+"import type {ReactNode} from 'react';
 import ComponentInFolder from '@theme-original/ComponentInFolder';
 import type ComponentInFolderType from '@theme/ComponentInFolder';
 import type {WrapperProps} from '@docusaurus/types';
@@ -307,8 +294,7 @@ exports[`swizzle wrap > ComponentInFolder TS > theme dir tree 1`] = `
 `;
 
 exports[`swizzle wrap > ComponentInFolder/ComponentInSubFolder JS > ComponentInFolder/ComponentInSubFolder/index.js 1`] = `
-"import React from 'react';
-import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
+"import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
 
 export default function ComponentInSubFolderWrapper(props) {
   return (
@@ -328,7 +314,7 @@ exports[`swizzle wrap > ComponentInFolder/ComponentInSubFolder JS > theme dir tr
 `;
 
 exports[`swizzle wrap > ComponentInFolder/ComponentInSubFolder TS > ComponentInFolder/ComponentInSubFolder/index.tsx 1`] = `
-"import React, {type ReactNode} from 'react';
+"import type {ReactNode} from 'react';
 import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
 import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
 import type {WrapperProps} from '@docusaurus/types';
@@ -353,8 +339,7 @@ exports[`swizzle wrap > ComponentInFolder/ComponentInSubFolder TS > theme dir tr
 `;
 
 exports[`swizzle wrap > ComponentInFolder/Sibling JS > ComponentInFolder/Sibling.js 1`] = `
-"import React from 'react';
-import Sibling from '@theme-original/ComponentInFolder/Sibling';
+"import Sibling from '@theme-original/ComponentInFolder/Sibling';
 
 export default function SiblingWrapper(props) {
   return (
@@ -373,7 +358,7 @@ exports[`swizzle wrap > ComponentInFolder/Sibling JS > theme dir tree 1`] = `
 `;
 
 exports[`swizzle wrap > ComponentInFolder/Sibling TS > ComponentInFolder/Sibling.tsx 1`] = `
-"import React, {type ReactNode} from 'react';
+"import type {ReactNode} from 'react';
 import Sibling from '@theme-original/ComponentInFolder/Sibling';
 import type SiblingType from '@theme/ComponentInFolder/Sibling';
 import type {WrapperProps} from '@docusaurus/types';
@@ -397,8 +382,7 @@ exports[`swizzle wrap > ComponentInFolder/Sibling TS > theme dir tree 1`] = `
 `;
 
 exports[`swizzle wrap > FirstLevelComponent JS > FirstLevelComponent.js 1`] = `
-"import React from 'react';
-import FirstLevelComponent from '@theme-original/FirstLevelComponent';
+"import FirstLevelComponent from '@theme-original/FirstLevelComponent';
 
 export default function FirstLevelComponentWrapper(props) {
   return (
@@ -416,7 +400,7 @@ exports[`swizzle wrap > FirstLevelComponent JS > theme dir tree 1`] = `
 `;
 
 exports[`swizzle wrap > FirstLevelComponent TS > FirstLevelComponent.tsx 1`] = `
-"import React, {type ReactNode} from 'react';
+"import type {ReactNode} from 'react';
 import FirstLevelComponent from '@theme-original/FirstLevelComponent';
 import type FirstLevelComponentType from '@theme/FirstLevelComponent';
 import type {WrapperProps} from '@docusaurus/types';

@@ -39,9 +39,7 @@ async function siteFixture(fixture: string) {
       markdown: {
         parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
       },
-      future: {
-        experimental_vcs: TEST_VCS,
-      },
+      vcs: TEST_VCS,
     },
   });
 
@@ -63,7 +61,7 @@ describe('loadVersion', () => {
     it('can load current version', async () => {
       const {options, context, versions} = await siteFixture('site-minimal');
 
-      const version = versions[0];
+      const version = versions[0]!;
       expect(version).toBeDefined();
       expect(version.versionName).toBe('current');
 

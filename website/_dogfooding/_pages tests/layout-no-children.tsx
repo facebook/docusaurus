@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import Layout from '@theme/Layout';
 
 // See https://github.com/facebook/docusaurus/issues/6337#issuecomment-1012913647

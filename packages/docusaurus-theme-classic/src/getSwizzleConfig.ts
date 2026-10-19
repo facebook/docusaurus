@@ -70,14 +70,6 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The folder containing all the admonition type components.',
       },
-      'Admonition/Type/Caution': {
-        actions: {
-          eject: 'safe',
-          wrap: 'safe',
-        },
-        description:
-          'The component responsible for rendering a :::caution admonition type',
-      },
       'Admonition/Type/Danger': {
         actions: {
           eject: 'safe',
@@ -162,7 +154,7 @@ export default function getSwizzleConfig(): SwizzleConfig {
           wrap: 'unsafe',
         },
         description:
-          'The folder containing components responsible for rendering different types of CodeBlock content.',
+          'The component responsible for rendering the syntax-highlighted code lines of a CodeBlock.',
       },
       ColorModeToggle: {
         actions: {

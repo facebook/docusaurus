@@ -9,7 +9,6 @@ import logger from '@docusaurus/logger';
 import {
   aliasedSitePath,
   DEFAULT_PARSE_FRONT_MATTER,
-  getFileLoaderUtils,
   getWebpackLoaderCompilerName,
 } from '@docusaurus/utils';
 import {
@@ -82,8 +81,6 @@ ${JSON.stringify(frontMatter, null, 2)}`;
       ? options.createAssets({filePath, frontMatter})
       : undefined;
 
-  const fileLoaderUtils = getFileLoaderUtils(compilerName === 'server');
-
   // TODO use remark plugins to insert extra exports instead of string concat?
   // cf how the toc is exported
   const exportsCode = `
@@ -97,15 +94,7 @@ ${
       )}'`
     : ''
 }
-${
-  assets
-    ? `export const assets = ${createAssetsExportCode({
-        assets,
-        inlineMarkdownAssetImageFileLoader:
-          fileLoaderUtils.loaders.inlineMarkdownAssetImageFileLoader,
-      })};`
-    : ''
-}
+${assets ? `export const assets = ${createAssetsExportCode({assets})};` : ''}
 `;
 
   const code = `
@@ -132,7 +121,7 @@ async function loadMDXWithCaching({
   options: Options;
   compilerName: WebpackCompilerName;
 }): Promise<string> {
-  const {crossCompilerCache} = options;
+  const crossCompilerCache = options.getCrossCompilerCache?.();
   if (!crossCompilerCache) {
     return loadMDX({
       fileContent,
@@ -155,18 +144,16 @@ async function loadMDXWithCaching({
   // But we could eventually use WeakRef for the values
   const deleteCacheEntry = () => crossCompilerCache.delete(cacheKey);
 
-  const cacheEntry = crossCompilerCache?.get(cacheKey);
+  const cacheEntry = crossCompilerCache.get(cacheKey);
 
   // When deduplicating client/server compilations, we always use the client
   // compilation and not the server compilation
   // This is important because the server compilation usually skips some steps
-  // Notably: the server compilation does not emit file-loader assets
-  // Using the server compilation otherwise leads to broken images
+  // Notably: unused directives warnings are only reported by the client
+  // Note: asset requests do not depend on the compiler, emitting assets
+  // is controlled by the bundler asset rules
   // See https://github.com/facebook/docusaurus/issues/10544#issuecomment-2390943794
   // See https://github.com/facebook/docusaurus/pull/10553
-  // TODO a problem with this: server bundle will use client inline loaders
-  //  This means server bundle will use ?emit=true for assets
-  //  We should try to get rid of inline loaders to cleanup this caching logic
   if (compilerName === 'client') {
     const promise = loadMDX({
       fileContent,

@@ -22,7 +22,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          # Only install pnpm: Node.js and dependencies are installed by later steps
+          install: false
+          node-version-file: false
       - name: Set up Node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -34,10 +38,27 @@ jobs:
       - name: Check immutable pnpm-lock.yaml
         run: git diff --exit-code
 
-      - name: Lint
-        run: |
-          echo "::add-matcher::.github/workflows/cspell-problem-matcher.json"
-          pnpm lint:ci
+      - name: Add CSpell problem matcher
+        run: echo "::add-matcher::.github/workflows/cspell-problem-matcher.json"
 
-      - name: Check Formatting
-        run: pnpm format:diff
+      # Independent read-only checks: run them concurrently
+      # A failing check doesn't hide the results of the other ones
+      # Keep in sync with the "lint" script of package.json
+      # See https://github.blog/changelog/2026-06-25-actions-steps-can-now-be-run-in-parallel/
+      - parallel:
+          - name: ESLint
+            run: pnpm lint:js --quiet
+          - name: Stylelint
+            run: pnpm lint:style
+          - name: Spelling
+            run: pnpm lint:spelling
+          - name: Syncpack
+            run: pnpm lint:syncpack
+          - name: Catalogs
+            run: pnpm lint:catalogs
+          - name: Check deduped pnpm-lock.yaml
+            run: pnpm lint:deps
+          - name: Knip
+            run: pnpm lint:knip
+          - name: Check Formatting
+            run: pnpm format:diff

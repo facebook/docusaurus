@@ -18,36 +18,37 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.29.7",
+    "@babel/core": "catalog:",
     "@docusaurus/babel": "workspace:*",
-    "@docusaurus/cssnano-preset": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/types": "workspace:*",
-    "babel-loader": "^10.1.1",
-    "css-loader": "^7.1.5",
-    "css-minimizer-webpack-plugin": "^8.0.0",
-    "cssnano": "^7.1.9",
-    "html-minifier-terser": "^7.2.0",
-    "mini-css-extract-plugin": "^2.10.2",
-    "postcss": "^8.5.28",
-    "postcss-loader": "^8.2.1",
-    "postcss-preset-env": "^11.5.2",
-    "terser-webpack-plugin": "^5.6.1",
-    "tslib": "^2.8.1",
-    "webpack": "^5.111.0",
-    "webpackbar": "^7.0.0"
-  },
-  "peerDependencies": {
-    "@docusaurus/faster": "workspace:*",
-    "@types/html-minifier-terser": "^7.0.2"
-  },
-  "peerDependenciesMeta": {
-    "@docusaurus/faster": {
-      "optional": true
-    }
+    "@rspack/core": "catalog:",
+    "@rspack/dev-server": "catalog:",
+    "@swc/html": "catalog:",
+    "babel-loader": "catalog:",
+    "browserslist": "catalog:",
+    "css-loader": "catalog:",
+    "lightningcss": "catalog:",
+    "mini-css-extract-plugin": "catalog:",
+    "minimizer-webpack-plugin": "catalog:",
+    "postcss": "catalog:",
+    "postcss-loader": "catalog:",
+    "postcss-preset-env": "catalog:",
+    "semver": "catalog:",
+    "tslib": "catalog:",
+    "webpack": "catalog:",
+    "webpackbar": "catalog:"
   },
   "devDependencies": {
-    "@total-typescript/shoehorn": "^0.1.2"
+    "@swc/core": "catalog:"
+  },
+  "peerDependencies": {
+    "@swc/core": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "@swc/core": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=24.21"

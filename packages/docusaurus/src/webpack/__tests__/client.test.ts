@@ -6,66 +6,54 @@
  */
 
 import {describe, it} from 'vitest';
-import webpack from 'webpack';
-
 import {createBuildClientConfig, createStartClientConfig} from '../client';
-import {loadSiteFixture} from '../../server/__tests__/testUtils';
-import {createConfigureWebpackUtils} from '../configure';
 import {
-  DEFAULT_FASTER_CONFIG,
-  DEFAULT_FUTURE_CONFIG,
-} from '../../server/configValidation';
+  BundlerNames,
+  createTestConfigureWebpackUtils,
+  loadBundlerSiteFixture,
+  validateBundlerConfig,
+} from './testUtils';
 
-function createTestConfigureWebpackUtils() {
-  return createConfigureWebpackUtils({
-    siteConfig: {webpack: {jsLoader: 'babel'}, future: DEFAULT_FUTURE_CONFIG},
-  });
-}
-
-describe('webpack dev config', () => {
+describe.each(BundlerNames)('%s client config', (bundlerName) => {
   it('simple start', async () => {
-    const {props} = await loadSiteFixture('simple-site');
+    const props = await loadBundlerSiteFixture('simple-site', bundlerName);
     const {clientConfig} = await createStartClientConfig({
       props,
-      faster: DEFAULT_FASTER_CONFIG,
-      configureWebpackUtils: await createTestConfigureWebpackUtils(),
+      configureWebpackUtils: await createTestConfigureWebpackUtils(bundlerName),
       minify: false,
       poll: false,
     });
-    webpack.validate(clientConfig);
+    validateBundlerConfig(clientConfig, bundlerName);
   });
 
   it('simple build', async () => {
-    const {props} = await loadSiteFixture('simple-site');
+    const props = await loadBundlerSiteFixture('simple-site', bundlerName);
     const {config} = await createBuildClientConfig({
       props,
-      faster: DEFAULT_FASTER_CONFIG,
-      configureWebpackUtils: await createTestConfigureWebpackUtils(),
+      configureWebpackUtils: await createTestConfigureWebpackUtils(bundlerName),
       minify: false,
     });
-    webpack.validate(config);
+    validateBundlerConfig(config, bundlerName);
   });
 
   it('custom start', async () => {
-    const {props} = await loadSiteFixture('custom-site');
+    const props = await loadBundlerSiteFixture('custom-site', bundlerName);
     const {clientConfig} = await createStartClientConfig({
       props,
-      faster: DEFAULT_FASTER_CONFIG,
-      configureWebpackUtils: await createTestConfigureWebpackUtils(),
+      configureWebpackUtils: await createTestConfigureWebpackUtils(bundlerName),
       minify: false,
       poll: false,
     });
-    webpack.validate(clientConfig);
+    validateBundlerConfig(clientConfig, bundlerName);
   });
 
   it('custom build', async () => {
-    const {props} = await loadSiteFixture('custom-site');
+    const props = await loadBundlerSiteFixture('custom-site', bundlerName);
     const {config} = await createBuildClientConfig({
       props,
-      faster: DEFAULT_FASTER_CONFIG,
-      configureWebpackUtils: await createTestConfigureWebpackUtils(),
+      configureWebpackUtils: await createTestConfigureWebpackUtils(bundlerName),
       minify: false,
     });
-    webpack.validate(config);
+    validateBundlerConfig(config, bundlerName);
   });
 });

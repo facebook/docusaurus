@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
+import {outputFile} from '@docusaurus/fs';
 
 /**
  * Multiple versions may be published on the same day, causing the order to be
@@ -118,14 +118,14 @@ export async function createBlogFiles(
 ): Promise<void> {
   await Promise.all(
     changelogEntries.map((changelogEntry) =>
-      fs.outputFile(
+      outputFile(
         path.join(generateDir, `${changelogEntry.title}.md`),
         changelogEntry.content,
       ),
     ),
   );
 
-  await fs.outputFile(
+  await outputFile(
     path.join(generateDir, 'authors.json'),
     JSON.stringify(createAuthorsMap(changelogEntries), null, 2),
   );

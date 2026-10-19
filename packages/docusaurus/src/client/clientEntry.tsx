@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {startTransition, type ReactNode} from 'react';
+import {startTransition, type ReactNode} from 'react';
 import ReactDOM, {type ErrorInfo} from 'react-dom/client';
 import {HelmetProvider} from 'react-helmet-async';
 import {BrowserRouter, HashRouter} from 'react-router-dom';

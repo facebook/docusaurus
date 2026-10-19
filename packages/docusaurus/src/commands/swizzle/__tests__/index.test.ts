@@ -7,7 +7,7 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import {tree} from 'tree-node-cli';
 import {escapePath, posixPath} from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
@@ -67,7 +67,7 @@ async function createTestSite() {
   await createTestSiteConfig(siteDir);
 
   const siteThemePath = path.join(siteDir, 'src/theme');
-  await fs.ensureDir(siteThemePath);
+  await fs.mkdir(siteThemePath, {recursive: true});
 
   async function snapshotThemeDir() {
     const siteThemePathPosix = posixPath(siteThemePath);

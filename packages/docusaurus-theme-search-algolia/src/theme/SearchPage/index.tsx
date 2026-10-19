@@ -7,13 +7,7 @@
 
 /* eslint-disable jsx-a11y/no-autofocus */
 
-import React, {
-  type ReactNode,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from 'react';
+import {type ReactNode, useEffect, useReducer, useRef, useState} from 'react';
 import clsx from 'clsx';
 
 import algoliaSearchHelper from 'algoliasearch-helper';

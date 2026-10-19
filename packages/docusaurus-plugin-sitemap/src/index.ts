@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import logger from '@docusaurus/logger';
+import {outputFile} from '@docusaurus/fs';
 import createSitemap from './createSitemap';
 import type {PluginOptions, Options} from './options';
 import type {LoadContext, Plugin} from '@docusaurus/types';
@@ -46,7 +46,7 @@ export default function pluginSitemap(
       // Write sitemap file.
       const sitemapPath = path.join(outDir, options.filename);
       try {
-        await fs.outputFile(sitemapPath, generatedSitemap);
+        await outputFile(sitemapPath, generatedSitemap);
       } catch (err) {
         logger.error('Writing sitemap failed.');
         throw err;

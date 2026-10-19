@@ -178,22 +178,10 @@ export default async function createConfigAsync() {
     baseUrl,
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
+    vcs,
+    // Deprecated: dogfood the Webpack/Babel opt-out for benchmarking
+    webpack: isSlower,
     future: {
-      v4: !isSlower, // Not accurate, but good enough
-      faster: isSlower
-        ? false
-        : {
-            // Verbose object: easier to independently test single attributes
-            swcJsLoader: true,
-            swcJsMinimizer: true,
-            swcHtmlMinimizer: true,
-            lightningCssMinimizer: true,
-            mdxCrossCompilerCache: true,
-            rspackBundler: true,
-            rspackPersistentCache: true,
-            gitEagerVcs: true,
-          },
-      experimental_vcs: vcs,
       experimental_router: router,
     },
     // Dogfood both settings:
@@ -319,13 +307,8 @@ export default async function createConfigAsync() {
         'rsdoctor',
         {
           rsdoctorOptions: {
-            disableTOSUpload: true,
-            supports: {
-              // https://rsdoctor.dev/config/options/options#generatetilegraph
-              generateTileGraph: true,
-            },
             linter: {
-              // See https://rsdoctor.dev/guide/usage/rule-config
+              // See https://rsdoctor.rs/guide/usage/rule-config
               rules: {
                 'ecma-version-check': 'off',
                 'duplicate-package': 'off',
@@ -607,13 +590,6 @@ export default async function createConfigAsync() {
               : // Note: /tests/docs already has noIndex: true
                 ['/tests/{blog,pages}/**'],
             lastmod: showLastUpdate ? 'date' : null,
-            priority: null,
-            changefreq: null,
-          },
-          svgr: {
-            svgrConfig: {
-              svgoConfig: undefined, // Use .svgo.config.js
-            },
           },
         } satisfies Preset.Options,
       ],
@@ -815,7 +791,7 @@ export default async function createConfigAsync() {
                 to: 'docs/installation',
               },
               {
-                label: 'Migration from v1 to v2',
+                label: 'Upgrading',
                 to: 'docs/migration',
               },
             ],

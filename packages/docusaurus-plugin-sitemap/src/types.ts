@@ -24,7 +24,7 @@ export const ChangeFreqList = [
   'never',
 ] as const;
 
-export type ChangeFreq = (typeof ChangeFreqList)[number];
+type ChangeFreq = (typeof ChangeFreqList)[number];
 
 // We re-recreate our own type because the "sitemap" lib types are not good
 export type SitemapItem = {

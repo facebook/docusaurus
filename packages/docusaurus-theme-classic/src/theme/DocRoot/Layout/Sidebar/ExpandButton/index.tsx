@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {translate} from '@docusaurus/Translate';
 import IconArrow from '@theme/Icon/Arrow';
 import type {Props} from '@theme/DocRoot/Layout/Sidebar/ExpandButton';

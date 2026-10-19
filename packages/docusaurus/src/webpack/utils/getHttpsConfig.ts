@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import logger from '@docusaurus/logger';
+import {fs, pathExists, realpath} from '@docusaurus/fs';
 
 // Ensure the certificate and key provided are valid and if not
 // throw an easy to debug error.
@@ -57,9 +57,6 @@ function getExplicitHttps(
     options.https ??
     (typeof process.env.DOCUSAURUS_HTTPS !== 'undefined'
       ? process.env.DOCUSAURUS_HTTPS == 'true'
-      : undefined) ??
-    (typeof process.env.HTTPS !== 'undefined'
-      ? process.env.HTTPS == 'true'
       : undefined)
   );
 }
@@ -74,7 +71,7 @@ async function readCryptoFile(
   filepath: string,
   source: string,
 ): Promise<CryptoFile> {
-  if (!(await fs.pathExists(filepath))) {
+  if (!(await pathExists(filepath))) {
     throw new Error(
       logger.interpolate`You specified ${source}, but file at path path=${filepath} can't be found.`,
     );
@@ -109,12 +106,6 @@ function getCert(
       'env DOCUSAURUS_SSL_CRT_FILE',
     );
   }
-  if (process.env.SSL_CRT_FILE) {
-    return readCryptoFile(
-      path.resolve(cwd, process.env.SSL_CRT_FILE),
-      'env SSL_CRT_FILE',
-    );
-  }
   return null;
 }
 
@@ -134,12 +125,6 @@ function getKeyFile(
       'env DOCUSAURUS_SSL_KEY_FILE',
     );
   }
-  if (process.env.SSL_KEY_FILE) {
-    return readCryptoFile(
-      path.resolve(cwd, process.env.SSL_KEY_FILE),
-      'env SSL_KEY_FILE',
-    );
-  }
   return null;
 }
 
@@ -156,13 +141,15 @@ You only provided a ${cert ? 'certificate' : 'key'} (with ${fileProvided.source}
   }
 }
 
+export type HttpsConfig = boolean | {cert: Buffer; key: Buffer};
+
 // Get the https config
 // Return cert files if provided via CLI or env, otherwise just true or false.
 // CLI options take precedence over env vars.
 export default async function getHttpsConfig(
   options: Partial<HttpsConfigOptions> = {},
-): Promise<boolean | {cert: Buffer; key: Buffer}> {
-  const cwd = await fs.realpath(process.cwd());
+): Promise<HttpsConfig> {
+  const cwd = await realpath(process.cwd());
 
   const [cert, key] = await Promise.all([
     getCert(options, cwd),

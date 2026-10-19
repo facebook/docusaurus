@@ -9,12 +9,12 @@ import {describe, expect, it} from 'vitest';
 import path from 'node:path';
 import {remark} from 'remark';
 import directives from 'remark-directive';
-import remark2rehype from 'remark-rehype';
-import stringify from 'rehype-stringify';
+import mdx from 'remark-mdx';
 import {read} from 'to-vfile';
 import preprocessor from '../../../preprocessor';
 import plugin, {DefaultAdmonitionOptions} from '../index';
 import type {AdmonitionOptions} from '../index';
+import type {MarkdownConfig} from '@docusaurus/types';
 
 const processFixture = async (
   name: string,
@@ -31,28 +31,15 @@ const processFixture = async (
       mdx1Compat: {
         admonitions: true,
         comments: false,
-        headingIds: false,
+        headingIds: true,
       },
-    },
+    } as MarkdownConfig,
   });
 
-  /*
-  // TODO we shouldn't use rehype in these tests
-  // this requires to re-implement admonitions with mdxJsxFlowElement
-  const {default: mdx} = await import('remark-mdx');
   const result = await remark()
     .use(directives)
-    .use(plugin)
+    .use(plugin, options ?? {})
     .use(mdx)
-    .process(fileContentPreprocessed);
-  return result.value;
-   */
-
-  const result = await remark()
-    .use(directives)
-    .use(plugin, options)
-    .use(remark2rehype)
-    .use(stringify)
     .process(fileContentPreprocessed);
 
   return result.value;

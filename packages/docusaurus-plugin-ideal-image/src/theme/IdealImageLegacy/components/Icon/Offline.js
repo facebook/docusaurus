@@ -2,7 +2,6 @@
 // It is licensed under Apache License 2.0
 // Full text is available here
 // https://github.com/google/material-design-icons/blob/master/LICENSE
-import React from 'react';
 import Icon from './index';
 
 const Offline = (props) => (

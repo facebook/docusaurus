@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import {Feed, type Author as FeedAuthor} from 'feed';
 import {parseSrcset, stringifySrcset} from 'srcset';
 import {
@@ -20,6 +19,7 @@ import {
 } from '@docusaurus/utils-common';
 import {load as cheerioLoad} from 'cheerio';
 import logger from '@docusaurus/logger';
+import {fs, pathExists, outputFile} from '@docusaurus/fs';
 import type {BlogContentPaths} from './types';
 import type {DocusaurusConfig, HtmlTags, LoadContext} from '@docusaurus/types';
 import type {
@@ -87,7 +87,7 @@ async function generateBlogFeed({
     defaultCreateFeedItems,
   });
 
-  feedItems.forEach(feed.addItem);
+  feedItems.forEach((item) => feed.addItem(item));
 
   return feed;
 }
@@ -102,10 +102,6 @@ async function defaultCreateFeedItems({
   outDir: string;
 }): Promise<BlogFeedItem[]> {
   const {url: siteUrl, baseUrl, trailingSlash} = siteConfig;
-
-  function toFeedAuthor(author: Author): FeedAuthor {
-    return {name: author.name, link: author.url, email: author.email};
-  }
 
   return Promise.all(
     blogPosts.map(async (post) => {
@@ -175,6 +171,17 @@ async function defaultCreateFeedItems({
         content: $(`#${blogPostContainerID}`).html()!,
       };
 
+      // Author urls can be relative, but the feed lib throws on these
+      // Absolute urls are kept as is to preserve the existing feed output
+      const toFeedAuthor = (author: Author): FeedAuthor => ({
+        name: author.name,
+        link:
+          author.url && !URL.canParse(author.url)
+            ? toAbsoluteUrl(author.url)
+            : author.url,
+        email: author.email,
+      });
+
       // json1() method takes the first item of authors array
       // it causes an error when authors array is empty
       const feedItemAuthors = authors.map(toFeedAuthor);
@@ -199,7 +206,7 @@ async function resolveXsltFilePaths({
     : ((await getDataFilePath({filePath: xsltFilePath, contentPaths})) ??
       path.resolve(contentPaths.contentPath, xsltFilePath));
 
-  if (!(await fs.pathExists(xsltAbsolutePath))) {
+  if (!(await pathExists(xsltAbsolutePath))) {
     throw new Error(
       logger.interpolate`Blog feed XSLT file not found at path=${path.relative(
         process.cwd(),
@@ -213,7 +220,7 @@ async function resolveXsltFilePaths({
     parsedPath.dir,
     `${parsedPath.name}.css`,
   );
-  if (!(await fs.pathExists(cssAbsolutePath))) {
+  if (!(await pathExists(cssAbsolutePath))) {
     throw new Error(
       logger.interpolate`Blog feed XSLT file was found at path=${path.relative(
         process.cwd(),
@@ -248,8 +255,8 @@ async function generateXsltFiles({
     path.basename(xsltAbsolutePath),
   );
   const cssOutputPath = path.join(generatePath, path.basename(cssAbsolutePath));
-  await fs.copy(xsltAbsolutePath, xsltOutputPath);
-  await fs.copy(cssAbsolutePath, cssOutputPath);
+  await fs.cp(xsltAbsolutePath, xsltOutputPath, {verbatimSymlinks: true});
+  await fs.cp(cssAbsolutePath, cssOutputPath, {verbatimSymlinks: true});
 }
 
 // This modifies the XML feed content to add a relative href to the XSLT file
@@ -320,7 +327,7 @@ async function createBlogFeedFile({
     }
 
     const outputPath = path.join(generatePath, feedConfig.outputFileName);
-    await fs.outputFile(outputPath, feedContent);
+    await outputFile(outputPath, feedContent);
   } catch (err) {
     throw new Error(`Generating ${feedType} feed failed.`, {
       cause: err,

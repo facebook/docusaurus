@@ -33,6 +33,10 @@ jobs:
       contents: read # for actions/checkout to fetch code
       issues: write # for preactjs/compressed-size-action to create comments
       pull-requests: write # for preactjs/compressed-size-action to write a PR review
+    # ⚠️ No GitHub Actions cache on purpose, enforced by GitHub for every step
+    # This job can write to pull requests, issues and checks
+    # See https://docs.github.com/actions/reference/workflows-and-actions/workflow-syntax#cache-mode
+    cache-mode: none
     name: Build Size Report
     timeout-minutes: 30
     runs-on: ubuntu-latest
@@ -43,23 +47,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          # Only install pnpm: Node.js and dependencies are installed by later steps
+          install: false
+          node-version-file: false
       - name: Set up Node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: lts/*
           check-latest: true
-          cache: pnpm
       - name: Track build size changes
         uses: preactjs/compressed-size-action@f322c295dde06a1cb7ccaef105732dd8a726d1d9 # v2.10.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          # Always rebuild packages, including for the base branch
+          install-script: bash -c "pnpm install --frozen-lockfile --ignore-scripts && pnpm build:packages"
           build-script: build:website:fast
           clean-script: clear:website # see https://github.com/facebook/docusaurus/pull/6838
           pattern: '{website/build/assets/js/main*js,website/build/assets/js/runtime~main*js,website/build/assets/css/styles*css,website/.docusaurus/globalData.json,website/.docusaurus/registry.js,website/.docusaurus/routes.js,website/.docusaurus/routesChunkNames.json,website/.docusaurus/site-metadata.json,website/.docusaurus/codeTranslations.json,website/.docusaurus/i18n.json,website/.docusaurus/docusaurus.config.mjs,website/build/index.html,website/build/docs.html,website/build/docs/**/*.html,website/build/blog.html,website/build/blog/**/*.html}'
           # HTML files: exclude versioned docs pages, tags pages, html redirect files
           exclude: '{website/build/docs/?.?.?/**/*.html,website/build/docs/next/**/*.html,website/build/blog/tags/**/*.html,**/*.html.html}'
-          strip-hash: '\.([^;]\w{7})\.'
+          strip-hash: '\.([^;]\w{9})\.'
           minimum-change-threshold: 30
           compression: none
           comment-key: DOCUSAURUS_INFRA_${{ matrix.DOCUSAURUS_INFRA }}
@@ -79,7 +88,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          # Only install pnpm: Node.js and dependencies are installed by later steps
+          install: false
+          node-version-file: false
       - name: Set up Node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:

@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode, useEffect, useState} from 'react';
+import type React from 'react';
+import {type ReactNode, useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Color from 'color';
 import Link from '@docusaurus/Link';

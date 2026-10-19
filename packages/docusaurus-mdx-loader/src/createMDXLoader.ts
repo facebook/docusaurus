@@ -6,14 +6,15 @@
  */
 
 import {createProcessors} from './processor';
-import type {Options} from './options';
+import type {CrossCompilerCache, Options} from './options';
 import type {RuleSetRule, RuleSetUseItem} from 'webpack';
 
-type CreateOptions = {
-  useCrossCompilerCache?: boolean;
-};
+// Escape hatch to disable the MDX cross-compiler cache, just in case
+// TODO Docusaurus v5: remove this escape hatch env variable
+const DisableCrossCompilerCache =
+  process.env.DOCUSAURUS_NO_MDX_CROSS_COMPILER_CACHE === 'true';
 
-function normalizeOptions(optionsInput: Options & CreateOptions): Options {
+function normalizeOptions(optionsInput: Options): Options {
   // Skip eager processor creation in tests
   if (process.env.NODE_ENV === 'test' || process.env.VITEST) {
     return optionsInput;
@@ -31,19 +32,18 @@ function normalizeOptions(optionsInput: Options & CreateOptions): Options {
   // We don't want to cache in dev mode (docusaurus start)
   // We only have multiple compilers in production mode (docusaurus build)
   // TODO wrong but good enough for now (example: "docusaurus build --dev")
-  if (options.useCrossCompilerCache && process.env.NODE_ENV === 'production') {
+  if (!DisableCrossCompilerCache && process.env.NODE_ENV === 'production') {
+    const crossCompilerCache: CrossCompilerCache = new Map();
     options = {
       ...options,
-      crossCompilerCache: new Map(),
+      getCrossCompilerCache: () => crossCompilerCache,
     };
   }
 
   return options;
 }
 
-export function createMDXLoaderItem(
-  options: Options & CreateOptions,
-): RuleSetUseItem {
+export function createMDXLoaderItem(options: Options): RuleSetUseItem {
   return {
     loader: require.resolve('./index'),
     options: normalizeOptions(options),
@@ -55,7 +55,7 @@ export function createMDXLoaderRule({
   options,
 }: {
   include: RuleSetRule['include'];
-  options: Options & CreateOptions;
+  options: Options;
 }): RuleSetRule {
   return {
     test: /\.mdx?$/i,

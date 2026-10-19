@@ -14,12 +14,10 @@ import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
 
 const siteConfig: DocusaurusConfig = fromPartial({
   url: 'https://example.com',
-  future: {experimental_vcs: TEST_VCS},
+  vcs: TEST_VCS,
 });
 
 const options: PluginOptions = {
-  changefreq: 'daily',
-  priority: 0.7,
   ignorePatterns: [],
   filename: 'sitemap.xml',
   lastmod: 'datetime',
@@ -47,6 +45,8 @@ describe('createSitemap', () => {
     expect(sitemap).toContain(
       `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">`,
     );
+    expect(sitemap).not.toContain('<changefreq>');
+    expect(sitemap).not.toContain('<priority>');
   });
 
   it('site with no routes', async () => {
@@ -115,6 +115,33 @@ describe('createSitemap', () => {
     expect(sitemap).not.toContain('/search/</loc>');
     expect(sitemap).toContain('/search/foo');
     expect(sitemap).not.toContain('/tags');
+  });
+
+  it('emits changefreq and priority added by createSitemapItems', async () => {
+    const sitemap = await createSitemap({
+      siteConfig,
+      routes: routes(['/', '/docs/myDoc']),
+      routesBuildMetadata: {},
+      options: {
+        ...options,
+        createSitemapItems: async (params) => {
+          const {defaultCreateSitemapItems, ...rest} = params;
+          const items = await defaultCreateSitemapItems(rest);
+          return items.map((item) => ({
+            ...item,
+            changefreq: 'weekly',
+            priority: item.url.includes('/docs/') ? 0.8 : 0.5,
+          }));
+        },
+      },
+    });
+
+    expect(sitemap).toContain(
+      '<url><loc>https://example.com/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>',
+    );
+    expect(sitemap).toContain(
+      '<url><loc>https://example.com/docs/myDoc</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>',
+    );
   });
 
   it('returns null when createSitemapItems returns no items', async () => {

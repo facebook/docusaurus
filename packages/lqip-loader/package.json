@@ -18,15 +18,13 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/logger": "workspace:*",
-    "file-loader": "^6.2.0",
-    "sharp": "^0.35.1",
-    "tslib": "^2.8.1"
+    "sharp": "catalog:",
+    "tslib": "catalog:"
   },
   "engines": {
     "node": ">=24.21"
   },
   "devDependencies": {
-    "@types/file-loader": "^5.0.4",
-    "webpack": "^5.111.0"
+    "webpack": "catalog:"
   }
 }

@@ -12,14 +12,14 @@ import {
   getTagVisibility,
 } from '@docusaurus/utils';
 import {normalizeTag} from '../tags';
-import type {Tag, TagMetadata, FrontMatterTag, TagsFile} from '../tags';
+import type {TagMetadata, TagsFile} from '../tags';
 
 describe('normalizeTag', () => {
   const tagsBaseRoutePath = '/all/tags';
 
   describe('inline', () => {
     it('normalizes simple string tag', () => {
-      const input: FrontMatterTag = 'tag';
+      const input = 'tag';
       const expectedOutput: TagMetadata = {
         inline: true,
         label: 'tag',
@@ -32,43 +32,11 @@ describe('normalizeTag', () => {
     });
 
     it('normalizes complex string tag', () => {
-      const input: FrontMatterTag = 'some more Complex_tag';
+      const input = 'some more Complex_tag';
       const expectedOutput: TagMetadata = {
         inline: true,
         label: 'some more Complex_tag',
         permalink: `${tagsBaseRoutePath}/some-more-complex-tag`,
-        description: undefined,
-      };
-      expect(
-        normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
-      ).toEqual(expectedOutput);
-    });
-
-    it('normalizes simple object tag', () => {
-      const input: FrontMatterTag = {
-        label: 'tag',
-        permalink: 'tagPermalink',
-      };
-      const expectedOutput: TagMetadata = {
-        inline: true,
-        label: 'tag',
-        permalink: `${tagsBaseRoutePath}/tagPermalink`,
-        description: undefined,
-      };
-      expect(
-        normalizeTag({tagsBaseRoutePath, tagsFile: null, tag: input}),
-      ).toEqual(expectedOutput);
-    });
-
-    it('normalizes complex string tag with object tag', () => {
-      const input: FrontMatterTag = {
-        label: 'tag complex Label',
-        permalink: '/MoreComplex/Permalink',
-      };
-      const expectedOutput: TagMetadata = {
-        inline: true,
-        label: 'tag complex Label',
-        permalink: `${tagsBaseRoutePath}/MoreComplex/Permalink`,
         description: undefined,
       };
       expect(
@@ -92,11 +60,11 @@ describe('normalizeTag', () => {
     };
 
     it('normalizes tag1 ref', () => {
-      const input: FrontMatterTag = 'tag1';
+      const input = 'tag1';
       const expectedOutput: TagMetadata = {
         inline: false,
-        label: tagsFile.tag1.label,
-        description: tagsFile.tag1.description,
+        label: tagsFile.tag1!.label,
+        description: tagsFile.tag1!.description,
         permalink: `${tagsBaseRoutePath}/tag-1-permalink`,
       };
       expect(normalizeTag({tagsBaseRoutePath, tagsFile, tag: input})).toEqual(
@@ -105,11 +73,11 @@ describe('normalizeTag', () => {
     });
 
     it('normalizes tag2 ref', () => {
-      const input: FrontMatterTag = 'tag2';
+      const input = 'tag2';
       const expectedOutput: TagMetadata = {
         inline: false,
-        label: tagsFile.tag2.label,
-        description: tagsFile.tag2.description,
+        label: tagsFile.tag2!.label,
+        description: tagsFile.tag2!.description,
         permalink: `${tagsBaseRoutePath}/tag-2-permalink`,
       };
       expect(normalizeTag({tagsBaseRoutePath, tagsFile, tag: input})).toEqual(
@@ -118,7 +86,7 @@ describe('normalizeTag', () => {
     });
 
     it('normalizes inline tag not declared in tags file', () => {
-      const input: FrontMatterTag = 'inlineTag';
+      const input = 'inlineTag';
       const expectedOutput: TagMetadata = {
         inline: true,
         label: 'inlineTag',
@@ -292,7 +260,7 @@ describe('groupTaggedItems', () => {
   type SomeTaggedItem = {
     id: string;
     nested: {
-      tags: Tag[];
+      tags: TagMetadata[];
     };
   };
   function groupItems(items: SomeTaggedItem[]) {
@@ -307,19 +275,27 @@ describe('groupTaggedItems', () => {
       label: 'Guide',
       permalink: '/guide',
       description: undefined,
+      inline: false,
     };
     const tagTutorial = {
       label: 'Tutorial',
       permalink: '/tutorial',
       description: undefined,
+      inline: false,
     };
-    const tagAPI = {label: 'API', permalink: '/api', description: undefined};
+    const tagAPI = {
+      label: 'API',
+      permalink: '/api',
+      description: undefined,
+      inline: false,
+    };
 
     // This one will be grouped under same permalink and label is ignored
     const tagTutorialOtherLabel = {
       label: 'TutorialOtherLabel',
       permalink: '/tutorial',
       description: undefined,
+      inline: false,
     };
 
     const item1: SomeTaggedItem = {

@@ -5,10 +5,10 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js",
+    "build": "tsc --build && copy-untyped-files",
     "watch": "run-p -c copy:watch build:watch",
     "build:watch": "tsc --build --watch",
-    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
+    "copy:watch": "copy-untyped-files --watch"
   },
   "publishConfig": {
     "access": "public"
@@ -23,14 +23,14 @@
     "@docusaurus/core": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "workspace:*"
   },
   "peerDependencies": {
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "engines": {
     "node": ">=24.21"

@@ -6,19 +6,19 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import {visit} from 'unist-util-visit';
 import {
   toMessageRelativeFilePath,
   posixPath,
   escapePath,
   findAsyncSequential,
-  getFileLoaderUtils,
+  createAssetRequest,
   parseURLOrPath,
   parseLocalURLPath,
 } from '@docusaurus/utils';
 import {imageSizeFromFile} from 'image-size/fromFile';
 import logger from '@docusaurus/logger';
+import {pathExists} from '@docusaurus/fs';
 import {
   assetRequireAttributeValue,
   formatNodePositionExtraMessage,
@@ -44,7 +44,6 @@ type Context = {
   siteDir: PluginOptions['siteDir'];
   onBrokenMarkdownImages: OnBrokenMarkdownImagesFunction;
   filePath: string;
-  inlineMarkdownImageFileLoader: string;
 };
 
 function asFunction(
@@ -99,9 +98,11 @@ async function toImageRequireNode(
   const parsedUrl = parseURLOrPath(node.url);
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
-  const requireString = `${context.inlineMarkdownImageFileLoader}${
-    escapePath(relativeImagePath) + search
-  }`;
+  const requireString = createAssetRequest({
+    assetPath: escapePath(relativeImagePath),
+    search,
+    type: 'image',
+  });
   if (node.alt) {
     attributes.push({
       type: 'mdxJsxAttribute',
@@ -167,7 +168,7 @@ async function getLocalImageAbsolutePath(
       siteDir,
       originalImagePath.replace('@site/', ''),
     );
-    if (!(await fs.pathExists(imageFilePath))) {
+    if (!(await pathExists(imageFilePath))) {
       return null;
     }
     return imageFilePath;
@@ -176,10 +177,7 @@ async function getLocalImageAbsolutePath(
     const possiblePaths = staticDirs.map((dir) =>
       path.join(dir, originalImagePath),
     );
-    const imageFilePath = await findAsyncSequential(
-      possiblePaths,
-      fs.pathExists,
-    );
+    const imageFilePath = await findAsyncSequential(possiblePaths, pathExists);
     if (!imageFilePath) {
       return null;
     }
@@ -187,7 +185,7 @@ async function getLocalImageAbsolutePath(
   } else {
     // relative paths are resolved against the source file's folder
     const imageFilePath = path.join(path.dirname(filePath), originalImagePath);
-    if (!(await fs.pathExists(imageFilePath))) {
+    if (!(await pathExists(imageFilePath))) {
       return null;
     }
     return imageFilePath;
@@ -246,14 +244,9 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
   const onBrokenMarkdownImages = asFunction(options.onBrokenMarkdownImages);
 
   return async (root, vfile) => {
-    const fileLoaderUtils = getFileLoaderUtils(
-      vfile.data.compilerName === 'server',
-    );
     const context: Context = {
       ...options,
       filePath: vfile.path!,
-      inlineMarkdownImageFileLoader:
-        fileLoaderUtils.loaders.inlineMarkdownImageFileLoader,
       onBrokenMarkdownImages,
     };
 

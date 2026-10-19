@@ -4,14 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React, {type ReactNode} from 'react';
+
+import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
-import {translateBlogAuthorsListPageTitle} from '@docusaurus/theme-common/internal';
+import {translateBlogAuthorsListPageTitle} from '@docusaurus/plugin-content-blog/client';
 import BlogLayout from '@theme/BlogLayout';
 import type {Props} from '@theme/Blog/Pages/BlogAuthorsListPage';
 import SearchMetadata from '@theme/SearchMetadata';
@@ -46,11 +47,7 @@ export default function BlogAuthorsListPage({
 }: Props): ReactNode {
   const title: string = translateBlogAuthorsListPageTitle();
   return (
-    <HtmlClassNameProvider
-      className={clsx(
-        ThemeClassNames.wrapper.blogPages,
-        ThemeClassNames.page.blogAuthorsListPage,
-      )}>
+    <HtmlClassNameProvider className={ThemeClassNames.page.blogAuthorsListPage}>
       <PageMetadata title={title} />
       <SearchMetadata tag="blog_authors_list" />
       <BlogLayout sidebar={sidebar}>

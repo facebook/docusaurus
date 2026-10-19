@@ -6,13 +6,12 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import {execa, type Options, type Result} from 'execa';
 
 import {
-  FileNotTrackedError,
   getFileCommitDate,
   getGitLastUpdate,
   getGitCreation,
@@ -25,7 +24,9 @@ import {
 import {createVcsGitEagerConfig} from '../vcsGitEager';
 
 class Git {
-  private constructor(private dir: string) {
+  private dir: string;
+
+  private constructor(dir: string) {
     this.dir = dir;
   }
 
@@ -73,7 +74,7 @@ class Git {
 
   async runOptimisticGitCommand(
     cmd: string,
-    args?: string[],
+    args: string[],
     options?: Options,
   ): Promise<Result> {
     return Git.runOptimisticGitCommand({cwd: this.dir, cmd, args, options});
@@ -113,7 +114,9 @@ class Git {
       commitAuthor?: string;
     } = {},
   ): Promise<void> {
-    await fs.ensureDir(path.join(this.dir, path.dirname(filePath)));
+    await fs.mkdir(path.join(this.dir, path.dirname(filePath)), {
+      recursive: true,
+    });
     await fs.writeFile(
       path.join(this.dir, filePath),
       fileContent ?? `Content of ${filePath}`,
@@ -127,7 +130,7 @@ class Git {
   }
 
   async addSubmodule(name: string, repoPath: string): Promise<void> {
-    return this.runOptimisticGitCommand('git', [
+    await this.runOptimisticGitCommand('git', [
       '-c protocol.file.allow=always',
       'submodule',
       'add',
@@ -156,7 +159,7 @@ async function createTempDir(): Promise<string> {
     // See our ./test/snapshotPathNormalizer.ts
     path.join(os.tmpdir(), 'git-test-repo___MKDTEMP_DIR___'),
   );
-  repoDir = await fs.realpath.native(repoDir);
+  repoDir = await fs.realpath(repoDir);
   return repoDir;
 }
 
@@ -193,7 +196,7 @@ describe('commit info APIs', () => {
       'Robert <robert@example.com>',
     );
 
-    await fs.move(
+    await fs.rename(
       path.join(repoDir, 'moved.txt'),
       path.join(repoDir, 'dest.txt'),
     );
@@ -263,15 +266,15 @@ describe('commit info APIs', () => {
       });
     });
 
-    it('throws custom error when file is not tracked', async () => {
+    it('returns null when file is not tracked', async () => {
       const repoDir = await repoDirPromise;
 
-      await expect(() =>
+      await expect(
         getFileCommitDate(path.join(repoDir, 'untracked.txt'), {
           age: 'newest',
           includeAuthor: true,
         }),
-      ).rejects.toThrow(FileNotTrackedError);
+      ).resolves.toBeNull();
     });
 
     it('throws when file not found', async () => {

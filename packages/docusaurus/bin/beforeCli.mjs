@@ -7,7 +7,6 @@
 
 // @ts-check
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import {createRequire} from 'node:module';
 import {execa} from 'execa';
@@ -16,6 +15,7 @@ import semver from 'semver';
 import updateNotifier from 'update-notifier';
 import boxen from 'boxen';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
+import {pathExists} from '@docusaurus/fs';
 
 const packageJson = /** @type {typeof import("../package.json")} */ (
   createRequire(import.meta.url)('../package.json')
@@ -108,7 +108,7 @@ export default async function beforeCli() {
       .join(' ');
 
     const getYarnVersion = async () => {
-      if (!(await fs.pathExists(path.resolve('yarn.lock')))) {
+      if (!(await pathExists(path.resolve('yarn.lock')))) {
         return undefined;
       }
 

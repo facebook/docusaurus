@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import {
   normalizeUrl,
   docuHash,
@@ -20,6 +19,7 @@ import {
 import {createAbsoluteFilePathMatcher} from '@docusaurus/glob';
 import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
+import {fs} from '@docusaurus/fs';
 import {resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {type DocEnv} from './docs';
@@ -74,7 +74,7 @@ async function createMdxLoaderDependencyFile({
     options,
     versionsMetadata,
   };
-  await fs.ensureDir(dataDir);
+  await fs.mkdir(dataDir, {recursive: true});
   await fs.writeFile(filePath, JSON.stringify(fileContent));
   return filePath;
 }
@@ -132,8 +132,6 @@ export default async function pluginContentDocs(
         dependencies: [mdxLoaderDependency].filter(
           (d): d is string => typeof d === 'string',
         ),
-
-        useCrossCompilerCache: siteConfig.future.faster.mdxCrossCompilerCache,
         admonitions: options.admonitions,
         remarkPlugins,
         rehypePlugins,

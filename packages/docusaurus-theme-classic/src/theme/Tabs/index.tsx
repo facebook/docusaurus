@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type React from 'react';
+import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import {
@@ -20,7 +21,7 @@ import type {Props} from '@theme/Tabs';
 import styles from './styles.module.css';
 
 function TabList({className}: {className?: string}) {
-  const {selectedValue, selectValue, tabValues, block} = useTabs();
+  const {selectedValue, selectValue, tabValues} = useTabs();
 
   const tabRefs: (HTMLLIElement | null)[] = [];
   const {blockElementScrollPositionUntilNextRender} =
@@ -71,13 +72,7 @@ function TabList({className}: {className?: string}) {
     <ul
       role="tablist"
       aria-orientation="horizontal"
-      className={clsx(
-        'tabs',
-        {
-          'tabs--block': block,
-        },
-        className,
-      )}>
+      className={clsx('tabs', className)}>
       {tabValues.map(({value, label, attributes}) => (
         <li
           // TODO extract TabListItem
@@ -118,14 +113,7 @@ function TabsContainer({
   children: ReactNode;
 }): ReactNode {
   return (
-    <div
-      className={clsx(
-        ThemeClassNames.tabs.container,
-        // former name kept for backward compatibility
-        // see https://github.com/facebook/docusaurus/pull/4086
-        'tabs-container',
-        styles.tabList,
-      )}>
+    <div className={clsx(ThemeClassNames.tabs.container, styles.tabList)}>
       <TabList
         // Surprising but historical
         // className is applied on TabList, not on TabsContainer

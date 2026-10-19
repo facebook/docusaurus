@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {Suspense, isValidElement, use, type ReactNode} from 'react';
+import {Suspense, isValidElement, use, type ReactNode} from 'react';
 import {browser} from 'react-dom';
 import type {Props} from '@docusaurus/BrowserOnly';
 

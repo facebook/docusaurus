@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {NavbarMobileSidebarProvider} from '../contexts/navbarMobileSidebar';
 import {NavbarSecondaryMenuContentProvider} from '../contexts/navbarSecondaryMenu/content';
 import {NavbarSecondaryMenuDisplayProvider} from '../contexts/navbarSecondaryMenu/display';

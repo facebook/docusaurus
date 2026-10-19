@@ -94,6 +94,9 @@ export default defineConfig(plugins, rules, ignores, {
     },
     parserOptions: {
       // projectService: true,
+      // JSX runtime is automatic: JSX doesn't use the in-scope "React" variable
+      // This lets @typescript-eslint/no-unused-vars report useless React imports
+      jsxPragma: null,
     },
   },
 

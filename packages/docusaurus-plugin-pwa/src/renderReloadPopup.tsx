@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
 import {createRoot} from 'react-dom/client';
 import type {Props} from '@theme/PwaReloadPopup';
 

@@ -7,7 +7,7 @@
 
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 
 /*
 This verifies CSS ordering on the Docusaurus site itself,

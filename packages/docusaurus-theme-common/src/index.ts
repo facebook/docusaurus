@@ -81,8 +81,6 @@ export {duplicates, uniq, groupBy} from './utils/jsUtils';
 
 export {usePrismTheme} from './hooks/usePrismTheme';
 
-export {processAdmonitionProps} from './utils/admonitionUtils';
-
 export {
   useHistorySelector,
   useQueryString,

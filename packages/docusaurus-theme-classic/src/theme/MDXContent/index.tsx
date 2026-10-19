@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {MDXProvider} from '@mdx-js/react';
 import MDXComponents from '@theme/MDXComponents';
 import type {Props} from '@theme/MDXContent';

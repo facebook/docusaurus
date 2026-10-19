@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
+import {pathExists} from '@docusaurus/fs';
 import type {TransformOptions} from '@babel/core';
 
 export async function getCustomBabelConfigFilePath(
@@ -17,32 +17,33 @@ export async function getCustomBabelConfigFilePath(
     siteDir,
     BABEL_CONFIG_FILE_NAME,
   );
-  return (await fs.pathExists(customBabelConfigurationPath))
+  return (await pathExists(customBabelConfigurationPath))
     ? customBabelConfigurationPath
     : undefined;
 }
 
+/**
+ * Returns the options to pass to Babel.
+ * @param configFile the site's custom Babel config file, if any. Without it,
+ * the Docusaurus Babel preset is used.
+ */
 export function getBabelOptions({
   isServer,
-  babelOptions,
+  configFile,
 }: {
   isServer?: boolean;
-  // TODO Docusaurus v4 fix this
-  //  weird to have getBabelOptions take a babelOptions param
-  babelOptions?: TransformOptions | string;
+  configFile?: string;
 } = {}): TransformOptions {
   const caller = {name: isServer ? 'server' : 'client'};
-  if (typeof babelOptions === 'string') {
+  if (configFile) {
     return {
       babelrc: false,
-      configFile: babelOptions,
+      configFile,
       caller,
     };
   }
   return {
-    ...(babelOptions ?? {
-      presets: [require.resolve('@docusaurus/babel/preset')],
-    }),
+    presets: [require.resolve('@docusaurus/babel/preset')],
     babelrc: false,
     configFile: false,
     caller,

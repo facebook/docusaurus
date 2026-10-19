@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import ComponentTypes from '@theme/NavbarItem/ComponentTypes';
 import type {NavbarItemType, Props} from '@theme/NavbarItem';
 

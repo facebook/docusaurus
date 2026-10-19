@@ -5,12 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import url from 'node:url';
 import _ from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
 import logger, {PerfLogger} from '@docusaurus/logger';
+import {realpath} from '@docusaurus/fs';
 import {getHostPort} from '../../server/getHostPort';
+import getHttpsConfig, {
+  type HttpsConfig,
+} from '../../webpack/utils/getHttpsConfig';
 import {
   loadSite,
   type LoadSiteParams,
@@ -44,6 +47,7 @@ function getOpenUrlOrigin(
 export type OpenUrlContext = {
   host: string;
   port: number;
+  httpsConfig: HttpsConfig;
   getOpenUrl: ({
     baseUrl,
     router,
@@ -53,12 +57,17 @@ export type OpenUrlContext = {
   }) => string;
 };
 
-async function createOpenUrlContext({
+export async function createOpenUrlContext({
   cliOptions,
 }: {
   cliOptions: StartCLIOptions;
 }): Promise<OpenUrlContext> {
-  const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
+  const httpsConfig = await getHttpsConfig({
+    https: cliOptions.https,
+    sslCert: cliOptions.sslCert,
+    sslKey: cliOptions.sslKey,
+  });
+  const protocol = httpsConfig ? 'https' : 'http';
 
   const {host, port} = await getHostPort(cliOptions);
   if (port === null) {
@@ -73,7 +82,7 @@ async function createOpenUrlContext({
     ]);
   };
 
-  return {host, port, getOpenUrl};
+  return {host, port, httpsConfig, getOpenUrl};
 }
 
 type StartParams = {
@@ -85,7 +94,7 @@ async function createLoadSiteParams({
   siteDirParam,
   cliOptions,
 }: StartParams): Promise<LoadSiteParams> {
-  const siteDir = await fs.realpath(siteDirParam);
+  const siteDir = await realpath(siteDirParam);
   return {
     siteDir,
     config: cliOptions.config,

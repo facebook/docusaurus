@@ -15,7 +15,10 @@
     // Utility libraries will have source maps on, but plugins will not.
     "declarationMap": false,
     "sourceMap": false,
+    // Preserve JSX in emitted .js files (swizzle-able theme components)
     "jsx": "react-native",
+    // Resolve JSX types from react/jsx-runtime, no need to "import React"
+    "jsxImportSource": "react",
     "importHelpers": true,
     "noEmitHelpers": true,
     // Will be overridden in client projects

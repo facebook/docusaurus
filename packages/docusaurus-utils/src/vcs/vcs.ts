@@ -14,8 +14,8 @@ import {
 import {VcsGitAdHoc} from './vcsGitAdHoc';
 import {VscGitEager} from './vcsGitEager';
 import {VcsDisabled} from './vcsDisabled';
-import {VcsDefaultV1} from './vcsDefaultV1';
-import {VcsDefaultV2} from './vcsDefaultV2';
+import {VcsDefault} from './vcsDefault';
+import {VcsDefaultV3} from './vcsDefaultV3';
 import type {VcsConfig, VcsPreset} from '@docusaurus/types';
 
 const VcsPresets: Record<VcsPreset, VcsConfig> = {
@@ -24,8 +24,8 @@ const VcsPresets: Record<VcsPreset, VcsConfig> = {
   hardcoded: VcsHardcoded,
   disabled: VcsDisabled,
 
-  'default-v1': VcsDefaultV1,
-  'default-v2': VcsDefaultV2,
+  default: VcsDefault,
+  'default-v3': VcsDefaultV3,
 };
 
 export const VcsPresetNames = Object.keys(VcsPresets) as VcsPreset[];

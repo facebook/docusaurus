@@ -33,7 +33,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          # Only install pnpm: Node.js and dependencies are installed by later steps
+          install: false
+          node-version-file: false
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -43,6 +47,8 @@ jobs:
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
       - name: Test
         run: pnpm test
+      - name: TypeCheck tests
+        run: pnpm typecheck:tests
       - name: Remove Theme Internal Re-export
         run: pnpm --filter @docusaurus/theme-common removeThemeInternalReexport
       - name: Docusaurus Build
@@ -61,18 +67,16 @@ jobs:
         # see https://github.com/facebook/docusaurus/pull/10486
         run: pnpm --filter website typecheck
 
+      # The TypeScript compiler of the tested version runs with pnpm dlx,
+      # without modifying the workspace dependencies (package.json, catalogs)
       - name: TypeCheck website - min version - v6.0
-        # We call the "typescript" package compiler explicitly, because the
-        # root "tsc" bin comes from "@typescript/native" (pinned TS 7)
         run: |
-          pnpm add typescript@6.0 --save-exact -D -w --ignore-scripts
-          node node_modules/typescript/bin/tsc --version
-          node node_modules/typescript/bin/tsc --project website/tsconfig.json
+          pnpm dlx --package=typescript@6.0 tsc --version
+          pnpm dlx --package=typescript@6.0 tsc --project website/tsconfig.json
 
       - name: TypeCheck website - max version - Latest
         # For latest TS there are often lib check errors, so we disable it
         # Details: https://github.com/facebook/docusaurus/pull/10486
         run: |
-          pnpm add typescript@latest --save-exact -D -w --ignore-scripts
-          node node_modules/typescript/bin/tsc --version
-          node node_modules/typescript/bin/tsc --project website/tsconfig.skipLibCheck.json
+          pnpm dlx --package=typescript@latest tsc --version
+          pnpm dlx --package=typescript@latest tsc --project website/tsconfig.skipLibCheck.json

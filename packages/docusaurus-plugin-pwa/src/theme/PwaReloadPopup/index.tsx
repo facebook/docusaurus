@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode, useState} from 'react';
+import {type ReactNode, useState} from 'react';
 import clsx from 'clsx';
 import Translate, {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/PwaReloadPopup';

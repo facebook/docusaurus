@@ -378,8 +378,6 @@ function reportBrokenLinks({
 }) {
   // We need to split the broken links reporting in 2 for better granularity
   // This is because we need to report broken path/anchors independently
-  // For v3.x retro-compatibility, we can't throw by default for broken anchors
-  // TODO Docusaurus v4: make onBrokenAnchors throw by default?
   const {brokenPaths, brokenAnchors} = splitBrokenLinks(brokenLinks);
 
   const pathErrorMessage = createBrokenPathsMessage(brokenPaths);

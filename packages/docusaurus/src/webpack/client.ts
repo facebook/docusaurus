@@ -16,31 +16,24 @@ import ForceTerminatePlugin from './plugins/ForceTerminatePlugin';
 import DevHtmlPlugin from './plugins/DevHtmlPlugin';
 import {createStaticDirectoriesCopyPlugin} from './plugins/StaticDirectoriesCopyPlugin';
 import {renderDevHtml} from './templates/dev.html.template';
-import type {
-  ConfigureWebpackUtils,
-  FasterConfig,
-  Props,
-} from '@docusaurus/types';
+import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
 async function createBaseClientConfig({
   props,
   hydrate,
   minify,
-  faster,
   configureWebpackUtils,
 }: {
   props: Props;
   hydrate: boolean;
   minify: boolean;
-  faster: FasterConfig;
   configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<Configuration> {
   const baseConfig = await createBaseConfig({
     props,
     isServer: false,
     minify,
-    faster,
     configureWebpackUtils,
   });
 
@@ -79,13 +72,11 @@ export async function createStartClientConfig({
   props,
   minify,
   poll,
-  faster,
   configureWebpackUtils,
 }: {
   props: Props;
   minify: boolean;
   poll: number | boolean | undefined;
-  faster: FasterConfig;
   configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<{clientConfig: Configuration}> {
   const {siteConfig, headTags, preBodyTags, postBodyTags} = props;
@@ -95,7 +86,6 @@ export async function createStartClientConfig({
       props,
       minify,
       hydrate: false,
-      faster,
       configureWebpackUtils,
     }),
     {
@@ -132,12 +122,10 @@ export async function createStartClientConfig({
 export async function createBuildClientConfig({
   props,
   minify,
-  faster,
   configureWebpackUtils,
 }: {
   props: Props;
   minify: boolean;
-  faster: FasterConfig;
   configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<{config: Configuration; clientManifestPath: string}> {
   // Apply user webpack config.
@@ -157,7 +145,6 @@ export async function createBuildClientConfig({
     await createBaseClientConfig({
       props,
       minify,
-      faster,
       configureWebpackUtils,
       hydrate,
     }),

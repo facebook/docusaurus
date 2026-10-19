@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {posixPath, THEME_PATH} from '@docusaurus/utils';
+import {fs, pathExists, outputFile} from '@docusaurus/fs';
 import {glob} from '@docusaurus/glob';
 import {askSwizzleAction} from './prompts';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
@@ -42,9 +42,7 @@ export type ActionResult = {
 };
 
 async function isDir(dirPath: string): Promise<boolean> {
-  return (
-    (await fs.pathExists(dirPath)) && (await fs.stat(dirPath)).isDirectory()
-  );
+  return (await pathExists(dirPath)) && (await fs.stat(dirPath)).isDirectory();
 }
 
 export async function eject({
@@ -87,7 +85,7 @@ export async function eject({
 
   const toPath = path.join(siteDir, THEME_PATH);
 
-  await fs.ensureDir(toPath);
+  await fs.mkdir(toPath, {recursive: true});
 
   const createdFiles = await Promise.all(
     filesToCopy.map(async (sourceFile: string) => {
@@ -97,7 +95,7 @@ export async function eject({
       );
       try {
         const fileContents = await fs.readFile(sourceFile, 'utf-8');
-        await fs.outputFile(
+        await outputFile(
           targetFile,
           fileContents.trimStart().replace(/^\/\*.+?\*\/\s*/ms, ''),
         );
@@ -130,12 +128,12 @@ export async function wrap({
     typescript ? '.tsx' : '.js'
   }`;
 
-  await fs.ensureDir(path.resolve(siteDir, THEME_PATH));
+  await fs.mkdir(path.resolve(siteDir, THEME_PATH), {recursive: true});
 
   const toPath = path.resolve(siteDir, THEME_PATH, wrapperFileName);
 
   const content = typescript
-    ? `import React, {type ReactNode} from 'react';
+    ? `import type {ReactNode} from 'react';
 import ${componentName} from '@theme-${importType}/${themeComponentName}';
 import type ${componentName}Type from '@theme/${themeComponentName}';
 import type {WrapperProps} from '@docusaurus/types';
@@ -150,8 +148,7 @@ export default function ${wrapperComponentName}(props: Props): ReactNode {
   );
 }
 `
-    : `import React from 'react';
-import ${componentName} from '@theme-${importType}/${themeComponentName}';
+    : `import ${componentName} from '@theme-${importType}/${themeComponentName}';
 
 export default function ${wrapperComponentName}(props) {
   return (
@@ -162,7 +159,7 @@ export default function ${wrapperComponentName}(props) {
 }
 `;
 
-  await fs.outputFile(toPath, content);
+  await outputFile(toPath, content);
 
   return {createdFiles: [toPath]};
 }

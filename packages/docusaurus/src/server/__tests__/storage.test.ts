@@ -29,9 +29,11 @@ function test({
   });
 }
 
+// Storage is namespaced by default, from url + baseUrl
+// https://docusaurus.io/ => -189
 const DefaultSiteStorage: SiteStorage = {
   type: 'localStorage',
-  namespace: '',
+  namespace: '-189',
 };
 
 describe('storage', () => {

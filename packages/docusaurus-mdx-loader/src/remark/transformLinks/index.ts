@@ -6,18 +6,18 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import {visit} from 'unist-util-visit';
 import {
   toMessageRelativeFilePath,
   posixPath,
   escapePath,
   findAsyncSequential,
-  getFileLoaderUtils,
+  createAssetRequest,
   parseURLOrPath,
   parseLocalURLPath,
 } from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
+import {fs} from '@docusaurus/fs';
 import {
   assetRequireAttributeValue,
   formatNodePositionExtraMessage,
@@ -43,7 +43,6 @@ type Context = PluginOptions & {
   siteDir: string;
   onBrokenMarkdownLinks: OnBrokenMarkdownLinksFunction;
   filePath: string;
-  inlineMarkdownLinkFileLoader: string;
 };
 
 type Target = [node: Link, index: number, parent: Parent];
@@ -104,14 +103,11 @@ function toAssetRequireNode(
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
 
-  const requireString = `${
-    // A hack to stop Webpack from using its built-in loader to parse JSON
-    path.extname(relativeAssetPath) === '.json'
-      ? `${relativeAssetPath.replace('.json', '.raw')}!=`
-      : ''
-  }${context.inlineMarkdownLinkFileLoader}${
-    escapePath(relativeAssetPath) + search
-  }`;
+  const requireString = createAssetRequest({
+    assetPath: escapePath(relativeAssetPath),
+    search,
+    type: 'file',
+  });
 
   attributes.push({
     type: 'mdxJsxAttribute',
@@ -265,15 +261,9 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
   const onBrokenMarkdownLinks = asFunction(options.onBrokenMarkdownLinks);
 
   return async (root, vfile) => {
-    const fileLoaderUtils = getFileLoaderUtils(
-      vfile.data.compilerName === 'server',
-    );
-
     const context: Context = {
       ...options,
       filePath: vfile.path!,
-      inlineMarkdownLinkFileLoader:
-        fileLoaderUtils.loaders.inlineMarkdownLinkFileLoader,
       onBrokenMarkdownLinks,
     };
 

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import type React from 'react';
 
 export default function TsxFixture({name}: {name: string}): React.JSX.Element {
   return <div>TSX fixture {name}</div>;

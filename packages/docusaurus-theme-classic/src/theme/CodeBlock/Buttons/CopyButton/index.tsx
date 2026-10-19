@@ -5,13 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  useCallback,
-  useState,
-  useRef,
-  useEffect,
-  type ReactNode,
-} from 'react';
+import {useCallback, useState, useRef, useEffect, type ReactNode} from 'react';
 import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
 import {useCodeBlockContext} from '@docusaurus/theme-common/internal';

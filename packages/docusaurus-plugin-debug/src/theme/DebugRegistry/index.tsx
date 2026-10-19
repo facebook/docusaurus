@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import registry from '@generated/registry';
 import DebugLayout from '@theme/DebugLayout';
 import styles from './styles.module.css';

@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import _ from 'lodash';
 import {compile, registerBundlerTracing} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
+import {fs} from '@docusaurus/fs';
 import {loadSite} from '../../server/site';
 import {handleBrokenLinks} from '../../server/brokenLinks';
 import {createBuildClientConfig} from '../../webpack/client';
@@ -74,7 +74,10 @@ export async function buildLocale({
 
   const router = siteConfig.future.experimental_router;
 
-  const configureWebpackUtils = await createConfigureWebpackUtils({siteConfig});
+  const configureWebpackUtils = await createConfigureWebpackUtils({
+    siteDir: props.siteDir,
+    siteConfig,
+  });
 
   // We can build the 2 configs in parallel
   const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
@@ -212,7 +215,6 @@ async function getBuildClientConfig({
   const result = await createBuildClientConfig({
     props,
     minify: cliOptions.minify ?? true,
-    faster: props.siteConfig.future.faster,
     configureWebpackUtils,
   });
   let {config} = result;

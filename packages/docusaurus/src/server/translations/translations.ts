@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {
@@ -15,6 +14,7 @@ import {
   CODE_TRANSLATIONS_FILE_NAME,
 } from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
+import {pathExists, outputFile, readJSON} from '@docusaurus/fs';
 import type {
   TranslationFileContent,
   TranslationFile,
@@ -55,9 +55,9 @@ function ensureTranslationFileContent(
 async function readTranslationFileContent(
   filePath: string,
 ): Promise<TranslationFileContent | undefined> {
-  if (await fs.pathExists(filePath)) {
+  if (await pathExists(filePath)) {
     try {
-      const content: unknown = await fs.readJSON(filePath);
+      const content: unknown = await readJSON(filePath);
       ensureTranslationFileContent(content);
       return content;
     } catch (err) {
@@ -135,10 +135,7 @@ Maybe you should remove them? ${unknownKeys}`;
     } translations will be written at path=${toMessageRelativeFilePath(
       filePath,
     )}.`;
-    await fs.outputFile(
-      filePath,
-      `${JSON.stringify(mergedContent, null, 2)}\n`,
-    );
+    await outputFile(filePath, `${JSON.stringify(mergedContent, null, 2)}\n`);
   }
 }
 

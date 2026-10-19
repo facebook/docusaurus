@@ -274,7 +274,7 @@ function parseCodeLinesFromContent(
       .filter((d) => d.block)
       .map(({className, block}) => [block!.end, className]),
   );
-  for (let lineNumber = 0; lineNumber < lines.length; ) {
+  for (let lineNumber = 0; lineNumber < lines.length;) {
     const line = lines[lineNumber]!;
     const match = line.match(directiveRegex);
     if (!match) {

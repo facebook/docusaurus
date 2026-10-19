@@ -41,6 +41,7 @@ export default function preset(
     theme,
     gtag,
     googleTagManager,
+    cssCascadeLayers,
     ...rest
   } = opts;
 
@@ -49,12 +50,6 @@ export default function preset(
   if (algolia) {
     themes.push(require.resolve('@docusaurus/theme-search-algolia'));
   }
-  if ('gtag' in themeConfig) {
-    throw new Error(
-      'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. For preset-classic, simply move themeConfig.gtag to preset options. More information at https://github.com/facebook/docusaurus/pull/5832.',
-    );
-  }
-
   // TODO Docusaurus v5: remove
   if ('googleAnalytics' in opts || 'googleAnalytics' in themeConfig) {
     throw new Error(
@@ -69,10 +64,13 @@ See also: https://github.com/facebook/docusaurus/issues/7221`,
 
   const plugins: PluginConfig[] = [];
 
-  // TODO Docusaurus v4: temporary due to the opt-in flag
-  // In v4 we'd like to use layers everywhere natively
-  if (siteConfig.future.v4.useCssCascadeLayers) {
-    plugins.push(makePluginConfig('@docusaurus/plugin-css-cascade-layers'));
+  if (cssCascadeLayers !== false) {
+    plugins.push(
+      makePluginConfig(
+        '@docusaurus/plugin-css-cascade-layers',
+        cssCascadeLayers,
+      ),
+    );
   }
 
   if (docs !== false) {
@@ -108,7 +106,7 @@ See also: https://github.com/facebook/docusaurus/issues/7221`,
     throw new Error(
       `Unrecognized keys ${Object.keys(rest).join(
         ', ',
-      )} found in preset-classic configuration. The allowed keys are debug, docs, blog, pages, sitemap, theme, googleAnalytics, gtag, and googleTagManager. Check the documentation: https://docusaurus.io/docs/using-plugins#docusauruspreset-classic for more information on how to configure individual plugins.`,
+      )} found in preset-classic configuration. The allowed keys are debug, docs, blog, pages, sitemap, svgr, theme, gtag, googleTagManager, and cssCascadeLayers. Check the documentation: https://docusaurus.io/docs/using-plugins#docusauruspreset-classic for more information on how to configure individual plugins.`,
     );
   }
 

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode, useCallback, useMemo, useState} from 'react';
+import {type ReactNode, useCallback, useMemo, useState} from 'react';
 import {LiveProvider} from 'react-live';
 import {PlaygroundProvider as PlaygroundProviderComponent} from '@docusaurus/theme-live-codeblock/client';
 import {usePrismTheme} from '@docusaurus/theme-common';

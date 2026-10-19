@@ -8,7 +8,10 @@
 import {describe, expect, it} from 'vitest';
 import path from 'node:path';
 import stylelint from 'stylelint';
-import rule from '../index';
+import plugin from '../index';
+
+// createPlugin() returns a union type, our plugin is not wrapped in "default"
+const {ruleName} = plugin as Extract<typeof plugin, {ruleName: string}>;
 
 type TestSuite = {
   ruleName: string;
@@ -102,11 +105,11 @@ testStylelintRule(
   {
     plugins: [path.join(__dirname, '../../lib/index.js')],
     rules: {
-      [rule.ruleName]: [true, {header: '*\n * Copyright'}],
+      [ruleName]: [true, {header: '*\n * Copyright'}],
     },
   },
   {
-    ruleName: rule.ruleName,
+    ruleName,
     fix: true,
     accept: [
       {

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {memo} from 'react';
+import {memo} from 'react';
 import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
 import {

@@ -6,7 +6,7 @@
  */
 
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {
   truncate,

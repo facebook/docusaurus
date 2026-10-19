@@ -7,7 +7,7 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import _ from 'lodash';
 import {isMatch} from 'picomatch';
 import {Command} from 'commander';
@@ -21,13 +21,13 @@ import {sortRoutes} from '@docusaurus/core/src/server/plugins/routeConfig';
 import {getLocaleConfig, posixPath} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
-import {fromPartial} from '@total-typescript/shoehorn';
 import pluginContentDocs from '../index';
 import {toSidebarsProp} from '../props';
 import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {DisabledSidebars} from '../sidebars';
 import cliDocs from '../cli';
 import {validateOptions} from '../options';
+import {toFullVersion} from '../versions/version';
 
 import type {RouteConfig, Validate, Plugin} from '@docusaurus/types';
 import type {
@@ -41,11 +41,12 @@ import type {
   NormalizedSidebar,
 } from '../sidebars/types';
 
+// Returns the doc with its navigation, only computed in contentLoaded
 function findDocById(version: LoadedVersion | undefined, id: string) {
   if (!version) {
     throw new Error('Version not found');
   }
-  return version.docs.find((item) => item.id === id);
+  return toFullVersion(version).docs.find((item) => item.id === id);
 }
 function getDocById(version: LoadedVersion | undefined, id: string) {
   if (!version) {
@@ -185,7 +186,7 @@ describe('empty/no docs website', () => {
 
   it('no files in docs folder', async () => {
     const context = await loadContext({siteDir});
-    await fs.ensureDir(path.join(siteDir, 'docs'));
+    await fs.mkdir(path.join(siteDir, 'docs'), {recursive: true});
     const plugin = await pluginContentDocs(
       context,
       validateOptions({
@@ -311,7 +312,7 @@ describe('simple website', () => {
   });
 
   it('configureWebpack', async () => {
-    const {plugin} = await loadSite();
+    const {siteDir, plugin} = await loadSite();
 
     const content = await plugin.loadContent?.();
 
@@ -328,10 +329,8 @@ describe('simple website', () => {
       },
       isServer: false,
       configureWebpackUtils: await createConfigureWebpackUtils({
-        siteConfig: {
-          webpack: {jsLoader: 'babel'},
-          future: {faster: fromPartial({})},
-        },
+        siteDir,
+        siteConfig: {},
       }),
       content,
     });

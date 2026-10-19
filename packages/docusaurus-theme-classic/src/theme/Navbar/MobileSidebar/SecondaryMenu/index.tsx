@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ComponentProps, type ReactNode} from 'react';
+import type {ComponentProps, ReactNode} from 'react';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import {useNavbarSecondaryMenu} from '@docusaurus/theme-common/internal';
 import Translate from '@docusaurus/Translate';

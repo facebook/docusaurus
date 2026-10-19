@@ -134,10 +134,6 @@ function throwOnConsole(page: Page) {
     //  it's already happening in main branch
     'Failed to load resource: the server responded with a status of 404 (Not Found)',
 
-    // Warning because react-live not supporting React automatic JSX runtime
-    // See https://github.com/FormidableLabs/react-live/issues/405
-    'Your app (or one of its dependencies) is using an outdated JSX transform. Update to the modern JSX transform for faster performance',
-
     // TODO weird problem related to KaTeX fonts refusing to decode?
     //  on /docs/markdown-features/math-equations
     'Failed to decode downloaded font: http://localhost:3000/katex/fonts/',

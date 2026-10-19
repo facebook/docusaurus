@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import fs from 'fs-extra';
+import fs from 'node:fs';
 import path from 'node:path';
 import _ from 'lodash';
 import {imageSizeFromFile} from 'image-size/fromFile';

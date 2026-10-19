@@ -7,7 +7,7 @@
 
 import {describe, expect, it} from 'vitest';
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import {tree} from 'tree-node-cli';
 import {posixPath} from '@docusaurus/utils';
 import {eject, wrap} from '../actions';

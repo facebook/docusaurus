@@ -5,14 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {PerfLogger} from '@docusaurus/logger';
+import {readJSON} from '@docusaurus/fs';
 import DefaultSSGTemplate from './ssgTemplate.html';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {Props} from '@docusaurus/types';
-
-import type {HtmlMinifierType} from '@docusaurus/bundler';
 
 // Keep these params serializable
 // This makes it possible to use workers
@@ -24,10 +22,8 @@ export type SSGParams = {
   postBodyTags: string;
   outDir: string;
   baseUrl: string;
-  noIndex: boolean;
   DOCUSAURUS_VERSION: string;
 
-  htmlMinifierType: HtmlMinifierType;
   serverBundlePath: string;
   ssgTemplateContent: string;
 };
@@ -43,7 +39,7 @@ export async function createSSGParams({
 }): Promise<SSGParams> {
   const manifest: Manifest = await PerfLogger.async(
     'Read client manifest',
-    () => fs.readJSON(clientManifestPath, 'utf-8'),
+    () => readJSON(clientManifestPath) as Promise<Manifest>,
   );
 
   const params: SSGParams = {
@@ -54,13 +50,9 @@ export async function createSSGParams({
     headTags: props.headTags,
     preBodyTags: props.preBodyTags,
     postBodyTags: props.postBodyTags,
-    ssgTemplateContent: props.siteConfig.ssrTemplate ?? DefaultSSGTemplate,
-    noIndex: props.siteConfig.noIndex,
+    ssgTemplateContent: props.siteConfig.ssgTemplate ?? DefaultSSGTemplate,
     DOCUSAURUS_VERSION,
     serverBundlePath,
-    htmlMinifierType: props.siteConfig.future.faster.swcHtmlMinimizer
-      ? 'swc'
-      : 'terser',
   };
 
   // Useless but ensures that SSG params remain serializable

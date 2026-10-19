@@ -44,7 +44,6 @@ const config: KnipConfig = {
   workspaces: {
     '.': {
       entry: [
-        'admin/scripts/*.js',
         // Vitest alias for @generated/* modules
         'test/emptyModule.ts',
       ],
@@ -64,6 +63,15 @@ const config: KnipConfig = {
         'playwright',
       ],
     },
+    'admin/new.docusaurus.io': {
+      // Knip enables this plugin from dependencies, but the site has none
+      // The plugin reads functions entry points from netlify.toml
+      netlify: true,
+    },
+    'admin/scripts': {
+      // Run directly with node, or through the package bin commands
+      entry: ['*.js'],
+    },
     'packages/create-docusaurus': {
       // Used to test the CLI package
       ignoreBinaries: ['create-docusaurus'],
@@ -78,25 +86,12 @@ const config: KnipConfig = {
         'src/client/exports/*.{ts,tsx}',
         'src/client/theme-fallback/**/*.tsx',
         'src/ssg/ssgWorkerThread.ts',
-        'src/babel/preset.ts',
         // Ambient declarations with triple-slash directives
         'src/**/*.d.ts',
       ],
       ignoreDependencies: [
-        // Polyfills for Babel preset-env "useBuiltIns: entry"
-        'core-js',
         // Resolved from the site dir, only when using a theme
         '@docusaurus/theme-common',
-        // JSDoc type, provided by webpack-dev-server
-        'express',
-      ],
-    },
-    'packages/docusaurus-bundler': {
-      ignoreDependencies: [
-        // Used through CssMinimizerPlugin.cssnanoMinify
-        'cssnano',
-        // Optional peer dependency, dynamically imported
-        '@docusaurus/faster',
       ],
     },
     'packages/docusaurus-module-type-aliases': {
@@ -119,17 +114,7 @@ const config: KnipConfig = {
     'packages/docusaurus-plugin-ideal-image': themePackageConfig(),
     'packages/docusaurus-plugin-pwa': themePackageConfig({
       entry: ['src/registerSw.ts', 'src/sw.ts'],
-      ignoreDependencies: [
-        // Used as a webpack loader name
-        'babel-loader',
-        // Polyfills for Babel preset-env "useBuiltIns: entry"
-        'core-js',
-      ],
     }),
-    'packages/docusaurus-plugin-svgr': {
-      // TODO: used for types, see options.ts
-      ignoreDependencies: ['@svgr/core'],
-    },
     'packages/docusaurus-plugin-vercel-analytics': {
       entry: ['src/analytics.ts'],
     },
@@ -144,6 +129,7 @@ const config: KnipConfig = {
         'infima',
         // Knip doesn't detect imports in "declare module" blocks
         '@docusaurus/mdx-loader',
+        'utility-types',
       ],
     }),
     'packages/docusaurus-theme-live-codeblock': themePackageConfig(),
@@ -174,7 +160,6 @@ const config: KnipConfig = {
         'src/plugins/featureRequests/FeatureRequestsPlugin.js',
         'src/plugins/featureRequests/FeatureRequestsPage.tsx',
         'src/sw.js',
-        'svgo.config.js',
       ],
       ignore: [
         // Intentionally broken files for testing purposes

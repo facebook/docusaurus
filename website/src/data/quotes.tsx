@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
 import Translate, {translate} from '@docusaurus/Translate';
 
 const QUOTES = [

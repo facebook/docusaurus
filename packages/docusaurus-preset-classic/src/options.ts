@@ -12,6 +12,7 @@ import type {Options as SitemapPluginOptions} from '@docusaurus/plugin-sitemap';
 import type {Options as SVGRPluginOptions} from '@docusaurus/plugin-svgr';
 import type {Options as GtagPluginOptions} from '@docusaurus/plugin-google-gtag';
 import type {Options as GTMPluginOptions} from '@docusaurus/plugin-google-tag-manager';
+import type {Options as CssCascadeLayersPluginOptions} from '@docusaurus/plugin-css-cascade-layers';
 import type {Options as ThemeOptions} from '@docusaurus/theme-classic';
 import type {ThemeConfig as BaseThemeConfig} from '@docusaurus/types';
 import type {UserThemeConfig as ClassicThemeConfig} from '@docusaurus/theme-common';
@@ -41,6 +42,11 @@ export type Options = {
    */
   gtag?: GtagPluginOptions;
   googleTagManager?: GTMPluginOptions;
+  /**
+   * Options for `@docusaurus/plugin-css-cascade-layers`. Use `false` to
+   * disable.
+   */
+  cssCascadeLayers?: false | CssCascadeLayersPluginOptions;
 };
 
 export type ThemeConfig = BaseThemeConfig &

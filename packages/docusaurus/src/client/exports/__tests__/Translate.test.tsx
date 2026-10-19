@@ -6,7 +6,6 @@
  */
 // @vitest-environment jsdom
 import {describe, expect, it} from 'vitest';
-import React from 'react';
 import {render} from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 
@@ -56,6 +55,7 @@ describe('<Translate>', () => {
   });
 
   it('rejects when no id or message', () => {
+    // @ts-expect-error: test missing id and message
     expect(() => render(<Translate />)).toThrowErrorMatchingInlineSnapshot(
       `[Error: Docusaurus translation declarations must have at least a translation id or a default translation message]`,
     );
@@ -66,6 +66,7 @@ describe('<Translate>', () => {
       render(
         // eslint-disable-next-line @docusaurus/string-literal-i18n-messages
         <Translate id="foo">
+          {/* @ts-expect-error: test invalid children */}
           <span>aaa</span>
         </Translate>,
       ),

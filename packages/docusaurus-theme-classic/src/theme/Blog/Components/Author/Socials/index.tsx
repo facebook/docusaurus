@@ -6,7 +6,6 @@
  */
 
 import type {ComponentType, ReactNode} from 'react';
-import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import type {Props} from '@theme/Blog/Components/Author/Socials';

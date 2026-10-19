@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {LiveEditor} from 'react-live';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import Translate from '@docusaurus/Translate';

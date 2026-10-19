@@ -6,10 +6,10 @@
  */
 // @vitest-environment jsdom
 import {describe, expect, it} from 'vitest';
-import React from 'react';
 import {renderHook} from '@testing-library/react';
 import {StaticRouter} from 'react-router-dom';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
+import {RouteContextProvider} from '@docusaurus/core/src/client/routeContext';
 import {
   findFirstSidebarItemLink,
   isActiveSidebarItem,
@@ -21,7 +21,6 @@ import {
   isVisibleSidebarItem,
 } from '../docsUtils';
 import {DocsSidebarProvider} from '../docsSidebar';
-import {DocsVersionProvider} from '../docsVersion';
 import type {
   PropSidebar,
   PropSidebarItem,
@@ -92,7 +91,13 @@ describe('useDocById', () => {
   function mockUseDocById(docId: string | undefined) {
     const {result} = renderHook(() => useDocById(docId), {
       wrapper: ({children}) => (
-        <DocsVersionProvider version={version}>{children}</DocsVersionProvider>
+        <RouteContextProvider
+          value={{
+            plugin: {id: 'default', name: 'docusaurus-plugin-content-docs'},
+            data: {docsVersion: version},
+          }}>
+          {children}
+        </RouteContextProvider>
       ),
     });
     return result.current;

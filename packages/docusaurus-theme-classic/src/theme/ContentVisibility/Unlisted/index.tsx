@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Head from '@docusaurus/Head';
 import {
@@ -27,7 +27,7 @@ function UnlistedMetadata(): ReactNode {
 function UnlistedBanner({className}: Props) {
   return (
     <Admonition
-      type="caution"
+      type="warning"
       title={<UnlistedBannerTitle />}
       className={clsx(className, ThemeClassNames.common.unlistedBanner)}>
       <UnlistedBannerMessage />

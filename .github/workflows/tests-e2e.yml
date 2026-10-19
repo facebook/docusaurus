@@ -24,6 +24,7 @@ on:
       - packages/**
       - tsconfig.*.json
       - admin/verdaccio.yaml
+      - admin/scripts/test-release.sh
       - .github/workflows/tests-e2e.yml
 
 concurrency:
@@ -43,13 +44,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          # Only install pnpm: Node.js and dependencies are installed by later steps
+          install: false
+          node-version-file: false
       - name: Use Node.js LTS
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: lts/*
           check-latest: true
-          cache: pnpm
+          # No pnpm cache on Windows on purpose: restoring it takes 20-80s,
+          # more than it saves on "pnpm install"
+          package-manager-cache: false
       - name: Installation
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
       - name: Generate test-website project against main branch
@@ -97,7 +104,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          # Only install pnpm: Node.js and dependencies are installed by later steps
+          install: false
+          node-version-file: false
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -140,7 +151,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          # Only install pnpm: Node.js and dependencies are installed by later steps
+          install: false
+          node-version-file: false
       - name: Use Node.js LTS
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -222,7 +237,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          # Only install pnpm: Node.js and dependencies are installed by later steps
+          install: false
+          node-version-file: false
       - name: Use Node.js LTS
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -265,7 +284,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          # Only install pnpm: Node.js and dependencies are installed by later steps
+          install: false
+          node-version-file: false
       - name: Use Node.js LTS
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -277,15 +300,7 @@ jobs:
       - name: Generate test-website project against main branch
         run: pnpm test:build:website -st
       - name: Install test-website project with pnpm
-        run: |
-          cat > pnpm-workspace.yaml <<'YAML'
-          strictDepBuilds: true
-          allowBuilds:
-            '@swc/core': true
-            core-js: true
-          YAML
-
-          pnpm install
+        run: pnpm install
         working-directory: ../test-website
         env:
           pnpm_config_registry: http://localhost:4873

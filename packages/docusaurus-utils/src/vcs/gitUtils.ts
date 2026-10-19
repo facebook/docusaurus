@@ -6,12 +6,12 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import os from 'node:os';
 import _ from 'lodash';
 import {execa, execaSync} from 'execa';
 import PQueue from 'p-queue';
 import logger from '@docusaurus/logger';
+import {fs, pathExists} from '@docusaurus/fs';
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915
@@ -45,25 +45,15 @@ const realHasGitFn = () => {
 const hasGit =
   process.env.NODE_ENV === 'test' ? realHasGitFn : _.memoize(realHasGitFn);
 
-// TODO Docusaurus v4: remove this
-//  Exceptions are not made for control flow logic
-/** Custom error thrown when git is not found in `PATH`. */
-class GitNotFoundError extends Error {}
-
-// TODO Docusaurus v4: remove this, only kept for retro-compatibility
-//  Exceptions are not made for control flow logic
-/** Custom error thrown when the current file is not tracked by git. */
-export class FileNotTrackedError extends Error {}
-
 /**
  * Fetches the git history of a file and returns a relevant commit date.
  * It gets the commit date instead of author date so that amended commits
  * can have their dates updated.
  *
- * @throws {@link GitNotFoundError} If git is not found in `PATH`.
- * @throws {@link FileNotTrackedError} If the current file is not tracked by git.
- * @throws Also throws when `git log` exited with non-zero, or when it outputs
- * unexpected text.
+ * Returns `null` if the file is not tracked by git.
+ *
+ * @throws If git is not found in `PATH`, if the file does not exist, if
+ * `git log` exited with non-zero, or if it outputs unexpected text.
  */
 export async function getFileCommitDate(
   /** Absolute path to the file. */
@@ -82,16 +72,16 @@ export async function getFileCommitDate(
   date: Date; // TODO duplicate data, not really useful?
   /** Timestamp returned from git, converted to **milliseconds**. */
   timestamp: number;
-}>;
+} | null>;
 /**
  * Fetches the git history of a file and returns a relevant commit date.
  * It gets the commit date instead of author date so that amended commits
  * can have their dates updated.
  *
- * @throws {@link GitNotFoundError} If git is not found in `PATH`.
- * @throws {@link FileNotTrackedError} If the current file is not tracked by git.
- * @throws Also throws when `git log` exited with non-zero, or when it outputs
- * unexpected text.
+ * Returns `null` if the file is not tracked by git.
+ *
+ * @throws If git is not found in `PATH`, if the file does not exist, if
+ * `git log` exited with non-zero, or if it outputs unexpected text.
  */
 export async function getFileCommitDate(
   /** Absolute path to the file. */
@@ -111,7 +101,7 @@ export async function getFileCommitDate(
   timestamp: number;
   /** The author's name, as returned from git. */
   author: string;
-}>;
+} | null>;
 
 export async function getFileCommitDate(
   file: string,
@@ -126,14 +116,14 @@ export async function getFileCommitDate(
   date: Date;
   timestamp: number;
   author?: string;
-}> {
+} | null> {
   if (!hasGit()) {
-    throw new GitNotFoundError(
+    throw new Error(
       `Failed to retrieve git history for "${file}" because git is not installed.`,
     );
   }
 
-  if (!(await fs.pathExists(file))) {
+  if (!(await pathExists(file))) {
     throw new Error(
       `Failed to retrieve git history for "${file}" because the file does not exist.`,
     );
@@ -172,10 +162,9 @@ export async function getFileCommitDate(
 
   const output = result.stdout.trim();
 
+  // No output: the file is not tracked by git
   if (!output) {
-    throw new FileNotTrackedError(
-      `Failed to retrieve the git history for file "${file}" because the file is not tracked by git.`,
-    );
+    return null;
   }
 
   const match = output.match(regex);
@@ -196,8 +185,8 @@ export async function getFileCommitDate(
   return {date, timestamp};
 }
 
-let showedGitRequirementError = false;
-let showedFileNotTrackedError = false;
+let showedGitRequirementWarning = false;
+let showedFileNotTrackedWarning = false;
 
 type GitCommitInfo = {timestamp: number; author: string};
 
@@ -208,38 +197,34 @@ async function getGitCommitInfo(
   if (!filePath) {
     return null;
   }
-  // Wrap in try/catch in case the shell commands fail
-  // (e.g. project doesn't use Git, etc).
-  try {
-    const result = await getFileCommitDate(filePath, {
-      age,
-      includeAuthor: true,
-    });
-    return {timestamp: result.timestamp, author: result.author};
-  } catch (err) {
-    // TODO legacy perf issue: do not use exceptions for control flow!
-    if (err instanceof GitNotFoundError) {
-      if (!showedGitRequirementError) {
-        logger.warn('Sorry, the last update options require Git.');
-        showedGitRequirementError = true;
-      }
-    } else if (err instanceof FileNotTrackedError) {
-      if (!showedFileNotTrackedError) {
-        logger.warn(
-          'Cannot infer the update date for some files, as they are not tracked by git.',
-        );
-        showedFileNotTrackedError = true;
-      }
-    } else {
-      throw new Error(
-        `An error occurred when trying to get the file ${
-          age === 'oldest' ? 'creation' : 'last update'
-        } date from Git`,
-        {cause: err},
-      );
+  if (!hasGit()) {
+    if (!showedGitRequirementWarning) {
+      logger.warn('Sorry, the last update options require Git.');
+      showedGitRequirementWarning = true;
     }
     return null;
   }
+  const result = await getFileCommitDate(filePath, {
+    age,
+    includeAuthor: true,
+  }).catch((err) => {
+    throw new Error(
+      `An error occurred when trying to get the file ${
+        age === 'oldest' ? 'creation' : 'last update'
+      } date from Git`,
+      {cause: err},
+    );
+  });
+  if (!result) {
+    if (!showedFileNotTrackedWarning) {
+      logger.warn(
+        'Cannot infer the update date for some files, as they are not tracked by git.',
+      );
+      showedFileNotTrackedWarning = true;
+    }
+    return null;
+  }
+  return {timestamp: result.timestamp, author: result.author};
 }
 
 export async function getGitLastUpdate(
@@ -284,7 +269,7 @@ The command executed throws an error: ${error.message}`,
     );
   });
 
-  return fs.realpath.native(result.stdout.trim());
+  return fs.realpath(result.stdout.trim());
 }
 
 // A Git "superproject" is a Git repository that contains submodules
@@ -315,7 +300,7 @@ The command executed throws an error: ${error.message}`,
   // this command only works when inside submodules
   // otherwise it doesn't return anything when we are inside the main repo
   if (output) {
-    return fs.realpath.native(output);
+    return fs.realpath(output);
   }
   return getGitRepoRoot(cwd);
 }
@@ -369,7 +354,7 @@ export async function getGitAllRepoRoots(cwd: string): Promise<string[]> {
     let submodulePaths = await getGitSubmodulePaths(superProjectRoot);
     submodulePaths = await Promise.all(
       submodulePaths.map((submodulePath) =>
-        fs.realpath.native(path.resolve(superProjectRoot, submodulePath)),
+        fs.realpath(path.resolve(superProjectRoot, submodulePath)),
       ),
     );
     return [superProjectRoot, ...submodulePaths];

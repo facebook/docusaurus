@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import TitleFormatterProvider from '@theme/ThemeProvider/TitleFormatter';
 import type {Props} from '@theme/ThemeProvider';
 

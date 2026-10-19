@@ -5,10 +5,10 @@
   "main": "lib/index.js",
   "types": "src/plugin-ideal-image.d.ts",
   "scripts": {
-    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && oxfmt \"lib/theme/**/*.js\"",
+    "build": "tsc --build && copy-untyped-files && format-gitignored-files \"lib/theme/**/*.js\"",
     "watch": "run-p -c copy:watch build:watch",
     "build:watch": "tsc --build --watch",
-    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
+    "copy:watch": "copy-untyped-files --watch"
   },
   "publishConfig": {
     "access": "public"
@@ -22,20 +22,22 @@
   "dependencies": {
     "@docusaurus/core": "workspace:*",
     "@docusaurus/lqip-loader": "workspace:*",
-    "@docusaurus/responsive-loader": "^1.7.1",
+    "@docusaurus/responsive-loader": "catalog:",
     "@docusaurus/theme-translations": "workspace:*",
     "@docusaurus/types": "workspace:*",
+    "@docusaurus/utils": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
-    "sharp": "^0.35.1",
-    "tslib": "^2.8.1"
+    "sharp": "catalog:",
+    "tslib": "catalog:",
+    "webpack": "catalog:"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "workspace:*"
   },
   "peerDependencies": {
-    "jimp": "^1.6.1",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "jimp": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "peerDependenciesMeta": {
     "jimp": {

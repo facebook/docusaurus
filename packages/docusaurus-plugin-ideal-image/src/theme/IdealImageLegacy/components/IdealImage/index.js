@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 import {Waypoint} from './waypoint';
 import Media from '../Media';
 import {icons, loadStates} from '../constants';

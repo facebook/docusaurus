@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import DropdownNavbarItemMobile from '@theme/NavbarItem/DropdownNavbarItem/Mobile';
 import DropdownNavbarItemDesktop from '@theme/NavbarItem/DropdownNavbarItem/Desktop';
 import type {Props} from '@theme/NavbarItem/DropdownNavbarItem';

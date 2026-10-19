@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import {
   aliasedSitePath,
@@ -16,6 +15,7 @@ import {
 } from '@docusaurus/utils';
 import {createAbsoluteFilePathMatcher} from '@docusaurus/glob';
 import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
+import {pathExists} from '@docusaurus/fs';
 import {createAllRoutes} from './routes';
 import {createPagesContentPaths, loadPagesContent} from './content';
 import {createContentHelpers} from './contentHelpers';
@@ -58,7 +58,6 @@ export default function pluginContentPages(
         // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
         .map(addTrailingPathSeparator),
       options: {
-        useCrossCompilerCache: siteConfig.future.faster.mdxCrossCompilerCache,
         admonitions,
         remarkPlugins,
         rehypePlugins,
@@ -109,7 +108,7 @@ export default function pluginContentPages(
     },
 
     async loadContent() {
-      if (!(await fs.pathExists(contentPaths.contentPath))) {
+      if (!(await pathExists(contentPaths.contentPath))) {
         return null;
       }
       return loadPagesContent({context, options, contentPaths});

@@ -5,27 +5,36 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
-import {getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {
   createJsLoaderFactory,
+  getBrowserslistQueries,
   getCSSExtractPlugin,
   getMinimizers,
 } from '@docusaurus/bundler';
-import {getFileLoaderUtils, md5Hash} from '@docusaurus/utils';
+import {
+  ASSET_INLINE_MAX_SIZE,
+  getAssetRuleUtils,
+  md5Hash,
+} from '@docusaurus/utils';
+import {realpath} from '@docusaurus/fs';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
 import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
 import type {Configuration, RuleSetRule} from 'webpack';
-import type {
-  ConfigureWebpackUtils,
-  FasterConfig,
-  Props,
-} from '@docusaurus/types';
+import type {Configuration as RspackConfiguration} from '@rspack/core';
+import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
 
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
+
+// The RealContentHashPlugin replaces every occurrence of a provisional chunk
+// hash in all assets, even inside unrelated hex strings (asset file
+// names, colors, numbers...). The client and server compilations do it
+// independently, so a false positive can make the SSG HTML reference a missing
+// file. 10 chars instead of 8 makes it ~256x less likely.
+// See https://github.com/web-infra-dev/rspack/issues/8474
+const contentHash = '[contenthash:10]';
 
 function getReactAliases(siteDir: string): Record<string, string> {
   // Escape hatch
@@ -57,13 +66,11 @@ export async function createBaseConfig({
   props,
   isServer,
   minify,
-  faster,
   configureWebpackUtils,
 }: {
   props: Props;
   isServer: boolean;
   minify: boolean;
-  faster: FasterConfig;
   configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<Configuration> {
   const {
@@ -81,14 +88,14 @@ export async function createBaseConfig({
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd;
 
-  const fileLoaderUtils = getFileLoaderUtils(isServer);
+  const assetRuleUtils = getAssetRuleUtils(isServer);
 
   const name = isServer ? 'server' : 'client';
   const mode = isProd ? 'production' : 'development';
 
   const themeAliases = await loadThemeAliases({siteDir, plugins});
 
-  const createJsLoader = await createJsLoaderFactory({siteConfig});
+  const createJsLoader = await createJsLoaderFactory({siteDir, siteConfig});
 
   const CSSExtractPlugin = await getCSSExtractPlugin({
     currentBundler: props.currentBundler,
@@ -105,7 +112,12 @@ export async function createBaseConfig({
     // Because Webpack does not evict the cache on alias/swizzle changes,
     // See https://github.com/webpack/webpack/issues/13627
     const themeAliasesHash = md5Hash(JSON.stringify(themeAliases));
-    return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}`;
+    // Loader and minimizer options are not part of the cache key
+    // Changing the Browserslist config must evict the cache
+    const browserslistHash = md5Hash(JSON.stringify(getBrowserslistQueries()));
+    // Asset module parser options are not part of the cache key
+    // Changing the asset inline max size must evict the cache
+    return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}-${browserslistHash}-${ASSET_INLINE_MAX_SIZE}`;
   }
 
   // When one of those modules/dependencies change (including transitive
@@ -130,18 +142,16 @@ export async function createBaseConfig({
       return disabledPersistentCacheValue;
     }
     if (props.currentBundler.name === 'rspack') {
-      if (props.siteConfig.future.faster.rspackPersistentCache) {
-        return {
-          type: 'persistent',
-          // Rspack doesn't have "cache.name" like Webpack
-          // This is not ideal but work around is to merge name/version
-          // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
-          version: `${getCacheName()}-${getCacheVersion()}`,
-          buildDependencies: getCacheBuildDependencies(),
-        } as unknown as Configuration['cache'];
-      } else {
-        return disabledPersistentCacheValue;
-      }
+      const rspackCache: RspackConfiguration['cache'] = {
+        type: 'persistent',
+        // Rspack doesn't have "cache.name" like Webpack
+        // This is not ideal but work around is to merge name/version
+        // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
+        version: `${getCacheName()}-${getCacheVersion()}`,
+        buildDependencies: getCacheBuildDependencies(),
+      };
+      // Docusaurus bundler configs are typed with Webpack types
+      return rspackCache as unknown as Configuration['cache'];
     }
 
     return {
@@ -163,9 +173,9 @@ export async function createBaseConfig({
     output: {
       pathinfo: false,
       path: outDir,
-      filename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
+      filename: isProd ? `assets/js/[name].${contentHash}.js` : '[name].js',
       chunkFilename: isProd
-        ? 'assets/js/[name].[contenthash:8].js'
+        ? `assets/js/[name].${contentHash}.js`
         : '[name].js',
       publicPath:
         siteConfig.future.experimental_router === 'hash' ? 'auto' : baseUrl,
@@ -204,7 +214,7 @@ export async function createBaseConfig({
       modules: [
         path.resolve(__dirname, '..', '..', 'node_modules'),
         'node_modules',
-        path.resolve(await fs.realpath(process.cwd()), 'node_modules'),
+        path.resolve(await realpath(process.cwd()), 'node_modules'),
       ],
     },
     resolveLoader: {
@@ -222,7 +232,7 @@ export async function createBaseConfig({
       // used for static site generation
       minimize: minimizeEnabled,
       minimizer: minimizeEnabled
-        ? await getMinimizers({faster, currentBundler: props.currentBundler})
+        ? await getMinimizers({currentBundler: props.currentBundler})
         : undefined,
       splitChunks: isServer
         ? false
@@ -254,22 +264,23 @@ export async function createBaseConfig({
           },
     },
     module: {
+      parser: {
+        javascript: {
+          // Allow referencing assets with the standard and portable syntax:
+          // new URL('./img.png', import.meta.url)
+          // Relative URLs are needed for SSR: absolute URLs would otherwise
+          // be resolved against the server bundle file:// URL
+          // See https://github.com/facebook/docusaurus/pull/12655
+          url: 'relative',
+        },
+      },
       rules: [
-        fileLoaderUtils.rules.images(),
-        fileLoaderUtils.rules.svgs(),
-        fileLoaderUtils.rules.fonts(),
-        fileLoaderUtils.rules.media(),
-        fileLoaderUtils.rules.otherAssets(),
+        assetRuleUtils.rules.assets(),
         {
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           with: notTextImport,
-          use: [
-            createJsLoader({
-              isServer,
-              babelOptions: await getCustomBabelConfigFilePath(siteDir),
-            }),
-          ],
+          use: [createJsLoader({isServer})],
         },
         {
           test: CSS_REGEX,
@@ -305,10 +316,10 @@ export async function createBaseConfig({
     plugins: [
       new CSSExtractPlugin({
         filename: isProd
-          ? 'assets/css/[name].[contenthash:8].css'
+          ? `assets/css/[name].${contentHash}.css`
           : '[name].css',
         chunkFilename: isProd
-          ? 'assets/css/[name].[contenthash:8].css'
+          ? `assets/css/[name].${contentHash}.css`
           : '[name].css',
         // Remove css order warnings if css imports are not sorted
         // alphabetically. See https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422

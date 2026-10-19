@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import {
   ThemeClassNames,
@@ -18,7 +18,7 @@ import type {Props} from '@theme/ContentVisibility/Draft';
 export default function Draft({className}: Props): ReactNode {
   return (
     <Admonition
-      type="caution"
+      type="warning"
       title={<DraftBannerTitle />}
       className={clsx(className, ThemeClassNames.common.draftBanner)}>
       <DraftBannerMessage />

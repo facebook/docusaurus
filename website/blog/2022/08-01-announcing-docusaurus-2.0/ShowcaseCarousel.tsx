@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ComponentProps, type ReactNode, useRef} from 'react';
+import {type ComponentProps, type ReactNode, useRef} from 'react';
 import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';

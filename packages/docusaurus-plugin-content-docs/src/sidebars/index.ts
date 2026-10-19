@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
@@ -13,6 +12,7 @@ import {loadFreshModule} from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
 import * as Yaml from 'js-yaml';
 import combinePromises from 'combine-promises';
+import {fs, pathExists} from '@docusaurus/fs';
 import {validateSidebars, validateCategoryMetadataFile} from './validation';
 import {normalizeSidebars} from './normalization';
 import {processSidebars} from './processor';
@@ -84,7 +84,7 @@ async function loadSidebarsFileUnsafe(
   // Non-existent sidebars file: no sidebars
   // Note: this edge case can happen on versioned docs, not current version
   // We avoid creating empty versioned sidebars file with the CLI
-  if (!(await fs.pathExists(sidebarFilePath))) {
+  if (!(await pathExists(sidebarFilePath))) {
     return DisabledSidebars;
   }
 

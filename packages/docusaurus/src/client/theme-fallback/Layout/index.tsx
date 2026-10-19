@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import type {Props} from '@theme/Layout';
 
 export default function Layout({children}: Props): ReactNode {

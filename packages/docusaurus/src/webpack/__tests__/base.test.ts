@@ -5,24 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {describe, expect, it} from 'vitest';
+import {afterEach, describe, expect, it, vi} from 'vitest';
 import path from 'node:path';
 import _ from 'lodash';
-import webpack from 'webpack';
 import {posixPath} from '@docusaurus/utils';
+import {getCurrentBundler} from '@docusaurus/bundler';
 import {excludeJS, clientDir, createBaseConfig} from '../base';
-import {
-  DEFAULT_FASTER_CONFIG,
-  DEFAULT_FUTURE_CONFIG,
-} from '../../server/configValidation';
-import {createConfigureWebpackUtils} from '../configure';
-import type {Props} from '@docusaurus/types';
-
-function createTestConfigureWebpackUtils() {
-  return createConfigureWebpackUtils({
-    siteConfig: {webpack: {jsLoader: 'babel'}, future: DEFAULT_FUTURE_CONFIG},
-  });
-}
+import {BundlerNames, createTestConfigureWebpackUtils} from './testUtils';
+import {DEFAULT_FUTURE_CONFIG} from '../../server/configValidation';
+import type {CurrentBundler, Props} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
   it('always transpiles client dir files', () => {
@@ -87,7 +78,6 @@ describe('base webpack config', () => {
     siteMetadata: {
       docusaurusVersion: '2.0.0-alpha.70',
     },
-    currentBundler: {name: 'webpack', instance: webpack},
     plugins: [
       {
         getThemePath() {
@@ -110,35 +100,51 @@ describe('base webpack config', () => {
         },
       },
     ],
-  } as Props;
+  } as Omit<Props, 'currentBundler'>;
+
+  async function createProps(
+    bundlerName: CurrentBundler['name'] = 'rspack',
+  ): Promise<Props> {
+    const siteConfig = {
+      ...props.siteConfig,
+      webpack: bundlerName === 'webpack' ? {} : undefined,
+    };
+    return {
+      ...props,
+      siteConfig,
+      currentBundler: await getCurrentBundler({siteConfig}),
+    };
+  }
 
   // Rspack and webpack have a default rule giving the 'asset/source' type to
   // modules imported with `with {type: 'text'}`, but the loaders of all other
   // matching rules still apply (JS transpilation, MDX compilation, SVGR...)
   // Our rules must exclude text imports to return the raw file content
   // See https://rspack.rs/config/module-rules#ruleswith
-  it('excludes text import attributes from all core rules', async () => {
-    const config = await createBaseConfig({
-      props,
-      isServer: false,
-      minify: true,
-      faster: DEFAULT_FASTER_CONFIG,
-      configureWebpackUtils: await createTestConfigureWebpackUtils(),
-    });
-    const rules = config.module?.rules ?? [];
-    expect(rules.length).toBeGreaterThan(0);
-    rules.forEach((rule) => {
-      expect(rule).toMatchObject({with: {type: {not: 'text'}}});
-    });
-  });
+  it.each(BundlerNames)(
+    'excludes text import attributes from all core rules - %s',
+    async (bundlerName) => {
+      const config = await createBaseConfig({
+        props: await createProps(bundlerName),
+        isServer: false,
+        minify: true,
+        configureWebpackUtils:
+          await createTestConfigureWebpackUtils(bundlerName),
+      });
+      const rules = config.module?.rules ?? [];
+      expect(rules.length).toBeGreaterThan(0);
+      rules.forEach((rule) => {
+        expect(rule).toMatchObject({with: {type: {not: 'text'}}});
+      });
+    },
+  );
 
   it('creates webpack aliases', async () => {
     const aliases = ((
       await createBaseConfig({
-        props,
+        props: await createProps(),
         isServer: true,
         minify: true,
-        faster: DEFAULT_FASTER_CONFIG,
         configureWebpackUtils: await createTestConfigureWebpackUtils(),
       })
     ).resolve?.alias ?? {}) as {[alias: string]: string};
@@ -147,5 +153,31 @@ describe('base webpack config', () => {
       posixPath(path.relative(props.siteDir, a)),
     );
     expect(relativeAliases).toMatchSnapshot();
+  });
+
+  describe('persistent cache', () => {
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
+
+    async function getCacheVersion(browserslistQuery: string) {
+      // Browserslist reads this env variable before any config file
+      vi.stubEnv('BROWSERSLIST', browserslistQuery);
+      const config = await createBaseConfig({
+        props: await createProps(),
+        isServer: false,
+        minify: true,
+        configureWebpackUtils: await createTestConfigureWebpackUtils(),
+      });
+      return (config.cache as {version: string}).version;
+    }
+
+    it('is evicted when the Browserslist queries change', async () => {
+      const oldBrowsersVersion = await getCacheVersion('chrome 90');
+      const baselineVersion = await getCacheVersion(
+        'baseline widely available',
+      );
+      expect(oldBrowsersVersion).not.toBe(baselineVersion);
+    });
   });
 });

@@ -33,3 +33,38 @@ updates:
       # See https://github.com/facebook/docusaurus/pull/12241
       semver-minor-days: 8
       semver-patch-days: 8
+    # Packages that must be upgraded atomically in a single PR
+    # pnpm lint:catalogs checks that the catalog versions of each group match
+    groups:
+      # Released in lockstep, mixing versions breaks typechecking
+      # See https://github.com/facebook/docusaurus/pull/12634
+      typescript-eslint:
+        patterns:
+          - 'typescript-eslint'
+          - '@typescript-eslint/*'
+      # react-dom throws "Incompatible React versions" (dev and SSR)
+      # if its version is not the exact same as react
+      react:
+        patterns:
+          - 'react'
+          - 'react-dom'
+      # @types/react-dom has a peer dependency on the same @types/react version
+      react-types:
+        patterns:
+          - '@types/react'
+          - '@types/react-dom'
+      # react-router-dom pins an exact react-router version
+      # Mixing versions duplicates react-router and its Router context
+      react-router:
+        patterns:
+          - 'react-router'
+          - 'react-router-dom'
+      # Workbox packages pin an exact workbox-core version
+      # Mixing versions bundles duplicate workbox-core copies in the service worker
+      workbox:
+        patterns:
+          - 'workbox-*'
+      # @svgr/webpack pins exact @svgr/core and @svgr/plugin-* versions
+      svgr:
+        patterns:
+          - '@svgr/*'
