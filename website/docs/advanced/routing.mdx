@@ -152,6 +152,12 @@ Because Docusaurus is a server-side rendering framework, all routes generated wi
 
 The `/docs/advanced/routing` route can correspond to either `/docs/advanced/routing/index.html` or `/docs/advanced/routing.html`. Some hosting providers differentiate between them using the presence of a trailing slash, and may or may not tolerate the other. Read more in the [trailing slash guide](https://github.com/slorber/trailing-slash-guide).
 
+### Authentication and access control
+
+Docusaurus generates static HTML files and assets at build time; it does not provide server-side session checks for individual routes. A client-side route guard can control what the app displays, but it does not protect the generated HTML, JavaScript, or other assets from direct requests.
+
+To keep pages or files private, enforce authorization at the hosting layer or serve the protected content from a backend that checks each request. A client-side guard is suitable for presentation or navigation, but should not be used as the access-control boundary for confidential content.
+
 For example, the build output of the directory above is (ignoring other assets and JS bundle):
 
 <details>
