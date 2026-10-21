@@ -116,6 +116,17 @@ export type FutureConfig = {
    *   @see https://github.com/facebook/docusaurus/issues/3825
    */
   experimental_router: RouterType;
+
+  /**
+   * Enable View Transitions for client-side navigation.
+   *
+   * When enabled, Docusaurus uses React's native <ViewTransition> and
+   * startTransition() to animate route changes at the point where Docusaurus
+   * commits the new page after preloading.
+   *
+   * @default false
+   */
+  experimental_viewTransitions: boolean;
 };
 
 /**

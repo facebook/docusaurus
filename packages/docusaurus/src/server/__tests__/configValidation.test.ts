@@ -84,6 +84,7 @@ describe('normalizeConfig', () => {
           getFileLastUpdateInfo: (_filePath) => null,
         },
         experimental_router: 'hash',
+        experimental_viewTransitions: true,
       },
       tagline: 'my awesome site',
       organizationName: 'facebook',
@@ -1421,6 +1422,7 @@ describe('future', () => {
         getFileLastUpdateInfo: (_filePath) => null,
       },
       experimental_router: 'hash',
+      experimental_viewTransitions: true,
     };
     expect(
       normalizeConfig({
@@ -1521,6 +1523,68 @@ describe('future', () => {
       ).toThrowErrorMatchingInlineSnapshot(`
         [Error: "future.experimental_router" must be one of [browser, hash]
         "future.experimental_router" must be a string
+        ]
+      `);
+    });
+  });
+
+  describe('viewTransitions', () => {
+    it('accepts viewTransitions - undefined', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            experimental_viewTransitions: undefined,
+          },
+        }),
+      ).toEqual(futureContaining({experimental_viewTransitions: false}));
+    });
+
+    it('accepts viewTransitions - true', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            experimental_viewTransitions: true,
+          },
+        }),
+      ).toEqual(futureContaining({experimental_viewTransitions: true}));
+    });
+
+    it('accepts viewTransitions - false', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            experimental_viewTransitions: false,
+          },
+        }),
+      ).toEqual(futureContaining({experimental_viewTransitions: false}));
+    });
+
+    it('rejects viewTransitions - string', () => {
+      // @ts-expect-error: invalid
+      const vt: Config['future']['experimental_viewTransitions'] = 'badValue';
+      expect(() =>
+        normalizeConfig({
+          future: {
+            experimental_viewTransitions: vt,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "future.experimental_viewTransitions" must be a boolean
+        ]
+      `);
+    });
+
+    it('rejects viewTransitions - number', () => {
+      // @ts-expect-error: invalid
+      const vt: Config['future']['experimental_viewTransitions'] = 1;
+      expect(() =>
+        normalizeConfig({
+          future: {
+            experimental_viewTransitions: vt,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "future.experimental_viewTransitions" must be a boolean
         ]
       `);
     });

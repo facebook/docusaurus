@@ -5,24 +5,58 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import React, {ViewTransition, type ReactNode} from 'react';
 import {Route} from 'react-router-dom';
+import siteConfig from '@generated/docusaurus.config';
 import ClientLifecyclesDispatcher, {
   dispatchLifecycleAction,
 } from './ClientLifecyclesDispatcher';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import preload from './preload';
 import type {Location} from 'history';
+import './viewTransition.css';
+
+export function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+}
+
+export function shouldAnimateRouteTransition({
+  previousLocation,
+  nextLocation,
+}: {
+  previousLocation: Location | null;
+  nextLocation: Location;
+}): boolean {
+  if (!ExecutionEnvironment.canUseDOM) {
+    return false;
+  }
+  if (!previousLocation) {
+    return false;
+  }
+  if (prefersReducedMotion()) {
+    return false;
+  }
+  return previousLocation.pathname !== nextLocation.pathname;
+}
 
 type Props = {
   readonly location: Location;
   readonly children: ReactNode;
+  readonly viewTransitions?: boolean;
 };
 type State = {
   nextRouteHasLoaded: boolean;
 };
 
 class PendingNavigation extends React.Component<Props, State> {
+  static defaultProps: Partial<Props> = {
+    viewTransitions: undefined,
+  };
+
   private previousLocation: Location | null;
   private routeUpdateCleanupCb: () => void;
 
@@ -40,6 +74,13 @@ class PendingNavigation extends React.Component<Props, State> {
     this.state = {
       nextRouteHasLoaded: true,
     };
+  }
+
+  private isViewTransitionsEnabled(): boolean {
+    if (typeof this.props.viewTransitions === 'boolean') {
+      return this.props.viewTransitions;
+    }
+    return Boolean(siteConfig?.future?.experimental_viewTransitions);
   }
 
   // Intercept location update and still show current route until next route
@@ -68,7 +109,20 @@ class PendingNavigation extends React.Component<Props, State> {
     preload(nextLocation.pathname)
       .then(() => {
         this.routeUpdateCleanupCb();
-        this.setState({nextRouteHasLoaded: true});
+        const shouldAnimate =
+          this.isViewTransitionsEnabled() &&
+          shouldAnimateRouteTransition({
+            previousLocation: this.previousLocation,
+            nextLocation,
+          });
+
+        if (shouldAnimate) {
+          React.startTransition(() => {
+            this.setState({nextRouteHasLoaded: true});
+          });
+        } else {
+          this.setState({nextRouteHasLoaded: true});
+        }
       })
       .catch((e: unknown) => {
         console.warn(e);
@@ -84,11 +138,17 @@ class PendingNavigation extends React.Component<Props, State> {
     const {children, location} = this.props;
     // Use a controlled <Route> to trick all descendants into rendering the old
     // location.
+    const route = <Route location={location} render={() => children} />;
+
     return (
       <ClientLifecyclesDispatcher
         previousLocation={this.previousLocation}
         location={location}>
-        <Route location={location} render={() => children} />
+        {this.isViewTransitionsEnabled() ? (
+          <ViewTransition>{route}</ViewTransition>
+        ) : (
+          route
+        )}
       </ClientLifecyclesDispatcher>
     );
   }

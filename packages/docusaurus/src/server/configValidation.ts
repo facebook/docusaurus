@@ -116,6 +116,7 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   faster: DEFAULT_FASTER_CONFIG,
   experimental_vcs: getVcsPreset('default-v1'),
   experimental_router: 'browser',
+  experimental_viewTransitions: false,
 };
 
 const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
@@ -384,6 +385,9 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<
   experimental_router: Joi.string()
     .equal('browser', 'hash')
     .default(DEFAULT_FUTURE_CONFIG.experimental_router),
+  experimental_viewTransitions: Joi.boolean().default(
+    DEFAULT_FUTURE_CONFIG.experimental_viewTransitions,
+  ),
   experimental_storage: Joi.any()
     .forbidden()
     .messages({
