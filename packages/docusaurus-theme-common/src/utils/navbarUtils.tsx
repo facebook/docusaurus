@@ -11,6 +11,7 @@ import {NavbarSecondaryMenuContentProvider} from '../contexts/navbarSecondaryMen
 import {NavbarSecondaryMenuDisplayProvider} from '../contexts/navbarSecondaryMenu/display';
 import {isSamePath} from './routesUtils';
 import {isRegexpStringMatch} from './regexpUtils';
+import type {Location} from 'history';
 
 const DefaultNavItemPosition = 'right';
 
@@ -59,9 +60,10 @@ export type NavItemActiveConfig = {
 export function isItemActive(
   item: NavItemActiveConfig,
   localPathname: string,
+  location?: Location | {pathname: string; [key: string]: unknown},
 ): boolean {
   if (item.isActive) {
-    return item.isActive(null, {pathname: localPathname});
+    return item.isActive(null, location ?? {pathname: localPathname});
   }
   if (isSamePath(item.to, localPathname)) {
     return true;
@@ -72,7 +74,7 @@ export function isItemActive(
   if (item.activeBasePath && localPathname.startsWith(item.activeBasePath)) {
     return true;
   }
-  if (item.items && containsActiveItems(item.items, localPathname)) {
+  if (item.items && containsActiveItems(item.items, localPathname, location)) {
     return true;
   }
   return false;
@@ -81,6 +83,7 @@ export function isItemActive(
 export function containsActiveItems(
   items: readonly NavItemActiveConfig[],
   localPathname: string,
+  location?: Location | {pathname: string; [key: string]: unknown},
 ): boolean {
-  return items.some((item) => isItemActive(item, localPathname));
+  return items.some((item) => isItemActive(item, localPathname, location));
 }

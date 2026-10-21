@@ -28,13 +28,13 @@ export default function DropdownNavbarItemDesktop({
   const [showDropdown, setShowDropdown] = useState(false);
   const localPathname = useLocalPathname();
   const location = useLocation();
-  const containsActive = containsActiveItems(items, localPathname);
+  const containsActive = containsActiveItems(items, localPathname, location);
 
   const isDropdownActive = () => {
     if (props.isActive) {
       return props.isActive(null, location);
     }
-    return isItemActive(props, localPathname) || containsActive;
+    return isItemActive(props, localPathname, location) || containsActive;
   };
 
   const active = isDropdownActive();

@@ -7,6 +7,7 @@
 
 import {useState, type ReactNode, type ComponentProps} from 'react';
 import clsx from 'clsx';
+import {useLocation} from '@docusaurus/router';
 import {useCollapsible, Collapsible} from '@docusaurus/theme-common';
 import {
   isSamePath,
@@ -80,8 +81,11 @@ export default function DropdownNavbarItemMobile({
   ...props
 }: Props): ReactNode {
   const localPathname = useLocalPathname();
-  const isActive = isSamePath(props.to, localPathname);
-  const containsActive = containsActiveItems(items, localPathname);
+  const location = useLocation();
+  const containsActive = containsActiveItems(items, localPathname, location);
+  const isActive = props.isActive
+    ? props.isActive(null, location)
+    : isSamePath(props.to, localPathname);
 
   const {collapsed, toggleCollapsed} = useItemCollapsible({
     active: isActive || containsActive,

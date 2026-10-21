@@ -6,14 +6,20 @@
  */
 
 // @vitest-environment jsdom
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, vi, afterEach} from 'vitest';
 import type {ReactNode} from 'react';
-import {render, screen} from '@testing-library/react';
+import {render, screen, cleanup} from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import {MemoryRouter} from 'react-router-dom';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
-import DropdownNavbarItem from '../DropdownNavbarItem';
+import DropdownNavbarItemDesktop from '../DropdownNavbarItem/Desktop';
+import DropdownNavbarItemMobile from '../DropdownNavbarItem/Mobile';
 import type {DocusaurusContext} from '@docusaurus/types';
+
+window.docusaurus = {
+  prefetch: vi.fn(),
+  preload: vi.fn(),
+};
 
 function TestProviders({
   children,
@@ -25,6 +31,10 @@ function TestProviders({
   const context = {
     siteConfig: {
       baseUrl: '/',
+      future: {
+        // eslint-disable-next-line camelcase
+        experimental_router: 'browser',
+      },
     },
   } as unknown as DocusaurusContext;
 
@@ -36,6 +46,8 @@ function TestProviders({
 }
 
 describe('DropdownNavbarItem', () => {
+  afterEach(cleanup);
+
   const defaultItems = [
     {label: 'Intro', to: '/docs/intro'},
     {label: 'Advanced', to: '/docs/advanced'},
@@ -44,7 +56,7 @@ describe('DropdownNavbarItem', () => {
   it('renders dropdown with inactive parent when no child item matches', () => {
     render(
       <TestProviders pathname="/blog">
-        <DropdownNavbarItem label="Docs" items={defaultItems} />
+        <DropdownNavbarItemDesktop label="Docs" items={defaultItems} />
       </TestProviders>,
     );
 
@@ -56,7 +68,7 @@ describe('DropdownNavbarItem', () => {
   it('renders dropdown with active parent when a child item matches pathname', () => {
     render(
       <TestProviders pathname="/docs/intro">
-        <DropdownNavbarItem label="Docs" items={defaultItems} />
+        <DropdownNavbarItemDesktop label="Docs" items={defaultItems} />
       </TestProviders>,
     );
 
@@ -68,7 +80,7 @@ describe('DropdownNavbarItem', () => {
   it('renders dropdown with active parent when matching trailing slash', () => {
     render(
       <TestProviders pathname="/docs/intro/">
-        <DropdownNavbarItem label="Docs" items={defaultItems} />
+        <DropdownNavbarItemDesktop label="Docs" items={defaultItems} />
       </TestProviders>,
     );
 
@@ -81,7 +93,7 @@ describe('DropdownNavbarItem', () => {
 
     render(
       <TestProviders pathname="/tutorials/getting-started">
-        <DropdownNavbarItem label="Learn" items={items} />
+        <DropdownNavbarItemDesktop label="Learn" items={items} />
       </TestProviders>,
     );
 
@@ -94,7 +106,7 @@ describe('DropdownNavbarItem', () => {
 
     render(
       <TestProviders pathname="/community/team">
-        <DropdownNavbarItem label="Community" items={items} />
+        <DropdownNavbarItemDesktop label="Community" items={items} />
       </TestProviders>,
     );
 
@@ -105,7 +117,11 @@ describe('DropdownNavbarItem', () => {
   it('renders active parent when dropdown has "to" and is on child path', () => {
     render(
       <TestProviders pathname="/docs/advanced">
-        <DropdownNavbarItem label="Docs" to="/docs" items={defaultItems} />
+        <DropdownNavbarItemDesktop
+          label="Docs"
+          to="/docs"
+          items={defaultItems}
+        />
       </TestProviders>,
     );
 
@@ -116,7 +132,11 @@ describe('DropdownNavbarItem', () => {
   it('renders active parent when dropdown has "to" and is on own path', () => {
     render(
       <TestProviders pathname="/docs">
-        <DropdownNavbarItem label="Docs" to="/docs" items={defaultItems} />
+        <DropdownNavbarItemDesktop
+          label="Docs"
+          to="/docs"
+          items={defaultItems}
+        />
       </TestProviders>,
     );
 
@@ -127,7 +147,7 @@ describe('DropdownNavbarItem', () => {
   it('does not render active class when isActive returns false', () => {
     render(
       <TestProviders pathname="/docs/intro">
-        <DropdownNavbarItem
+        <DropdownNavbarItemDesktop
           label="Docs"
           items={defaultItems}
           isActive={() => false}
@@ -143,7 +163,7 @@ describe('DropdownNavbarItem', () => {
   it('respects custom activeClassName', () => {
     render(
       <TestProviders pathname="/docs/intro">
-        <DropdownNavbarItem
+        <DropdownNavbarItemDesktop
           label="Docs"
           items={defaultItems}
           activeClassName="my-custom-active-class"
@@ -155,5 +175,45 @@ describe('DropdownNavbarItem', () => {
     expect(dropdownLink).toHaveClass('navbar__link');
     expect(dropdownLink).toHaveClass('my-custom-active-class');
     expect(dropdownLink).not.toHaveClass('navbar__link--active');
+  });
+
+  it('renders active parent when child isActive inspects router location search', () => {
+    const items = [
+      {
+        label: 'Search Item',
+        to: '/docs/intro',
+        isActive: (_match: unknown, location: {search: string}) =>
+          location.search === '?filter=active',
+      },
+    ];
+
+    render(
+      <TestProviders pathname="/docs/intro?filter=active">
+        <DropdownNavbarItemDesktop label="Docs" items={items} />
+      </TestProviders>,
+    );
+
+    const dropdownLink = screen.getByRole('button', {name: 'Docs'});
+    expect(dropdownLink).toHaveClass('navbar__link--active');
+  });
+
+  it('expands mobile dropdown when child isActive inspects router location search', () => {
+    const items = [
+      {
+        label: 'Search Item',
+        to: '/docs/intro',
+        isActive: (_match: unknown, location: {search: string}) =>
+          location.search === '?filter=active',
+      },
+    ];
+
+    const {container} = render(
+      <TestProviders pathname="/docs/intro?filter=active">
+        <DropdownNavbarItemMobile label="Docs" items={items} />
+      </TestProviders>,
+    );
+
+    const listItem = container.querySelector('li.menu__list-item');
+    expect(listItem).not.toHaveClass('menu__list-item--collapsed');
   });
 });

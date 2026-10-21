@@ -64,6 +64,28 @@ describe('isItemActive', () => {
     );
   });
 
+  it('passes full router location to custom isActive function', () => {
+    const location = {
+      pathname: '/baseUrl/docs',
+      search: '?version=v2',
+      hash: '#section',
+      state: null,
+      key: 'key1',
+    };
+    const isActiveMock = (
+      _match: unknown,
+      loc: {pathname: string; search?: string; hash?: string},
+    ) => loc.search === '?version=v2' && loc.pathname === '/baseUrl/docs';
+
+    expect(
+      isItemActive(
+        {to: '/docs', isActive: isActiveMock},
+        '/docs',
+        location as never,
+      ),
+    ).toBe(true);
+  });
+
   it('matches nested items', () => {
     expect(
       isItemActive(
@@ -94,6 +116,32 @@ describe('containsActiveItems', () => {
     expect(containsActiveItems(items, '/docs/advanced')).toBe(true);
     expect(containsActiveItems(items, '/tutorials/step-1')).toBe(true);
     expect(containsActiveItems(items, '/blog')).toBe(false);
+  });
+
+  it('passes location to child items with isActive', () => {
+    const location = {
+      pathname: '/docs/intro',
+      search: '?filter=special',
+      hash: '',
+      state: null,
+      key: 'key1',
+    };
+    const items = [
+      {
+        to: '/docs/intro',
+        isActive: (_match: unknown, loc: {pathname: string; search?: string}) =>
+          loc.search === '?filter=special',
+      },
+    ];
+    expect(containsActiveItems(items, '/docs/intro', location as never)).toBe(
+      true,
+    );
+    expect(
+      containsActiveItems(items, '/docs/intro', {
+        ...location,
+        search: '',
+      } as never),
+    ).toBe(false);
   });
 
   it('returns false for empty items array', () => {
