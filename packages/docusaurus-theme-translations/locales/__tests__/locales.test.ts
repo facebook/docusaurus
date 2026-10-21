@@ -42,4 +42,39 @@ describe('theme translations', () => {
 
     expect(codeMessages).toEqual(baseMessages);
   });
+
+  it('has localized messages files contain only messages of the base messages files. Please delete the unknown localized messages', async () => {
+    const unknownMessages = await getUnknownLocalizedMessages();
+    expect(unknownMessages).toEqual([]);
+  });
 });
+
+const LocalesDirPath = path.join(__dirname, '..');
+
+// Returns the "<locale>/<file>: <key>" localized messages not in base files
+async function getUnknownLocalizedMessages(): Promise<string[]> {
+  const baseFiles = await fs.readdir(path.join(LocalesDirPath, 'base'));
+  const locales = (await fs.readdir(LocalesDirPath)).filter(
+    (dirName) => dirName !== 'base' && !dirName.startsWith('__'),
+  );
+
+  const unknownMessages = await Promise.all(
+    locales.flatMap((locale) =>
+      baseFiles.map(async (file) => {
+        const baseKeys = await readMessageKeys(path.join('base', file));
+        const localeKeys = await readMessageKeys(path.join(locale, file));
+        return _.difference(localeKeys, baseKeys).map(
+          (key) => `${locale}/${file}: ${key}`,
+        );
+      }),
+    ),
+  );
+  return unknownMessages.flat();
+}
+
+async function readMessageKeys(localeFilePath: string): Promise<string[]> {
+  const messages = (await readJSON(
+    path.join(LocalesDirPath, localeFilePath),
+  )) as {[key: string]: string};
+  return Object.keys(messages);
+}
