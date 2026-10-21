@@ -336,7 +336,10 @@ export function parseMarkdownContentTitle(
       contentTitle: toTextContentTitle(
         regularTitleMatch
           .groups!.title!.trim()
-          .replace(/\s*(?:\{#*[\w-]+\}|#+)$/, ''),
+          // Strip a custom heading id (`{#id}`) or an ATX closing sequence.
+          // CommonMark only removes a trailing `#` run after a space/tab, so
+          // `# Learn C#` keeps its literal trailing `#` ("Learn C#").
+          .replace(/\s*\{#*[\w-]+\}$|[ \t]+#+$/, ''),
       ).trim(),
     };
   }
