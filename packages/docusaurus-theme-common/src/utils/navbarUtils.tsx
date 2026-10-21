@@ -9,6 +9,8 @@ import type {ReactNode} from 'react';
 import {NavbarMobileSidebarProvider} from '../contexts/navbarMobileSidebar';
 import {NavbarSecondaryMenuContentProvider} from '../contexts/navbarSecondaryMenu/content';
 import {NavbarSecondaryMenuDisplayProvider} from '../contexts/navbarSecondaryMenu/display';
+import {isSamePath} from './routesUtils';
+import {isRegexpStringMatch} from './regexpUtils';
 
 const DefaultNavItemPosition = 'right';
 
@@ -42,4 +44,43 @@ export function NavbarProvider({children}: {children: ReactNode}): ReactNode {
       </NavbarMobileSidebarProvider>
     </NavbarSecondaryMenuContentProvider>
   );
+}
+
+export type NavItemActiveConfig = {
+  readonly to?: string;
+  readonly exact?: boolean;
+  readonly activeBasePath?: string;
+  readonly activeBaseRegex?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  readonly isActive?: (match: any, location: any) => boolean;
+  readonly items?: readonly NavItemActiveConfig[];
+};
+
+export function isItemActive(
+  item: NavItemActiveConfig,
+  localPathname: string,
+): boolean {
+  if (item.isActive) {
+    return item.isActive(null, {pathname: localPathname});
+  }
+  if (isSamePath(item.to, localPathname)) {
+    return true;
+  }
+  if (isRegexpStringMatch(item.activeBaseRegex, localPathname)) {
+    return true;
+  }
+  if (item.activeBasePath && localPathname.startsWith(item.activeBasePath)) {
+    return true;
+  }
+  if (item.items && containsActiveItems(item.items, localPathname)) {
+    return true;
+  }
+  return false;
+}
+
+export function containsActiveItems(
+  items: readonly NavItemActiveConfig[],
+  localPathname: string,
+): boolean {
+  return items.some((item) => isItemActive(item, localPathname));
 }
