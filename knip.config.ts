@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {KnipConfig} from 'knip';
+import type {KnipConfig, KnipConfiguration} from 'knip';
 
-type WorkspaceConfig = NonNullable<KnipConfig['workspaces']>[string];
+type WorkspaceConfig = NonNullable<KnipConfiguration['workspaces']>[string];
 
 // Plugins and themes expose their theme components through getThemePath():
 // all these files can be resolved through the @theme/* alias or swizzled.
@@ -16,12 +16,21 @@ function themePackageConfig({
   ...rest
 }: WorkspaceConfig = {}): WorkspaceConfig {
   return {
-    entry: ['src/theme/**/*.{js,jsx,ts,tsx}', ...[entry].flat()],
+    entry: ['src/theme/**/*.{js,jsx,ts,tsx}!', ...[entry].flat()],
     ...rest,
   };
 }
 
-const config: KnipConfig = {
+// Knip calls this function with its CLI arguments
+// Entry patterns ending with "!" are production entries: production mode
+// (--production) ignores the other entries, such as tests
+// See https://knip.dev/features/production-mode
+const config: KnipConfig = ({production}) => ({
+  // Production mode reports the exports only used by tests, except the ones
+  // also used in their own file: they are often exported to be tested
+  ignoreExportsUsedInFile: production,
+  // Fail on useless configuration entries
+  treatConfigHintsAsErrors: true,
   ignore: ['**/__fixtures__/**'],
   ignoreDependencies: [
     // Docusaurus client API aliases, see packages/docusaurus/src/client/exports
@@ -59,8 +68,6 @@ const config: KnipConfig = {
         // False positives, not binaries
         'create',
         'typecheck',
-        // Installed in the argos workspace
-        'playwright',
       ],
     },
     'admin/new.docusaurus.io': {
@@ -79,15 +86,15 @@ const config: KnipConfig = {
     'packages/docusaurus': {
       entry: [
         // Programmatic API, imported by bin/docusaurus.mjs as lib/index.js
-        'src/index.ts',
+        'src/index.ts!',
         // Resolved with path.join(__dirname, ...)
-        'src/client/clientEntry.tsx',
-        'src/client/serverEntry.tsx',
-        'src/client/exports/*.{ts,tsx}',
-        'src/client/theme-fallback/**/*.tsx',
-        'src/ssg/ssgWorkerThread.ts',
+        'src/client/clientEntry.tsx!',
+        'src/client/serverEntry.tsx!',
+        'src/client/exports/*.{ts,tsx}!',
+        'src/client/theme-fallback/**/*.tsx!',
+        'src/ssg/ssgWorkerThread.ts!',
         // Ambient declarations with triple-slash directives
-        'src/**/*.d.ts',
+        'src/**/*.d.ts!',
       ],
       ignoreDependencies: [
         // Resolved from the site dir, only when using a theme
@@ -109,21 +116,22 @@ const config: KnipConfig = {
     'packages/docusaurus-plugin-debug': themePackageConfig(),
     // Client modules are resolved through getClientModules()
     'packages/docusaurus-plugin-google-gtag': {
-      entry: ['src/gtag.ts', 'src/vendor-gtag.ts'],
+      entry: ['src/gtag.ts!', 'src/vendor-gtag.ts!'],
     },
-    'packages/docusaurus-plugin-ideal-image': themePackageConfig(),
+    'packages/docusaurus-plugin-ideal-image': themePackageConfig({
+      entry: [
+        // Internal modules of the react-ideal-image fork, not theme components
+        '!src/theme/IdealImageLegacy/components/**',
+      ],
+    }),
     'packages/docusaurus-plugin-pwa': themePackageConfig({
-      entry: ['src/registerSw.ts', 'src/sw.ts'],
+      entry: ['src/registerSw.ts!', 'src/sw.ts!'],
     }),
     'packages/docusaurus-plugin-vercel-analytics': {
-      entry: ['src/analytics.ts'],
-    },
-    'packages/docusaurus-preset-classic': {
-      // Resolved with require.resolve(name)
-      ignoreDependencies: ['@docusaurus/plugin-css-cascade-layers'],
+      entry: ['src/analytics.ts!'],
     },
     'packages/docusaurus-theme-classic': themePackageConfig({
-      entry: ['src/nprogress.ts', 'src/prism-include-languages.ts'],
+      entry: ['src/nprogress.ts!', 'src/prism-include-languages.ts!'],
       ignoreDependencies: [
         // Resolved with require.resolve(`infima/...`)
         'infima',
@@ -136,7 +144,7 @@ const config: KnipConfig = {
     'packages/docusaurus-theme-mermaid': themePackageConfig(),
     'packages/docusaurus-types': {
       // All types are public: this package has no exports field
-      entry: ['src/*.d.ts'],
+      entry: ['src/*.d.ts!'],
     },
     'packages/docusaurus-theme-search-algolia': themePackageConfig({
       // Knip doesn't detect imports in "declare module" blocks
@@ -144,22 +152,22 @@ const config: KnipConfig = {
     }),
     website: {
       entry: [
-        'docusaurus.config*.{js,ts}',
-        'sidebars*.{js,ts}',
-        '*.d.json.ts',
-        '_dogfooding/*-sidebars.js',
-        '_dogfooding/{clientModuleExample,migrateStorageNamespace}.ts',
-        '_dogfooding/_{docs,blog,pages} tests/**/*.{js,jsx,ts,tsx}',
-        '**/*.mdx',
+        'docusaurus.config*.{js,ts}!',
+        'sidebars*.{js,ts}!',
+        '*.d.json.ts!',
+        '_dogfooding/*-sidebars.js!',
+        '_dogfooding/{clientModuleExample,migrateStorageNamespace}.ts!',
+        '_dogfooding/_{docs,blog,pages} tests/**/*.{js,jsx,ts,tsx}!',
+        '**/*.mdx!',
         // Knip ignores MDX imports in ```mdx-code-block fences
-        'src/components/**/*.{js,jsx,ts,tsx}',
-        'blog/**/*.{js,jsx,ts,tsx}',
-        'src/theme/**/*.{js,jsx,ts,tsx}',
-        'src/plugins/changelog/index.ts',
-        'src/plugins/changelog/theme/**/*.{js,jsx,ts,tsx}',
-        'src/plugins/featureRequests/FeatureRequestsPlugin.js',
-        'src/plugins/featureRequests/FeatureRequestsPage.tsx',
-        'src/sw.js',
+        'src/components/**/*.{js,jsx,ts,tsx}!',
+        'blog/**/*.{js,jsx,ts,tsx}!',
+        'src/theme/**/*.{js,jsx,ts,tsx}!',
+        'src/plugins/changelog/index.ts!',
+        'src/plugins/changelog/theme/**/*.{js,jsx,ts,tsx}!',
+        'src/plugins/featureRequests/FeatureRequestsPlugin.js!',
+        'src/plugins/featureRequests/FeatureRequestsPage.tsx!',
+        'src/sw.js!',
       ],
       ignore: [
         // Intentionally broken files for testing purposes
@@ -174,7 +182,6 @@ const config: KnipConfig = {
         'netlify-plugin-cache',
         // Used by theme components ejected in CI, see testSwizzleThemeClassic.mjs
         '@docusaurus/utils-common',
-        '@mdx-js/react',
         '@types/prismjs',
         'copy-text-to-clipboard',
         'prismjs',
@@ -188,6 +195,6 @@ const config: KnipConfig = {
       ],
     },
   },
-};
+});
 
 export default config;

@@ -100,6 +100,7 @@ Update Vitest failing snapshots with the `-u` option. Do not blindly update snap
 - `pnpm lint:syncpack` - Syncpack to check that dependencies use the pnpm catalogs
 - `pnpm lint:catalogs` - Check the content of the pnpm catalogs
 - `pnpm lint:knip` - Knip to find unused files, exports and dependencies (config in `knip.config.ts`)
+- `pnpm lint:knip:production` - Knip to find the exports and dependencies of published packages that only tests use
 - `pnpm lint:deps` - Check that `pnpm-lock.yaml` is deduplicated (`pnpm dedupe --check`)
 - Add `:fix` suffix to auto-fix issues (e.g., `pnpm lint:js:fix`)
 
