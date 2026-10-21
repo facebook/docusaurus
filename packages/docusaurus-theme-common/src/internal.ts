@@ -63,11 +63,7 @@ export {
   useQueryStringValue,
 } from './utils/historyUtils';
 
-export {
-  useFilteredAndTreeifiedTOC,
-  useTreeifiedTOC,
-  type TOCTreeNode,
-} from './utils/tocUtils';
+export {useFilteredAndTreeifiedTOC, type TOCTreeNode} from './utils/tocUtils';
 
 export {
   ScrollControllerProvider,
