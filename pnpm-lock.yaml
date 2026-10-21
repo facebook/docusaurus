@@ -176,9 +176,6 @@ catalogs:
     '@slorber/remark-comment':
       specifier: ^1.0.0
       version: 1.0.0
-    '@svgr/core':
-      specifier: ^8.1.0
-      version: 8.1.0
     '@svgr/webpack':
       specifier: ^8.1.0
       version: 8.1.0
@@ -537,6 +534,9 @@ catalogs:
     '@eslint/js':
       specifier: ^10.0.1
       version: 10.0.1
+    '@svgr/core':
+      specifier: ^8.1.0
+      version: 8.1.0
     '@svgr/plugin-jsx':
       specifier: ^8.1.0
       version: 8.1.0
@@ -2136,9 +2136,6 @@ importers:
       '@docusaurus/utils-validation':
         specifier: workspace:*
         version: link:../docusaurus-utils-validation
-      '@svgr/core':
-        specifier: 'catalog:'
-        version: 8.1.0(supports-color@10.2.2)(typescript@6.0.3)
       '@svgr/webpack':
         specifier: 'catalog:'
         version: 8.1.0(supports-color@10.2.2)(typescript@6.0.3)
@@ -2158,6 +2155,9 @@ importers:
       '@docusaurus/module-type-aliases':
         specifier: workspace:*
         version: link:../docusaurus-module-type-aliases
+      '@svgr/core':
+        specifier: catalog:dev
+        version: 8.1.0(supports-color@10.2.2)(typescript@6.0.3)
       '@svgr/plugin-jsx':
         specifier: catalog:dev
         version: 8.1.0(@svgr/core@8.1.0(supports-color@10.2.2)(typescript@6.0.3))(supports-color@10.2.2)
@@ -2357,9 +2357,6 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 19.3.0(react@19.3.0)
-      react-router-dom:
-        specifier: 'catalog:'
-        version: 5.3.4(react@19.3.0)
       rtlcss:
         specifier: 'catalog:'
         version: 4.3.0
@@ -2382,6 +2379,9 @@ importers:
       '@types/rtlcss':
         specifier: catalog:dev
         version: 3.5.4
+      react-router-dom:
+        specifier: 'catalog:'
+        version: 5.3.4(react@19.3.0)
 
   packages/docusaurus-theme-common:
     dependencies:
