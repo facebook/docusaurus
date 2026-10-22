@@ -74,7 +74,9 @@ export async function renderMermaid({
     } catch (e) {
       // Because Mermaid add a weird SVG/Message to the DOM on error
       // https://github.com/mermaid-js/mermaid/issues/3205#issuecomment-1719620183
-      document.querySelector(`#d${id}`)?.remove();
+      if (typeof document !== 'undefined') {
+        document.querySelector(`#d${id}`)?.remove();
+      }
       throw e;
     }
   };
