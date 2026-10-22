@@ -466,6 +466,20 @@ Lorem Ipsum
     });
   });
 
+  it('preserves hash preceded by non-breaking whitespace', () => {
+    const markdown = dedent`
+
+          # Learn C#\u00a0#
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: markdown,
+      contentTitle: 'Learn C#\u00a0#',
+    });
+  });
+
   it('strips custom heading id while preserving word-ending hash', () => {
     const markdown = dedent`
 
