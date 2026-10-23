@@ -182,7 +182,12 @@ export type Sidebars = {
   [sidebarId: string]: Sidebar;
 };
 
+// The Prop* types are public API: plugin-content-docs.d.ts re-exports them
+// with import() types in a "declare module" block, which Knip doesn't follow.
+// The @public tags prevent Knip from reporting them as unused exports.
+
 // Doc links have been resolved to URLs, ready to be passed to the theme
+/** @public */
 export type PropSidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: PropSidebarItem[];
@@ -196,22 +201,28 @@ export type PropSidebarItemCategory = Expand<
   }
 >;
 
+/** @public */
 export type PropSidebarItemLink = SidebarItemLink & {
   docId?: string;
   unlisted?: boolean;
 };
 
+/** @public */
 export type PropSidebarItemHtml = SidebarItemHtml;
 
+/** @public */
 export type PropSidebarItem =
   | PropSidebarItemLink
   | PropSidebarItemCategory
   | PropSidebarItemHtml;
+/** @public */
 export type PropSidebar = PropSidebarItem[];
+/** @public */
 export type PropSidebars = {
   [sidebarId: string]: PropSidebar;
 };
 
+/** @public */
 export type PropSidebarBreadcrumbsItem =
   | PropSidebarItemLink
   | PropSidebarItemCategory;
