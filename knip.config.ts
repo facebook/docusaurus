@@ -59,6 +59,8 @@ const config: KnipConfig = ({
   // Production mode reports the exports only used by tests, except the ones
   // also used in their own file: they are often exported to be tested
   ignoreExportsUsedInFile: production,
+  // Fail on useless configuration entries
+  treatConfigHintsAsErrors: true,
   ignore: ['**/__fixtures__/**'],
   ignoreDependencies: [
     // Docusaurus client API aliases, see packages/docusaurus/src/client/exports
@@ -96,8 +98,6 @@ const config: KnipConfig = ({
         // False positives, not binaries
         'create',
         'typecheck',
-        // Installed in the argos workspace
-        'playwright',
       ],
     },
     'admin/new.docusaurus.io': {
@@ -148,16 +148,17 @@ const config: KnipConfig = ({
     'packages/docusaurus-plugin-google-gtag': {
       entry: ['src/gtag.ts!', 'src/vendor-gtag.ts!'],
     },
-    'packages/docusaurus-plugin-ideal-image': themePackageConfig(),
+    'packages/docusaurus-plugin-ideal-image': themePackageConfig({
+      entry: [
+        // Internal modules of the react-ideal-image fork, not theme components
+        '!src/theme/IdealImageLegacy/components/**',
+      ],
+    }),
     'packages/docusaurus-plugin-pwa': themePackageConfig({
       entry: ['src/registerSw.ts!', 'src/sw.ts!'],
     }),
     'packages/docusaurus-plugin-vercel-analytics': {
       entry: ['src/analytics.ts!'],
-    },
-    'packages/docusaurus-preset-classic': {
-      // Resolved with require.resolve(name)
-      ignoreDependencies: ['@docusaurus/plugin-css-cascade-layers'],
     },
     'packages/docusaurus-theme-classic': themePackageConfig({
       entry: ['src/nprogress.ts!', 'src/prism-include-languages.ts!'],
@@ -211,7 +212,6 @@ const config: KnipConfig = ({
         'netlify-plugin-cache',
         // Used by theme components ejected in CI, see testSwizzleThemeClassic.mjs
         '@docusaurus/utils-common',
-        '@mdx-js/react',
         '@types/prismjs',
         'copy-text-to-clipboard',
         'prismjs',
