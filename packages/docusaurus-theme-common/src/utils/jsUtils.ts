@@ -35,20 +35,13 @@ export function uniq<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
 }
 
-// TODO 2025: replace by std Object.groupBy ?
-// This is a local polyfill with exact same TS signature
-// see https://github.com/microsoft/TypeScript/blob/main/src/lib/esnext.object.d.ts
+/**
+ * Groups items by key, using the native `Object.groupBy()`.
+ * @returns A null-prototype object mapping each key to its items.
+ */
 export function groupBy<K extends PropertyKey, T>(
   items: Iterable<T>,
   keySelector: (item: T, index: number) => K,
 ): Partial<Record<K, T[]>> {
-  const result: Partial<Record<K, T[]>> = {};
-  let index = 0;
-  for (const item of items) {
-    const key = keySelector(item, index);
-    result[key] ??= [];
-    result[key]!.push(item);
-    index += 1;
-  }
-  return result;
+  return Object.groupBy(items, keySelector);
 }

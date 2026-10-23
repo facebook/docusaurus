@@ -103,4 +103,15 @@ describe('groupBy', () => {
       Robert: [user2],
     });
   });
+
+  it('group by keys named like Object.prototype properties', () => {
+    const keys = ['constructor', 'toString', 'constructor'];
+    const groups = groupBy(keys, (key) => key);
+
+    expect(Object.getPrototypeOf(groups)).toBeNull();
+    expect(groups).toEqual({
+      constructor: ['constructor', 'constructor'],
+      toString: ['toString'],
+    });
+  });
 });
