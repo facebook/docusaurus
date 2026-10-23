@@ -5,28 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// TODO Docusaurus v4: remove after we drop support for DocSearch v3
-declare module '@docsearch/react/button';
-declare module '@docsearch/react/useDocSearchKeyboardEvents';
-declare module '@docsearch/react/version';
-
 declare module '@docusaurus/theme-search-algolia' {
   import type {DeepPartial, Overwrite, Optional} from 'utility-types';
 
-  import type {DocSearchProps} from '@docsearch/react';
-  import type {FacetFilters} from 'algoliasearch/lite';
+  import type {
+    DocSearchProps,
+    DocSearchAskAi,
+    DocSearchIndex,
+    AskAiSearchParameters,
+  } from '@docsearch/react';
 
-  // The config after normalization (e.g. AskAI string -> object)
-  // This matches DocSearch v4.3+ AskAi configuration
-  export type AskAiConfig = {
-    indexName: string;
-    apiKey: string;
-    appId: string;
-    assistantId: string;
-    searchParameters?: {
-      facetFilters?: FacetFilters;
-    };
-    suggestedQuestions?: boolean;
+  // `tools` won't currently work as they require functions
+  // NOTE: Agent Studio doesn't support `facetFilters` for search parameters,
+  // we allow them here since they are converted into `filters` before being
+  // passed to the modal. Ideally this should be resolved at the package level.
+  export type AskAiConfig = Omit<DocSearchAskAi, 'tools'> & {
+    searchParameters?: Record<string, AskAiSearchParameters>;
   };
 
   // DocSearch props that Docusaurus exposes directly through props forwarding
@@ -34,21 +28,19 @@ declare module '@docusaurus/theme-search-algolia' {
     DocSearchProps,
     | 'appId'
     | 'apiKey'
-    | 'indexName'
     | 'placeholder'
     | 'translations'
-    | 'searchParameters'
     | 'insights'
     | 'initialQuery'
+    | 'indices'
+    | 'facets'
+    | 'resultBadgeKey'
   > & {
     // Docusaurus normalizes the AskAI config to an object
     askAi?: AskAiConfig;
   };
 
   export type ThemeConfigAlgolia = DocusaurusDocSearchProps & {
-    // TODO Docusaurus v4: upgrade to DocSearch v4, migrate indexName to indices
-    indexName: string;
-
     // Docusaurus custom options, not coming from DocSearch
     contextualSearch: boolean;
     externalUrlRegex?: string;
@@ -63,20 +55,37 @@ declare module '@docusaurus/theme-search-algolia' {
     algolia: ThemeConfigAlgolia;
   };
 
+  type UserAlgoliaConfig = Overwrite<
+    DeepPartial<Omit<ThemeConfigAlgolia, 'indices'>>,
+    {
+      // Required fields:
+      appId: ThemeConfigAlgolia['appId'];
+      apiKey: ThemeConfigAlgolia['apiKey'];
+      // askAi also accepts a shorter string form
+      askAi?:
+        | string
+        | Optional<
+            AskAiConfig,
+            'indices' | 'appId' | 'apiKey' | 'searchParameters'
+          >;
+    }
+  > &
+    // Single index shorthand, or multiple indices (exclusive)
+    (
+      | {
+          indexName: string;
+          searchParameters?: DocSearchIndex['searchParameters'];
+          indices?: never;
+        }
+      | {
+          indices: ThemeConfigAlgolia['indices'];
+          indexName?: never;
+          searchParameters?: never;
+        }
+    );
+
   export type UserThemeConfig = {
-    algolia?: Overwrite<
-      DeepPartial<ThemeConfigAlgolia>,
-      {
-        // Required fields:
-        appId: ThemeConfigAlgolia['appId'];
-        apiKey: ThemeConfigAlgolia['apiKey'];
-        indexName: ThemeConfigAlgolia['indexName'];
-        // askAi also accepts a shorter string form
-        askAi?:
-          | string
-          | Optional<AskAiConfig, 'indexName' | 'appId' | 'apiKey'>;
-      }
-    >;
+    algolia?: UserAlgoliaConfig;
   };
 }
 
