@@ -14,6 +14,20 @@ import type {CurrentBundler} from '@docusaurus/types';
 // See https://web.dev/baseline
 const DefaultBrowserslistQueries = ['baseline widely available'];
 
+/**
+ * The targets the client or server bundle is compiled for, like
+ * `['chrome 120', 'firefox 115']` or `['node 24.11.1']`
+ */
+export function getTargets({
+  isServer,
+  bundlerName,
+}: {
+  isServer: boolean;
+  bundlerName: CurrentBundler['name'];
+}): string[] {
+  return isServer ? getServerTargets({bundlerName}) : getClientTargets();
+}
+
 export function getClientQueries(): string[] {
   return (
     browserslist.loadConfig({path: process.cwd()}) ?? DefaultBrowserslistQueries
