@@ -34,9 +34,7 @@ function normalizeCategoriesShorthand(
  * Normalizes recursively item and all its children. Ensures that at the end
  * each item will be an object with the corresponding type.
  */
-export function normalizeItem(
-  item: SidebarItemConfig,
-): NormalizedSidebarItem[] {
+function normalizeItem(item: SidebarItemConfig): NormalizedSidebarItem[] {
   if (typeof item === 'string') {
     return [{type: 'doc', id: item}];
   }

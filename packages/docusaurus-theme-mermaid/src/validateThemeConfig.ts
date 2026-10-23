@@ -19,7 +19,7 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   },
 };
 
-export const Schema = Joi.object<ThemeConfig>({
+const Schema = Joi.object<ThemeConfig>({
   mermaid: Joi.object({
     theme: Joi.object({
       dark: Joi.string().default(DEFAULT_THEME_CONFIG.mermaid.theme.dark),

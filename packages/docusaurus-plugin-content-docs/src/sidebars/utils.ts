@@ -86,7 +86,7 @@ export function collectSidebarRefs(sidebar: Sidebar): SidebarItemDoc[] {
 }
 
 // /!\ docId order matters for navigation!
-export function collectSidebarDocIds(sidebar: Sidebar): string[] {
+function collectSidebarDocIds(sidebar: Sidebar): string[] {
   return flattenSidebarItems(sidebar).flatMap((item) => {
     if (item.type === 'category') {
       return item.link?.type === 'doc' ? [item.link.id] : [];
@@ -98,9 +98,7 @@ export function collectSidebarDocIds(sidebar: Sidebar): string[] {
   });
 }
 
-export function collectSidebarNavigation(
-  sidebar: Sidebar,
-): SidebarNavigationItem[] {
+function collectSidebarNavigation(sidebar: Sidebar): SidebarNavigationItem[] {
   return flattenSidebarItems(sidebar).flatMap((item) => {
     if (item.type === 'category' && item.link) {
       return [item as SidebarNavigationItem];
@@ -118,13 +116,13 @@ export function collectSidebarsDocIds(sidebars: Sidebars): {
   return _.mapValues(sidebars, collectSidebarDocIds);
 }
 
-export function collectSidebarsNavigations(sidebars: Sidebars): {
+function collectSidebarsNavigations(sidebars: Sidebars): {
   [sidebarId: string]: SidebarNavigationItem[];
 } {
   return _.mapValues(sidebars, collectSidebarNavigation);
 }
 
-export type SidebarNavigation = {
+type SidebarNavigation = {
   sidebarName: string | undefined;
   previous: SidebarNavigationItem | undefined;
   next: SidebarNavigationItem | undefined;

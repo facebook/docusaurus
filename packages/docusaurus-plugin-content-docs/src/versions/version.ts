@@ -141,7 +141,7 @@ export function getVersionBadge({
   return options.versions[versionName]?.badge ?? defaultVersionBadge;
 }
 
-export function getVersionNoIndex({
+function getVersionNoIndex({
   versionName,
   options,
 }: VersionContext): VersionMetadata['noIndex'] {

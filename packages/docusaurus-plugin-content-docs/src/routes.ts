@@ -235,7 +235,7 @@ type BuildAllRoutesParam = Omit<CreateAllRoutesParam, 'actions'> & {
 
 // TODO we want this buildAllRoutes function to be easily testable
 // Ideally, we should avoid side effects here (ie not injecting actions)
-export async function buildAllRoutes(
+async function buildAllRoutes(
   param: BuildAllRoutesParam,
 ): Promise<RouteConfig[]> {
   const subRoutes = await Promise.all(

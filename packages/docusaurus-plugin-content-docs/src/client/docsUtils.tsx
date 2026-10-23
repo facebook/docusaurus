@@ -76,7 +76,7 @@ export function findSidebarCategory(
  * Best effort to assign a link to a sidebar category. If the category doesn't
  * have a link itself, we link to the first sub item with a link.
  */
-export function findFirstSidebarItemCategoryLink(
+function findFirstSidebarItemCategoryLink(
   item: PropSidebarItemCategory,
 ): string | undefined {
   if (item.href && !item.linkUnlisted) {
