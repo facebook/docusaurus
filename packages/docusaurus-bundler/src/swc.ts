@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getTargets} from './browserslist';
+import {getClientQueries, getServerTargets} from './browserslist';
 import type {SwcLoaderOptions} from '@rspack/core';
 import type {CurrentBundler} from '@docusaurus/types';
 
@@ -18,7 +18,8 @@ export function getSwcLoaderOptions({
 }): SwcLoaderOptions {
   return {
     env: {
-      targets: getTargets({isServer, bundlerName}),
+      // Rspack resolves the client queries with its own Browserslist data
+      targets: isServer ? getServerTargets({bundlerName}) : getClientQueries(),
     },
     jsc: {
       parser: {

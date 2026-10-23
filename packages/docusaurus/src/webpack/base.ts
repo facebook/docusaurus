@@ -8,7 +8,7 @@
 import path from 'node:path';
 import {
   createJsLoaderFactory,
-  getClientTargets,
+  getClientQueries,
   getCSSExtractPlugin,
   getMinimizers,
 } from '@docusaurus/bundler';
@@ -114,7 +114,7 @@ export async function createBaseConfig({
     const themeAliasesHash = md5Hash(JSON.stringify(themeAliases));
     // Loader and minimizer options are not part of the cache key
     // Changing the Browserslist config must evict the cache
-    const browserslistHash = md5Hash(JSON.stringify(getClientTargets()));
+    const browserslistHash = md5Hash(JSON.stringify(getClientQueries()));
     // Asset module parser options are not part of the cache key
     // Changing the asset inline max size must evict the cache
     return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}-${browserslistHash}-${ASSET_INLINE_MAX_SIZE}`;

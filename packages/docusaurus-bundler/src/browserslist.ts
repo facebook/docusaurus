@@ -14,27 +14,21 @@ import type {CurrentBundler} from '@docusaurus/types';
 // See https://web.dev/baseline
 const DefaultBrowserslistQueries = ['baseline widely available'];
 
-/**
- * The targets the client or server bundle is compiled for, like
- * `['baseline widely available']` or `['node 24.11.1']`
- */
-export function getTargets({
-  isServer,
-  bundlerName,
-}: {
-  isServer: boolean;
-  bundlerName: CurrentBundler['name'];
-}): string[] {
-  return isServer ? getServerTargets({bundlerName}) : getClientTargets();
-}
-
-export function getClientTargets(): string[] {
+export function getClientQueries(): string[] {
   return (
     browserslist.loadConfig({path: process.cwd()}) ?? DefaultBrowserslistQueries
   );
 }
 
-function getServerTargets({
+/**
+ * The browsers that the client queries match, like
+ * `['chrome 120', 'firefox 115']`
+ */
+function getClientTargets(): string[] {
+  return browserslist(getClientQueries());
+}
+
+export function getServerTargets({
   bundlerName,
 }: {
   bundlerName: CurrentBundler['name'];
@@ -80,6 +74,5 @@ type LightningCssMinimizerOptions = Omit<
 >;
 
 export function getLightningCssMinimizerOptions(): LightningCssMinimizerOptions {
-  const browsers = browserslist(getClientTargets());
-  return {targets: browserslistToTargets(browsers)};
+  return {targets: browserslistToTargets(getClientTargets())};
 }
