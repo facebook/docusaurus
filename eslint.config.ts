@@ -63,7 +63,6 @@ const ignores = globalIgnores([
   'test-website*/build',
   '**/.docusaurus/**',
   '**/__fixtures__/**',
-  '__mocks__',
   'node_modules',
   '.yarn',
   '.history',

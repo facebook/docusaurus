@@ -18,7 +18,6 @@ yarn-error.log
 website/build
 coverage
 .docusaurus
-types
 test-website
 test-website-in-workspace
 
@@ -41,7 +40,6 @@ website/i18n/**/*
 
 .netlify
 
-website/rspack-tracing.json
 website/rspack-tracing.pftrace
 website/bundler-cpu-profile.json
 website/profile.json.gz
