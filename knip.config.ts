@@ -21,6 +21,29 @@ function themePackageConfig({
   };
 }
 
+// `pnpm lint:knip:public-api` passes --include-entry-exports to report the
+// unused exports of package entry points. They are public API that sites,
+// plugins and themes can use: only warn about them, see AGENTS.md
+const publicApiConfig: KnipConfiguration = {
+  rules: {exports: 'warn', types: 'warn'},
+  // Public API used in ways Knip can't follow
+  ignoreIssues: {
+    // Theme components, resolved through @theme/* aliases or swizzled
+    'packages/*/src/theme/**': ['exports', 'types'],
+    // Plugin and theme modules, loaded by name from the site config
+    'packages/docusaurus-{plugin,preset}-*/src/index.ts': ['exports', 'types'],
+    'packages/docusaurus-theme-!(common|translations)/src/index.ts': [
+      'exports',
+      'types',
+    ],
+    // Core has no package entry point: Docusaurus loads its files by path or
+    // through the @docusaurus/* and @theme/* aliases
+    'packages/docusaurus/**': ['exports', 'types'],
+    // Knip doesn't link the imports of @docusaurus/types to this package
+    'packages/docusaurus-types/**': ['exports', 'types'],
+  },
+};
+
 // Knip calls this function with its parsed CLI arguments
 //
 // Entry patterns ending with "!" are production entries:
@@ -29,7 +52,10 @@ function themePackageConfig({
 // The package.json main/exports/bin fields are production entries, but the
 // entries written here need the suffix. A leading "!" is an unrelated negation.
 // See https://knip.dev/features/production-mode
-const config: KnipConfig = ({production}) => ({
+const config: KnipConfig = ({
+  production,
+  'include-entry-exports': includeEntryExports,
+}) => ({
   // Production mode reports the exports only used by tests, except the ones
   // also used in their own file: they are often exported to be tested
   ignoreExportsUsedInFile: production,
@@ -199,6 +225,7 @@ const config: KnipConfig = ({production}) => ({
       ],
     },
   },
+  ...(includeEntryExports ? publicApiConfig : {}),
 });
 
 export default config;

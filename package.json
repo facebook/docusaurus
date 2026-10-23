@@ -67,6 +67,7 @@
     "lint:deps:fix": "pnpm dedupe",
     "lint:knip": "knip",
     "lint:knip:production": "knip --production --exports --dependencies --no-tag-hints --workspace './packages/*'",
+    "lint:knip:public-api": "knip --include-entry-exports --include exports,types --workspace './packages/*'",
     "lint:knip:fix": "knip --fix",
     "lerna": "lerna",
     "test": "vitest run",
