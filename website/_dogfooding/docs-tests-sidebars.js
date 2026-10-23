@@ -7,8 +7,8 @@
 
 /**
  * @typedef {import('@docusaurus/plugin-content-docs').SidebarsConfig} SidebarsConfig
- * @typedef {import('@docusaurus/plugin-content-docs/lib/sidebars/types').SidebarItemConfig} SidebarItemConfig
- * @typedef {import('@docusaurus/plugin-content-docs/lib/sidebars/types').SidebarItemCategoryConfig} SidebarItemCategoryConfig
+ * @typedef {import('@docusaurus/plugin-content-docs').SidebarItemConfig} SidebarItemConfig
+ * @typedef {import('@docusaurus/plugin-content-docs').SidebarItemCategoryConfig} SidebarItemCategoryConfig
  */
 
 /** @type {SidebarsConfig} */

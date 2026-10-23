@@ -246,6 +246,9 @@ declare module '@docusaurus/plugin-content-docs' {
     >
   >;
   export type SidebarsConfig = import('./sidebars/types').SidebarsConfig;
+  export type SidebarItemConfig = import('./sidebars/types').SidebarItemConfig;
+  export type SidebarItemCategoryConfig =
+    import('./sidebars/types').SidebarItemCategoryConfig;
 
   export type VersionMetadata = ContentPaths & {
     /** A name like `1.0.0`. Acquired from `versions.json`. */
