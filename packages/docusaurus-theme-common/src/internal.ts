@@ -48,29 +48,18 @@ export {
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
-export {
-  TitleFormatterProvider,
-  useTitleFormatter,
-} from './utils/titleFormatterUtils';
-
-export {useLocationChange} from './utils/useLocationChange';
+export {TitleFormatterProvider} from './utils/titleFormatterUtils';
 
 export {useLocalPathname} from './utils/useLocalPathname';
 
-export {
-  useHistoryPopHandler,
-  useHistorySelector,
-  useQueryStringValue,
-} from './utils/historyUtils';
+export {useQueryStringValue} from './utils/historyUtils';
 
 export {useFilteredAndTreeifiedTOC, type TOCTreeNode} from './utils/tocUtils';
 
 export {
   ScrollControllerProvider,
-  useScrollController,
   useScrollPosition,
   useScrollPositionBlocker,
-  useSmoothScrollTo,
 } from './utils/scrollUtils';
 
 export {useHomePageRoute, isSamePath} from './utils/routesUtils';
