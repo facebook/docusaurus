@@ -30,11 +30,11 @@ const publicApiConfig: KnipConfiguration = {
   ignoreIssues: {
     // Theme components, resolved through @theme/* aliases or swizzled
     'packages/*/src/theme/**': ['exports', 'types'],
-    // Plugin and theme modules, loaded by name from the site config
-    'packages/docusaurus-{plugin,preset}-*/src/index.ts': ['exports', 'types'],
+    // Plugin and theme modules: Docusaurus loads their values by name from the
+    // site config
+    'packages/docusaurus-{plugin,preset}-*/src/index.ts': ['exports'],
     'packages/docusaurus-theme-!(common|translations)/src/index.ts': [
       'exports',
-      'types',
     ],
     // Core has no package entry point: Docusaurus loads its files by path or
     // through the @docusaurus/* and @theme/* aliases
