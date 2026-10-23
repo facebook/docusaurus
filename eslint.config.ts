@@ -75,7 +75,6 @@ const ignores = globalIgnores([
   'packages/eslint-plugin/lib/',
   'packages/stylelint-copyright/lib/',
   'packages/create-docusaurus/lib/*',
-  'packages/create-docusaurus/templates/facebook',
   'website/i18n',
   'website/_dogfooding/_swizzle_theme_tests',
   'website/_dogfooding/_asset-tests/badSyntax.js',
