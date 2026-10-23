@@ -36,6 +36,17 @@ async function main() {
 - Prefer pure functions, that compute a result from their arguments, over functions with side effects. Keep side effects (I/O, logging, `process.exit()`…) at the edges, in the top-level functions.
 - Keep data loading separate from the logic using it: load everything first, then pass the data to pure functions.
 
+## Comments
+
+- Don't comment code that is self-explanatory: when the names, the signature or the code already say it, add no comment.
+- Comment the code that is weird, unexpected or surprising (a workaround, a non-obvious constraint, an order that matters): that's where readers need one.
+- Keep comments short, one line when possible. Point to the details instead of writing them out: link the issue, PR, documentation or upstream bug that explains them.
+
+```ts
+// The toggle event also fires when React syncs the open attribute
+// See https://github.com/facebook/docusaurus/pull/12277
+```
+
 ## Readability over micro-optimizations
 
 Unless the code is on a hot path where performance matters, favor readability over micro-optimizations and clever one-liners. Iterating over a list several times with well-named steps is fine when the list is small.
