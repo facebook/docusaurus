@@ -60,5 +60,7 @@ jobs:
             run: pnpm lint:deps
           - name: Knip
             run: pnpm lint:knip
+          - name: Knip production
+            run: pnpm lint:knip:production
           - name: Check Formatting
             run: pnpm format:diff

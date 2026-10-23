@@ -22,13 +22,13 @@
     "@docusaurus/types": "workspace:*",
     "@docusaurus/utils": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
-    "@svgr/core": "catalog:",
     "@svgr/webpack": "catalog:",
     "tslib": "catalog:",
     "webpack": "catalog:"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "workspace:*",
+    "@svgr/core": "catalog:dev",
     "@svgr/plugin-jsx": "catalog:dev",
     "@svgr/plugin-svgo": "catalog:dev"
   },
