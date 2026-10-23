@@ -55,7 +55,7 @@ const BlogSchema = Joi.object<ThemeConfig['blog']>({
 const DEFAULT_COLOR_MODE_CONFIG: ThemeConfig['colorMode'] = {
   defaultMode: 'light',
   disableSwitch: false,
-  respectPrefersColorScheme: false,
+  respectPrefersColorScheme: true,
 };
 
 export const DEFAULT_CONFIG: ThemeConfig = {
