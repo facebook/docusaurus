@@ -34,14 +34,3 @@ export function uniq<T>(arr: T[]): T[] {
   // Note: had problems with [...new Set()]: https://github.com/facebook/docusaurus/issues/4972#issuecomment-863895061
   return Array.from(new Set(arr));
 }
-
-/**
- * Groups items by key, using the native `Object.groupBy()`.
- * @returns A null-prototype object mapping each key to its items.
- */
-export function groupBy<K extends PropertyKey, T>(
-  items: Iterable<T>,
-  keySelector: (item: T, index: number) => K,
-): Partial<Record<K, T[]>> {
-  return Object.groupBy(items, keySelector);
-}
