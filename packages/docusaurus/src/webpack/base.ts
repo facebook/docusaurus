@@ -8,9 +8,9 @@
 import path from 'node:path';
 import {
   createJsLoaderFactory,
-  getClientQueries,
   getCSSExtractPlugin,
   getMinimizers,
+  getTargets,
 } from '@docusaurus/bundler';
 import {
   ASSET_INLINE_MAX_SIZE,
@@ -109,15 +109,24 @@ export async function createBaseConfig({
 
   // When the version string changes, the cache is evicted
   function getCacheVersion() {
-    // Because Webpack does not evict the cache on alias/swizzle changes,
-    // See https://github.com/webpack/webpack/issues/13627
-    const themeAliasesHash = md5Hash(JSON.stringify(themeAliases));
-    // Loader and minimizer options are not part of the cache key
-    // Changing the Browserslist config must evict the cache
-    const browserslistHash = md5Hash(JSON.stringify(getClientQueries()));
-    // Asset module parser options are not part of the cache key
-    // Changing the asset inline max size must evict the cache
-    return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}-${browserslistHash}-${ASSET_INLINE_MAX_SIZE}`;
+    const versionParts: unknown[] = [
+      siteMetadata.docusaurusVersion,
+      // Because Webpack does not evict the cache on alias/swizzle changes,
+      // See https://github.com/webpack/webpack/issues/13627
+      themeAliases,
+      // Loader and minimizer options are not part of the cache key
+      // Changing the target browsers or Node.js version must evict the cache
+      // The same Browserslist queries can match other browsers over time and
+      // after data upgrades, for example "baseline widely available"
+      getTargets({isServer, bundlerName: props.currentBundler.name}),
+      // The plugin code computing loader options is not a build dependency
+      // Upgrading a third-party plugin must evict the cache
+      siteMetadata.pluginVersions,
+      // Asset module parser options are not part of the cache key
+      // Changing the asset inline max size must evict the cache
+      ASSET_INLINE_MAX_SIZE,
+    ];
+    return md5Hash(JSON.stringify(versionParts));
   }
 
   // When one of those modules/dependencies change (including transitive

@@ -15,7 +15,7 @@ export {
   registerBundlerTracing,
 } from './currentBundler';
 
-export {getClientQueries} from './browserslist';
+export {getClientQueries, getTargets} from './browserslist';
 export {getMinimizers} from './minification';
 export {getHtmlMinifier, type HtmlMinifier} from './minifyHtml';
 export {createJsLoaderFactory} from './loaders/jsLoader';
