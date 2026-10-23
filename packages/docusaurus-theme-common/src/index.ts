@@ -27,11 +27,7 @@ export {
 
 export {default as ThemedComponent} from './components/ThemedComponent';
 
-export {
-  createStorageSlot,
-  useStorageSlot,
-  listStorageKeys,
-} from './utils/storageUtils';
+export {createStorageSlot, useStorageSlot} from './utils/storageUtils';
 
 export {usePluralForm} from './utils/usePluralForm';
 

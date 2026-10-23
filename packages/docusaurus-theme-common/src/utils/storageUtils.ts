@@ -236,25 +236,3 @@ export function useStorageSlot(
 
   return [currentValue, storageSlot];
 }
-
-/**
- * Returns a list of all the keys currently stored in browser storage,
- * or an empty list if browser storage can't be accessed.
- */
-export function listStorageKeys(
-  storageType: StorageType = DefaultStorageType,
-): string[] {
-  const browserStorage = getBrowserStorage(storageType);
-  if (!browserStorage) {
-    return [];
-  }
-
-  const keys: string[] = [];
-  for (let i = 0; i < browserStorage.length; i += 1) {
-    const key = browserStorage.key(i);
-    if (key !== null) {
-      keys.push(key);
-    }
-  }
-  return keys;
-}
