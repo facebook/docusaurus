@@ -136,6 +136,8 @@ const config: KnipConfig = ({
       ignoreDependencies: [/.*/],
     },
     'packages/docusaurus-plugin-content-blog': {
+      // Webpack loader, resolved with path.resolve(__dirname, ...)
+      entry: ['src/markdownLoader.ts!'],
       // Knip doesn't detect imports in "declare module" blocks
       ignoreDependencies: ['utility-types'],
     },
