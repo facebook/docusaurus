@@ -8,8 +8,6 @@
     "lib/theme/Playground/*"
   ],
   "exports": {
-    "./lib/*": "./lib/*",
-    "./src/*": "./src/*",
     "./client": {
       "type": "./lib/client/index.d.ts",
       "default": "./lib/client/index.js"

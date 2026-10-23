@@ -6,8 +6,6 @@
   "types": "src/theme-mermaid.d.ts",
   "sideEffects": false,
   "exports": {
-    "./lib/*": "./lib/*",
-    "./src/*": "./src/*",
     "./client": {
       "type": "./lib/client/index.d.ts",
       "default": "./lib/client/index.js"

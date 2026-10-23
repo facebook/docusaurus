@@ -5,8 +5,6 @@
   "main": "lib/index.js",
   "types": "src/plugin-content-blog.d.ts",
   "exports": {
-    "./lib/*": "./lib/*",
-    "./src/*": "./src/*",
     "./client": {
       "type": "./lib/client/index.d.ts",
       "default": "./lib/client/index.js"
