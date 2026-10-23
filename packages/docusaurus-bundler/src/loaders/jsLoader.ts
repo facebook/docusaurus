@@ -8,7 +8,6 @@
 import {getBabelOptions, getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {getSwcLoaderOptions} from '../swc';
 import {getCurrentBundler} from '../currentBundler';
-import {getBrowserslistQueries} from '../browserslist';
 import type {ConfigureWebpackUtils, DocusaurusConfig} from '@docusaurus/types';
 
 async function createBabelJsLoaderFactory({
@@ -27,15 +26,10 @@ async function createBabelJsLoaderFactory({
 
 function createRspackSwcJsLoaderFactory(): ConfigureWebpackUtils['getJSLoader'] {
   const loader = 'builtin:swc-loader';
-  const clientBrowserslistQueries = getBrowserslistQueries();
   return ({isServer}) => {
     return {
       loader,
-      options: getSwcLoaderOptions({
-        isServer,
-        bundlerName: 'rspack',
-        clientBrowserslistQueries,
-      }),
+      options: getSwcLoaderOptions({isServer, bundlerName: 'rspack'}),
     };
   };
 }
