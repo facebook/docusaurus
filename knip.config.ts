@@ -21,9 +21,13 @@ function themePackageConfig({
   };
 }
 
-// Knip calls this function with its CLI arguments
-// Entry patterns ending with "!" are production entries: production mode
-// (--production) ignores the other entries, such as tests
+// Knip calls this function with its parsed CLI arguments
+//
+// Entry patterns ending with "!" are production entries:
+// - `knip` ignores this suffix and starts from all entries, tests included
+// - `knip --production` only starts from production entries and skips tests
+// The package.json main/exports/bin fields are production entries, but the
+// entries written here need the suffix. A leading "!" is an unrelated negation.
 // See https://knip.dev/features/production-mode
 const config: KnipConfig = ({production}) => ({
   // Production mode reports the exports only used by tests, except the ones
