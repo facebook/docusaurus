@@ -44,19 +44,13 @@ export default {
     },
 
     {
-      label: 'Ignore * deps in type-alias packages',
+      label: 'Ignore the exact @types/react version in type-alias packages',
       packages: [
         '@docusaurus/module-type-aliases',
         '@docusaurus/theme-common',
         '@docusaurus/types',
       ],
-      dependencies: [
-        'react',
-        'react-dom',
-        '@types/react',
-        '@types/react-router-config',
-        '@types/react-router-dom',
-      ],
+      dependencies: ['@types/react'],
       isIgnored: true,
     },
 
