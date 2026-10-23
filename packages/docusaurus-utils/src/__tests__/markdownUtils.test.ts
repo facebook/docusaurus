@@ -784,6 +784,43 @@ Lorem Ipsum
       contentTitle: 'Markdown Title',
     });
   });
+
+  it('preserves trailing hash in titles without preceding whitespace (closes #12644)', () => {
+    expect(parseMarkdownContentTitle('# Learn C#')).toEqual({
+      content: '# Learn C#',
+      contentTitle: 'Learn C#',
+    });
+
+    expect(parseMarkdownContentTitle('# F#')).toEqual({
+      content: '# F#',
+      contentTitle: 'F#',
+    });
+
+    expect(parseMarkdownContentTitle('# Learn C# {#learn-csharp}')).toEqual({
+      content: '# Learn C# {#learn-csharp}',
+      contentTitle: 'Learn C#',
+    });
+
+    expect(parseMarkdownContentTitle('# Learn C# #')).toEqual({
+      content: '# Learn C# #',
+      contentTitle: 'Learn C#',
+    });
+
+    expect(parseMarkdownContentTitle('# Learn C# ## {#learn-csharp}')).toEqual({
+      content: '# Learn C# ## {#learn-csharp}',
+      contentTitle: 'Learn C#',
+    });
+
+    expect(parseMarkdownContentTitle('# Standard Title ###')).toEqual({
+      content: '# Standard Title ###',
+      contentTitle: 'Standard Title',
+    });
+
+    expect(parseMarkdownContentTitle('# #')).toEqual({
+      content: '# #',
+      contentTitle: '',
+    });
+  });
 });
 
 describe('parseFileContentFrontMatter', () => {
