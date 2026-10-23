@@ -118,7 +118,7 @@ export async function createBaseConfig({
       // Changing the target browsers or Node.js version must evict the cache
       // The same Browserslist queries can match other browsers over time and
       // after data upgrades, for example "baseline widely available"
-      getTargets({isServer, bundlerName: props.currentBundler.name}),
+      getTargets({isServer}),
       // The plugin code computing loader options is not a build dependency
       // Upgrading a third-party plugin must evict the cache
       siteMetadata.pluginVersions,
