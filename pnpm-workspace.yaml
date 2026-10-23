@@ -44,7 +44,6 @@ catalog:
   '@rspack/core': ^2.2.3
   '@rspack/dev-server': ^2.2.1
   '@slorber/remark-comment': ^1.0.0
-  '@svgr/core': ^8.1.0
   '@svgr/webpack': ^8.1.0
   '@swc/core': ^1.16.2
   '@swc/html': ^1.16.2
@@ -169,6 +168,7 @@ catalogs:
     '@ai-sdk/react': ^3.0.280
     '@crowdin/cli': ^5.0.2
     '@eslint/js': ^10.0.1
+    '@svgr/core': ^8.1.0
     '@svgr/plugin-jsx': ^8.1.0
     '@svgr/plugin-svgo': ^8.1.0
     '@testing-library/dom': ^10.4.1
