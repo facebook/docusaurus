@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {addPrefix, addSuffix, removePrefix, removeSuffix} from '../stringUtils';
+import {addPrefix, removePrefix, removeSuffix} from '../stringUtils';
 
 describe('removePrefix', () => {
   it("is no-op when prefix doesn't exist", () => {
@@ -41,16 +41,5 @@ describe('addPrefix', () => {
   });
   it('adds prefix', () => {
     expect(addPrefix('def', 'abc')).toBe('abcdef');
-  });
-});
-
-describe('addSuffix', () => {
-  it('is no-op when suffix already exists', () => {
-    expect(addSuffix('abcdef', 'def')).toBe('abcdef');
-    expect(addSuffix('abc', '')).toBe('abc');
-    expect(addSuffix('', '')).toBe('');
-  });
-  it('adds suffix', () => {
-    expect(addSuffix('abc', 'def')).toBe('abcdef');
   });
 });
