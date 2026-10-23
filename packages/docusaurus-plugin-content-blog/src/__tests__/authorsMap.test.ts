@@ -11,6 +11,7 @@ import {
   type AuthorsMapInput,
   checkAuthorsMapPermalinkCollisions,
   getAuthorsMap,
+  validateAuthorsMap,
   validateAuthorsMapInput,
 } from '../authorsMap';
 import type {AuthorsMap} from '@docusaurus/plugin-content-blog';
@@ -304,7 +305,7 @@ describe('authors socials', () => {
       },
     };
 
-    expect(validateAuthorsMapInput(authorsMap)).toEqual(authorsMap);
+    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
   });
 
   it('throw socials that are not strings', () => {
@@ -337,17 +338,17 @@ describe('authors socials', () => {
     };
 
     expect(() =>
-      validateAuthorsMapInput(socialNumber),
+      validateAuthorsMap(socialNumber),
     ).toThrowErrorMatchingInlineSnapshot(
       `[ValidationError: "ozaki.socials.twitter" must be a string]`,
     );
     expect(() =>
-      validateAuthorsMapInput(socialNull),
+      validateAuthorsMap(socialNull),
     ).toThrowErrorMatchingInlineSnapshot(
       `[ValidationError: "ozaki.socials.twitter" must be a string]`,
     );
     expect(() =>
-      validateAuthorsMapInput(socialNull2),
+      validateAuthorsMap(socialNull2),
     ).toThrowErrorMatchingInlineSnapshot(
       `[ValidationError: "ozaki.socials" should be an author object containing properties like name, title, and imageURL.]`,
     );
@@ -365,7 +366,7 @@ describe('authors socials', () => {
     };
 
     expect(() =>
-      validateAuthorsMapInput(authorsMap),
+      validateAuthorsMap(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(
       `[ValidationError: "ozaki.socials.twitter" must be a string]`,
     );
@@ -383,6 +384,6 @@ describe('authors socials', () => {
       },
     };
 
-    expect(validateAuthorsMapInput(authorsMap)).toEqual(authorsMap);
+    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
   });
 });

@@ -168,3 +168,11 @@ export async function getAuthorsMap(params: {
   const authorsMap = normalizeAuthorsMap({authorsMapInput, ...params});
   return authorsMap;
 }
+
+export function validateAuthorsMap(content: unknown): AuthorsMapInput {
+  const {error, value} = AuthorsMapInputSchema.validate(content);
+  if (error) {
+    throw error;
+  }
+  return value;
+}
