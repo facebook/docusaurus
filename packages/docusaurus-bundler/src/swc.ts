@@ -7,19 +7,16 @@
 
 import {getClientQueries, getServerTargets} from './browserslist';
 import type {SwcLoaderOptions} from '@rspack/core';
-import type {CurrentBundler} from '@docusaurus/types';
 
 export function getSwcLoaderOptions({
   isServer,
-  bundlerName,
 }: {
   isServer: boolean;
-  bundlerName: CurrentBundler['name'];
 }): SwcLoaderOptions {
   return {
     env: {
       // Rspack resolves the client queries with its own Browserslist data
-      targets: isServer ? getServerTargets({bundlerName}) : getClientQueries(),
+      targets: isServer ? getServerTargets() : getClientQueries(),
     },
     jsc: {
       parser: {

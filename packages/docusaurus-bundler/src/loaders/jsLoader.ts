@@ -29,7 +29,7 @@ function createRspackSwcJsLoaderFactory(): ConfigureWebpackUtils['getJSLoader'] 
   return ({isServer}) => {
     return {
       loader,
-      options: getSwcLoaderOptions({isServer, bundlerName: 'rspack'}),
+      options: getSwcLoaderOptions({isServer}),
     };
   };
 }
