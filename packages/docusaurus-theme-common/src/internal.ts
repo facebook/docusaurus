@@ -53,28 +53,16 @@ export {
   useTitleFormatter,
 } from './utils/titleFormatterUtils';
 
-export {useLocationChange} from './utils/useLocationChange';
-
 export {useLocalPathname} from './utils/useLocalPathname';
 
-export {
-  useHistoryPopHandler,
-  useHistorySelector,
-  useQueryStringValue,
-} from './utils/historyUtils';
+export {useQueryStringValue} from './utils/historyUtils';
 
-export {
-  useFilteredAndTreeifiedTOC,
-  useTreeifiedTOC,
-  type TOCTreeNode,
-} from './utils/tocUtils';
+export {useFilteredAndTreeifiedTOC, type TOCTreeNode} from './utils/tocUtils';
 
 export {
   ScrollControllerProvider,
-  useScrollController,
   useScrollPosition,
   useScrollPositionBlocker,
-  useSmoothScrollTo,
 } from './utils/scrollUtils';
 
 export {useHomePageRoute, isSamePath} from './utils/routesUtils';
