@@ -76,7 +76,7 @@
     "clear": "(pnpm --filter website clear || echo 'Failure while running docusaurus clear') && pnpm rimraf test-website && pnpm rimraf test-website-in-workspace && pnpm lerna exec --ignore docusaurus pnpm rimraf lib",
     "test:baseUrl": "pnpm build:website:baseUrl && pnpm serve:website:baseUrl",
     "lock:update": "pnpm install --lockfile-only",
-    "update-translations": "pnpm --filter @docusaurus/theme-translations update"
+    "update-translations": "pnpm --filter @docusaurus/theme-translations run update"
   },
   "devDependencies": {
     "@ai-sdk/react": "catalog:dev",
