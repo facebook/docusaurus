@@ -48,7 +48,10 @@ export {
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
-export {TitleFormatterProvider} from './utils/titleFormatterUtils';
+export {
+  TitleFormatterProvider,
+  useTitleFormatter,
+} from './utils/titleFormatterUtils';
 
 export {useLocalPathname} from './utils/useLocalPathname';
 
