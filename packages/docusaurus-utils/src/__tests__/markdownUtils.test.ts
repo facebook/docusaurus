@@ -438,6 +438,36 @@ Lorem Ipsum
     });
   });
 
+  it('keeps a trailing hash that is not an ATX closing sequence (e.g. C#)', () => {
+    // Per CommonMark, `# Learn C#` has no space before the trailing `#`, so it
+    // is literal text, not a closing sequence. See facebook/docusaurus#12644.
+    const markdown = dedent`
+
+          # Learn C#
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: markdown,
+      contentTitle: 'Learn C#',
+    });
+  });
+
+  it('strips an ATX closing sequence preceded by whitespace, keeps a literal one', () => {
+    const stripped = dedent`
+
+          # Learn C# ##
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(stripped)).toEqual({
+      content: stripped,
+      contentTitle: 'Learn C#',
+    });
+  });
+
   it('parses markdown h1 title at the top followed by h2 title', () => {
     const markdown = dedent`
 
