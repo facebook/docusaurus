@@ -278,13 +278,9 @@ function createProcessorsCacheEntry({
 }: {
   options: Options;
 }): SimpleProcessors {
-  const compilers = ProcessorsCache.get(options);
-  if (compilers) {
-    return compilers;
-  }
-  const processors = createProcessors({options});
-  ProcessorsCache.set(options, processors);
-  return processors;
+  return ProcessorsCache.getOrInsertComputed(options, () =>
+    createProcessors({options}),
+  );
 }
 
 export function getProcessor({
