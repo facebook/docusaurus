@@ -6,7 +6,10 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {getThemeInlineScript} from '../inlineScripts';
+import {
+  getAnnouncementBarInlineScript,
+  getThemeInlineScript,
+} from '../inlineScripts';
 
 describe('inlineScripts', () => {
   it('inline javascript for default options', () => {
@@ -39,5 +42,46 @@ describe('inlineScripts', () => {
         },
       }),
     ).toMatchSnapshot();
+  });
+
+  it('inline javascript for announcement bar', () => {
+    const script = getAnnouncementBarInlineScript({
+      siteStorage: {
+        type: 'localStorage',
+        namespace: '',
+      },
+      announcementBar: {
+        id: 'announcement-1',
+      },
+    });
+
+    expect(script).toContain(
+      'localStorage.getItem(\'docusaurus.announcement.id\') !== "announcement-1"',
+    );
+    expect(script).toContain(
+      "localStorage.getItem('docusaurus.announcement.dismiss') === 'true'",
+    );
+    expect(script).toContain(
+      "document.documentElement.setAttribute('data-announcement-bar-initially-dismissed', isDismissed())",
+    );
+  });
+
+  it('inline javascript for announcement bar with custom namespace', () => {
+    const script = getAnnouncementBarInlineScript({
+      siteStorage: {
+        type: 'localStorage',
+        namespace: '-docs',
+      },
+      announcementBar: {
+        id: 'announcement-2',
+      },
+    });
+
+    expect(script).toContain(
+      'localStorage.getItem(\'docusaurus.announcement.id-docs\') !== "announcement-2"',
+    );
+    expect(script).toContain(
+      "localStorage.getItem('docusaurus.announcement.dismiss-docs') === 'true'",
+    );
   });
 });
