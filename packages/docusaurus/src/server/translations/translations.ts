@@ -113,9 +113,8 @@ async function writeTranslationFileContent({
   const existingContent = await readTranslationFileContent(filePath);
 
   // Warn about potential legacy keys
-  const unknownKeys = _.difference(
-    Object.keys(existingContent ?? {}),
-    Object.keys(newContent),
+  const unknownKeys = Object.keys(existingContent ?? {}).filter(
+    (key) => !Object.hasOwn(newContent, key),
   );
   if (unknownKeys.length > 0) {
     logger.warn`Some translation keys looks unknown to us in file path=${filePath}.
@@ -276,9 +275,8 @@ export function applyDefaultCodeTranslations({
   extractedCodeTranslations: TranslationFileContent;
   defaultCodeMessages: CodeTranslations;
 }): TranslationFileContent {
-  const unusedDefaultCodeMessages = _.difference(
-    Object.keys(defaultCodeMessages),
-    Object.keys(extractedCodeTranslations),
+  const unusedDefaultCodeMessages = Object.keys(defaultCodeMessages).filter(
+    (messageId) => !Object.hasOwn(extractedCodeTranslations, messageId),
   );
   if (unusedDefaultCodeMessages.length > 0) {
     logger.warn`Unused default message codes found.

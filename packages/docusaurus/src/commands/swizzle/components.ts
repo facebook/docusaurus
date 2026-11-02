@@ -58,13 +58,15 @@ export function getMissingIntermediateComponentFolderNames(
     return _.range(1, paths.length + 1).map((i) => paths.slice(0, i).join('/'));
   }
 
-  const expandedComponentNames = _.uniq(
+  const expandedComponentNames = new Set(
     componentNames.flatMap((componentName) =>
       getAllIntermediatePaths(componentName),
     ),
   );
 
-  return _.difference(expandedComponentNames, componentNames);
+  return [...expandedComponentNames].filter(
+    (componentName) => !componentNames.includes(componentName),
+  );
 }
 
 const skipReadDirNames = ['__test__', '__tests__', '__mocks__', '__fixtures__'];

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
 import type {VersionsOptions} from '@docusaurus/plugin-content-docs';
 
 export function validateVersionName(name: unknown): asserts name is string {
@@ -74,9 +73,8 @@ export function validateVersionsOptions(
       `Docs option lastVersion: ${options.lastVersion} is invalid. ${availableVersionNamesMsg}`,
     );
   }
-  const unknownVersionConfigNames = _.difference(
-    Object.keys(options.versions),
-    availableVersionNames,
+  const unknownVersionConfigNames = Object.keys(options.versions).filter(
+    (versionName) => !availableVersionNames.includes(versionName),
   );
   if (unknownVersionConfigNames.length > 0) {
     throw new Error(
@@ -92,9 +90,8 @@ export function validateVersionsOptions(
         `Invalid docs option "onlyIncludeVersions": an empty array is not allowed, at least one version is needed.`,
       );
     }
-    const unknownOnlyIncludeVersionNames = _.difference(
-      options.onlyIncludeVersions,
-      availableVersionNames,
+    const unknownOnlyIncludeVersionNames = options.onlyIncludeVersions.filter(
+      (versionName) => !availableVersionNames.includes(versionName),
     );
     if (unknownOnlyIncludeVersionNames.length > 0) {
       throw new Error(

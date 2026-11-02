@@ -121,7 +121,7 @@ export async function wrap({
   const isDirectory = await isDir(path.join(themePath, themeComponentName));
 
   // Top/Parent/ComponentName => ComponentName
-  const componentName = _.last(themeComponentName.split('/'))!;
+  const componentName = themeComponentName.split('/').at(-1)!;
   const wrapperComponentName = `${componentName}Wrapper`;
 
   const wrapperFileName = `${themeComponentName}${isDirectory ? '/index' : ''}${

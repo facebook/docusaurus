@@ -308,7 +308,10 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     sidebarFilePath: string;
   }) {
     const allSidebarDocIds = Object.values(sidebarNameToDocIds).flat();
-    const invalidDocIds = _.difference(allSidebarDocIds, allDocIds);
+    const existingDocIds = new Set(allDocIds);
+    const invalidDocIds = allSidebarDocIds.filter(
+      (docId) => !existingDocIds.has(docId),
+    );
 
     if (invalidDocIds.length > 0) {
       throw new Error(
@@ -319,7 +322,7 @@ These sidebar document ids do not exist:
 - ${invalidDocIds.sort().join('\n- ')}
 
 Available document ids are:
-- ${_.uniq(allDocIds).sort().join('\n- ')}
+- ${[...existingDocIds].sort().join('\n- ')}
 `,
       );
     }

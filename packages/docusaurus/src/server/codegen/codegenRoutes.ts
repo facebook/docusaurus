@@ -405,9 +405,9 @@ function ensureNoPropsConflict(route: RouteConfig) {
   if (!route.props && !route.modules) {
     return;
   }
-  const conflictingPropNames = _.intersection(
-    Object.keys(route.props ?? {}),
-    Object.keys(route.modules ?? {}),
+  const moduleNames = Object.keys(route.modules ?? {});
+  const conflictingPropNames = Object.keys(route.props ?? {}).filter(
+    (propName) => moduleNames.includes(propName),
   );
   if (conflictingPropNames.length > 0) {
     throw new Error(
