@@ -6,7 +6,10 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {getThemeInlineScript} from '../inlineScripts';
+import {
+  getThemeInlineScript,
+  getAnnouncementBarInlineScript,
+} from '../inlineScripts';
 
 describe('inlineScripts', () => {
   it('inline javascript for default options', () => {
@@ -39,5 +42,36 @@ describe('inlineScripts', () => {
         },
       }),
     ).toMatchSnapshot();
+  });
+
+  it('announcement bar inline script without id', () => {
+    expect(
+      getAnnouncementBarInlineScript({
+        siteStorage: {
+          type: 'localStorage',
+          namespace: '',
+        },
+      }),
+    ).toContain(
+      "localStorage.getItem('docusaurus.announcement.dismiss') === 'true'",
+    );
+  });
+
+  it('announcement bar inline script with id', () => {
+    const script = getAnnouncementBarInlineScript({
+      siteStorage: {
+        type: 'localStorage',
+        namespace: '',
+      },
+      announcementBar: {
+        id: 'announcement-2',
+      },
+    });
+    expect(script).toContain(
+      'localStorage.getItem(\'docusaurus.announcement.id\') !== "announcement-2"',
+    );
+    expect(script).toContain(
+      "localStorage.getItem('docusaurus.announcement.dismiss') === 'true'",
+    );
   });
 });
