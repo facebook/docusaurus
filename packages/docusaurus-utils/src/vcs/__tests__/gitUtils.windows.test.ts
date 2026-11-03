@@ -62,4 +62,23 @@ describe('Git root resolvers normalize Git Bash paths on Windows', () => {
 
     expect(fs.realpath).toHaveBeenCalledWith('D:\\work\\super');
   });
+
+  it('leaves POSIX Git paths unchanged on non-Windows platforms', async () => {
+    // A `/c/project` path is a valid absolute path on Linux and must be passed
+    // through untouched; this fails if the win32 guard is removed from
+    // normalizeGitPath.
+    Object.defineProperty(process, 'platform', {
+      value: 'linux',
+      configurable: true,
+    });
+    vi.mocked(execa)
+      .mockResolvedValueOnce({stdout: '/c/project'} as unknown as Result)
+      .mockResolvedValueOnce({stdout: '/c/project'} as unknown as Result);
+
+    await getGitRepoRoot('/any/cwd');
+    await getGitSuperProjectRoot('/any/cwd');
+
+    expect(fs.realpath).toHaveBeenNthCalledWith(1, '/c/project');
+    expect(fs.realpath).toHaveBeenNthCalledWith(2, '/c/project');
+  });
 });
