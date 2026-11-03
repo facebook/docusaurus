@@ -97,7 +97,7 @@ export function getAnnouncementBarInlineScript({
     try {
       var configuredId = ${JSON.stringify(configuredId)};
       var viewedId = localStorage.getItem('${AnnouncementBarIdStorageKey}');
-      if (configuredId && viewedId && viewedId !== configuredId) {
+      if (configuredId && (!viewedId || viewedId !== configuredId)) {
         return false;
       }
       return localStorage.getItem('${AnnouncementBarDismissStorageKey}') === 'true';
