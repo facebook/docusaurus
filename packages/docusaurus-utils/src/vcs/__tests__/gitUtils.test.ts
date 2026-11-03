@@ -460,13 +460,19 @@ describe('fromGitBashPath', () => {
     expect(fromGitBashPath('/e/folder')).toBe('E:\\folder');
   });
 
+  it('converts a repository located at a drive root', () => {
+    expect(fromGitBashPath('/c')).toBe('C:\\');
+    expect(fromGitBashPath('/c/')).toBe('C:\\');
+  });
+
   it('leaves regular paths unchanged', () => {
     // Standard Git for Windows output (drive letter + forward slashes)
     expect(fromGitBashPath('C:/dev/docusaurus')).toBe('C:/dev/docusaurus');
     // POSIX paths that are not single-letter mount paths
     expect(fromGitBashPath('/home/user/repo')).toBe('/home/user/repo');
     expect(fromGitBashPath('/usr/local')).toBe('/usr/local');
-    expect(fromGitBashPath('/c')).toBe('/c');
+    expect(fromGitBashPath('/usr')).toBe('/usr');
+    expect(fromGitBashPath('/cc')).toBe('/cc');
   });
 });
 
