@@ -95,16 +95,17 @@ export function getAnnouncementBarInlineScript({
   return `(function() {
   function isDismissed() {
     try {
+      var storage = window['${siteStorage.type}'];
       ${
         id
-          ? `if (localStorage.getItem('${AnnouncementBarIdStorageKey}') !== ${JSON.stringify(
+          ? `if (storage.getItem('${AnnouncementBarIdStorageKey}') !== ${JSON.stringify(
               id,
             )}) {
         return false;
       }`
           : ''
       }
-      return localStorage.getItem('${AnnouncementBarDismissStorageKey}') === 'true';
+      return storage.getItem('${AnnouncementBarDismissStorageKey}') === 'true';
     } catch (err) {}
     return false;
   }

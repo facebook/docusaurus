@@ -13,6 +13,7 @@ import {getAnnouncementBarInlineScript} from '../inlineScripts';
 describe('announcementBarInlineScript', () => {
   beforeEach(() => {
     localStorage.clear();
+    sessionStorage.clear();
     document.documentElement.removeAttribute(
       'data-announcement-bar-initially-dismissed',
     );
@@ -54,6 +55,25 @@ describe('announcementBarInlineScript', () => {
         'data-announcement-bar-initially-dismissed',
       ),
     ).toBe('false');
+  });
+
+  it('sets initially-dismissed to true when sessionStorage holds the dismissed announcement', () => {
+    sessionStorage.setItem('docusaurus.announcement.id', 'announcement-1');
+    sessionStorage.setItem('docusaurus.announcement.dismiss', 'true');
+
+    const script = getAnnouncementBarInlineScript({
+      siteStorage: {type: 'sessionStorage', namespace: ''},
+      announcementBar: {id: 'announcement-1'},
+    });
+
+    // Execute inline script
+    eval(script);
+
+    expect(
+      document.documentElement.getAttribute(
+        'data-announcement-bar-initially-dismissed',
+      ),
+    ).toBe('true');
   });
 
   it('sets initially-dismissed to false when no announcement was dismissed', () => {

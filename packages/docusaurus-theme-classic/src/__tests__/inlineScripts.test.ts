@@ -53,7 +53,7 @@ describe('inlineScripts', () => {
         },
       }),
     ).toContain(
-      "localStorage.getItem('docusaurus.announcement.dismiss') === 'true'",
+      "storage.getItem('docusaurus.announcement.dismiss') === 'true'",
     );
   });
 
@@ -67,11 +67,12 @@ describe('inlineScripts', () => {
         id: 'announcement-2',
       },
     });
+    expect(script).toContain("var storage = window['localStorage'];");
     expect(script).toContain(
-      'localStorage.getItem(\'docusaurus.announcement.id\') !== "announcement-2"',
+      'storage.getItem(\'docusaurus.announcement.id\') !== "announcement-2"',
     );
     expect(script).toContain(
-      "localStorage.getItem('docusaurus.announcement.dismiss') === 'true'",
+      "storage.getItem('docusaurus.announcement.dismiss') === 'true'",
     );
   });
 });
