@@ -6,7 +6,10 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {getThemeInlineScript} from '../inlineScripts';
+import {
+  getThemeInlineScript,
+  getAnnouncementBarInlineScript,
+} from '../inlineScripts';
 
 describe('inlineScripts', () => {
   it('inline javascript for default options', () => {
@@ -39,5 +42,19 @@ describe('inlineScripts', () => {
         },
       }),
     ).toMatchSnapshot();
+  });
+
+  it('inline javascript for announcement bar with id', () => {
+    expect(
+      getAnnouncementBarInlineScript({
+        siteStorage: {
+          type: 'localStorage',
+          namespace: '',
+        },
+        announcementBar: {
+          id: 'announcement-2',
+        },
+      }),
+    ).toContain('var configuredId = "announcement-2";');
   });
 });
