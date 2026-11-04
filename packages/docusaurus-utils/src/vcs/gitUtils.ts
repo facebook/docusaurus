@@ -255,20 +255,20 @@ export async function isGitInsideWorktree(cwd: string): Promise<boolean> {
 }
 
 // Git Bash / MSYS on Windows reports paths as POSIX "mount" paths such as
-// `/c/Users/foo` instead of `C:\Users\foo`. Node's path APIs treat the leading
-// `/c` as a directory under the current drive root (resolving to `C:\c\Users\foo`),
-// which then fails with ENOENT. Convert such a path back to a real Windows path.
-// Exported for testing.
+// `/c/Users/foo` instead of `C:\Users\foo`. Node's path APIs treat the
+// leading `/c` as a directory under the current drive root (resolving to
+// `C:\c\Users\foo`), which then fails with ENOENT. Convert such a path back
+// to a real Windows path. Exported for testing.
 export function fromGitBashPath(gitPath: string): string {
-  // Match `/c`, `/c/`, or `/c/sub/path`. The subpath is optional so a repository
-  // located at a drive root (reported by Git Bash as `/c`) maps to `C:\` instead
-  // of being left unchanged.
-  const match = /^\/([a-zA-Z])(?:\/(.*))?$/.exec(gitPath);
+  // Match `/c`, `/c/`, or `/c/sub/path`. The subpath is optional so a
+  // repository located at a drive root (reported by Git Bash as `/c`) maps to
+  // `C:\` instead of being left unchanged.
+  const match = /^\/(?<drive>[a-z])(?:\/(?<subpath>.*))?$/i.exec(gitPath);
   if (!match) {
     return gitPath;
   }
-  const subpath = match[2] ?? '';
-  return `${match[1]!.toUpperCase()}:\\${subpath.replaceAll('/', '\\')}`;
+  const subpath = match.groups!.subpath ?? '';
+  return `${match.groups!.drive!.toUpperCase()}:\\${subpath.replaceAll('/', '\\')}`;
 }
 
 // Normalize a path returned by Git before handing it to the filesystem. Only
