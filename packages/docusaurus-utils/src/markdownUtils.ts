@@ -335,7 +335,7 @@ export function parseMarkdownContentTitle(
         regularTitleMatch
           .groups!.title!.trim()
           .replace(/\s*\{#*[\w-]+\}$/, '')
-          .replace(/\s+#+$/, ''),
+          .replace(/(?:^|\s+)#+$/, ''),
       ).trim(),
     };
   }
