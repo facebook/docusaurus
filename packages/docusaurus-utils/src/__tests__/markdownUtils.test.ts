@@ -480,6 +480,32 @@ Lorem Ipsum
     });
   });
 
+  it('removes atx closing # and custom heading id regardless of ordering', () => {
+    const markdownWithClosingAfter = dedent`
+
+          # Learn C# {#learn-csharp} #
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdownWithClosingAfter)).toEqual({
+      content: markdownWithClosingAfter,
+      contentTitle: 'Learn C#',
+    });
+
+    const markdownWithClosingBefore = dedent`
+
+          # Learn C# # {#learn-csharp}
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(markdownWithClosingBefore)).toEqual({
+      content: markdownWithClosingBefore,
+      contentTitle: 'Learn C#',
+    });
+  });
+
   it('parses markdown h1 title at the top followed by h2 title', () => {
     const markdown = dedent`
 
