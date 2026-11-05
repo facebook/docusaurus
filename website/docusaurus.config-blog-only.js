@@ -9,7 +9,7 @@
 export default {
   title: 'Docusaurus blog only!',
   tagline: 'Build optimized websites quickly, focus on your content',
-  organizationName: 'facebook',
+  organizationName: 'meta',
   projectName: 'docusaurus',
   baseUrl: '/blog-only/',
   url: 'https://docusaurus.io',
