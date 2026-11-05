@@ -32,7 +32,7 @@ jobs:
       - name: Set up pnpm, Node.js and dependencies
         uses: ./.github/actions/setup
         with:
-          # This job can push commits to the repository
+          # Security: prevents cache poisoning, as this job can push commits to the repository
           cache: false
 
       - name: AutoFix Duplicated deps

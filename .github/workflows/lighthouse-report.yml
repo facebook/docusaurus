@@ -30,7 +30,7 @@ jobs:
       - name: Set up pnpm, Node.js and dependencies
         uses: ./.github/actions/setup
         with:
-          # This job can write to pull requests
+          # Security: prevents cache poisoning, as this job can write to pull requests
           cache: false
 
       - name: Build website fast
