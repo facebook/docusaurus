@@ -72,13 +72,20 @@ describe('serve', () => {
     );
   });
 
-  it('builds the site in the served directory with --build', async () => {
-    await serveFixtureSite({build: true, config: 'custom.config.js'});
+  it('builds the site in the served --dir directory with --build', async () => {
+    const origin = await serveFixtureSite({
+      build: true,
+      dir: 'build/folder',
+      config: 'custom.config.js',
+    });
 
     const siteDir = await realpath(fixtureSiteDir);
     expect(build).toHaveBeenCalledWith(siteDir, {
       config: 'custom.config.js',
-      outDir: path.join(siteDir, 'build'),
+      outDir: path.join(siteDir, 'build/folder'),
     });
+    await expect(describeRequest(origin, '/custom/')).resolves.toBe(
+      '200 folder/index.html',
+    );
   });
 });
