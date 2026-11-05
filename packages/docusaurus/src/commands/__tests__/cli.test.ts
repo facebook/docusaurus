@@ -11,8 +11,8 @@ import {Command} from 'commander';
 import {createCLIProgram} from '../cli';
 import * as buildCommand from '../build/build';
 import * as startCommand from '../start/start';
-import * as serveCommand from '../serve';
-import * as writeHeadingIdsCommand from '../writeHeadingIds';
+import * as serveCommand from '../serve/serve';
+import * as writeHeadingIdsCommand from '../writeHeadingIds/writeHeadingIds';
 
 const ExitOverrideError = new Error('exitOverride');
 

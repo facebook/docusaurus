@@ -12,12 +12,12 @@ import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
 import serveHandler from 'serve-handler';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {realpath} from '@docusaurus/fs';
-import openBrowser from './utils/openBrowser/openBrowser';
-import {loadSiteConfig} from '../server/config';
-import {build} from './build/build';
-import {getHostPort, type HostPortOptions} from '../server/getHostPort';
-import {listenToServer} from './utils/listenToServer';
-import type {LoadContextParams} from '../server/site';
+import openBrowser from '../utils/openBrowser/openBrowser';
+import {loadSiteConfig} from '../../server/config';
+import {build} from '../build/build';
+import {getHostPort, type HostPortOptions} from '../../server/getHostPort';
+import {listenToServer} from '../utils/listenToServer';
+import type {LoadContextParams} from '../../server/site';
 
 function redirect(res: http.ServerResponse, location: string) {
   res.writeHead(302, {
