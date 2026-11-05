@@ -99,6 +99,7 @@ Update Vitest failing snapshots with the `-u` option. Do not blindly update snap
 - `pnpm lint:spelling:sort` - Sort `project-words.txt`, the words CSpell accepts
 - `pnpm lint:syncpack` - Syncpack to check that dependencies use the pnpm catalogs
 - `pnpm lint:catalogs` - Check the content of the pnpm catalogs
+- `pnpm lint:repo-name` - Check that files use the current `meta/docusaurus` GitHub repository name
 - `pnpm lint:knip` - Knip to find unused files, exports and dependencies (config in `knip.config.ts`)
 - `pnpm lint:knip:production` - Knip to find the exports and dependencies of published packages that only tests use
 - `pnpm lint:knip:public-api` - Knip to warn about the public API exports that the monorepo doesn't use, not part of `pnpm lint`
