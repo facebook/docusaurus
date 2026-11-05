@@ -187,7 +187,7 @@ catalogs:
     '@types/micromatch': ^4.0.10
     '@types/node': ^26.6.1
     '@types/nprogress': ^0.2.3
-    '@types/picomatch': ^2.3.4
+    '@types/picomatch': ^4.0.3
     '@types/prismjs': ^1.26.6
     '@types/prompts': ^2.4.9
     '@types/rtlcss': ^3.5.4
@@ -222,7 +222,7 @@ catalogs:
     lerna-changelog: ^2.2.0
     lint-staged: ^17.5.0
     npm-run-all2: ^9.0.3
-    picomatch: ^2.3.2
+    picomatch: ^4.0.7
     pkg-pr-new: ^0.0.92
     rehype-stringify: ^10.0.1
     remark: ^15.0.1

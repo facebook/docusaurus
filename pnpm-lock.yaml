@@ -592,8 +592,8 @@ catalogs:
       specifier: ^0.2.3
       version: 0.2.3
     '@types/picomatch':
-      specifier: ^2.3.4
-      version: 2.3.4
+      specifier: ^4.0.3
+      version: 4.0.3
     '@types/prismjs':
       specifier: ^1.26.6
       version: 1.26.6
@@ -697,8 +697,8 @@ catalogs:
       specifier: ^9.0.3
       version: 9.0.3
     picomatch:
-      specifier: ^2.3.2
-      version: 2.3.2
+      specifier: ^4.0.7
+      version: 4.0.7
     pkg-pr-new:
       specifier: ^0.0.92
       version: 0.0.92
@@ -1789,7 +1789,7 @@ importers:
         version: 0.1.2
       '@types/picomatch':
         specifier: catalog:dev
-        version: 2.3.4
+        version: 4.0.3
       '@types/react-router-dom':
         specifier: 'catalog:'
         version: 5.3.3
@@ -1798,7 +1798,7 @@ importers:
         version: 15.0.0
       picomatch:
         specifier: catalog:dev
-        version: 2.3.2
+        version: 4.0.7
       react-router-dom:
         specifier: 'catalog:'
         version: 5.3.4(react@19.3.0)
@@ -6958,8 +6958,8 @@ packages:
   '@types/nprogress@0.2.3':
     resolution: {integrity: sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==}
 
-  '@types/picomatch@2.3.4':
-    resolution: {integrity: sha512-0so8lU8O5zatZS/2Fi4zrwks+vZv7e0dygrgEZXljODXBig97l4cPQD+9LabXfGJOWwoRkTVz6Q4edZvD12UOA==}
+  '@types/picomatch@4.0.3':
+    resolution: {integrity: sha512-iG0T6+nYJ9FAPmx9SsUlnwcq1ZVRuCXcVEvWnntoPlrOpwtSTKNDC9uVAxTsC3PUvJ+99n4RpAcNgBbHX3JSnQ==}
 
   '@types/prismjs@1.26.6':
     resolution: {integrity: sha512-vqlvI7qlMvcCBbVe0AKAb4f97//Hy0EBTaiW8AalRnG/xAN5zOiWWyrNqNXeq8+KAuvRewjCVY1+IPxk4RdNYw==}
@@ -18009,7 +18009,7 @@ snapshots:
 
   '@types/nprogress@0.2.3': {}
 
-  '@types/picomatch@2.3.4': {}
+  '@types/picomatch@4.0.3': {}
 
   '@types/prismjs@1.26.6': {}
 
