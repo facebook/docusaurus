@@ -34,20 +34,23 @@ on:
           - latest
           - v3-stable
 
-permissions:
-  id-token: write # For OIDC, see https://docs.npmjs.com/trusted-publishers
-  contents: write # For GitHub tags
-
 # ⚠️ No GitHub Actions cache on purpose, enforced by GitHub for every step
 # A poisoned cache increases the chance of a compromised release being published
 # See https://docs.github.com/actions/reference/workflows-and-actions/workflow-syntax#cache-mode
 cache-mode: none
 
+# npm trusted publishing (OIDC) is configured for this workflow file only
+# Keep all npm publishing jobs in this file, see https://docs.npmjs.com/trusted-publishers
 jobs:
-  publish:
-    name: Publish NPM release
-    if: github.repository == 'meta/docusaurus'
+  canary:
+    name: Publish Canary release
+    if: |
+      github.repository == 'meta/docusaurus' &&
+      (github.event_name != 'workflow_dispatch' || github.event.inputs.npm_tag == 'canary')
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # For OIDC, see https://docs.npmjs.com/trusted-publishers
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -88,18 +91,50 @@ jobs:
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 
       - name: Publish Canary release
-        if: |
-          (github.event_name == 'schedule' && steps.canary-check.outputs.skip != 'true') ||
-          github.event_name == 'push' ||
-          (github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag == 'canary')
+        if: steps.canary-check.outputs.skip != 'true'
         run: |
           pnpm canary:bumpVersion
           pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
           pnpm canary:publish
 
+  release:
+    name: Publish NPM release
+    if: |
+      github.repository == 'meta/docusaurus' &&
+      github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag != 'canary'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # For OIDC, see https://docs.npmjs.com/trusted-publishers
+      contents: write # For GitHub tags
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
+        with:
+          # Only install pnpm: Node.js and dependencies are installed by later steps
+          install: false
+          node-version-file: false
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: lts/*
+          check-latest: true
+          #  ⚠️ Do not use any cache on purpose
+          # It increases the chance of a compromised release being publish
+          # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
+          # cache: pnpm
+          package-manager-cache: false
+      - name: Prepare git
+        run: |
+          git config --global user.name "Docusaurus"
+          git config --global user.email "github@docusaurus.io"
+      - name: Installation
+        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+
       - name: Publish NPM release
-        if: |
-          github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag != 'canary'
         run: |
           pnpm lerna version "${{ github.event.inputs.npm_version }}" \
             --force-publish \
