@@ -191,7 +191,7 @@ export function groupTaggedItems<Item>(
   // If user add twice the same tag to a md doc (weird but possible),
   // we don't want the item to appear twice in the list...
   Object.values(result).forEach((group) => {
-    group.items = _.uniq(group.items);
+    group.items = [...new Set(group.items)];
   });
 
   return result;

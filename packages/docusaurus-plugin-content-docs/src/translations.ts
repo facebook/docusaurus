@@ -46,10 +46,8 @@ type TranslationMessageEntry = [string, TranslationMessage];
 function ensureNoSidebarDuplicateEntries(
   translationEntries: TranslationMessageEntry[],
 ): void {
-  const grouped = _.groupBy(translationEntries, (entry) => entry[0]);
-  const duplicates = Object.entries(grouped).filter(
-    (entry) => entry[1].length > 1,
-  );
+  const grouped = Map.groupBy(translationEntries, (entry) => entry[0]);
+  const duplicates = [...grouped].filter((entry) => entry[1].length > 1);
 
   if (duplicates.length > 0) {
     throw new Error(`Multiple docs sidebar items produce the same translation key.
