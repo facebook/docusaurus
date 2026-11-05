@@ -334,45 +334,61 @@ describe('createServeRequestHandler', () => {
     });
   });
 
-  // Also captured by the snapshots above. it.fails() passes while the bug is
-  // there: fixing one turns its test red, replace it.fails() with it()
+  // These tests capture the buggy behavior, also visible in the snapshots above
   describe('known bugs', () => {
+    // TODO fix: serve café.html instead of crashing the server process
     // See https://github.com/vercel/serve-handler/issues/205
-    it.fails('serves file names with Latin-1 characters', async () => {
+    it('crashes on file names with Latin-1 characters', async () => {
       await expect(
         serveRequest({baseUrl: '/', trailingSlash: undefined}, '/café'),
-      ).resolves.toBe('200 café.html');
+      ).resolves.toBe('crash ERR_INVALID_CHAR');
     });
 
+    // TODO fix: keep the baseUrl, "301 /base/file → 200 file.html"
     // See https://github.com/meta/docusaurus/issues/10078#issuecomment-2084932934
-    it.fails('keeps the baseUrl in serve-handler redirects', async () => {
+    it('drops the baseUrl in serve-handler redirects', async () => {
       await expect(
         serveRequest(
           {baseUrl: '/base/', trailingSlash: undefined},
           '/base/file.html',
         ),
-      ).resolves.toBe('301 /base/file → 200 file.html');
+      ).resolves.toBe('301 /file → 302 /base/ → 200 index.html');
     });
 
-    // The looksLikeAsset regex misses them, and adds a trailing slash
+    // TODO fix: keep the query string, "301 /file?query=1 → 200 file.html"
+    it('drops the query string in serve-handler redirects', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/', trailingSlash: undefined},
+          '/file.html?query=1',
+        ),
+      ).resolves.toBe('301 /file → 200 file.html');
+    });
+
+    // TODO fix: serve these assets without adding a trailing slash
+    // The looksLikeAsset regex misses them
     // See https://github.com/meta/docusaurus/pull/10090
-    it.fails('serves assets with a query string under a baseUrl', async () => {
-      await expect(
-        serveRequest(
-          {baseUrl: '/base/', trailingSlash: true},
-          '/base/assets/css/styles.css?v=1',
-        ),
-      ).resolves.toBe('200 assets/css/styles.css');
-    });
+    // Windows serves file paths with a trailing slash, other platforms 404
+    describe.skipIf(process.platform === 'win32')(
+      'adds a trailing slash to some assets under a baseUrl',
+      () => {
+        const options: ServeOptions = {baseUrl: '/base/', trailingSlash: true};
 
-    it.fails('serves assets with a long extension under a baseUrl', async () => {
-      await expect(
-        serveRequest(
-          {baseUrl: '/base/', trailingSlash: true},
-          '/base/site.webmanifest',
-        ),
-      ).resolves.toBe('200 site.webmanifest');
-    });
+        it('with a query string', async () => {
+          await expect(
+            serveRequest(options, '/base/assets/css/styles.css?v=1'),
+          ).resolves.toBe(
+            '302 /base/assets/css/styles.css/?v=1 → 404 404.html',
+          );
+        });
+
+        it('with a long extension', async () => {
+          await expect(
+            serveRequest(options, '/base/site.webmanifest'),
+          ).resolves.toBe('302 /base/site.webmanifest/ → 404 404.html');
+        });
+      },
+    );
   });
 });
 

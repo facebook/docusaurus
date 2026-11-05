@@ -8,8 +8,7 @@
 import path from 'node:path';
 import {pathExists} from '@docusaurus/fs';
 
-export const fixtureSiteDir = path.join(__dirname, '__fixtures__/site');
-export const fixtureOutDir = path.join(fixtureSiteDir, 'build');
+export const fixtureOutDir = path.join(__dirname, '__fixtures__/build');
 
 // Added by test servers when the request handler rejects
 export const CrashHeader = 'x-test-crash';
