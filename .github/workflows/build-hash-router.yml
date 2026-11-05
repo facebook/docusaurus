@@ -35,7 +35,7 @@ jobs:
       - name: Set up pnpm, Node.js and dependencies
         uses: ./.github/actions/setup
         with:
-          # No cache on purpose: this workflow can write to the repository
+          # This workflow can write to the repository (GitHub Pages deployment)
           cache: false
 
       - name: Build Hash Router

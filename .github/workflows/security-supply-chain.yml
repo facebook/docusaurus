@@ -39,7 +39,6 @@ jobs:
         with:
           # No cache on purpose! We want SFW to fetch packages
           cache: false
-          # Installed below, with SFW
           install: false
 
       # See https://socket.dev/blog/introducing-socket-firewall
@@ -73,7 +72,6 @@ jobs:
         with:
           # No cache on purpose! We want SFW to fetch packages
           cache: false
-          # Only the generated site template dependencies are installed
           install: false
 
       # See https://socket.dev/blog/introducing-socket-firewall

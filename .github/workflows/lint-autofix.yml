@@ -29,22 +29,11 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.head_ref }}
 
-      # Not using ./.github/actions/setup: the PR branch checked out may predate it
-      - name: Install pnpm
-        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
+      - name: Set up pnpm, Node.js and dependencies
+        uses: ./.github/actions/setup
         with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
-          install: false
-          node-version-file: false
-
-      - name: Set up Node LTS
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: lts/*
-          check-latest: true
-
-      - name: Installation
-        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+          # This job can push commits to the repository
+          cache: false
 
       - name: AutoFix Duplicated deps
         run: pnpm lint:deps:fix
