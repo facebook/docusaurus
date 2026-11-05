@@ -23,7 +23,7 @@ const BreadcrumbSeparator = '/';
 
 // Just an alias to the make code more explicit
 function getLocalDocId(docId: string): string {
-  return _.last(docId.split('/'))!;
+  return docId.split('/').at(-1)!;
 }
 
 export const CategoryMetadataFilenamePattern = '_category_.{json,yml,yaml}';
