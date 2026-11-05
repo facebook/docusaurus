@@ -81,6 +81,9 @@ jobs:
     strategy:
       matrix:
         DOCUSAURUS_INFRA: ['SLOWER', 'FASTER']
+    env:
+      DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+      DOCUSAURUS_PERF_LOGGER: 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -93,17 +96,11 @@ jobs:
       - name: Build (cold cache)
         run: pnpm build:website:fast
         timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 3 || 2  }}
-        env:
-          DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
-          DOCUSAURUS_PERF_LOGGER: 'true'
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
         run: pnpm build:website:fast
         # Temporary: upper value for Rspack until incremental cache works better
         timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 1 || 2  }}
-        env:
-          DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
-          DOCUSAURUS_PERF_LOGGER: 'true'
 
     # TODO post a GitHub comment with build with perf warnings?
