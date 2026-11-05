@@ -73,9 +73,10 @@ export function validateVersionsOptions(
       `Docs option lastVersion: ${options.lastVersion} is invalid. ${availableVersionNamesMsg}`,
     );
   }
-  const unknownVersionConfigNames = Object.keys(options.versions).filter(
-    (versionName) => !availableVersionNames.includes(versionName),
-  );
+  const availableVersions = new Set(availableVersionNames);
+  const unknownVersionConfigNames = [
+    ...new Set(Object.keys(options.versions)).difference(availableVersions),
+  ];
   if (unknownVersionConfigNames.length > 0) {
     throw new Error(
       `Invalid docs option "versions": unknown versions (${unknownVersionConfigNames.join(
@@ -90,9 +91,9 @@ export function validateVersionsOptions(
         `Invalid docs option "onlyIncludeVersions": an empty array is not allowed, at least one version is needed.`,
       );
     }
-    const unknownOnlyIncludeVersionNames = options.onlyIncludeVersions.filter(
-      (versionName) => !availableVersionNames.includes(versionName),
-    );
+    const unknownOnlyIncludeVersionNames = [
+      ...new Set(options.onlyIncludeVersions).difference(availableVersions),
+    ];
     if (unknownOnlyIncludeVersionNames.length > 0) {
       throw new Error(
         `Invalid docs option "onlyIncludeVersions": unknown versions (${unknownOnlyIncludeVersionNames.join(

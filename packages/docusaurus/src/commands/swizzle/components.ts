@@ -64,9 +64,7 @@ export function getMissingIntermediateComponentFolderNames(
     ),
   );
 
-  return [...expandedComponentNames].filter(
-    (componentName) => !componentNames.includes(componentName),
-  );
+  return [...expandedComponentNames.difference(new Set(componentNames))];
 }
 
 const skipReadDirNames = ['__test__', '__tests__', '__mocks__', '__fixtures__'];

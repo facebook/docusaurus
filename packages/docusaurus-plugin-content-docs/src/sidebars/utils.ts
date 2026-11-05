@@ -307,11 +307,9 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     allDocIds: string[];
     sidebarFilePath: string;
   }) {
-    const allSidebarDocIds = Object.values(sidebarNameToDocIds).flat();
+    const allSidebarDocIds = new Set(Object.values(sidebarNameToDocIds).flat());
     const existingDocIds = new Set(allDocIds);
-    const invalidDocIds = allSidebarDocIds.filter(
-      (docId) => !existingDocIds.has(docId),
-    );
+    const invalidDocIds = [...allSidebarDocIds.difference(existingDocIds)];
 
     if (invalidDocIds.length > 0) {
       throw new Error(
