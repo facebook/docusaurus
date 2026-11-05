@@ -47,17 +47,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Install pnpm
-        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
+      - name: Set up pnpm and Node.js
+        uses: ./.github/actions/setup
         with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
+          # compressed-size-action installs the dependencies of each branch
           install: false
-          node-version-file: false
-      - name: Set up Node
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: lts/*
-          check-latest: true
       - name: Track build size changes
         uses: preactjs/compressed-size-action@f322c295dde06a1cb7ccaef105732dd8a726d1d9 # v2.10.0
         with:
