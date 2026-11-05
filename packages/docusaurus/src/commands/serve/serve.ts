@@ -16,7 +16,7 @@ import openBrowser from '../utils/openBrowser/openBrowser';
 import {loadSiteConfig} from '../../server/config';
 import {build} from '../build/build';
 import {getHostPort, type HostPortOptions} from '../../server/getHostPort';
-import {listenToServer} from '../utils/listenToServer';
+import {listenToServer} from './listenToServer';
 import type {LoadContextParams} from '../../server/site';
 
 function redirect(res: http.ServerResponse, location: string) {
