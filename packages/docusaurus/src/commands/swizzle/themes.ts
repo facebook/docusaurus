@@ -33,13 +33,15 @@ export function getPluginByThemeName(
 }
 
 export function getThemeNames(plugins: SwizzlePlugin[]): string[] {
-  const themeNames = _.uniq(
-    // The fact that getThemePath is attached to the plugin instance makes
-    // this code impossible to optimize. If this is a static method, we don't
-    // need to initialize all plugins just to filter which are themes
-    // Benchmark: loadContext-58ms; initPlugins-323ms
-    plugins.map((plugin) => pluginToThemeName(plugin)).filter(Boolean),
-  ) as string[];
+  const themeNames = [
+    ...new Set(
+      // The fact that getThemePath is attached to the plugin instance makes
+      // this code impossible to optimize. If this is a static method, we don't
+      // need to initialize all plugins just to filter which are themes
+      // Benchmark: loadContext-58ms; initPlugins-323ms
+      plugins.map((plugin) => pluginToThemeName(plugin)).filter(Boolean),
+    ),
+  ] as string[];
 
   // Opinionated ordering: user is most likely to swizzle:
   // - the classic theme

@@ -6,8 +6,8 @@
  */
 
 import {realpath} from '@docusaurus/fs';
-import {loadContext} from '../server/site';
-import {initPlugins} from '../server/plugins/init';
+import {loadContext} from '../../server/site';
+import {initPlugins} from '../../server/plugins/init';
 import type {Command} from 'commander';
 
 export async function externalCommand({

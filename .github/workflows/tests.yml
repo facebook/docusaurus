@@ -13,6 +13,7 @@ on:
       - packages/**
       - tsconfig.*.json
       - .github/workflows/tests.yml
+      - .github/actions/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -32,19 +33,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Install pnpm
-        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
-        with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
-          install: false
-          node-version-file: false
-      - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      - name: Set up pnpm, Node.js ${{ matrix.node }} and dependencies
+        uses: ./.github/actions/setup
         with:
           node-version: ${{ matrix.node }}
-          cache: pnpm
-      - name: Installation
-        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+          cache: true
       - name: Test
         run: pnpm test
       - name: TypeCheck tests
@@ -53,18 +46,18 @@ jobs:
         run: pnpm --filter @docusaurus/theme-common removeThemeInternalReexport
       - name: Docusaurus Build
         # We build 2 locales to ensure a localized site doesn't leak memory
-        # See https://github.com/facebook/docusaurus/issues/10944
+        # See https://github.com/meta/docusaurus/issues/10944
         run: pnpm build:website:fast --locale en --locale fr
         env:
           # Our website should build even with limited memory
-          # See https://github.com/facebook/docusaurus/pull/10590
+          # See https://github.com/meta/docusaurus/pull/10590
           NODE_OPTIONS: '--max-old-space-size=300'
           DOCUSAURUS_PERF_LOGGER: 'true'
       - name: Docusaurus site CSS order
         run: pnpm --filter website test:css-order
 
       - name: TypeCheck website
-        # see https://github.com/facebook/docusaurus/pull/10486
+        # see https://github.com/meta/docusaurus/pull/10486
         run: pnpm --filter website typecheck
 
       # The TypeScript compiler of the tested version runs with pnpm dlx,
@@ -76,7 +69,7 @@ jobs:
 
       - name: TypeCheck website - max version - Latest
         # For latest TS there are often lib check errors, so we disable it
-        # Details: https://github.com/facebook/docusaurus/pull/10486
+        # Details: https://github.com/meta/docusaurus/pull/10486
         run: |
           pnpm dlx --package=typescript@latest tsc --version
           pnpm dlx --package=typescript@latest tsc --project website/tsconfig.skipLibCheck.json

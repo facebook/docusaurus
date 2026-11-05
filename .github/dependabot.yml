@@ -3,7 +3,8 @@ updates:
   ########################
   # GITHUB ACTIONS UPDATES
   - package-ecosystem: github-actions
-    directory: '/'
+    # Composite actions must be listed: '/' only scans .github/workflows
+    directories: ['/', '/.github/actions/setup']
     schedule:
       interval: weekly
     open-pull-requests-limit: 99
@@ -20,6 +21,9 @@ updates:
     directory: '/'
     exclude-paths:
       - 'examples/**'
+      # Declares outdated dependencies on purpose
+      # See https://github.com/meta/docusaurus/issues/9027
+      - 'admin/test-bad-package/**'
     schedule:
       interval: 'weekly'
     # Do not spam too much, we'll adjust this setting if needed
@@ -30,14 +34,14 @@ updates:
       default-days: 5
       semver-major-days: 30
       # +1d compared to pnpm cutoff, otherwise Dependabot opens PRs too early
-      # See https://github.com/facebook/docusaurus/pull/12241
+      # See https://github.com/meta/docusaurus/pull/12241
       semver-minor-days: 8
       semver-patch-days: 8
     # Packages that must be upgraded atomically in a single PR
     # pnpm lint:catalogs checks that the catalog versions of each group match
     groups:
       # Released in lockstep, mixing versions breaks typechecking
-      # See https://github.com/facebook/docusaurus/pull/12634
+      # See https://github.com/meta/docusaurus/pull/12634
       typescript-eslint:
         patterns:
           - 'typescript-eslint'
@@ -70,7 +74,18 @@ updates:
           - '@svgr/*'
       # Babel packages depend on each other
       # Upgrading them independently duplicates Babel packages in the lockfile
-      # See https://github.com/facebook/docusaurus/pull/12704
+      # See https://github.com/meta/docusaurus/pull/12704
       babel:
         patterns:
           - '@babel/*'
+    ignore:
+      # React Router majors need a manual migration, planned for Docusaurus v4
+      # See https://github.com/meta/docusaurus/issues/11719
+      - dependency-name: 'react-router'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-router-dom'
+        update-types: ['version-update:semver-major']
+      # We postponed the Babel 8 upgrade, and may drop Babel support instead
+      # See https://github.com/meta/docusaurus/pull/12408
+      - dependency-name: '@babel/*'
+        update-types: ['version-update:semver-major']

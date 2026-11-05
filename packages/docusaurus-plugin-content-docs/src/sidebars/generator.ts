@@ -23,7 +23,7 @@ const BreadcrumbSeparator = '/';
 
 // Just an alias to the make code more explicit
 function getLocalDocId(docId: string): string {
-  return _.last(docId.split('/'))!;
+  return docId.split('/').at(-1)!;
 }
 
 export const CategoryMetadataFilenamePattern = '_category_.{json,yml,yaml}';
@@ -44,7 +44,7 @@ type Dir = {
   [item: string]: Dir | string;
 };
 
-// Comment for this feature: https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449
+// Comment for this feature: https://github.com/meta/docusaurus/issues/3464#issuecomment-818670449
 export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = ({
   numberPrefixParser,
   isCategoryIndex,

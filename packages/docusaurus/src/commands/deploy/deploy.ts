@@ -11,8 +11,8 @@ import logger from '@docusaurus/logger';
 import {execa} from 'execa';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
 import {fs, realpath} from '@docusaurus/fs';
-import {loadContext, type LoadContextParams} from '../server/site';
-import {build} from './build/build';
+import {loadContext, type LoadContextParams} from '../../server/site';
+import {build} from '../build/build';
 
 export type DeployCLIOptions = Pick<LoadContextParams, 'config' | 'outDir'> & {
   locale?: [string, ...string[]];
@@ -29,7 +29,7 @@ function obfuscateGitPass(str: string) {
 const debugMode = !!process.env.DOCUSAURUS_DEPLOY_DEBUG;
 
 // Log executed commands so that user can figure out mistakes on his own
-// for example: https://github.com/facebook/docusaurus/issues/3875
+// for example: https://github.com/meta/docusaurus/issues/3875
 async function exec(
   file: string,
   args: string[],

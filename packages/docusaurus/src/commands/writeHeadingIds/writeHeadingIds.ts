@@ -14,8 +14,8 @@ import {
 } from '@docusaurus/utils';
 import {safeGlob} from '@docusaurus/glob';
 import {fs, realpath} from '@docusaurus/fs';
-import {loadContext} from '../server/site';
-import {initPlugins} from '../server/plugins/init';
+import {loadContext} from '../../server/site';
+import {initPlugins} from '../../server/plugins/init';
 import type {LoadContext, MarkdownConfig} from '@docusaurus/types';
 
 export const HeadingIdSyntaxes = [

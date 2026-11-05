@@ -1,10 +1,13 @@
 name: Publish
 
 on:
-  # Publish canary on push
+  # Publish main canary daily
+  schedule:
+    - cron: '23 3 * * *'
+
+  # Publish maintenance branches canary on push
   push:
     branches:
-      - main
       - docusaurus-v**
     paths:
       - .github/workflows/publish.yml
@@ -66,15 +69,27 @@ jobs:
           # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
           # cache: pnpm
           package-manager-cache: false
+      - name: Check for unpublished canary changes
+        id: canary-check
+        if: github.event_name == 'schedule'
+        run: |
+          PUBLISHED_COMMIT_NUMBER=$(npm view @docusaurus/core@canary version | sed -E 's/.*-canary-([0-9]+).*/\1/')
+          LAST_CHANGE_COMMIT_NUMBER=$(git rev-list --count "$(git log -1 --format=%H -- .github/workflows/publish.yml package.json packages)")
+          if [ "$LAST_CHANGE_COMMIT_NUMBER" -le "$PUBLISHED_COMMIT_NUMBER" ]; then
+            echo "No package change since canary commit number $PUBLISHED_COMMIT_NUMBER, skipping"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
       - name: Prepare git
         run: |
           git config --global user.name "Docusaurus"
           git config --global user.email "github@docusaurus.io"
       - name: Installation
+        if: steps.canary-check.outputs.skip != 'true'
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 
       - name: Publish Canary release
         if: |
+          (github.event_name == 'schedule' && steps.canary-check.outputs.skip != 'true') ||
           github.event_name == 'push' ||
           (github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag == 'canary')
         run: |
