@@ -7,7 +7,7 @@
 
 import {describe, expect, it} from 'vitest';
 import http from 'node:http';
-import {listenToServer} from '../../utils/listenToServer';
+import {listenToServer} from '../listenToServer';
 import {createServeRequestHandler} from '../requestHandler';
 import {CrashHeader, describeRequest, fixtureOutDir} from './testUtils';
 import type {AddressInfo} from 'node:net';
