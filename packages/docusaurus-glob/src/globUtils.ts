@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Tinyglobby/Micromatch are the 2 libs we use in Docusaurus consistently
+// Tinyglobby/Picomatch are the 2 libs we use in Docusaurus consistently
 
 import path from 'node:path';
-import Micromatch from 'micromatch';
+import Picomatch from 'picomatch';
 import * as Tinyglobby from 'tinyglobby';
 
 /**
@@ -57,8 +57,12 @@ export function createMatcher(patterns: string[]): Matcher {
     // `/(?:)/.test("foo")` is `true`
     return () => false;
   }
+  // makeRe() does not detect the OS: accept \ separators on Windows
+  const options = {windows: process.platform === 'win32'};
   const regexp = new RegExp(
-    patterns.map((pattern) => Micromatch.makeRe(pattern).source).join('|'),
+    patterns
+      .map((pattern) => Picomatch.makeRe(pattern, options).source)
+      .join('|'),
   );
   return (str) => regexp.test(str);
 }

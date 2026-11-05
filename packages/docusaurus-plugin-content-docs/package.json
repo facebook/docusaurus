@@ -60,7 +60,7 @@
     "@types/picomatch": "catalog:dev",
     "@types/react-router-dom": "catalog:",
     "commander": "catalog:",
-    "picomatch": "catalog:dev",
+    "picomatch": "catalog:",
     "react-router-dom": "catalog:"
   },
   "peerDependencies": {

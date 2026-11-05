@@ -329,9 +329,6 @@ catalogs:
     mermaid:
       specifier: ^12.0.0
       version: 12.0.0
-    micromatch:
-      specifier: ^4.0.8
-      version: 4.0.8
     mini-css-extract-plugin:
       specifier: ^2.10.2
       version: 2.10.2
@@ -362,6 +359,9 @@ catalogs:
     parse-numeric-range:
       specifier: ^1.3.0
       version: 1.3.0
+    picomatch:
+      specifier: ^4.0.7
+      version: 4.0.7
     postcss:
       specifier: ^8.5.28
       version: 8.5.28
@@ -582,9 +582,6 @@ catalogs:
     '@types/lodash':
       specifier: ^4.17.25
       version: 4.17.25
-    '@types/micromatch':
-      specifier: ^4.0.10
-      version: 4.0.10
     '@types/node':
       specifier: ^26.6.1
       version: 26.6.1
@@ -696,9 +693,6 @@ catalogs:
     npm-run-all2:
       specifier: ^9.0.3
       version: 9.0.3
-    picomatch:
-      specifier: ^4.0.7
-      version: 4.0.7
     pkg-pr-new:
       specifier: ^0.0.92
       version: 0.0.92
@@ -1401,9 +1395,9 @@ importers:
       chokidar:
         specifier: 'catalog:'
         version: 3.6.0
-      micromatch:
+      picomatch:
         specifier: 'catalog:'
-        version: 4.0.8
+        version: 4.0.7
       tinyglobby:
         specifier: 'catalog:'
         version: 0.2.17
@@ -1411,9 +1405,9 @@ importers:
         specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
-      '@types/micromatch':
+      '@types/picomatch':
         specifier: catalog:dev
-        version: 4.0.10
+        version: 4.0.3
 
   packages/docusaurus-logger:
     dependencies:
@@ -1797,7 +1791,7 @@ importers:
         specifier: 'catalog:'
         version: 15.0.0
       picomatch:
-        specifier: catalog:dev
+        specifier: 'catalog:'
         version: 4.0.7
       react-router-dom:
         specifier: 'catalog:'
@@ -6763,9 +6757,6 @@ packages:
   '@types/bonjour@3.5.13':
     resolution: {integrity: sha512-z9fJ5Im06zvUL548KvYNecEVlA7cVDkGUi6kZusb04mpyEFKCIZJvloCcmpmLaIahDpOQGHaHmG6imtPMmPXGQ==}
 
-  '@types/braces@3.0.5':
-    resolution: {integrity: sha512-SQFof9H+LXeWNz8wDe7oN5zu7ket0qwMu5vZubW4GCJ8Kkeh6nBWUz87+KTz/G3Kqsrp0j/W253XJb3KMEeg3w==}
-
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
 
@@ -6939,9 +6930,6 @@ packages:
 
   '@types/mdx@2.0.14':
     resolution: {integrity: sha512-T48PeuJtvLosNTPVhfnIp3i/n3a4g4Bad7YCq5k64D4u7NwDrAotikQ+5+sjtUvBmxCMlbo3dVL+C2dP0rWHzg==}
-
-  '@types/micromatch@4.0.10':
-    resolution: {integrity: sha512-5jOhFDElqr4DKTrTEbnW8DZ4Hz5LRUEmyrGpCMrD/NphYv3nUnaF08xmSLx1rGGnyEs/kFnhiw6dCgcDqMr5PQ==}
 
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
@@ -17784,8 +17772,6 @@ snapshots:
     dependencies:
       '@types/node': 26.6.1
 
-  '@types/braces@3.0.5': {}
-
   '@types/chai@5.2.3':
     dependencies:
       '@types/deep-eql': 4.0.2
@@ -17989,10 +17975,6 @@ snapshots:
       '@types/unist': 3.0.3
 
   '@types/mdx@2.0.14': {}
-
-  '@types/micromatch@4.0.10':
-    dependencies:
-      '@types/braces': 3.0.5
 
   '@types/ms@2.1.0': {}
 
