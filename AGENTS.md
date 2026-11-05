@@ -129,6 +129,7 @@ Docusaurus maintainers work locally with and env variable `DOCUSAURUS_MAINTAINER
 
 - Always disclose the usage of AI in any communication (commits, PR, comments, issues, etc.) by adding an `(AI-assisted)` text to all messages.
 - Humans review all the code: always write code that is easy to read and review, following the [`code-style` skill](.agents/skills/code-style/SKILL.md).
+- Don't infer or simulate how code behaves on a platform you don't run on: prove it on that platform. For example, faking `process.platform` on macOS proves nothing about Windows. Push a commit to a PR (a temporary one if needed) and let the [Windows CI](.github/workflows/tests-windows.yml) confirm or refute your assumption. Until then, report it as unverified.
 
 ### For Docusaurus maintainers
 
