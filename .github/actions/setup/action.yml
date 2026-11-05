@@ -1,0 +1,36 @@
+name: Setup
+description: Install pnpm, Node.js and the monorepo dependencies, after checking out the repository
+
+inputs:
+  node-version:
+    description: Node.js version to install
+    default: lts/*
+  cache:
+    description: Cache the pnpm store, off by default because a poisoned cache is a supply chain risk
+    default: 'false'
+  install:
+    description: Install the monorepo dependencies
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - name: Install pnpm
+      uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
+      with:
+        # Only install pnpm: Node.js and dependencies are installed by later steps
+        install: false
+        node-version-file: false
+
+    - name: Set up Node.js
+      uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version: ${{ inputs.node-version }}
+        check-latest: true
+        cache: ${{ inputs.cache == 'true' && 'pnpm' || '' }}
+        package-manager-cache: false
+
+    - name: Install dependencies
+      if: inputs.install == 'true'
+      shell: bash
+      run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile

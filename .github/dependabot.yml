@@ -3,7 +3,8 @@ updates:
   ########################
   # GITHUB ACTIONS UPDATES
   - package-ecosystem: github-actions
-    directory: '/'
+    # Composite actions must be listed: '/' only scans .github/workflows
+    directories: ['/', '/.github/actions/setup']
     schedule:
       interval: weekly
     open-pull-requests-limit: 99
