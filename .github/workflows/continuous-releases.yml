@@ -29,11 +29,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      #  ⚠️ Do not use any cache on purpose
-      # It increases the chance of a compromised release being publish
-      # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
       - name: Set up pnpm, Node.js and dependencies
         uses: ./.github/actions/setup
+        with:
+          #  ⚠️ Do not use any cache on purpose
+          # It increases the chance of a compromised release being publish
+          # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
+          cache: false
 
       - name: Build packages
         run: pnpm build:packages

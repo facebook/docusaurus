@@ -50,6 +50,8 @@ jobs:
       - name: Set up pnpm and Node.js
         uses: ./.github/actions/setup
         with:
+          # No cache on purpose: this job can write to pull requests, issues and checks
+          cache: false
           # compressed-size-action installs the dependencies of each branch
           install: false
       - name: Track build size changes

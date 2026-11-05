@@ -34,6 +34,9 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Set up pnpm, Node.js and dependencies
         uses: ./.github/actions/setup
+        with:
+          # No cache on purpose: this workflow can write to the repository
+          cache: false
 
       - name: Build Hash Router
         run: pnpm build:website:fast

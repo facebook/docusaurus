@@ -34,10 +34,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      # No cache on purpose! We want SFW to fetch packages
       - name: Set up pnpm and Node.js
         uses: ./.github/actions/setup
         with:
+          # No cache on purpose! We want SFW to fetch packages
+          cache: false
+          # Installed below, with SFW
           install: false
 
       # See https://socket.dev/blog/introducing-socket-firewall
@@ -66,10 +68,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      # No cache on purpose! We want SFW to fetch packages
       - name: Set up pnpm and Node.js
         uses: ./.github/actions/setup
         with:
+          # No cache on purpose! We want SFW to fetch packages
+          cache: false
+          # Only the generated site template dependencies are installed
           install: false
 
       # See https://socket.dev/blog/introducing-socket-firewall
