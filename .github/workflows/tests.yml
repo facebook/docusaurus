@@ -13,6 +13,7 @@ on:
       - packages/**
       - tsconfig.*.json
       - .github/workflows/tests.yml
+      - .github/actions/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -32,19 +33,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Install pnpm
-        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
-        with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
-          install: false
-          node-version-file: false
-      - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      - name: Set up pnpm, Node.js ${{ matrix.node }} and dependencies
+        uses: ./.github/actions/setup
         with:
           node-version: ${{ matrix.node }}
-          cache: pnpm
-      - name: Installation
-        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+          cache: true
       - name: Test
         run: pnpm test
       - name: TypeCheck tests
