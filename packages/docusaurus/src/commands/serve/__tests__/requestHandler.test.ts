@@ -233,7 +233,8 @@ describe('createServeRequestHandler', () => {
       `);
     });
 
-    it('trailingSlash true', async () => {
+    // Windows serves file paths with a trailing slash, other platforms 404
+    it.skipIf(process.platform === 'win32')('trailingSlash true', async () => {
       const result = await describeServing({
         baseUrl: '/base/',
         trailingSlash: true,
