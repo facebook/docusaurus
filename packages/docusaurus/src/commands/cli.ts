@@ -10,14 +10,17 @@ import {Command, Option} from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
 import {build} from './build/build';
-import {clear} from './clear';
-import {deploy} from './deploy';
-import {externalCommand} from './external';
-import {serve} from './serve';
+import {clear} from './clear/clear';
+import {deploy} from './deploy/deploy';
+import {externalCommand} from './external/external';
+import {serve} from './serve/serve';
 import {start} from './start/start';
-import {swizzle} from './swizzle';
-import {writeHeadingIds, HeadingIdSyntaxes} from './writeHeadingIds';
-import {writeTranslations} from './writeTranslations';
+import {swizzle} from './swizzle/swizzle';
+import {
+  writeHeadingIds,
+  HeadingIdSyntaxes,
+} from './writeHeadingIds/writeHeadingIds';
+import {writeTranslations} from './writeTranslations/writeTranslations';
 
 function concatLocaleOptions(locale: string, locales: string[] = []): string[] {
   return locales.concat(locale);

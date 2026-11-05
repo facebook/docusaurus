@@ -12,7 +12,7 @@ import {tree} from 'tree-node-cli';
 import {escapePath, posixPath} from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
 import {ThemePath, createTempSiteDir, Components} from './testUtils';
-import {swizzle} from '../index';
+import {swizzle} from '../swizzle';
 
 const FixtureThemeName = 'fixture-theme-name';
 

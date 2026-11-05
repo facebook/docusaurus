@@ -12,7 +12,7 @@ import {
   GENERATED_FILES_DIR_NAME,
 } from '@docusaurus/utils';
 import {pathExists, realpath} from '@docusaurus/fs';
-import clearPath from './utils/clearPath';
+import clearPath from '../utils/clearPath';
 
 async function removePath(entry: {path: string; description: string}) {
   if (!(await pathExists(entry.path))) {
