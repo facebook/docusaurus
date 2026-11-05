@@ -57,8 +57,12 @@ export function createMatcher(patterns: string[]): Matcher {
     // `/(?:)/.test("foo")` is `true`
     return () => false;
   }
+  // makeRe() does not detect the OS: accept \ separators on Windows
+  const options = {windows: process.platform === 'win32'};
   const regexp = new RegExp(
-    patterns.map((pattern) => Picomatch.makeRe(pattern).source).join('|'),
+    patterns
+      .map((pattern) => Picomatch.makeRe(pattern, options).source)
+      .join('|'),
   );
   return (str) => regexp.test(str);
 }
