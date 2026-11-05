@@ -58,6 +58,7 @@ const RequestPaths = [
 
   '//file',
   '/%E0%A4%A', // Malformed percent-encoding
+  // cspell:ignore Fdocusaurus
   '/..%2Fdocusaurus.config.js', // Path traversal
 ];
 

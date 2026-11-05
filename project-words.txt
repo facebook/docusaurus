@@ -84,7 +84,6 @@ ERRNAMETOOLONG
 etlua
 externalwaiting
 failfast
-Fdocusaurus
 Fienny
 Foldr
 forwardable
