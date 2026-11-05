@@ -74,3 +74,10 @@ updates:
       babel:
         patterns:
           - '@babel/*'
+    ignore:
+      # Major upgrades need a manual migration, planned for Docusaurus v4
+      # See https://github.com/meta/docusaurus/issues/11719
+      - dependency-name: 'react-router'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-router-dom'
+        update-types: ['version-update:semver-major']
