@@ -99,6 +99,8 @@ describe('createAbsoluteFilePathMatcher', () => {
     expect(matcher('/_root/docs/_category/myDoc.mdx')).toBe(true);
     expect(matcher('/root/_docs/_category/myDoc.md')).toBe(true);
     expect(matcher('/root/_docs/_category/myDoc.mdx')).toBe(true);
+    expect(matcher('/_root/docs/category/_myDoc.md')).toBe(true);
+    expect(matcher('/_root/docs/category/_subcategory/myDoc.md')).toBe(true);
   });
 
   it('match default exclude tests correctly', () => {
