@@ -60,19 +60,8 @@ function getDefaultCalendar(localeStr: string) {
     return locale.calendar;
   }
 
-  // Not well-supported but server code can infer a calendar from the locale
-  // See https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getCalendars
-  // See https://caniuse.com/mdn-javascript_builtins_intl_locale_getcalendars
-  const calendars =
-    locale.getCalendars?.() ??
-    // @ts-expect-error: non-std attribute (V8/Chromium/Node)
-    locale.calendars;
-
-  if (calendars instanceof Array && calendars[0]) {
-    return calendars[0];
-  }
-
-  return 'gregory';
+  // Calendars are sorted by preference
+  return locale.getCalendars()[0] ?? 'gregory';
 }
 
 function getDefaultDirection(localeStr: string) {
