@@ -6,7 +6,13 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {describeRequests, describeServing, serveRequest} from './testUtils';
+import {
+  describeCaching,
+  describeRequests,
+  describeServing,
+  revalidateRequest,
+  serveRequest,
+} from './testUtils';
 
 // Appended to the baseUrl. The fixture build extends the static deployment of
 // https://github.com/slorber/trailing-slash-guide
@@ -675,6 +681,72 @@ describe('createServeRequestHandler', () => {
       await expect(
         serveRequest({baseUrl: '/', trailingSlash: true}, '/docs/2.x'),
       ).resolves.toBe('200 docs/2.x/index.html');
+    });
+  });
+
+  describe('caching', () => {
+    it('without a baseUrl', async () => {
+      const result = await describeCaching(
+        {baseUrl: '/', trailingSlash: true},
+        [
+          '/',
+          '/file/',
+          '/file',
+          '/file.html',
+          '/site.webmanifest',
+          '/assets/css/styles.css',
+          '/assets/images/photo.jpeg',
+          '/assets/',
+          '/assets/missing.js',
+          '/missing/',
+          '/%E0%A4%A',
+        ],
+      );
+      expect(result).toMatchInlineSnapshot(`
+        "/                          200 no-cache + ETag
+        /file/                     200 no-cache + ETag
+        /file                      301 no-cache
+        /file.html                 301 no-cache
+        /site.webmanifest          200 no-cache + ETag
+        /assets/css/styles.css     200 public, max-age=31536000, immutable + ETag
+        /assets/images/photo.jpeg  200 public, max-age=31536000, immutable + ETag
+        /assets/                   404 no-cache + ETag
+        /assets/missing.js         404 no-cache + ETag
+        /missing/                  404 no-cache + ETag
+        /%E0%A4%A                  400 no-cache"
+      `);
+    });
+
+    it('with a baseUrl', async () => {
+      const result = await describeCaching(
+        {baseUrl: '/base/', trailingSlash: true},
+        [
+          '/',
+          '/base/',
+          '/base/file/',
+          '/base/file',
+          '/base/file.html',
+          '/base/assets/css/styles.css',
+          '/base/assets/missing.js',
+          '/base/missing/',
+        ],
+      );
+      expect(result).toMatchInlineSnapshot(`
+        "/                            302 no-cache
+        /base/                       200 no-cache + ETag
+        /base/file/                  200 no-cache + ETag
+        /base/file                   302 no-cache
+        /base/file.html              302 no-cache
+        /base/assets/css/styles.css  200 public, max-age=31536000, immutable + ETag
+        /base/assets/missing.js      404 no-cache + ETag
+        /base/missing/               404 no-cache + ETag"
+      `);
+    });
+
+    it('answers 304 to the revalidation of an unchanged page', async () => {
+      await expect(
+        revalidateRequest({baseUrl: '/', trailingSlash: undefined}, '/file'),
+      ).resolves.toBe('304 no-cache');
     });
   });
 });

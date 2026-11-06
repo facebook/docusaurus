@@ -29,6 +29,11 @@ export function createServeRequestHandler({
   'baseUrl' | 'trailingSlash'
 >): ServeRequestHandler {
   return async (req, res) => {
+    // Browsers must revalidate every response, so that a rebuild or a config
+    // change never leaves a stale page or redirect in their cache
+    // Set here because serve-handler doesn't apply `headers` to its redirects
+    res.setHeader('Cache-Control', 'no-cache');
+
     const redirectLocation = getRedirectLocation(req.url, {
       baseUrl,
       trailingSlash,
@@ -55,13 +60,27 @@ export function createServeRequestHandler({
         public: outDir,
         trailingSlash,
         directoryListing: false,
-        // The default value has the file name, which crashes Node.js when it
-        // has Latin-1 characters like "café.html"
-        // See https://github.com/vercel/serve-handler/issues/205
+        // serve-handler only answers 304 to an ETag revalidation, and the ETag
+        // stays the same when a rebuild doesn't change the file content
+        etag: true,
         headers: [
+          // The default value has the file name, which crashes Node.js when it
+          // has Latin-1 characters like "café.html"
+          // See https://github.com/vercel/serve-handler/issues/205
           {
             source: '**',
             headers: [{key: 'Content-Disposition', value: 'inline'}],
+          },
+          // The bundler adds a content hash to the names of these files
+          // Overrides the Cache-Control set above, only for existing files
+          {
+            source: 'assets/**',
+            headers: [
+              {
+                key: 'Cache-Control',
+                value: 'public, max-age=31536000, immutable',
+              },
+            ],
           },
         ],
       },
