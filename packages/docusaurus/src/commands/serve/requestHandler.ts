@@ -77,9 +77,23 @@ function getRedirectLocation(
         return normalizedUrl;
       }
     }
+
+    const cleanUrl = getCleanUrl(url, baseUrl);
+    if (url !== cleanUrl) {
+      return cleanUrl;
+    }
   }
 
   return undefined;
+}
+
+// The serve-handler cleanUrls redirect, keeping the baseUrl and query string
+function getCleanUrl(url: string, baseUrl: string): string {
+  const [pathname] = url.split('?') as [string, ...string[]];
+  const cleanPathname = pathname.replace(/(?:\.html|\/index)$/, '');
+  // Like serve-handler, /index redirects to /
+  const isBaseUrlIndex = cleanPathname === baseUrl.slice(0, -1);
+  return url.replace(pathname, isBaseUrlIndex ? baseUrl : cleanPathname);
 }
 
 function redirect(res: http.ServerResponse, location: string) {
