@@ -34,6 +34,9 @@ const RequestPaths = [
   '/docs/2.x/',
   '/docs/lodash.debounce',
   '/docs/lodash.debounce/',
+  // A file with a dot
+  '/docs/1.x',
+  '/docs/1.x/',
 
   '/assets/css/styles.css',
   '/assets/css/styles.css?v=1',
@@ -112,6 +115,8 @@ describe('createServeRequestHandler', () => {
         /docs/2.x/                  200 docs/2.x/index.html
         /docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /docs/lodash.debounce/      200 docs/lodash.debounce/index.html
+        /docs/1.x                   200 docs/1.x.html
+        /docs/1.x/                  200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -163,6 +168,8 @@ describe('createServeRequestHandler', () => {
         /docs/2.x/                  200 docs/2.x/index.html
         /docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /docs/lodash.debounce/      200 docs/lodash.debounce/index.html
+        /docs/1.x                   200 docs/1.x.html
+        /docs/1.x/                  200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -214,6 +221,8 @@ describe('createServeRequestHandler', () => {
         /docs/2.x/                  301 /docs/2.x → 200 docs/2.x/index.html
         /docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /docs/lodash.debounce/      301 /docs/lodash.debounce → 200 docs/lodash.debounce/index.html
+        /docs/1.x                   200 docs/1.x.html
+        /docs/1.x/                  301 /docs/1.x → 200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    301 /assets → 404 404.html
@@ -267,6 +276,8 @@ describe('createServeRequestHandler', () => {
         /base/docs/2.x/                  200 docs/2.x/index.html
         /base/docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /base/docs/lodash.debounce/      200 docs/lodash.debounce/index.html
+        /base/docs/1.x                   200 docs/1.x.html
+        /base/docs/1.x/                  200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
@@ -318,6 +329,8 @@ describe('createServeRequestHandler', () => {
         /base/docs/2.x/                  200 docs/2.x/index.html
         /base/docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /base/docs/lodash.debounce/      200 docs/lodash.debounce/index.html
+        /base/docs/1.x                   200 docs/1.x.html
+        /base/docs/1.x/                  200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
@@ -369,6 +382,8 @@ describe('createServeRequestHandler', () => {
         /base/docs/2.x/                  302 /base/docs/2.x → 200 docs/2.x/index.html
         /base/docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /base/docs/lodash.debounce/      302 /base/docs/lodash.debounce → 200 docs/lodash.debounce/index.html
+        /base/docs/1.x                   200 docs/1.x.html
+        /base/docs/1.x/                  302 /base/docs/1.x → 200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    302 /base/assets → 404 404.html
@@ -617,6 +632,17 @@ describe('createServeRequestHandler', () => {
       ).resolves.toBe('302 /base/file → 200 file.html');
     });
 
+    // TODO fix: keep the baseUrl, "302 /base/file → 200 file.html"
+    // cspell:ignore Ffile
+    it('drops the baseUrl when serve-handler merges encoded slashes', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: false},
+          '/base/%2F%2Ffile',
+        ),
+      ).resolves.toBe('301 /file → 302 /base/ → 200 index.html');
+    });
+
     // TODO fix: keep the query string, "301 /file?query=1 → 200 file.html"
     it('drops the query string in serve-handler redirects', async () => {
       await expect(
@@ -631,6 +657,23 @@ describe('createServeRequestHandler', () => {
     it('serves the index.html of folders with a dot in their name', async () => {
       await expect(
         serveRequest({baseUrl: '/', trailingSlash: undefined}, '/docs/2.x/'),
+      ).resolves.toBe('200 docs/2.x/index.html');
+    });
+
+    // TODO fix: add it, "302 /base/docs/2.x/ → 200 docs/2.x/index.html"
+    it('adds no trailing slash to pages with a dot in their name', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: true},
+          '/base/docs/2.x',
+        ),
+      ).resolves.toBe('200 docs/2.x/index.html');
+    });
+
+    // TODO fix: add it, "301 /docs/2.x/ → 200 docs/2.x/index.html"
+    it('adds no trailing slash to pages with a dot in their name, without a baseUrl', async () => {
+      await expect(
+        serveRequest({baseUrl: '/', trailingSlash: true}, '/docs/2.x'),
       ).resolves.toBe('200 docs/2.x/index.html');
     });
   });
