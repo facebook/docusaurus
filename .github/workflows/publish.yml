@@ -5,17 +5,6 @@ on:
   schedule:
     - cron: '23 3 * * *'
 
-  # Publish maintenance branches canary on push
-  push:
-    branches:
-      - docusaurus-v**
-    paths:
-      - .github/workflows/publish.yml
-      - package.json
-      - pnpm-lock.yaml
-      - pnpm-workspace.yaml
-      - packages/**
-
   # Publish release on manual dispatch
   workflow_dispatch:
     inputs:
@@ -47,6 +36,7 @@ jobs:
     name: Publish Canary release
     if: |
       github.repository == 'meta/docusaurus' &&
+      github.ref == 'refs/heads/main' &&
       (github.event_name != 'workflow_dispatch' || github.event.inputs.npm_tag == 'canary')
     runs-on: ubuntu-latest
     permissions:
@@ -59,8 +49,6 @@ jobs:
           fetch-depth: 0 # Needed to get the commit number with "git rev-list --count HEAD"
       - name: Check for unpublished canary changes
         id: canary-check
-        # Maintenance branch commit numbers can't be compared with the main canary version
-        if: github.ref == 'refs/heads/main'
         run: |
           PUBLISHED_COMMIT_NUMBER=$(npm view @docusaurus/core@canary version | sed -E 's/.*-canary-([0-9]+).*/\1/')
           LAST_CHANGE_COMMIT_NUMBER=$(git rev-list --count "$(git log -1 --format=%H -- .github/workflows/publish.yml package.json pnpm-lock.yaml pnpm-workspace.yaml packages)")
