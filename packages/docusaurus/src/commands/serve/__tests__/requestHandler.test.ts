@@ -294,9 +294,7 @@ describe('createServeRequestHandler', () => {
       `);
     });
 
-    // Windows serves file URLs with a trailing slash, other platforms 404
-    // TODO merge once looksLikeAsset is fixed and doesn't add one to files
-    it.skipIf(process.platform === 'win32')('trailingSlash true', async () => {
+    it('trailingSlash true', async () => {
       const result = await describeServing(
         {baseUrl: '/base/', trailingSlash: true},
         RequestPaths,
@@ -346,60 +344,6 @@ describe('createServeRequestHandler', () => {
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
-
-    it.skipIf(process.platform !== 'win32')(
-      'trailingSlash true, on Windows',
-      async () => {
-        const result = await describeServing(
-          {baseUrl: '/base/', trailingSlash: true},
-          RequestPaths,
-        );
-        expect(result).toMatchInlineSnapshot(`
-          "/base/                           200 index.html
-          /base/index                      302 /base/ → 200 index.html
-          /base/index.html                 302 /base/index → 302 /base/ → 200 index.html
-          /base/file                       302 /base/file/ → 200 file.html
-          /base/file/                      200 file.html
-          /base/file.html                  302 /base/file → 302 /base/file/ → 200 file.html
-          /base/folder                     302 /base/folder/ → 200 folder/index.html
-          /base/folder/                    200 folder/index.html
-          /base/folder/index               302 /base/folder → 302 /base/folder/ → 200 folder/index.html
-          /base/folder/index.html          302 /base/folder/index → 302 /base/folder → 302 /base/folder/ → 200 folder/index.html
-          /base/both                       302 /base/both/ → 200 both/index.html
-          /base/both/                      200 both/index.html
-          /base/both.html                  302 /base/both → 302 /base/both/ → 200 both/index.html
-          /base/both/index.html            302 /base/both/index → 302 /base/both → 302 /base/both/ → 200 both/index.html
-          /base/docs/2.x                   404 404.html
-          /base/docs/2.x/                  404 404.html
-          /base/docs/lodash.debounce       404 404.html
-          /base/docs/lodash.debounce/      404 404.html
-          /base/assets/css/styles.css      200 assets/css/styles.css
-          /base/assets/css/styles.css?v=1  200 assets/css/styles.css
-          /base/assets/                    404 404.html
-          /base/assets/files/main.c        200 assets/files/main.c
-          /base/assets/files/document.pdf  200 assets/files/document.pdf
-          /base/assets/images/photo.jpeg   200 assets/images/photo.jpeg
-          /base/assets/fonts/font.woff2    200 assets/fonts/font.woff2
-          /base/site.webmanifest           200 site.webmanifest
-          /base/missing                    302 /base/missing/ → 404 404.html
-          /base/missing/                   404 404.html
-          /base/missing.html               302 /base/missing → 302 /base/missing/ → 404 404.html
-          /base/file?query=1               302 /base/file/?query=1 → 200 file.html
-          /base/file/?query=1              200 file.html
-          /base/file.html?query=1          302 /base/file?query=1 → 302 /base/file/?query=1 → 200 file.html
-          /base/folder?query=1             302 /base/folder/?query=1 → 200 folder/index.html
-          /base/folder?v=1.0               302 /base/folder/?v=1.0 → 200 folder/index.html
-          /base/with%20space               302 /base/with%20space/ → 200 with space.html
-          /base/with%20space.html          302 /base/with%20space → 302 /base/with%20space/ → 200 with space.html
-          /base/файл                       302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
-          /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
-          /base/café                       302 /base/caf%C3%A9/ → 200 café.html
-          /base//file                      302 /base/file → 302 /base/file/ → 200 file.html
-          /base/%E0%A4%A                   302 /base/%E0%A4%A/ → 400 Bad Request
-          /base/..%2Fdocusaurus.config.js  400 Bad Request"
-        `);
-      },
-    );
 
     it('trailingSlash false', async () => {
       const result = await describeServing(
@@ -488,54 +432,26 @@ describe('createServeRequestHandler', () => {
         `);
       });
 
-      // Windows serves file URLs with a trailing slash, other platforms 404
-      it.skipIf(process.platform === 'win32')(
-        'trailingSlash true',
-        async () => {
-          const result = await describeServing(
-            {baseUrl: '/base/', trailingSlash: true},
-            HandTypedRequestPaths,
-            {asIs: true},
-          );
-          expect(result).toMatchInlineSnapshot(`
-            "/base/file.html#hash              302 /base/file → 302 /base/file/ → 200 file.html
-            /base/file.html?query=1#hash      302 /base/file?query=1 → 302 /base/file/?query=1 → 200 file.html
-            /base/file#hash.html              302 /base/file/ → 200 file.html
-            /base/folder/index#hash           302 /base/folder → 302 /base/folder/ → 200 folder/index.html
-            /base/assets/css/styles.css#hash  200 assets/css/styles.css
-            /base/./file.html                 302 /base/file → 302 /base/file/ → 200 file.html
-            /base/folder/../file.html         302 /base/file → 302 /base/file/ → 200 file.html
-            /base/../file.html                400 Bad Request
-            /base/%2E%2E/file.html            400 Bad Request
-            /base/..//example.com/index       400 Bad Request
-            /base/..//example.com/file        400 Bad Request"
-          `);
-        },
-      );
-
-      it.skipIf(process.platform !== 'win32')(
-        'trailingSlash true, on Windows',
-        async () => {
-          const result = await describeServing(
-            {baseUrl: '/base/', trailingSlash: true},
-            HandTypedRequestPaths,
-            {asIs: true},
-          );
-          expect(result).toMatchInlineSnapshot(`
-            "/base/file.html#hash              302 /base/file → 302 /base/file/ → 200 file.html
-            /base/file.html?query=1#hash      302 /base/file?query=1 → 302 /base/file/?query=1 → 200 file.html
-            /base/file#hash.html              302 /base/file/ → 200 file.html
-            /base/folder/index#hash           302 /base/folder → 302 /base/folder/ → 200 folder/index.html
-            /base/assets/css/styles.css#hash  200 assets/css/styles.css
-            /base/./file.html                 302 /base/file → 302 /base/file/ → 200 file.html
-            /base/folder/../file.html         302 /base/file → 302 /base/file/ → 200 file.html
-            /base/../file.html                400 Bad Request
-            /base/%2E%2E/file.html            400 Bad Request
-            /base/..//example.com/index       400 Bad Request
-            /base/..//example.com/file        400 Bad Request"
-          `);
-        },
-      );
+      it('trailingSlash true', async () => {
+        const result = await describeServing(
+          {baseUrl: '/base/', trailingSlash: true},
+          HandTypedRequestPaths,
+          {asIs: true},
+        );
+        expect(result).toMatchInlineSnapshot(`
+          "/base/file.html#hash              302 /base/file → 302 /base/file/ → 200 file.html
+          /base/file.html?query=1#hash      302 /base/file?query=1 → 302 /base/file/?query=1 → 200 file.html
+          /base/file#hash.html              302 /base/file/ → 200 file.html
+          /base/folder/index#hash           302 /base/folder → 302 /base/folder/ → 200 folder/index.html
+          /base/assets/css/styles.css#hash  200 assets/css/styles.css
+          /base/./file.html                 302 /base/file → 302 /base/file/ → 200 file.html
+          /base/folder/../file.html         302 /base/file → 302 /base/file/ → 200 file.html
+          /base/../file.html                400 Bad Request
+          /base/%2E%2E/file.html            400 Bad Request
+          /base/..//example.com/index       400 Bad Request
+          /base/..//example.com/file        400 Bad Request"
+        `);
+      });
 
       it('trailingSlash false', async () => {
         const result = await describeServing(
