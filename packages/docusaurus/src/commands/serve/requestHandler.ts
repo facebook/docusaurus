@@ -32,6 +32,7 @@ export function createServeRequestHandler({
     // Browsers must revalidate every response, so that a rebuild or a config
     // change never leaves a stale page or redirect in their cache
     // Set here because serve-handler doesn't apply `headers` to its redirects
+    // See https://github.com/meta/docusaurus/pull/12903
     res.setHeader('Cache-Control', 'no-cache');
 
     const redirectLocation = getRedirectLocation(req.url, {
