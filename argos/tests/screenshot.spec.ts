@@ -79,9 +79,16 @@ function isBlacklisted(pathname: string) {
   );
 }
 
+// Static hosts like Netlify also serve pages at their .html URL
+// See https://github.com/meta/docusaurus/pull/10059
+const ExtraPathnames = ['/tests.html'];
+
 function getPathnames(): string[] {
   const urls = extractSitemapUrls();
-  const pathnamesUnfiltered = urls.map((url) => new URL(url).pathname);
+  const pathnamesUnfiltered = [
+    ...urls.map((url) => new URL(url).pathname),
+    ...ExtraPathnames,
+  ];
   const pathnames = pathnamesUnfiltered.filter(
     (pathname) => !isBlacklisted(pathname),
   );
