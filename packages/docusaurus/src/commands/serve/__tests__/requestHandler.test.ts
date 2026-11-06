@@ -429,8 +429,8 @@ describe('createServeRequestHandler', () => {
     });
   });
 
-  // These tests capture the buggy behavior, also visible in the snapshots above
-  describe('known bugs', () => {
+  // These tests capture edge cases, also visible in the snapshots above
+  describe('edge cases', () => {
     // TODO fix: serve café.html instead of crashing the server process
     // See https://github.com/vercel/serve-handler/issues/205
     it('crashes on file names with Latin-1 characters', async () => {
