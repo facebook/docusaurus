@@ -826,27 +826,47 @@ describe('createServeRequestHandler', () => {
 
     // Browsers send the baseUrl percent-encoded: "/caf%C3%A9/"
     describe('baseUrl with non-ASCII characters', () => {
-      // TODO fix: serve the baseUrl, "200 index.html"
-      it('redirects to the baseUrl in a loop', async () => {
+      it('serves the baseUrl', async () => {
         await expect(
           serveRequest(
             {baseUrl: '/café/', trailingSlash: undefined},
             '/caf%C3%A9/',
           ),
-        ).resolves.toBe(
-          '302 /café/ → 302 /café/ → 302 /café/ → 302 /café/ → 302 /café/ → 302 /café/',
-        );
+        ).resolves.toBe('200 index.html');
       });
 
-      // TODO fix: serve the baseUrl, "200 index.html"
-      // Characters outside of Latin-1 are invalid in a Location header
-      it('crashes with characters outside of Latin-1', async () => {
+      it('serves the baseUrl with characters outside of Latin-1', async () => {
         await expect(
           serveRequest(
             {baseUrl: '/文档/', trailingSlash: undefined},
             '/%E6%96%87%E6%A1%A3/',
           ),
-        ).resolves.toBe('crash ERR_INVALID_CHAR');
+        ).resolves.toBe('200 index.html');
+      });
+
+      // Characters outside of Latin-1 are invalid in a Location header
+      it('redirects to the percent-encoded baseUrl', async () => {
+        await expect(
+          serveRequest({baseUrl: '/文档/', trailingSlash: undefined}, '/'),
+        ).resolves.toBe('302 /%E6%96%87%E6%A1%A3/ → 200 index.html');
+      });
+
+      it('keeps the baseUrl in redirects', async () => {
+        await expect(
+          serveRequest(
+            {baseUrl: '/café/', trailingSlash: true},
+            '/caf%C3%A9/file',
+          ),
+        ).resolves.toBe('301 /caf%C3%A9/file/ → 200 file.html');
+      });
+
+      it('serves a baseUrl percent-encoded in the config', async () => {
+        await expect(
+          serveRequest(
+            {baseUrl: '/caf%C3%A9/', trailingSlash: undefined},
+            '/caf%C3%A9/',
+          ),
+        ).resolves.toBe('200 index.html');
       });
     });
   });
