@@ -38,11 +38,16 @@ const RequestPaths = [
   // Folders with a dot, like a docs version or a package name
   '/docs/2.x',
   '/docs/2.x/',
+  '/docs/2.x/index',
+  '/docs/2.x/index.html',
+  '/docs/2.x?query=1',
+  '/docs/2%2Ex', // Encoded dot
   '/docs/lodash.debounce',
   '/docs/lodash.debounce/',
   // A file with a dot
   '/docs/1.x',
   '/docs/1.x/',
+  '/docs/1.x.html',
 
   '/assets/css/styles.css',
   '/assets/css/styles.css?v=1',
@@ -75,6 +80,7 @@ const RequestPaths = [
 
   '//file',
   '/%E0%A4%A', // Malformed percent-encoding
+  '/%00', // Null byte
   // cspell:ignore Fdocusaurus
   '/..%2Fdocusaurus.config.js', // Path traversal
 ];
@@ -125,10 +131,15 @@ describe('createServeRequestHandler', () => {
         /both/index.html            200 both/index.html
         /docs/2.x                   200 docs/2.x/index.html
         /docs/2.x/                  200 docs/2.x/index.html
+        /docs/2.x/index             301 /docs/2.x → 200 docs/2.x/index.html
+        /docs/2.x/index.html        200 docs/2.x/index.html
+        /docs/2.x?query=1           200 docs/2.x/index.html
+        /docs/2%2Ex                 200 docs/2.x/index.html
         /docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /docs/1.x                   200 docs/1.x.html
         /docs/1.x/                  200 docs/1.x.html
+        /docs/1.x.html              200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -154,6 +165,7 @@ describe('createServeRequestHandler', () => {
         /café                       200 café.html
         //file                      301 /file → 200 file.html
         /%E0%A4%A                   400 Bad Request
+        /%00                        500 Internal Server Error
         /..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -180,10 +192,15 @@ describe('createServeRequestHandler', () => {
         /both/index.html            200 both/index.html
         /docs/2.x                   301 /docs/2.x/ → 200 docs/2.x/index.html
         /docs/2.x/                  200 docs/2.x/index.html
+        /docs/2.x/index             301 /docs/2.x → 301 /docs/2.x/ → 200 docs/2.x/index.html
+        /docs/2.x/index.html        200 docs/2.x/index.html
+        /docs/2.x?query=1           301 /docs/2.x/?query=1 → 200 docs/2.x/index.html
+        /docs/2%2Ex                 301 /docs/2%2Ex/ → 200 docs/2.x/index.html
         /docs/lodash.debounce       301 /docs/lodash.debounce/ → 200 docs/lodash.debounce/index.html
         /docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /docs/1.x                   301 /docs/1.x/ → 200 docs/1.x.html
         /docs/1.x/                  200 docs/1.x.html
+        /docs/1.x.html              200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -209,6 +226,7 @@ describe('createServeRequestHandler', () => {
         /café                       301 /caf%C3%A9/ → 200 café.html
         //file                      301 /file → 301 /file/ → 200 file.html
         /%E0%A4%A                   301 /%E0%A4%A/ → 400 Bad Request
+        /%00                        301 /%00/ → 500 Internal Server Error
         /..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -235,10 +253,15 @@ describe('createServeRequestHandler', () => {
         /both/index.html            200 both/index.html
         /docs/2.x                   200 docs/2.x/index.html
         /docs/2.x/                  301 /docs/2.x → 200 docs/2.x/index.html
+        /docs/2.x/index             301 /docs/2.x → 200 docs/2.x/index.html
+        /docs/2.x/index.html        200 docs/2.x/index.html
+        /docs/2.x?query=1           200 docs/2.x/index.html
+        /docs/2%2Ex                 200 docs/2.x/index.html
         /docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /docs/lodash.debounce/      301 /docs/lodash.debounce → 200 docs/lodash.debounce/index.html
         /docs/1.x                   200 docs/1.x.html
         /docs/1.x/                  301 /docs/1.x → 200 docs/1.x.html
+        /docs/1.x.html              200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    301 /assets → 404 404.html
@@ -264,6 +287,7 @@ describe('createServeRequestHandler', () => {
         /café                       200 café.html
         //file                      301 /file → 200 file.html
         /%E0%A4%A                   400 Bad Request
+        /%00                        500 Internal Server Error
         /..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -292,10 +316,15 @@ describe('createServeRequestHandler', () => {
         /base/both/index.html            200 both/index.html
         /base/docs/2.x                   200 docs/2.x/index.html
         /base/docs/2.x/                  200 docs/2.x/index.html
+        /base/docs/2.x/index             301 /base/docs/2.x → 200 docs/2.x/index.html
+        /base/docs/2.x/index.html        200 docs/2.x/index.html
+        /base/docs/2.x?query=1           200 docs/2.x/index.html
+        /base/docs/2%2Ex                 200 docs/2.x/index.html
         /base/docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /base/docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /base/docs/1.x                   200 docs/1.x.html
         /base/docs/1.x/                  200 docs/1.x.html
+        /base/docs/1.x.html              200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
@@ -321,6 +350,7 @@ describe('createServeRequestHandler', () => {
         /base/café                       200 café.html
         /base//file                      301 /base/file → 200 file.html
         /base/%E0%A4%A                   400 Bad Request
+        /base/%00                        500 Internal Server Error
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -347,10 +377,15 @@ describe('createServeRequestHandler', () => {
         /base/both/index.html            200 both/index.html
         /base/docs/2.x                   301 /base/docs/2.x/ → 200 docs/2.x/index.html
         /base/docs/2.x/                  200 docs/2.x/index.html
+        /base/docs/2.x/index             301 /base/docs/2.x → 301 /base/docs/2.x/ → 200 docs/2.x/index.html
+        /base/docs/2.x/index.html        200 docs/2.x/index.html
+        /base/docs/2.x?query=1           301 /base/docs/2.x/?query=1 → 200 docs/2.x/index.html
+        /base/docs/2%2Ex                 301 /base/docs/2%2Ex/ → 200 docs/2.x/index.html
         /base/docs/lodash.debounce       301 /base/docs/lodash.debounce/ → 200 docs/lodash.debounce/index.html
         /base/docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /base/docs/1.x                   301 /base/docs/1.x/ → 200 docs/1.x.html
         /base/docs/1.x/                  200 docs/1.x.html
+        /base/docs/1.x.html              200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
@@ -376,6 +411,7 @@ describe('createServeRequestHandler', () => {
         /base/café                       301 /base/caf%C3%A9/ → 200 café.html
         /base//file                      301 /base/file → 301 /base/file/ → 200 file.html
         /base/%E0%A4%A                   301 /base/%E0%A4%A/ → 400 Bad Request
+        /base/%00                        301 /base/%00/ → 500 Internal Server Error
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -402,10 +438,15 @@ describe('createServeRequestHandler', () => {
         /base/both/index.html            200 both/index.html
         /base/docs/2.x                   200 docs/2.x/index.html
         /base/docs/2.x/                  301 /base/docs/2.x → 200 docs/2.x/index.html
+        /base/docs/2.x/index             301 /base/docs/2.x → 200 docs/2.x/index.html
+        /base/docs/2.x/index.html        200 docs/2.x/index.html
+        /base/docs/2.x?query=1           200 docs/2.x/index.html
+        /base/docs/2%2Ex                 200 docs/2.x/index.html
         /base/docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /base/docs/lodash.debounce/      301 /base/docs/lodash.debounce → 200 docs/lodash.debounce/index.html
         /base/docs/1.x                   200 docs/1.x.html
         /base/docs/1.x/                  301 /base/docs/1.x → 200 docs/1.x.html
+        /base/docs/1.x.html              200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    301 /base/assets → 404 404.html
@@ -431,6 +472,7 @@ describe('createServeRequestHandler', () => {
         /base/café                       200 café.html
         /base//file                      301 /base/file → 200 file.html
         /base/%E0%A4%A                   400 Bad Request
+        /base/%00                        500 Internal Server Error
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -558,6 +600,20 @@ describe('createServeRequestHandler', () => {
         '//example.com/file',
         '//example.com/file.html',
       ];
+
+      // Browsers read "\" as "/" in a Location header
+      // Not in a snapshot, which would print "\" as "/"
+      it('with a backslash', async () => {
+        await expect(
+          serveRequest(
+            {baseUrl: '/', trailingSlash: undefined},
+            '/\\example.com/file.html',
+            {asIs: true},
+          ),
+        ).resolves.toBe(
+          '301 /example.com/file.html → 301 /example.com/file → 404 404.html',
+        );
+      });
 
       // See https://github.com/meta/docusaurus/pull/12879#discussion_r4493075460
       describe('with a baseUrl', () => {
@@ -731,6 +787,67 @@ describe('createServeRequestHandler', () => {
       await expect(
         serveRequest({baseUrl: '/', trailingSlash: true}, '/docs/2.x'),
       ).resolves.toBe('301 /docs/2.x/ → 200 docs/2.x/index.html');
+    });
+
+    // Not in a snapshot: Windows ignores the trailing slash of file paths
+    it('serves no asset with a trailing slash', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: true},
+          '/base/assets/css/styles.css/',
+        ),
+      ).resolves.toBe(
+        process.platform === 'win32'
+          ? '200 assets/css/styles.css'
+          : '404 404.html',
+      );
+    });
+
+    // TODO fix: answer 400, like the malformed percent-encodings
+    it('answers 500 to null bytes', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: undefined},
+          '/base/%00',
+        ),
+      ).resolves.toBe('500 Internal Server Error');
+    });
+
+    // TODO fix: answer 400, like other ".." segments going above the root
+    it('redirects ".." segments that reach the name of the fake root', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/', trailingSlash: undefined},
+          '/../__docusaurus_root__/file.html',
+          {asIs: true},
+        ),
+      ).resolves.toBe('301 /file → 200 file.html');
+    });
+
+    // Browsers send the baseUrl percent-encoded: "/caf%C3%A9/"
+    describe('baseUrl with non-ASCII characters', () => {
+      // TODO fix: serve the baseUrl, "200 index.html"
+      it('redirects to the baseUrl in a loop', async () => {
+        await expect(
+          serveRequest(
+            {baseUrl: '/café/', trailingSlash: undefined},
+            '/caf%C3%A9/',
+          ),
+        ).resolves.toBe(
+          '302 /café/ → 302 /café/ → 302 /café/ → 302 /café/ → 302 /café/ → 302 /café/',
+        );
+      });
+
+      // TODO fix: serve the baseUrl, "200 index.html"
+      // Characters outside of Latin-1 are invalid in a Location header
+      it('crashes with characters outside of Latin-1', async () => {
+        await expect(
+          serveRequest(
+            {baseUrl: '/文档/', trailingSlash: undefined},
+            '/%E6%96%87%E6%A1%A3/',
+          ),
+        ).resolves.toBe('crash ERR_INVALID_CHAR');
+      });
     });
   });
 

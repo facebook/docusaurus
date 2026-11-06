@@ -73,8 +73,11 @@ export async function describeCaching(
 export async function serveRequest(
   options: ServeOptions,
   requestPath: string,
+  requestOptions: RequestOptions = {},
 ): Promise<string> {
-  return withServer(options, (origin) => describeRequest(origin, requestPath));
+  return withServer(options, (origin) =>
+    describeRequest(origin, requestPath, requestOptions),
+  );
 }
 
 // Requests a path again with the ETag of its first response, like a browser
