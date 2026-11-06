@@ -331,11 +331,11 @@ describe('createServeRequestHandler', () => {
         /base/both/                      200 both/index.html
         /base/both.html                  302 /base/both → 302 /base/both/ → 200 both/index.html
         /base/both/index.html            302 /base/both/index → 302 /base/both → 302 /base/both/ → 200 both/index.html
-        /base/docs/2.x                   200 docs/2.x/index.html
+        /base/docs/2.x                   302 /base/docs/2.x/ → 200 docs/2.x/index.html
         /base/docs/2.x/                  200 docs/2.x/index.html
-        /base/docs/lodash.debounce       200 docs/lodash.debounce/index.html
+        /base/docs/lodash.debounce       302 /base/docs/lodash.debounce/ → 200 docs/lodash.debounce/index.html
         /base/docs/lodash.debounce/      200 docs/lodash.debounce/index.html
-        /base/docs/1.x                   200 docs/1.x.html
+        /base/docs/1.x                   302 /base/docs/1.x/ → 200 docs/1.x.html
         /base/docs/1.x/                  200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
@@ -666,14 +666,33 @@ describe('createServeRequestHandler', () => {
       ).resolves.toBe('200 docs/2.x/index.html');
     });
 
-    // TODO fix: add it, "302 /base/docs/2.x/ → 200 docs/2.x/index.html"
-    it('adds no trailing slash to pages with a dot in their name', async () => {
+    it('adds a trailing slash to pages with a dot in their name', async () => {
       await expect(
         serveRequest(
           {baseUrl: '/base/', trailingSlash: true},
           '/base/docs/2.x',
         ),
-      ).resolves.toBe('200 docs/2.x/index.html');
+      ).resolves.toBe('302 /base/docs/2.x/ → 200 docs/2.x/index.html');
+    });
+
+    // __fixtures__/outside.x.html is a page outside of the build output
+    // cspell:ignore Foutside
+    it('never looks for pages outside of the build output', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: true},
+          '/base/..%2Foutside.x',
+        ),
+      ).resolves.toBe('400 Bad Request');
+    });
+
+    it('looks for no page with a malformed percent-encoding', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: true},
+          '/base/%E0%A4%A.x',
+        ),
+      ).resolves.toBe('400 Bad Request');
     });
 
     // TODO fix: add it, "301 /docs/2.x/ → 200 docs/2.x/index.html"

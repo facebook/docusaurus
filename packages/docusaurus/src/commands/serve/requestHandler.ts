@@ -7,7 +7,7 @@
 
 import path from 'node:path';
 import serveHandler from 'serve-handler';
-import {fs} from '@docusaurus/fs';
+import {fs, pathExists} from '@docusaurus/fs';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {parseURLPath, serializeURLPath} from '@docusaurus/utils';
 import type http from 'node:http';
@@ -35,7 +35,8 @@ export function createServeRequestHandler({
     // See https://github.com/meta/docusaurus/pull/12903
     res.setHeader('Cache-Control', 'no-cache');
 
-    const redirectLocation = getRedirectLocation(req.url, {
+    const redirectLocation = await getRedirectLocation(req.url, {
+      outDir,
       baseUrl,
       trailingSlash,
     });
@@ -105,10 +106,14 @@ async function lstatWithoutDottedFolders(filePath: string) {
   return stats;
 }
 
-function getRedirectLocation(
+async function getRedirectLocation(
   url: string | undefined,
-  {baseUrl, trailingSlash}: Pick<DocusaurusConfig, 'baseUrl' | 'trailingSlash'>,
-): string | undefined {
+  {
+    outDir,
+    baseUrl,
+    trailingSlash,
+  }: {outDir: string} & Pick<DocusaurusConfig, 'baseUrl' | 'trailingSlash'>,
+): Promise<string | undefined> {
   // Automatically redirect requests to /baseUrl/
   if (!url?.startsWith(baseUrl)) {
     return baseUrl;
@@ -139,7 +144,10 @@ function getRedirectLocation(
     // Not super robust, but should be good enough for our use case
     // See https://github.com/meta/docusaurus/pull/10090
     const looksLikeAsset = !!pathname.match(/\.[a-z\d]+$/i);
-    if (!looksLikeAsset) {
+    const isAsset =
+      looksLikeAsset &&
+      !(await isPage(outDir, pathname.slice(baseUrl.length - 1)));
+    if (!isAsset) {
       const normalizedPathname = applyTrailingSlash(pathname, {
         trailingSlash,
         baseUrl,
@@ -151,6 +159,24 @@ function getRedirectLocation(
   }
 
   return undefined;
+}
+
+// Pages with a dot in their name look like assets, like "docs/2.x"
+async function isPage(outDir: string, urlPath: string): Promise<boolean> {
+  let filePath: string;
+  try {
+    filePath = path.join(outDir, decodeURIComponent(urlPath));
+  } catch {
+    return false; // Malformed percent-encoding
+  }
+  // Encoded slashes can decode to ".." segments: never look outside outDir
+  if (path.relative(outDir, filePath).startsWith('..')) {
+    return false;
+  }
+  return (
+    (await pathExists(path.join(filePath, 'index.html'))) ||
+    pathExists(`${filePath}.html`)
+  );
 }
 
 // The serve-handler cleanUrls redirect, keeping the baseUrl
