@@ -62,11 +62,12 @@ const RequestPaths = [
   '/missing',
   '/missing/',
   '/missing.html',
-  // A client redirect file, from /legacy.html
-  '/legacy.html',
-  '/legacy.html/',
-  // A client redirect file with trailingSlash false, from /legacy-false.html
-  '/legacy-false.html',
+  // Client redirect files, for redirects from a .html path
+  // plugin-client-redirects writes a folder, or a file with trailingSlash false
+  '/redirect-folder.html',
+  '/redirect-folder.html/',
+  '/redirect-file.html',
+  '/redirect-file.html/',
 
   '/file?query=1',
   '/file/?query=1',
@@ -154,9 +155,10 @@ describe('createServeRequestHandler', () => {
         /missing                    404 404.html
         /missing/                   404 404.html
         /missing.html               301 /missing → 404 404.html
-        /legacy.html                301 /legacy → 404 404.html
-        /legacy.html/               200 legacy.html/index.html
-        /legacy-false.html          301 /legacy-false → 404 404.html
+        /redirect-folder.html       301 /redirect-folder → 404 404.html
+        /redirect-folder.html/      200 redirect-folder.html/index.html
+        /redirect-file.html         301 /redirect-file → 404 404.html
+        /redirect-file.html/        200 redirect-file.html.html
         /file?query=1               200 file.html
         /file/?query=1              200 file.html
         /file.html?query=1          200 file.html
@@ -217,9 +219,10 @@ describe('createServeRequestHandler', () => {
         /missing                    301 /missing/ → 404 404.html
         /missing/                   404 404.html
         /missing.html               301 /missing → 301 /missing/ → 404 404.html
-        /legacy.html                301 /legacy → 301 /legacy/ → 404 404.html
-        /legacy.html/               200 legacy.html/index.html
-        /legacy-false.html          301 /legacy-false → 301 /legacy-false/ → 404 404.html
+        /redirect-folder.html       301 /redirect-folder → 301 /redirect-folder/ → 404 404.html
+        /redirect-folder.html/      200 redirect-folder.html/index.html
+        /redirect-file.html         301 /redirect-file → 301 /redirect-file/ → 404 404.html
+        /redirect-file.html/        200 redirect-file.html.html
         /file?query=1               301 /file/?query=1 → 200 file.html
         /file/?query=1              200 file.html
         /file.html?query=1          200 file.html
@@ -280,9 +283,10 @@ describe('createServeRequestHandler', () => {
         /missing                    404 404.html
         /missing/                   301 /missing → 404 404.html
         /missing.html               301 /missing → 404 404.html
-        /legacy.html                301 /legacy → 404 404.html
-        /legacy.html/               301 /legacy.html → 301 /legacy → 404 404.html
-        /legacy-false.html          301 /legacy-false → 404 404.html
+        /redirect-folder.html       301 /redirect-folder → 404 404.html
+        /redirect-folder.html/      301 /redirect-folder.html → 301 /redirect-folder → 404 404.html
+        /redirect-file.html         301 /redirect-file → 404 404.html
+        /redirect-file.html/        301 /redirect-file.html → 301 /redirect-file → 404 404.html
         /file?query=1               200 file.html
         /file/?query=1              301 /file?query=1 → 200 file.html
         /file.html?query=1          200 file.html
@@ -345,9 +349,10 @@ describe('createServeRequestHandler', () => {
         /base/missing                    404 404.html
         /base/missing/                   404 404.html
         /base/missing.html               301 /base/missing → 404 404.html
-        /base/legacy.html                301 /base/legacy → 404 404.html
-        /base/legacy.html/               200 legacy.html/index.html
-        /base/legacy-false.html          301 /base/legacy-false → 404 404.html
+        /base/redirect-folder.html       301 /base/redirect-folder → 404 404.html
+        /base/redirect-folder.html/      200 redirect-folder.html/index.html
+        /base/redirect-file.html         301 /base/redirect-file → 404 404.html
+        /base/redirect-file.html/        200 redirect-file.html.html
         /base/file?query=1               200 file.html
         /base/file/?query=1              200 file.html
         /base/file.html?query=1          200 file.html
@@ -408,9 +413,10 @@ describe('createServeRequestHandler', () => {
         /base/missing                    301 /base/missing/ → 404 404.html
         /base/missing/                   404 404.html
         /base/missing.html               301 /base/missing → 301 /base/missing/ → 404 404.html
-        /base/legacy.html                301 /base/legacy → 301 /base/legacy/ → 404 404.html
-        /base/legacy.html/               200 legacy.html/index.html
-        /base/legacy-false.html          301 /base/legacy-false → 301 /base/legacy-false/ → 404 404.html
+        /base/redirect-folder.html       301 /base/redirect-folder → 301 /base/redirect-folder/ → 404 404.html
+        /base/redirect-folder.html/      200 redirect-folder.html/index.html
+        /base/redirect-file.html         301 /base/redirect-file → 301 /base/redirect-file/ → 404 404.html
+        /base/redirect-file.html/        200 redirect-file.html.html
         /base/file?query=1               301 /base/file/?query=1 → 200 file.html
         /base/file/?query=1              200 file.html
         /base/file.html?query=1          200 file.html
@@ -471,9 +477,10 @@ describe('createServeRequestHandler', () => {
         /base/missing                    404 404.html
         /base/missing/                   301 /base/missing → 404 404.html
         /base/missing.html               301 /base/missing → 404 404.html
-        /base/legacy.html                301 /base/legacy → 404 404.html
-        /base/legacy.html/               301 /base/legacy.html → 301 /base/legacy → 404 404.html
-        /base/legacy-false.html          301 /base/legacy-false → 404 404.html
+        /base/redirect-folder.html       301 /base/redirect-folder → 404 404.html
+        /base/redirect-folder.html/      301 /base/redirect-folder.html → 301 /base/redirect-folder → 404 404.html
+        /base/redirect-file.html         301 /base/redirect-file → 404 404.html
+        /base/redirect-file.html/        301 /base/redirect-file.html → 301 /base/redirect-file → 404 404.html
         /base/file?query=1               200 file.html
         /base/file/?query=1              301 /base/file?query=1 → 200 file.html
         /base/file.html?query=1          200 file.html
@@ -830,15 +837,27 @@ describe('createServeRequestHandler', () => {
       );
     });
 
-    // TODO fix: serve the client redirect file, "200 legacy.html/index.html"
-    // plugin-client-redirects writes it for redirects from /legacy.html
-    it('serves no client redirect file of .html paths', async () => {
+    // TODO fix: "200 redirect-folder.html/index.html"
+    // plugin-client-redirects writes it for redirects from /redirect-folder.html
+    it('serves no client redirect folder of .html paths', async () => {
       await expect(
         serveRequest(
           {baseUrl: '/base/', trailingSlash: undefined},
-          '/base/legacy.html',
+          '/base/redirect-folder.html',
         ),
-      ).resolves.toBe('301 /base/legacy → 404 404.html');
+      ).resolves.toBe('301 /base/redirect-folder → 404 404.html');
+    });
+
+    // TODO fix: "200 redirect-file.html.html"
+    // plugin-client-redirects writes it for redirects from /redirect-file.html,
+    // with trailingSlash false
+    it('serves no client redirect file of .html paths', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: false},
+          '/base/redirect-file.html',
+        ),
+      ).resolves.toBe('301 /base/redirect-file → 404 404.html');
     });
 
     // Like the malformed percent-encodings
