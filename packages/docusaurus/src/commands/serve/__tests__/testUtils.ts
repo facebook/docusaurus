@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {once} from 'node:events';
 import http from 'node:http';
 import path from 'node:path';
+import {buffer} from 'node:stream/consumers';
 import {pathExists} from '@docusaurus/fs';
 import {listenToServer} from '../listenToServer';
 import {createServeRequestHandler} from '../requestHandler';
@@ -22,24 +24,33 @@ const CrashHeader = 'x-test-crash';
 
 const MaxRedirects = 5;
 
+type RequestOptions = {
+  // Send the request paths as-is, without normalizing them like browsers do
+  asIs?: boolean;
+};
+
 // The request paths are appended to the baseUrl
 export async function describeServing(
   options: ServeOptions,
   requestPaths: string[],
+  requestOptions: RequestOptions = {},
 ): Promise<string> {
   const baseUrlPrefix = options.baseUrl.replace(/\/$/, '');
   const paths = requestPaths.map((requestPath) => baseUrlPrefix + requestPath);
-  return describeRequests(options, paths);
+  return describeRequests(options, paths, requestOptions);
 }
 
 // One line per request, aligned to be easy to review in snapshots
 export async function describeRequests(
   options: ServeOptions,
   paths: string[],
+  requestOptions: RequestOptions = {},
 ): Promise<string> {
   const descriptions = await withServer(options, (origin) =>
     Promise.all(
-      paths.map((requestPath) => describeRequest(origin, requestPath)),
+      paths.map((requestPath) =>
+        describeRequest(origin, requestPath, requestOptions),
+      ),
     ),
   );
   const pathWidth = Math.max(...paths.map((requestPath) => requestPath.length));
@@ -106,13 +117,19 @@ function respondWithCrash(
 async function describeRequest(
   origin: string,
   requestPath: string,
+  {asIs = false}: RequestOptions = {},
 ): Promise<string> {
   const descriptions: string[] = [];
 
   // Concatenated: new URL('//file', origin) would read "file" as a host name
   let url = origin + requestPath;
   while (descriptions.length <= MaxRedirects) {
-    const response = await fetch(url, {redirect: 'manual'});
+    // Browsers normalize the redirect URLs they follow
+    const isFirstRequest = descriptions.length === 0;
+    const response =
+      asIs && isFirstRequest
+        ? await fetchAsIs(origin, requestPath)
+        : await fetch(url, {redirect: 'manual'});
     descriptions.push(await describeResponse(response));
 
     const location = response.headers.get('location');
@@ -123,6 +140,27 @@ async function describeRequest(
   }
 
   return descriptions.join(' → ');
+}
+
+// fetch() normalizes the URL like browsers do: it resolves "..", drops the
+// #hash... http.get() sends the path as-is, like a hand-typed request
+async function fetchAsIs(
+  origin: string,
+  requestPath: string,
+): Promise<Response> {
+  const {hostname, port} = new URL(origin);
+  const request = http.get({hostname, port, path: requestPath});
+  const [res] = (await once(request, 'response')) as [http.IncomingMessage];
+
+  const headers = new Headers();
+  for (const [name, values] of Object.entries(res.headersDistinct)) {
+    values?.forEach((value) => headers.append(name, value));
+  }
+  return new Response(await buffer(res), {
+    status: res.statusCode,
+    statusText: res.statusMessage,
+    headers,
+  });
 }
 
 async function describeResponse(response: Response): Promise<string> {
