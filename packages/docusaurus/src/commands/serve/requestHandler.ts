@@ -159,7 +159,20 @@ async function getRedirectLocation(
 // Like parseURLPath(), but undefined when ".." segments go above the root
 // It also keeps "//host/path" as a path instead of parsing another host
 function parseRootURLPath(url: string): URLPath | undefined {
-  const fakeRoot = '/__docusaurus_root__';
+  // ".." segments going above the root can reach the name of a fake root,
+  // like "/../__docusaurus_root__/file", but not the names of 2 fake roots
+  const urlPath = parseFakeRootURLPath(url, '/__docusaurus_root__');
+  const otherUrlPath = parseFakeRootURLPath(url, '/__docusaurus_other_root__');
+  if (urlPath === undefined || otherUrlPath === undefined) {
+    return undefined;
+  }
+  return urlPath;
+}
+
+function parseFakeRootURLPath(
+  url: string,
+  fakeRoot: string,
+): URLPath | undefined {
   const {pathname, search} = parseURLPath(`.${url}`, `${fakeRoot}/`);
   if (!pathname.startsWith(`${fakeRoot}/`)) {
     return undefined;
