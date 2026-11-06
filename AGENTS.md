@@ -139,7 +139,6 @@ Task-specific instructions live in skills, following the [Agent Skills](https://
 
 - Placeholder URLs and domains in tests, fixtures, docs and examples must use `example.com` or its subdomains, never invented domains
 - `test/snapshotPathNormalizer.ts` converts backslashes to `/` in snapshots: a Markdown escape `\` can show up as `/`
-- `packages/docusaurus-plugin-content-docs/src/__tests__/cli.test.ts` contains a NUL byte, so `rg` and `grep` skip it as binary. To prove code is unused, use `rg -a --hidden`: `rg` also skips hidden folders like `.claude` and `.agents`
 
 ### Errors
 
