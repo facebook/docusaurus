@@ -434,9 +434,18 @@ describe('createServeRequestHandler', () => {
       ).resolves.toBe('crash ERR_INVALID_CHAR');
     });
 
-    // TODO fix: keep the baseUrl, "301 /base/file → 200 file.html"
     // See https://github.com/meta/docusaurus/issues/10078#issuecomment-2084932934
-    it('drops the baseUrl in serve-handler redirects', async () => {
+    it('keeps the baseUrl in clean URL redirects', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: undefined},
+          '/base/file.html',
+        ),
+      ).resolves.toBe('302 /base/file → 200 file.html');
+    });
+
+    // TODO fix: keep the baseUrl, "301 /base/file → 200 file.html"
+    it('drops the baseUrl when serve-handler merges slashes', async () => {
       await expect(
         serveRequest({baseUrl: '/base/', trailingSlash: false}, '/base//file'),
       ).resolves.toBe('301 /file → 302 /base/ → 200 index.html');
