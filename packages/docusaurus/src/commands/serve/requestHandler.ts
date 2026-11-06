@@ -48,6 +48,15 @@ export function createServeRequestHandler({
       public: outDir,
       trailingSlash,
       directoryListing: false,
+      // The default value has the file name, which crashes Node.js when it has
+      // Latin-1 characters like "café.html"
+      // See https://github.com/vercel/serve-handler/issues/205
+      headers: [
+        {
+          source: '**',
+          headers: [{key: 'Content-Disposition', value: 'inline'}],
+        },
+      ],
     });
   };
 }
