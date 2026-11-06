@@ -36,6 +36,10 @@ const RequestPaths = [
   '/both.html',
   '/both/index.html',
 
+  // A folder with a dot, like a docs version
+  '/docs/2.x',
+  '/docs/2.x/',
+
   '/assets/css/styles.css',
   '/assets/css/styles.css?v=1',
   '/assets/',
@@ -89,6 +93,8 @@ describe('createServeRequestHandler', () => {
         /both/                      200 both/index.html
         /both.html                  301 /both → 200 both/index.html
         /both/index.html            301 /both/index → 301 /both → 200 both/index.html
+        /docs/2.x                   404 404.html
+        /docs/2.x/                  404 404.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -135,6 +141,8 @@ describe('createServeRequestHandler', () => {
         /both/                      200 both/index.html
         /both.html                  301 /both → 301 /both/ → 200 both/index.html
         /both/index.html            301 /both/index → 301 /both → 301 /both/ → 200 both/index.html
+        /docs/2.x                   404 404.html
+        /docs/2.x/                  404 404.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -181,6 +189,8 @@ describe('createServeRequestHandler', () => {
         /both/                      301 /both → 200 both/index.html
         /both.html                  301 /both → 200 both/index.html
         /both/index.html            301 /both/index → 301 /both → 200 both/index.html
+        /docs/2.x                   404 404.html
+        /docs/2.x/                  301 /docs/2.x → 404 404.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    301 /assets → 404 404.html
@@ -229,6 +239,8 @@ describe('createServeRequestHandler', () => {
         /base/both/                      200 both/index.html
         /base/both.html                  301 /both → 302 /base/ → 200 index.html
         /base/both/index.html            301 /both/index → 302 /base/ → 200 index.html
+        /base/docs/2.x                   404 404.html
+        /base/docs/2.x/                  404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
@@ -276,6 +288,8 @@ describe('createServeRequestHandler', () => {
         /base/both/                      200 both/index.html
         /base/both.html                  301 /both → 302 /base/ → 200 index.html
         /base/both/index.html            301 /both/index → 302 /base/ → 200 index.html
+        /base/docs/2.x                   404 404.html
+        /base/docs/2.x/                  404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  302 /base/assets/css/styles.css/?v=1 → 404 404.html
         /base/assets/                    404 404.html
@@ -322,6 +336,8 @@ describe('createServeRequestHandler', () => {
         /base/both/                      302 /base/both → 200 both/index.html
         /base/both.html                  301 /both → 302 /base/ → 200 index.html
         /base/both/index.html            301 /both/index → 302 /base/ → 200 index.html
+        /base/docs/2.x                   404 404.html
+        /base/docs/2.x/                  302 /base/docs/2.x → 404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    302 /base/assets → 404 404.html
@@ -392,6 +408,14 @@ describe('createServeRequestHandler', () => {
           '/file.html?query=1',
         ),
       ).resolves.toBe('301 /file → 200 file.html');
+    });
+
+    // TODO fix: serve docs/2.x/index.html, like the index.html of any folder
+    // serve-handler doesn't look for it when the path has an extension (.x)
+    it('does not serve folders with a dot in their name', async () => {
+      await expect(
+        serveRequest({baseUrl: '/', trailingSlash: undefined}, '/docs/2.x/'),
+      ).resolves.toBe('404 404.html');
     });
 
     // TODO fix: serve these assets without adding a trailing slash
