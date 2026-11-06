@@ -108,10 +108,10 @@ describe('createServeRequestHandler', () => {
         /both/                      200 both/index.html
         /both.html                  301 /both → 200 both/index.html
         /both/index.html            301 /both/index → 301 /both → 200 both/index.html
-        /docs/2.x                   404 404.html
-        /docs/2.x/                  404 404.html
-        /docs/lodash.debounce       404 404.html
-        /docs/lodash.debounce/      404 404.html
+        /docs/2.x                   200 docs/2.x/index.html
+        /docs/2.x/                  200 docs/2.x/index.html
+        /docs/lodash.debounce       200 docs/lodash.debounce/index.html
+        /docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -159,10 +159,10 @@ describe('createServeRequestHandler', () => {
         /both/                      200 both/index.html
         /both.html                  301 /both → 301 /both/ → 200 both/index.html
         /both/index.html            301 /both/index → 301 /both → 301 /both/ → 200 both/index.html
-        /docs/2.x                   404 404.html
-        /docs/2.x/                  404 404.html
-        /docs/lodash.debounce       404 404.html
-        /docs/lodash.debounce/      404 404.html
+        /docs/2.x                   200 docs/2.x/index.html
+        /docs/2.x/                  200 docs/2.x/index.html
+        /docs/lodash.debounce       200 docs/lodash.debounce/index.html
+        /docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -210,10 +210,10 @@ describe('createServeRequestHandler', () => {
         /both/                      301 /both → 200 both/index.html
         /both.html                  301 /both → 200 both/index.html
         /both/index.html            301 /both/index → 301 /both → 200 both/index.html
-        /docs/2.x                   404 404.html
-        /docs/2.x/                  301 /docs/2.x → 404 404.html
-        /docs/lodash.debounce       404 404.html
-        /docs/lodash.debounce/      301 /docs/lodash.debounce → 404 404.html
+        /docs/2.x                   200 docs/2.x/index.html
+        /docs/2.x/                  301 /docs/2.x → 200 docs/2.x/index.html
+        /docs/lodash.debounce       200 docs/lodash.debounce/index.html
+        /docs/lodash.debounce/      301 /docs/lodash.debounce → 200 docs/lodash.debounce/index.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    301 /assets → 404 404.html
@@ -263,10 +263,10 @@ describe('createServeRequestHandler', () => {
         /base/both/                      200 both/index.html
         /base/both.html                  302 /base/both → 200 both/index.html
         /base/both/index.html            302 /base/both/index → 302 /base/both → 200 both/index.html
-        /base/docs/2.x                   404 404.html
-        /base/docs/2.x/                  404 404.html
-        /base/docs/lodash.debounce       404 404.html
-        /base/docs/lodash.debounce/      404 404.html
+        /base/docs/2.x                   200 docs/2.x/index.html
+        /base/docs/2.x/                  200 docs/2.x/index.html
+        /base/docs/lodash.debounce       200 docs/lodash.debounce/index.html
+        /base/docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
@@ -314,10 +314,10 @@ describe('createServeRequestHandler', () => {
         /base/both/                      200 both/index.html
         /base/both.html                  302 /base/both → 302 /base/both/ → 200 both/index.html
         /base/both/index.html            302 /base/both/index → 302 /base/both → 302 /base/both/ → 200 both/index.html
-        /base/docs/2.x                   404 404.html
-        /base/docs/2.x/                  404 404.html
-        /base/docs/lodash.debounce       404 404.html
-        /base/docs/lodash.debounce/      404 404.html
+        /base/docs/2.x                   200 docs/2.x/index.html
+        /base/docs/2.x/                  200 docs/2.x/index.html
+        /base/docs/lodash.debounce       200 docs/lodash.debounce/index.html
+        /base/docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
@@ -365,10 +365,10 @@ describe('createServeRequestHandler', () => {
         /base/both/                      302 /base/both → 200 both/index.html
         /base/both.html                  302 /base/both → 200 both/index.html
         /base/both/index.html            302 /base/both/index → 302 /base/both → 200 both/index.html
-        /base/docs/2.x                   404 404.html
-        /base/docs/2.x/                  302 /base/docs/2.x → 404 404.html
-        /base/docs/lodash.debounce       404 404.html
-        /base/docs/lodash.debounce/      302 /base/docs/lodash.debounce → 404 404.html
+        /base/docs/2.x                   200 docs/2.x/index.html
+        /base/docs/2.x/                  302 /base/docs/2.x → 200 docs/2.x/index.html
+        /base/docs/lodash.debounce       200 docs/lodash.debounce/index.html
+        /base/docs/lodash.debounce/      302 /base/docs/lodash.debounce → 200 docs/lodash.debounce/index.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    302 /base/assets → 404 404.html
@@ -627,12 +627,11 @@ describe('createServeRequestHandler', () => {
       ).resolves.toBe('301 /file → 200 file.html');
     });
 
-    // TODO fix: serve docs/2.x/index.html, like the index.html of any folder
-    // serve-handler doesn't look for it when the path has an extension (.x)
-    it('does not serve folders with a dot in their name', async () => {
+    // See https://github.com/vercel/serve-handler/pull/230
+    it('serves the index.html of folders with a dot in their name', async () => {
       await expect(
         serveRequest({baseUrl: '/', trailingSlash: undefined}, '/docs/2.x/'),
-      ).resolves.toBe('404 404.html');
+      ).resolves.toBe('200 docs/2.x/index.html');
     });
   });
 });

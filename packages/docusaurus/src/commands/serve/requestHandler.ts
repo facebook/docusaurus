@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'node:path';
 import serveHandler from 'serve-handler';
+import {fs} from '@docusaurus/fs';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {parseURLPath, serializeURLPath} from '@docusaurus/utils';
 import type http from 'node:http';
@@ -15,6 +17,8 @@ type ServeRequestHandler = (
   req: http.IncomingMessage,
   res: http.ServerResponse,
 ) => Promise<void>;
+
+type ServeHandlerMethods = NonNullable<Parameters<typeof serveHandler>[3]>;
 
 export function createServeRequestHandler({
   outDir,
@@ -43,22 +47,42 @@ export function createServeRequestHandler({
     // Requests without url were redirected to the baseUrl
     req.url = req.url!.replace(baseUrl, '/');
 
-    await serveHandler(req, res, {
-      cleanUrls: true,
-      public: outDir,
-      trailingSlash,
-      directoryListing: false,
-      // The default value has the file name, which crashes Node.js when it has
-      // Latin-1 characters like "café.html"
-      // See https://github.com/vercel/serve-handler/issues/205
-      headers: [
-        {
-          source: '**',
-          headers: [{key: 'Content-Disposition', value: 'inline'}],
-        },
-      ],
-    });
+    await serveHandler(
+      req,
+      res,
+      {
+        cleanUrls: true,
+        public: outDir,
+        trailingSlash,
+        directoryListing: false,
+        // The default value has the file name, which crashes Node.js when it
+        // has Latin-1 characters like "café.html"
+        // See https://github.com/vercel/serve-handler/issues/205
+        headers: [
+          {
+            source: '**',
+            headers: [{key: 'Content-Disposition', value: 'inline'}],
+          },
+        ],
+      },
+      // serve-handler awaits it, @types/serve-handler wrongly expects callbacks
+      {
+        lstat:
+          lstatWithoutDottedFolders as unknown as ServeHandlerMethods['lstat'],
+      },
+    );
   };
+}
+
+// serve-handler doesn't look for the index.html of folders with a dot in their
+// name, like "docs/2.x": hiding them makes it fall back to their index.html
+// TODO remove after the release of https://github.com/vercel/serve-handler/pull/230
+async function lstatWithoutDottedFolders(filePath: string) {
+  const stats = await fs.lstat(filePath);
+  if (stats.isDirectory() && path.extname(filePath) !== '') {
+    throw Object.assign(new Error(`${filePath} is a folder`), {code: 'ENOENT'});
+  }
+  return stats;
 }
 
 function getRedirectLocation(
