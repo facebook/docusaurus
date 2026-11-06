@@ -274,19 +274,19 @@ describe('createServeRequestHandler', () => {
       );
       expect(result).toMatchInlineSnapshot(`
         "/base/                           200 index.html
-        /base/index                      302 /base/index/ → 200 index.html
-        /base/index.html                 302 /base/index → 302 /base/index/ → 200 index.html
+        /base/index                      302 /base/ → 200 index.html
+        /base/index.html                 302 /base/index → 302 /base/ → 200 index.html
         /base/file                       302 /base/file/ → 200 file.html
         /base/file/                      200 file.html
         /base/file.html                  302 /base/file → 302 /base/file/ → 200 file.html
         /base/folder                     302 /base/folder/ → 200 folder/index.html
         /base/folder/                    200 folder/index.html
-        /base/folder/index               302 /base/folder/index/ → 200 folder/index.html
-        /base/folder/index.html          302 /base/folder/index → 302 /base/folder/index/ → 200 folder/index.html
+        /base/folder/index               302 /base/folder → 302 /base/folder/ → 200 folder/index.html
+        /base/folder/index.html          302 /base/folder/index → 302 /base/folder → 302 /base/folder/ → 200 folder/index.html
         /base/both                       302 /base/both/ → 200 both/index.html
         /base/both/                      200 both/index.html
         /base/both.html                  302 /base/both → 302 /base/both/ → 200 both/index.html
-        /base/both/index.html            302 /base/both/index → 302 /base/both/index/ → 200 both/index.html
+        /base/both/index.html            302 /base/both/index → 302 /base/both → 302 /base/both/ → 200 both/index.html
         /base/docs/2.x                   404 404.html
         /base/docs/2.x/                  404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
@@ -302,7 +302,7 @@ describe('createServeRequestHandler', () => {
         /base/missing.html               302 /base/missing → 302 /base/missing/ → 404 404.html
         /base/file?query=1               302 /base/file/?query=1 → 200 file.html
         /base/file/?query=1              200 file.html
-        /base/file.html?query=1          302 /base/file.html/?query=1 → 404 404.html
+        /base/file.html?query=1          302 /base/file?query=1 → 302 /base/file/?query=1 → 200 file.html
         /base/folder?query=1             302 /base/folder/?query=1 → 200 folder/index.html
         /base/with%20space               302 /base/with%20space/ → 200 with space.html
         /base/with%20space.html          302 /base/with%20space → 302 /base/with%20space/ → 200 with space.html
@@ -324,19 +324,19 @@ describe('createServeRequestHandler', () => {
         );
         expect(result).toMatchInlineSnapshot(`
           "/base/                           200 index.html
-          /base/index                      302 /base/index/ → 200 index.html
-          /base/index.html                 302 /base/index → 302 /base/index/ → 200 index.html
+          /base/index                      302 /base/ → 200 index.html
+          /base/index.html                 302 /base/index → 302 /base/ → 200 index.html
           /base/file                       302 /base/file/ → 200 file.html
           /base/file/                      200 file.html
           /base/file.html                  302 /base/file → 302 /base/file/ → 200 file.html
           /base/folder                     302 /base/folder/ → 200 folder/index.html
           /base/folder/                    200 folder/index.html
-          /base/folder/index               302 /base/folder/index/ → 200 folder/index.html
-          /base/folder/index.html          302 /base/folder/index → 302 /base/folder/index/ → 200 folder/index.html
+          /base/folder/index               302 /base/folder → 302 /base/folder/ → 200 folder/index.html
+          /base/folder/index.html          302 /base/folder/index → 302 /base/folder → 302 /base/folder/ → 200 folder/index.html
           /base/both                       302 /base/both/ → 200 both/index.html
           /base/both/                      200 both/index.html
           /base/both.html                  302 /base/both → 302 /base/both/ → 200 both/index.html
-          /base/both/index.html            302 /base/both/index → 302 /base/both/index/ → 200 both/index.html
+          /base/both/index.html            302 /base/both/index → 302 /base/both → 302 /base/both/ → 200 both/index.html
           /base/docs/2.x                   404 404.html
           /base/docs/2.x/                  404 404.html
           /base/assets/css/styles.css      200 assets/css/styles.css
@@ -352,7 +352,7 @@ describe('createServeRequestHandler', () => {
           /base/missing.html               302 /base/missing → 302 /base/missing/ → 404 404.html
           /base/file?query=1               302 /base/file/?query=1 → 200 file.html
           /base/file/?query=1              200 file.html
-          /base/file.html?query=1          302 /base/file.html/?query=1 → 200 file.html
+          /base/file.html?query=1          302 /base/file?query=1 → 302 /base/file/?query=1 → 200 file.html
           /base/folder?query=1             302 /base/folder/?query=1 → 200 folder/index.html
           /base/with%20space               302 /base/with%20space/ → 200 with space.html
           /base/with%20space.html          302 /base/with%20space → 302 /base/with%20space/ → 200 with space.html
@@ -447,6 +447,15 @@ describe('createServeRequestHandler', () => {
           '/base/file.html',
         ),
       ).resolves.toBe('302 /base/file → 200 file.html');
+    });
+
+    it('redirects clean URLs containing $ characters', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: undefined},
+          '/base/a$&b.html',
+        ),
+      ).resolves.toBe('302 /base/a$&b → 404 404.html');
     });
 
     // TODO fix: keep the baseUrl, "301 /base/file → 200 file.html"

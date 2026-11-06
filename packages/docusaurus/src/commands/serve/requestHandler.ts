@@ -64,6 +64,11 @@ function getRedirectLocation(
   // server-handler is annoying and won't include /baseUrl/ in redirects
   // See https://github.com/meta/docusaurus/issues/10078#issuecomment-2084932934
   if (baseUrl !== '/') {
+    const cleanUrl = getCleanUrl(url, baseUrl);
+    if (url !== cleanUrl) {
+      return cleanUrl;
+    }
+
     // Not super robust, but should be good enough for our use case
     // See https://github.com/meta/docusaurus/pull/10090
     const looksLikeAsset = !!url.match(/\.[a-z\d]{1,4}$/i);
@@ -76,11 +81,6 @@ function getRedirectLocation(
         return normalizedUrl;
       }
     }
-
-    const cleanUrl = getCleanUrl(url, baseUrl);
-    if (url !== cleanUrl) {
-      return cleanUrl;
-    }
   }
 
   return undefined;
@@ -92,7 +92,8 @@ function getCleanUrl(url: string, baseUrl: string): string {
   const cleanPathname = pathname.replace(/(?:\.html|\/index)$/, '');
   // Like serve-handler, /index redirects to /
   const isBaseUrlIndex = cleanPathname === baseUrl.slice(0, -1);
-  return url.replace(pathname, isBaseUrlIndex ? baseUrl : cleanPathname);
+  const query = url.slice(pathname.length);
+  return (isBaseUrlIndex ? baseUrl : cleanPathname) + query;
 }
 
 function redirect(res: http.ServerResponse, location: string) {
