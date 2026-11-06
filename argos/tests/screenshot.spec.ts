@@ -57,9 +57,6 @@ function isBlacklisted(pathname: string) {
     '/tests/blog/archive',
     '/tests/pages/code-block-tests',
     '/tests/pages/embeds',
-    // Flaky because of hydration error with docusaurus serve + .html
-    '/tests/blog/x/y/z.html',
-    '/tests/docs/dummy.html',
     // Cause weird docusaurus serve errors:
     '/tests/docs/tests/ascii/%C3%A6%C3%B8%C3%A5',
     '/tests/docs/tests/ascii/folder/%C3%A6%C3%B8%C3%A5',

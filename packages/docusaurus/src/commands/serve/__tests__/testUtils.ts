@@ -53,13 +53,21 @@ export async function describeRequests(
       ),
     ),
   );
-  const pathWidth = Math.max(...paths.map((requestPath) => requestPath.length));
-  return paths
-    .map(
-      (requestPath, index) =>
-        `${requestPath.padEnd(pathWidth)}  ${descriptions[index]}`,
-    )
-    .join('\n');
+  return alignDescriptions(paths, descriptions);
+}
+
+// One line per request, describing the caching headers of its response,
+// without following redirects: "200 no-cache + ETag"
+export async function describeCaching(
+  options: ServeOptions,
+  paths: string[],
+): Promise<string> {
+  const descriptions = await withServer(options, (origin) =>
+    Promise.all(
+      paths.map((requestPath) => describeRequestCaching(origin, requestPath)),
+    ),
+  );
+  return alignDescriptions(paths, descriptions);
 }
 
 export async function serveRequest(
@@ -67,6 +75,37 @@ export async function serveRequest(
   requestPath: string,
 ): Promise<string> {
   return withServer(options, (origin) => describeRequest(origin, requestPath));
+}
+
+// Requests a path again with the ETag of its first response, like a browser
+// revalidating its cache: "304 no-cache"
+export async function revalidateRequest(
+  options: ServeOptions,
+  requestPath: string,
+): Promise<string> {
+  return withServer(options, async (origin) => {
+    const url = origin + requestPath;
+    const response = await fetch(url);
+    await response.arrayBuffer();
+
+    const etag = response.headers.get('etag');
+    if (etag === null) {
+      return `${response.status} without ETag`;
+    }
+    const revalidation = await fetch(url, {headers: {'If-None-Match': etag}});
+    await revalidation.arrayBuffer();
+    return describeCachingHeaders(revalidation);
+  });
+}
+
+function alignDescriptions(paths: string[], descriptions: string[]): string {
+  const pathWidth = Math.max(...paths.map((requestPath) => requestPath.length));
+  return paths
+    .map(
+      (requestPath, index) =>
+        `${requestPath.padEnd(pathWidth)}  ${descriptions[index]}`,
+    )
+    .join('\n');
 }
 
 async function withServer<T>(
@@ -183,6 +222,24 @@ async function describeResponse(response: Response): Promise<string> {
 
   const servedFile = (await getServedFixtureFile(body)) ?? response.statusText;
   return `${response.status} ${servedFile}`;
+}
+
+async function describeRequestCaching(
+  origin: string,
+  requestPath: string,
+): Promise<string> {
+  const response = await fetch(origin + requestPath, {redirect: 'manual'});
+  await response.arrayBuffer();
+  return describeCachingHeaders(response);
+}
+
+function describeCachingHeaders(response: Response): string {
+  const cacheControl =
+    response.headers.get('cache-control') ?? 'no Cache-Control';
+  const validators = ['ETag', 'Last-Modified'].filter((name) =>
+    response.headers.has(name),
+  );
+  return [`${response.status} ${cacheControl}`, ...validators].join(' + ');
 }
 
 // Each fixture build file contains its own path

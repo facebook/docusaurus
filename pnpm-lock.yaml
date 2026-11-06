@@ -459,8 +459,8 @@ catalogs:
       specifier: ^7.8.5
       version: 7.8.5
     serve-handler:
-      specifier: ^6.1.7
-      version: 6.1.7
+      specifier: ^6.1.8
+      version: 6.1.8
     sitemap:
       specifier: ^9.0.1
       version: 9.0.1
@@ -1196,7 +1196,7 @@ importers:
         version: 7.8.5
       serve-handler:
         specifier: 'catalog:'
-        version: 6.1.7
+        version: 6.1.8
       tinypool:
         specifier: 'catalog:'
         version: 2.2.0
@@ -12350,8 +12350,8 @@ packages:
     resolution: {integrity: sha512-k3CMsaIvvdSwm8oLB4MXSl0wH2/cwlH7xGcnRd2DaeRmBkbzYmyT8j0tsX60DwD1eRwHTpNpH8ljKu9oUT1MeQ==}
     engines: {node: '>=20.0.0'}
 
-  serve-handler@6.1.7:
-    resolution: {integrity: sha512-CinAq1xWb0vR3twAv9evEU8cNWkXCb9kd5ePAHUKJBkOsUpR1wt/CvGdeca7vqumL1U5cSaeVQ6zZMxiJ3yWsg==}
+  serve-handler@6.1.8:
+    resolution: {integrity: sha512-CYwNp8vJjDHTSQq52gHRVNkNOl89b5Q4HOHuQzbvodSyN+Y7ZgXy1pJI1PUKbSKK7NYgoPvI33EjkIxNa7kDmA==}
 
   serve-index@1.9.2:
     resolution: {integrity: sha512-KDj11HScOaLmrPxl70KYNW1PksP4Nb/CLL2yvC+Qd2kHMPEEpfc4Re2e4FOay+bC/+XQl/7zAcWON3JVo5v3KQ==}
@@ -24804,7 +24804,7 @@ snapshots:
 
   serialize-javascript@7.1.1: {}
 
-  serve-handler@6.1.7:
+  serve-handler@6.1.8:
     dependencies:
       bytes: 3.0.0
       content-disposition: 0.5.2
