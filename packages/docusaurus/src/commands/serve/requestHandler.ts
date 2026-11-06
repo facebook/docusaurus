@@ -10,6 +10,7 @@ import serveHandler from 'serve-handler';
 import {fs, pathExists} from '@docusaurus/fs';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {parseURLPath, serializeURLPath} from '@docusaurus/utils';
+import type {URLPath} from '@docusaurus/utils';
 import type http from 'node:http';
 import type {DocusaurusConfig} from '@docusaurus/types';
 
@@ -99,46 +100,56 @@ async function getRedirectLocation(
     return baseUrl;
   }
 
-  // We do the redirect ourselves for a good reason
-  // server-handler is annoying and won't include /baseUrl/ in redirects
+  // We do all the redirects ourselves for a good reason
+  // serve-handler redirects drop the /baseUrl/ and the query string
   // See https://github.com/meta/docusaurus/issues/10078#issuecomment-2084932934
-  if (baseUrl !== '/') {
-    const {pathname, search} = parseURLPath(url);
-    // ".." can resolve outside of the baseUrl, even to another host: "//host"
-    // Like without a baseUrl, serve-handler answers 400 to these paths
-    if (!pathname.startsWith(baseUrl)) {
-      return undefined;
-    }
+  const urlPath = parseRootURLPath(url);
+  // ".." can resolve outside of the baseUrl
+  // Like serve-handler, answer 400 to these paths
+  if (!urlPath?.pathname.startsWith(baseUrl)) {
+    return undefined;
+  }
+  const {pathname, search} = urlPath;
 
-    // Merge repeated slashes, like the serve-handler redirects
-    const mergedPathname = pathname.replace(/\/{2,}/g, '/');
-    if (pathname !== mergedPathname) {
-      return serializeURLPath({pathname: mergedPathname, search});
-    }
+  // Merge repeated slashes, like the serve-handler redirects
+  const mergedPathname = pathname.replace(/\/{2,}/g, '/');
+  if (pathname !== mergedPathname) {
+    return serializeURLPath({pathname: mergedPathname, search});
+  }
 
-    const cleanPathname = getCleanPathname(pathname, baseUrl);
-    if (pathname !== cleanPathname) {
-      return serializeURLPath({pathname: cleanPathname, search});
-    }
+  const cleanPathname = getCleanPathname(pathname, baseUrl);
+  if (pathname !== cleanPathname) {
+    return serializeURLPath({pathname: cleanPathname, search});
+  }
 
-    // Not super robust, but should be good enough for our use case
-    // See https://github.com/meta/docusaurus/pull/10090
-    const looksLikeAsset = !!pathname.match(/\.[a-z\d]+$/i);
-    const isAsset =
-      looksLikeAsset &&
-      !(await isPage(outDir, pathname.slice(baseUrl.length - 1)));
-    if (!isAsset) {
-      const normalizedPathname = applyTrailingSlash(pathname, {
-        trailingSlash,
-        baseUrl,
-      });
-      if (pathname !== normalizedPathname) {
-        return serializeURLPath({pathname: normalizedPathname, search});
-      }
+  // Not super robust, but should be good enough for our use case
+  // See https://github.com/meta/docusaurus/pull/10090
+  const looksLikeAsset = !!pathname.match(/\.[a-z\d]+$/i);
+  const isAsset =
+    looksLikeAsset &&
+    !(await isPage(outDir, pathname.slice(baseUrl.length - 1)));
+  if (!isAsset) {
+    const normalizedPathname = applyTrailingSlash(pathname, {
+      trailingSlash,
+      baseUrl,
+    });
+    if (pathname !== normalizedPathname) {
+      return serializeURLPath({pathname: normalizedPathname, search});
     }
   }
 
   return undefined;
+}
+
+// Like parseURLPath(), but undefined when ".." segments go above the root
+// It also keeps "//host/path" as a path instead of parsing another host
+function parseRootURLPath(url: string): URLPath | undefined {
+  const fakeRoot = '/__docusaurus_root__';
+  const {pathname, search} = parseURLPath(`.${url}`, `${fakeRoot}/`);
+  if (!pathname.startsWith(`${fakeRoot}/`)) {
+    return undefined;
+  }
+  return {pathname: pathname.slice(fakeRoot.length), search};
 }
 
 // Pages with a dot in their name look like assets, like "docs/2.x"
