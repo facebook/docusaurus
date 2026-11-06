@@ -8,16 +8,16 @@
 import path from 'node:path';
 import {globTranslatableSourceFiles} from '@docusaurus/glob';
 import {realpath} from '@docusaurus/fs';
-import {loadContext, type LoadContextParams} from '../server/site';
-import {initPlugins} from '../server/plugins/init';
+import {loadContext, type LoadContextParams} from '../../server/site';
+import {initPlugins} from '../../server/plugins/init';
 import {
   writePluginTranslations,
   writeCodeTranslations,
   type WriteTranslationsOptions,
   loadPluginsDefaultCodeTranslationMessages,
   applyDefaultCodeTranslations,
-} from '../server/translations/translations';
-import {extractSiteSourceCodeTranslations} from '../server/translations/translationsExtractor';
+} from '../../server/translations/translations';
+import {extractSiteSourceCodeTranslations} from '../../server/translations/translationsExtractor';
 import type {InitializedPlugin} from '@docusaurus/types';
 
 export type WriteTranslationsCLIOptions = Pick<

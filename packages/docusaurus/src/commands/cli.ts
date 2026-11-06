@@ -10,14 +10,17 @@ import {Command, Option} from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
 import {build} from './build/build';
-import {clear} from './clear';
-import {deploy} from './deploy';
-import {externalCommand} from './external';
-import {serve} from './serve';
+import {clear} from './clear/clear';
+import {deploy} from './deploy/deploy';
+import {externalCommand} from './external/external';
+import {serve} from './serve/serve';
 import {start} from './start/start';
-import {swizzle} from './swizzle';
-import {writeHeadingIds, HeadingIdSyntaxes} from './writeHeadingIds';
-import {writeTranslations} from './writeTranslations';
+import {swizzle} from './swizzle/swizzle';
+import {
+  writeHeadingIds,
+  HeadingIdSyntaxes,
+} from './writeHeadingIds/writeHeadingIds';
+import {writeTranslations} from './writeTranslations/writeTranslations';
 
 function concatLocaleOptions(locale: string, locales: string[] = []): string[] {
   return locales.concat(locale);
@@ -46,10 +49,10 @@ type CLIArgs = [string, string, ...string[]];
 //  no way to know the siteDir/config yet.
 //  The individual CLI commands can declare/read siteDir on their own
 //  The env variable is an escape hatch
-//  See https://github.com/facebook/docusaurus/issues/8903
+//  See https://github.com/meta/docusaurus/issues/8903
 const DEFAULT_SITE_DIR = process.env.DOCUSAURUS_CLI_SITE_DIR ?? '.';
 // Similarly we give an env escape hatch for config
-// See https://github.com/facebook/docusaurus/issues/8903
+// See https://github.com/meta/docusaurus/issues/8903
 const DEFAULT_CONFIG = process.env.DOCUSAURUS_CLI_CONFIG ?? undefined;
 
 export async function runCLI(cliArgs: CLIArgs): Promise<void> {
