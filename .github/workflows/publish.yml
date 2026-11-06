@@ -12,6 +12,8 @@ on:
     paths:
       - .github/workflows/publish.yml
       - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
       - packages/**
 
   # Publish release on manual dispatch
@@ -57,10 +59,11 @@ jobs:
           fetch-depth: 0 # Needed to get the commit number with "git rev-list --count HEAD"
       - name: Check for unpublished canary changes
         id: canary-check
-        if: github.event_name == 'schedule'
+        # Maintenance branch commit numbers can't be compared with the main canary version
+        if: github.ref == 'refs/heads/main'
         run: |
           PUBLISHED_COMMIT_NUMBER=$(npm view @docusaurus/core@canary version | sed -E 's/.*-canary-([0-9]+).*/\1/')
-          LAST_CHANGE_COMMIT_NUMBER=$(git rev-list --count "$(git log -1 --format=%H -- .github/workflows/publish.yml package.json packages)")
+          LAST_CHANGE_COMMIT_NUMBER=$(git rev-list --count "$(git log -1 --format=%H -- .github/workflows/publish.yml package.json pnpm-lock.yaml pnpm-workspace.yaml packages)")
           if [ "$LAST_CHANGE_COMMIT_NUMBER" -le "$PUBLISHED_COMMIT_NUMBER" ]; then
             echo "No package change since canary commit number $PUBLISHED_COMMIT_NUMBER, skipping"
             echo "skip=true" >> "$GITHUB_OUTPUT"
