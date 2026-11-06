@@ -47,6 +47,8 @@ Use:
 
 ### Writing documentation
 
+Edit `website/docs`. Don't edit `website/versioned_docs` or `website/versioned_sidebars` unless necessary (see [Versioned Docs](CONTRIBUTING.md#versioned-docs)).
+
 `website/docs` describes the behavior of the current version only, concisely. When changing a feature, rewrite its docs to describe the new behavior as if it had always been this way:
 
 - Don't mention how previous Docusaurus versions behaved ("In v3…", "Since v4…", "the historical behavior", "now defaults to…", "no longer…").
@@ -125,9 +127,37 @@ Task-specific instructions live in skills, following the [Agent Skills](https://
 - [`pull-requests`](.agents/skills/pull-requests/SKILL.md) - Create, update, check the CI of, or merge a PR (maintainers only)
 - [`verification`](.agents/skills/verification/SKILL.md) - Prove how code behaves before reporting it, including on another platform (like Windows from macOS)
 
+## Conventions
+
+### Typechecking
+
+- Package builds typecheck their sources (`tsc` or `tsc --build`): `pnpm --filter <package-name> build`
+- After changing types that other packages consume (like `packages/docusaurus-types/src/*.d.ts`), incremental builds can skip re-checking them: delete `packages/*/lib/.tsbuildinfo*`, then run `pnpm build:packages`
+- Never run `tsc` on the root `tsconfig.base.json`: it writes a root `lib/.tsbuildinfo` that isn't gitignored
+
+### Tests
+
+- Placeholder URLs and domains in tests, fixtures, docs and examples must use `example.com` or its subdomains, never invented domains
+- `test/snapshotPathNormalizer.ts` converts backslashes to `/` in snapshots: a Markdown escape `\` can show up as `/`
+- `packages/docusaurus-plugin-content-docs/src/__tests__/cli.test.ts` contains a NUL byte, so `rg` and `grep` skip it as binary: use `rg -a` to prove code is unused
+
+### Errors
+
+When a helper fails on a file, throw a new `Error` naming the path relative to the cwd, with `{cause: err}`. Never mutate `err.message`. See `readDataFile` in `packages/docusaurus-utils/src/dataFileUtils.ts` (`logger.interpolate` with `path=`). Tests assert `error.cause`.
+
+### Theme translations
+
+After adding or changing `translate()` or `<Translate>` messages in a theme or plugin, build the packages and run `pnpm update-translations`. It extracts the messages from the built code into `packages/docusaurus-theme-translations/locales/base/`, and adds them to every locale. `locales.test.ts` fails otherwise.
+
+### Dogfooding
+
+- For UI changes and bug fixes, add a page to `website/_dogfooding/` so that the deploy preview and the Argos visual tests show it
+- Argos skips some pages (`isBlacklisted()` in `argos/tests/screenshot.spec.ts`, like `/tests/pages/markdown-tests-md`): check it before picking one
+- For a CommonMark repro, import a `_`-prefixed `.md` partial in an existing `.mdx` page of `website/_dogfooding/_docs tests/tests/` (like `_admonitions-md.md` in `admonitions.mdx`). `_` files get no route, while a new docs page changes the sidebar of every dogfood docs page screenshot
+
 ## Contributing, Issue and PR Guidelines
 
-Docusaurus maintainers work locally with and env variable `DOCUSAURUS_MAINTAINER=true` set. Make sure to check its presence to know which rules to apply.
+Docusaurus maintainers work locally with an env variable `DOCUSAURUS_MAINTAINER=true` set. Make sure to check its presence to know which rules to apply.
 
 ### General rules
 
