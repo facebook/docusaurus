@@ -813,15 +813,15 @@ describe('createServeRequestHandler', () => {
       ).resolves.toBe('500 Internal Server Error');
     });
 
-    // TODO fix: answer 400, like other ".." segments going above the root
-    it('redirects ".." segments that reach the name of the fake root', async () => {
+    // Like other ".." segments going above the root
+    it('answers 400 to ".." segments that reach the name of the fake root', async () => {
       await expect(
         serveRequest(
           {baseUrl: '/', trailingSlash: undefined},
           '/../__docusaurus_root__/file.html',
           {asIs: true},
         ),
-      ).resolves.toBe('301 /file → 200 file.html');
+      ).resolves.toBe('400 Bad Request');
     });
 
     // Browsers send the baseUrl percent-encoded: "/caf%C3%A9/"
