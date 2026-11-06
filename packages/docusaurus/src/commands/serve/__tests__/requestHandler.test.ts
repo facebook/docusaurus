@@ -565,70 +565,72 @@ describe('createServeRequestHandler', () => {
       ).resolves.toBe('302 /base/a$&b → 404 404.html');
     });
 
-    // See https://github.com/meta/docusaurus/pull/12879#discussion_r4493075460
-    it('stays on this host when ".." resolves to "//host"', async () => {
-      await expect(
-        serveRequest(
-          {baseUrl: '/base/', trailingSlash: undefined},
-          '/base/..//example.com/index',
-          {asIs: true},
-        ),
-      ).resolves.toBe('302 /base/ → 200 index.html');
-    });
-
-    // Without a baseUrl, serve-handler handles these requests
-    describe('stays on this host without a baseUrl', () => {
-      const OpenRedirectPaths = [
-        '/..//example.com/index',
-        '/..//example.com/file.html',
-        '//example.com/index',
-        '//example.com/file',
-        '//example.com/file.html',
-      ];
-
-      it('trailingSlash undefined', async () => {
-        const result = await describeRequests(
-          {baseUrl: '/', trailingSlash: undefined},
-          OpenRedirectPaths,
-          {asIs: true},
-        );
-        expect(result).toMatchInlineSnapshot(`
-          "/..//example.com/index      400 Bad Request
-          /..//example.com/file.html  400 Bad Request
-          //example.com/index         301 /example.com → 404 404.html
-          //example.com/file          404 404.html
-          //example.com/file.html     301 /example.com/file → 404 404.html"
-        `);
+    describe('stays on this host', () => {
+      // See https://github.com/meta/docusaurus/pull/12879#discussion_r4493075460
+      it('when ".." resolves to "//host"', async () => {
+        await expect(
+          serveRequest(
+            {baseUrl: '/base/', trailingSlash: undefined},
+            '/base/..//example.com/index',
+            {asIs: true},
+          ),
+        ).resolves.toBe('302 /base/ → 200 index.html');
       });
 
-      it('trailingSlash true', async () => {
-        const result = await describeRequests(
-          {baseUrl: '/', trailingSlash: true},
-          OpenRedirectPaths,
-          {asIs: true},
-        );
-        expect(result).toMatchInlineSnapshot(`
-          "/..//example.com/index      400 Bad Request
-          /..//example.com/file.html  400 Bad Request
-          //example.com/index         301 /example.com → 404 404.html
-          //example.com/file          301 /example.com/file → 301 /example.com/file/ → 404 404.html
-          //example.com/file.html     301 /example.com/file → 301 /example.com/file/ → 404 404.html"
-        `);
-      });
+      // Without a baseUrl, serve-handler handles these requests
+      describe('without a baseUrl', () => {
+        const OpenRedirectPaths = [
+          '/..//example.com/index',
+          '/..//example.com/file.html',
+          '//example.com/index',
+          '//example.com/file',
+          '//example.com/file.html',
+        ];
 
-      it('trailingSlash false', async () => {
-        const result = await describeRequests(
-          {baseUrl: '/', trailingSlash: false},
-          OpenRedirectPaths,
-          {asIs: true},
-        );
-        expect(result).toMatchInlineSnapshot(`
-          "/..//example.com/index      400 Bad Request
-          /..//example.com/file.html  400 Bad Request
-          //example.com/index         301 /example.com → 404 404.html
-          //example.com/file          301 /example.com/file → 404 404.html
-          //example.com/file.html     301 /example.com/file → 404 404.html"
-        `);
+        it('trailingSlash undefined', async () => {
+          const result = await describeRequests(
+            {baseUrl: '/', trailingSlash: undefined},
+            OpenRedirectPaths,
+            {asIs: true},
+          );
+          expect(result).toMatchInlineSnapshot(`
+            "/..//example.com/index      400 Bad Request
+            /..//example.com/file.html  400 Bad Request
+            //example.com/index         301 /example.com → 404 404.html
+            //example.com/file          404 404.html
+            //example.com/file.html     301 /example.com/file → 404 404.html"
+          `);
+        });
+
+        it('trailingSlash true', async () => {
+          const result = await describeRequests(
+            {baseUrl: '/', trailingSlash: true},
+            OpenRedirectPaths,
+            {asIs: true},
+          );
+          expect(result).toMatchInlineSnapshot(`
+            "/..//example.com/index      400 Bad Request
+            /..//example.com/file.html  400 Bad Request
+            //example.com/index         301 /example.com → 404 404.html
+            //example.com/file          301 /example.com/file → 301 /example.com/file/ → 404 404.html
+            //example.com/file.html     301 /example.com/file → 301 /example.com/file/ → 404 404.html"
+          `);
+        });
+
+        it('trailingSlash false', async () => {
+          const result = await describeRequests(
+            {baseUrl: '/', trailingSlash: false},
+            OpenRedirectPaths,
+            {asIs: true},
+          );
+          expect(result).toMatchInlineSnapshot(`
+            "/..//example.com/index      400 Bad Request
+            /..//example.com/file.html  400 Bad Request
+            //example.com/index         301 /example.com → 404 404.html
+            //example.com/file          301 /example.com/file → 404 404.html
+            //example.com/file.html     301 /example.com/file → 404 404.html"
+          `);
+        });
       });
     });
 
