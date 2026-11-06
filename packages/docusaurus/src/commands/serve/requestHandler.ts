@@ -67,8 +67,9 @@ function getRedirectLocation(
   if (baseUrl !== '/') {
     const {pathname, search} = parseURLPath(url);
     // ".." can resolve outside of the baseUrl, even to another host: "//host"
+    // Like without a baseUrl, serve-handler answers 400 to these paths
     if (!pathname.startsWith(baseUrl)) {
-      return baseUrl;
+      return undefined;
     }
 
     const cleanPathname = getCleanPathname(pathname, baseUrl);
