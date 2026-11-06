@@ -21,12 +21,16 @@ type ServeRequestHandler = (
 
 export function createServeRequestHandler({
   outDir,
-  baseUrl,
+  baseUrl: configBaseUrl,
   trailingSlash,
 }: {outDir: string} & Pick<
   DocusaurusConfig,
   'baseUrl' | 'trailingSlash'
 >): ServeRequestHandler {
+  // Browsers send the baseUrl percent-encoded, like "/caf%C3%A9/"
+  // A baseUrl already percent-encoded in the config stays the same
+  const baseUrl = parseURLPath(configBaseUrl).pathname;
+
   return async (req, res) => {
     // Browsers must revalidate every response, so that a rebuild or a config
     // change never leaves a stale page or redirect in their cache
