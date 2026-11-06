@@ -273,7 +273,7 @@ describe('createServeRequestHandler', () => {
         /base/файл                       200 файл.html
         /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 200 файл.html
         /base/café                       crash ERR_INVALID_CHAR
-        /base//file                      200 file.html
+        /base//file                      302 /base/file → 200 file.html
         /base/%E0%A4%A                   400 Bad Request
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
       `);
@@ -323,7 +323,7 @@ describe('createServeRequestHandler', () => {
         /base/файл                       302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
         /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
         /base/café                       302 /base/caf%C3%A9/ → crash ERR_INVALID_CHAR
-        /base//file                      302 /base//file/ → 301 /file/ → 302 /base/ → 200 index.html
+        /base//file                      302 /base/file → 302 /base/file/ → 200 file.html
         /base/%E0%A4%A                   302 /base/%E0%A4%A/ → 400 Bad Request
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
       `);
@@ -373,7 +373,7 @@ describe('createServeRequestHandler', () => {
           /base/файл                       302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
           /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
           /base/café                       302 /base/caf%C3%A9/ → crash ERR_INVALID_CHAR
-          /base//file                      302 /base//file/ → 301 /file/ → 302 /base/ → 200 index.html
+          /base//file                      302 /base/file → 302 /base/file/ → 200 file.html
           /base/%E0%A4%A                   302 /base/%E0%A4%A/ → 400 Bad Request
           /base/..%2Fdocusaurus.config.js  400 Bad Request"
         `);
@@ -422,7 +422,7 @@ describe('createServeRequestHandler', () => {
         /base/файл                       200 файл.html
         /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 200 файл.html
         /base/café                       crash ERR_INVALID_CHAR
-        /base//file                      301 /file → 302 /base/ → 200 index.html
+        /base//file                      302 /base/file → 200 file.html
         /base/%E0%A4%A                   400 Bad Request
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
       `);
@@ -586,9 +586,9 @@ describe('createServeRequestHandler', () => {
           expect(result).toMatchInlineSnapshot(`
             "/base/..//example.com/index      400 Bad Request
             /base/..//example.com/file.html  400 Bad Request
-            /base//example.com/index         302 /base//example.com → 404 404.html
-            /base//example.com/file          404 404.html
-            /base//example.com/file.html     302 /base//example.com/file → 404 404.html"
+            /base//example.com/index         302 /base/example.com/index → 302 /base/example.com → 404 404.html
+            /base//example.com/file          302 /base/example.com/file → 404 404.html
+            /base//example.com/file.html     302 /base/example.com/file.html → 302 /base/example.com/file → 404 404.html"
           `);
         });
 
@@ -601,9 +601,9 @@ describe('createServeRequestHandler', () => {
           expect(result).toMatchInlineSnapshot(`
             "/base/..//example.com/index      400 Bad Request
             /base/..//example.com/file.html  400 Bad Request
-            /base//example.com/index         302 /base//example.com → 301 /example.com → 302 /base/ → 200 index.html
-            /base//example.com/file          302 /base//example.com/file/ → 301 /example.com/file/ → 302 /base/ → 200 index.html
-            /base//example.com/file.html     302 /base//example.com/file → 302 /base//example.com/file/ → 301 /example.com/file/ → 302 /base/ → 200 index.html"
+            /base//example.com/index         302 /base/example.com/index → 302 /base/example.com → 404 404.html
+            /base//example.com/file          302 /base/example.com/file → 302 /base/example.com/file/ → 404 404.html
+            /base//example.com/file.html     302 /base/example.com/file.html → 302 /base/example.com/file → 302 /base/example.com/file/ → 404 404.html"
           `);
         });
 
@@ -616,9 +616,9 @@ describe('createServeRequestHandler', () => {
           expect(result).toMatchInlineSnapshot(`
             "/base/..//example.com/index      400 Bad Request
             /base/..//example.com/file.html  400 Bad Request
-            /base//example.com/index         302 /base//example.com → 301 /example.com → 302 /base/ → 200 index.html
-            /base//example.com/file          301 /example.com/file → 302 /base/ → 200 index.html
-            /base//example.com/file.html     302 /base//example.com/file → 301 /example.com/file → 302 /base/ → 200 index.html"
+            /base//example.com/index         302 /base/example.com/index → 302 /base/example.com → 404 404.html
+            /base//example.com/file          302 /base/example.com/file → 404 404.html
+            /base//example.com/file.html     302 /base/example.com/file.html → 302 /base/example.com/file → 404 404.html"
           `);
         });
       });
@@ -672,11 +672,10 @@ describe('createServeRequestHandler', () => {
       });
     });
 
-    // TODO fix: keep the baseUrl, "301 /base/file → 200 file.html"
-    it('drops the baseUrl when serve-handler merges slashes', async () => {
+    it('keeps the baseUrl when merging slashes', async () => {
       await expect(
         serveRequest({baseUrl: '/base/', trailingSlash: false}, '/base//file'),
-      ).resolves.toBe('301 /file → 302 /base/ → 200 index.html');
+      ).resolves.toBe('302 /base/file → 200 file.html');
     });
 
     // TODO fix: keep the query string, "301 /file?query=1 → 200 file.html"

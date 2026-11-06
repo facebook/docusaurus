@@ -72,6 +72,12 @@ function getRedirectLocation(
       return undefined;
     }
 
+    // Merge repeated slashes, like the serve-handler redirects
+    const mergedPathname = pathname.replace(/\/{2,}/g, '/');
+    if (pathname !== mergedPathname) {
+      return serializeURLPath({pathname: mergedPathname, search});
+    }
+
     const cleanPathname = getCleanPathname(pathname, baseUrl);
     if (pathname !== cleanPathname) {
       return serializeURLPath({pathname: cleanPathname, search});
