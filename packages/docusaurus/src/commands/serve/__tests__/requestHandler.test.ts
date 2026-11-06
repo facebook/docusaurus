@@ -132,7 +132,7 @@ describe('createServeRequestHandler', () => {
         /with%20space.html          301 /with%20space → 200 with space.html
         /файл                       200 файл.html
         /файл.html                  301 /%D1%84%D0%B0%D0%B9%D0%BB → 200 файл.html
-        /café                       crash ERR_INVALID_CHAR
+        /café                       200 café.html
         //file                      200 file.html
         /%E0%A4%A                   400 Bad Request
         /..%2Fdocusaurus.config.js  400 Bad Request"
@@ -183,7 +183,7 @@ describe('createServeRequestHandler', () => {
         /with%20space.html          301 /with%20space → 301 /with%20space/ → 200 with space.html
         /файл                       301 /%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
         /файл.html                  301 /%D1%84%D0%B0%D0%B9%D0%BB → 301 /%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
-        /café                       301 /caf%C3%A9/ → crash ERR_INVALID_CHAR
+        /café                       301 /caf%C3%A9/ → 200 café.html
         //file                      301 /file → 301 /file/ → 200 file.html
         /%E0%A4%A                   400 Bad Request
         /..%2Fdocusaurus.config.js  400 Bad Request"
@@ -234,7 +234,7 @@ describe('createServeRequestHandler', () => {
         /with%20space.html          301 /with%20space → 200 with space.html
         /файл                       200 файл.html
         /файл.html                  301 /%D1%84%D0%B0%D0%B9%D0%BB → 200 файл.html
-        /café                       crash ERR_INVALID_CHAR
+        /café                       200 café.html
         //file                      301 /file → 200 file.html
         /%E0%A4%A                   400 Bad Request
         /..%2Fdocusaurus.config.js  400 Bad Request"
@@ -287,7 +287,7 @@ describe('createServeRequestHandler', () => {
         /base/with%20space.html          302 /base/with%20space → 200 with space.html
         /base/файл                       200 файл.html
         /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 200 файл.html
-        /base/café                       crash ERR_INVALID_CHAR
+        /base/café                       200 café.html
         /base//file                      302 /base/file → 200 file.html
         /base/%E0%A4%A                   400 Bad Request
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
@@ -340,7 +340,7 @@ describe('createServeRequestHandler', () => {
         /base/with%20space.html          302 /base/with%20space → 302 /base/with%20space/ → 200 with space.html
         /base/файл                       302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
         /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
-        /base/café                       302 /base/caf%C3%A9/ → crash ERR_INVALID_CHAR
+        /base/café                       302 /base/caf%C3%A9/ → 200 café.html
         /base//file                      302 /base/file → 302 /base/file/ → 200 file.html
         /base/%E0%A4%A                   302 /base/%E0%A4%A/ → 400 Bad Request
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
@@ -393,7 +393,7 @@ describe('createServeRequestHandler', () => {
           /base/with%20space.html          302 /base/with%20space → 302 /base/with%20space/ → 200 with space.html
           /base/файл                       302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
           /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
-          /base/café                       302 /base/caf%C3%A9/ → crash ERR_INVALID_CHAR
+          /base/café                       302 /base/caf%C3%A9/ → 200 café.html
           /base//file                      302 /base/file → 302 /base/file/ → 200 file.html
           /base/%E0%A4%A                   302 /base/%E0%A4%A/ → 400 Bad Request
           /base/..%2Fdocusaurus.config.js  400 Bad Request"
@@ -445,7 +445,7 @@ describe('createServeRequestHandler', () => {
         /base/with%20space.html          302 /base/with%20space → 200 with space.html
         /base/файл                       200 файл.html
         /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 200 файл.html
-        /base/café                       crash ERR_INVALID_CHAR
+        /base/café                       200 café.html
         /base//file                      302 /base/file → 200 file.html
         /base/%E0%A4%A                   400 Bad Request
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
@@ -562,12 +562,11 @@ describe('createServeRequestHandler', () => {
 
   // These tests capture edge cases, also visible in the snapshots above
   describe('edge cases', () => {
-    // TODO fix: serve café.html instead of crashing the server process
     // See https://github.com/vercel/serve-handler/issues/205
-    it('crashes on file names with Latin-1 characters', async () => {
+    it('serves file names with Latin-1 characters', async () => {
       await expect(
         serveRequest({baseUrl: '/', trailingSlash: undefined}, '/café'),
-      ).resolves.toBe('crash ERR_INVALID_CHAR');
+      ).resolves.toBe('200 café.html');
     });
 
     // See https://github.com/meta/docusaurus/issues/10078#issuecomment-2084932934
