@@ -44,7 +44,7 @@
     "canary": "pnpm canary:bumpVersion && pnpm canary:publish",
     "canary:getCoreVersion": "node -p \"require('./packages/docusaurus/package.json').version.split('-')[0]\"",
     "canary:version": "echo `pnpm --silent canary:getCoreVersion`-canary-`git rev-list --count HEAD`+`git rev-parse --short HEAD`",
-    "canary:bumpVersion": "pnpm lerna version `pnpm --silent canary:version` --exact --no-push --yes --loglevel verbose",
+    "canary:bumpVersion": "pnpm lerna version `pnpm --silent canary:version` --force-publish --exact --no-push --yes --loglevel verbose",
     "canary:publish": "pnpm --recursive publish --tag canary --no-git-checks",
     "changelog": "lerna-changelog",
     "postinstall": "pnpm build:packages",
