@@ -7,7 +7,7 @@
 
 import path from 'node:path';
 import serveHandler from 'serve-handler';
-import {pathExists} from '@docusaurus/fs';
+import {fs, pathExists} from '@docusaurus/fs';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {parseURLPath, serializeURLPath} from '@docusaurus/utils';
 import type {URLPath} from '@docusaurus/utils';
@@ -123,20 +123,22 @@ async function getRedirectLocation(
     return serializeURLPath({pathname: mergedPathname, search});
   }
 
-  const outDirPathname = pathname.slice(baseUrl.length - 1);
+  // Static hosts serve the existing .html files, without clean URL redirects
+  if (await isHtmlFileRequest(outDir, url.slice(baseUrl.length - 1))) {
+    return undefined;
+  }
 
   const cleanPathname = getCleanPathname(pathname, baseUrl);
-  if (
-    pathname !== cleanPathname &&
-    !(await isHtmlFile(outDir, outDirPathname))
-  ) {
+  if (pathname !== cleanPathname) {
     return serializeURLPath({pathname: cleanPathname, search});
   }
 
   // Not super robust, but should be good enough for our use case
   // See https://github.com/meta/docusaurus/pull/10090
   const looksLikeAsset = !!pathname.match(/\.[a-z\d]+$/i);
-  const isAsset = looksLikeAsset && !(await isPage(outDir, outDirPathname));
+  const isAsset =
+    looksLikeAsset &&
+    !(await isPage(outDir, pathname.slice(baseUrl.length - 1)));
   if (!isAsset) {
     const normalizedPathname = applyTrailingSlash(pathname, {
       trailingSlash,
@@ -173,18 +175,21 @@ async function isPage(outDir: string, urlPath: string): Promise<boolean> {
   );
 }
 
-// Static hosts serve the existing .html files, without clean URL redirects
-async function isHtmlFile(outDir: string, urlPath: string): Promise<boolean> {
-  const filePath = getFilePath(outDir, urlPath);
-  return !!filePath?.endsWith('.html') && pathExists(filePath);
-}
-
+// The url without the baseUrl, like serve-handler receives it
 async function isHtmlFileRequest(
   outDir: string,
   url: string,
 ): Promise<boolean> {
-  const urlPath = parseRootURLPath(url);
-  return urlPath !== undefined && isHtmlFile(outDir, urlPath.pathname);
+  // Like serve-handler, decode the path before resolving its ".." segments:
+  // parseURLPath() resolves "/folder%2Fx/../file.html" to "/file.html"
+  const pathname = url.split(/[?#]/)[0]!;
+  const filePath = getFilePath(outDir, pathname);
+  if (!filePath?.endsWith('.html')) {
+    return false;
+  }
+  // Not a folder, like the client redirect file "legacy.html/index.html"
+  const stats = await fs.stat(filePath).catch(() => undefined);
+  return stats?.isFile() ?? false;
 }
 
 function getFilePath(outDir: string, urlPath: string): string | undefined {
