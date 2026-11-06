@@ -173,6 +173,27 @@ Serve your built website locally.
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
 | `--no-open` | `false` locally, `true` in CI | Do not open a browser window to the server location. |
 
+#### HTTP caching {/* #serve-http-caching */}
+
+`docusaurus serve` tells browsers how to cache each response with the [`Cache-Control`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control) header:
+
+| Responses | `Cache-Control` | Browser behavior |
+| --- | --- | --- |
+| Files in `/assets/` | `public, max-age=31536000, immutable` | Reuses the file for one year, without asking the server. |
+| Everything else: pages, other static files, redirects, errors | `no-cache` | Asks the server before each reuse. The server answers `304 Not Modified` when the file content didn't change, using its [`ETag`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag). |
+
+The bundler adds a content hash to the names of the files it emits in `/assets/` (JavaScript, CSS, images, fonts…): when the content of a file changes, its URL changes too.
+
+The other files keep their URLs from one build to the next. Revalidating them ensures you always see your latest build, and the redirects of your current [`baseUrl`](./api/docusaurus.config.js.mdx#baseUrl) and [`trailingSlash`](./api/docusaurus.config.js.mdx#trailingSlash) config, even after serving another site on the same port.
+
+The `/assets/` folders of the other locales of an [i18n site](./i18n/i18n-introduction.mdx), like `/fr/assets/`, are revalidated like the other files.
+
+:::warning
+
+Don't put files in an `assets` folder of your [static directories](./api/docusaurus.config.js.mdx#staticDirectories), like `static/assets/`. They are copied to `/assets/` without a content hash, so browsers can keep using an outdated version for one year.
+
+:::
+
 ### `docusaurus clear [siteDir]` {/* #docusaurus-clear-sitedir */}
 
 Clear a Docusaurus site's generated assets, caches, build artifacts.
