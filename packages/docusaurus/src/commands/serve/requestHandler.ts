@@ -7,7 +7,7 @@
 
 import path from 'node:path';
 import serveHandler from 'serve-handler';
-import {fs, pathExists} from '@docusaurus/fs';
+import {pathExists} from '@docusaurus/fs';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {parseURLPath, serializeURLPath} from '@docusaurus/utils';
 import type http from 'node:http';
@@ -17,8 +17,6 @@ type ServeRequestHandler = (
   req: http.IncomingMessage,
   res: http.ServerResponse,
 ) => Promise<void>;
-
-type ServeHandlerMethods = NonNullable<Parameters<typeof serveHandler>[3]>;
 
 export function createServeRequestHandler({
   outDir,
@@ -63,56 +61,36 @@ export function createServeRequestHandler({
     // Requests without url were redirected to the baseUrl
     req.url = req.url!.replace(baseUrl, '/');
 
-    await serveHandler(
-      req,
-      res,
-      {
-        cleanUrls: true,
-        public: outDir,
-        trailingSlash,
-        directoryListing: false,
-        // serve-handler only answers 304 to an ETag revalidation, and the ETag
-        // stays the same when a rebuild doesn't change the file content
-        etag: true,
-        headers: [
-          // The default value has the file name, which crashes Node.js when it
-          // has Latin-1 characters like "café.html"
-          // See https://github.com/vercel/serve-handler/issues/205
-          {
-            source: '**',
-            headers: [{key: 'Content-Disposition', value: 'inline'}],
-          },
-          // The bundler adds a content hash to the names of these files
-          // Overrides the Cache-Control set above, only for existing files
-          {
-            source: 'assets/**',
-            headers: [
-              {
-                key: 'Cache-Control',
-                value: 'public, max-age=31536000, immutable',
-              },
-            ],
-          },
-        ],
-      },
-      // serve-handler awaits it, @types/serve-handler wrongly expects callbacks
-      {
-        lstat:
-          lstatWithoutDottedFolders as unknown as ServeHandlerMethods['lstat'],
-      },
-    );
+    await serveHandler(req, res, {
+      cleanUrls: true,
+      public: outDir,
+      trailingSlash,
+      directoryListing: false,
+      // serve-handler only answers 304 to an ETag revalidation, and the ETag
+      // stays the same when a rebuild doesn't change the file content
+      etag: true,
+      headers: [
+        // The default value has the file name, which crashes Node.js when it
+        // has Latin-1 characters like "café.html"
+        // See https://github.com/vercel/serve-handler/issues/205
+        {
+          source: '**',
+          headers: [{key: 'Content-Disposition', value: 'inline'}],
+        },
+        // The bundler adds a content hash to the names of these files
+        // Overrides the Cache-Control set above, only for existing files
+        {
+          source: 'assets/**',
+          headers: [
+            {
+              key: 'Cache-Control',
+              value: 'public, max-age=31536000, immutable',
+            },
+          ],
+        },
+      ],
+    });
   };
-}
-
-// serve-handler doesn't look for the index.html of folders with a dot in their
-// name, like "docs/2.x": hiding them makes it fall back to their index.html
-// TODO remove after the release of https://github.com/vercel/serve-handler/pull/230
-async function lstatWithoutDottedFolders(filePath: string) {
-  const stats = await fs.lstat(filePath);
-  if (stats.isDirectory() && path.extname(filePath) !== '') {
-    throw Object.assign(new Error(`${filePath} is a folder`), {code: 'ENOENT'});
-  }
-  return stats;
 }
 
 async function getRedirectLocation(
