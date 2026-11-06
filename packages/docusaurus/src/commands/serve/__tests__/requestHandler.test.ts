@@ -269,19 +269,19 @@ describe('createServeRequestHandler', () => {
       );
       expect(result).toMatchInlineSnapshot(`
         "/base/                           200 index.html
-        /base/index                      302 /base/index/ → 200 index.html
-        /base/index.html                 302 /base/index → 302 /base/index/ → 200 index.html
+        /base/index                      302 /base/ → 200 index.html
+        /base/index.html                 302 /base/index → 302 /base/ → 200 index.html
         /base/file                       302 /base/file/ → 200 file.html
         /base/file/                      200 file.html
         /base/file.html                  302 /base/file → 302 /base/file/ → 200 file.html
         /base/folder                     302 /base/folder/ → 200 folder/index.html
         /base/folder/                    200 folder/index.html
-        /base/folder/index               302 /base/folder/index/ → 200 folder/index.html
-        /base/folder/index.html          302 /base/folder/index → 302 /base/folder/index/ → 200 folder/index.html
+        /base/folder/index               302 /base/folder → 302 /base/folder/ → 200 folder/index.html
+        /base/folder/index.html          302 /base/folder/index → 302 /base/folder → 302 /base/folder/ → 200 folder/index.html
         /base/both                       302 /base/both/ → 200 both/index.html
         /base/both/                      200 both/index.html
         /base/both.html                  302 /base/both → 302 /base/both/ → 200 both/index.html
-        /base/both/index.html            302 /base/both/index → 302 /base/both/index/ → 200 both/index.html
+        /base/both/index.html            302 /base/both/index → 302 /base/both → 302 /base/both/ → 200 both/index.html
         /base/docs/2.x                   404 404.html
         /base/docs/2.x/                  404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
@@ -319,19 +319,19 @@ describe('createServeRequestHandler', () => {
         );
         expect(result).toMatchInlineSnapshot(`
           "/base/                           200 index.html
-          /base/index                      302 /base/index/ → 200 index.html
-          /base/index.html                 302 /base/index → 302 /base/index/ → 200 index.html
+          /base/index                      302 /base/ → 200 index.html
+          /base/index.html                 302 /base/index → 302 /base/ → 200 index.html
           /base/file                       302 /base/file/ → 200 file.html
           /base/file/                      200 file.html
           /base/file.html                  302 /base/file → 302 /base/file/ → 200 file.html
           /base/folder                     302 /base/folder/ → 200 folder/index.html
           /base/folder/                    200 folder/index.html
-          /base/folder/index               302 /base/folder/index/ → 200 folder/index.html
-          /base/folder/index.html          302 /base/folder/index → 302 /base/folder/index/ → 200 folder/index.html
+          /base/folder/index               302 /base/folder → 302 /base/folder/ → 200 folder/index.html
+          /base/folder/index.html          302 /base/folder/index → 302 /base/folder → 302 /base/folder/ → 200 folder/index.html
           /base/both                       302 /base/both/ → 200 both/index.html
           /base/both/                      200 both/index.html
           /base/both.html                  302 /base/both → 302 /base/both/ → 200 both/index.html
-          /base/both/index.html            302 /base/both/index → 302 /base/both/index/ → 200 both/index.html
+          /base/both/index.html            302 /base/both/index → 302 /base/both → 302 /base/both/ → 200 both/index.html
           /base/docs/2.x                   404 404.html
           /base/docs/2.x/                  404 404.html
           /base/assets/css/styles.css      200 assets/css/styles.css
@@ -424,8 +424,8 @@ describe('createServeRequestHandler', () => {
     });
   });
 
-  // These tests capture the buggy behavior, also visible in the snapshots above
-  describe('known bugs', () => {
+  // These tests capture edge cases, also visible in the snapshots above
+  describe('edge cases', () => {
     // TODO fix: serve café.html instead of crashing the server process
     // See https://github.com/vercel/serve-handler/issues/205
     it('crashes on file names with Latin-1 characters', async () => {
@@ -442,6 +442,15 @@ describe('createServeRequestHandler', () => {
           '/base/file.html',
         ),
       ).resolves.toBe('302 /base/file → 200 file.html');
+    });
+
+    it('redirects clean URLs containing $ characters', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: undefined},
+          '/base/a$&b.html',
+        ),
+      ).resolves.toBe('302 /base/a$&b → 404 404.html');
     });
 
     // TODO fix: keep the baseUrl, "301 /base/file → 200 file.html"
