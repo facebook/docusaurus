@@ -138,7 +138,7 @@ catalog:
   rtlcss: ^4.3.0
   schema-dts: ^2.1.0
   semver: ^7.8.5
-  serve-handler: ^6.1.7
+  serve-handler: ^6.1.8
   sharp: ^0.35.1
   sitemap: ^9.0.1
   srcset: ^5.0.3
@@ -261,6 +261,7 @@ minimumReleaseAgeExclude:
   - '@rsdoctor/core@2.0.0'
   - '@rsdoctor/client@2.0.0'
   - '@rsdoctor/shared@2.0.0'
+  - serve-handler@6.1.8
   - pnpm
   - typescript
   - '@rspack/*'
