@@ -139,7 +139,7 @@ Task-specific instructions live in skills, following the [Agent Skills](https://
 
 - Placeholder URLs and domains in tests, fixtures, docs and examples must use `example.com` or its subdomains, never invented domains
 - `test/snapshotPathNormalizer.ts` converts backslashes to `/` in snapshots: a Markdown escape `\` can show up as `/`
-- `packages/docusaurus-plugin-content-docs/src/__tests__/cli.test.ts` contains a NUL byte, so `rg` and `grep` skip it as binary: use `rg -a` to prove code is unused
+- `packages/docusaurus-plugin-content-docs/src/__tests__/cli.test.ts` contains a NUL byte, so `rg` and `grep` skip it as binary. To prove code is unused, use `rg -a --hidden`: `rg` also skips hidden folders like `.claude` and `.agents`
 
 ### Errors
 
@@ -147,11 +147,11 @@ When a helper fails on a file, throw a new `Error` naming the path relative to t
 
 ### Theme translations
 
-After adding or changing `translate()` or `<Translate>` messages in a theme or plugin, build the packages and run `pnpm update-translations`. It extracts the messages from the built code into `packages/docusaurus-theme-translations/locales/base/`, and adds them to every locale. `locales.test.ts` fails otherwise.
+After adding or changing `translate()` or `<Translate>` messages in a theme or plugin, build the packages and run `pnpm update-translations`. It extracts the messages from the built code into `packages/docusaurus-theme-translations/locales/base/`, and adds them to every locale. `locales.test.ts` fails otherwise. It only scans the packages listed in `getThemes()` (`packages/docusaurus-theme-translations/src/utils.ts`): add new packages there.
 
 ### Dogfooding
 
-- For UI changes and bug fixes, add a page to `website/_dogfooding/` so that the deploy preview and the Argos visual tests show it
+- For UI changes and bug fixes visible on the site, add a page to one of the plugin folders of `website/_dogfooding/` (like `_pages tests/`, see `dogfooding.config.ts`) so that the deploy preview and the Argos visual tests show it
 - Argos skips some pages (`isBlacklisted()` in `argos/tests/screenshot.spec.ts`, like `/tests/pages/markdown-tests-md`): check it before picking one
 - For a CommonMark repro, import a `_`-prefixed `.md` partial in an existing `.mdx` page of `website/_dogfooding/_docs tests/tests/` (like `_admonitions-md.md` in `admonitions.mdx`). `_` files get no route, while a new docs page changes the sidebar of every dogfood docs page screenshot
 
