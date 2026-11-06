@@ -76,8 +76,10 @@ export function createServeRequestHandler({
 
     await serveHandler(req, res, {
       // cleanUrls serves /file with file.html, but also redirects /file.html
-      // to /file, even when the file exists
-      cleanUrls: !(await isHtmlFileRequest(outDir, req.url)),
+      // to /file, even when the file exists, and drops the baseUrl
+      // We already did our clean URL redirects: only existing .html files and
+      // paths with an encoded ".html" or "/index" get there
+      cleanUrls: !hasCleanUrlSuffix(req.url),
       public: outDir,
       // We do the trailing slash redirects: serve-handler would decode
       // encoded slashes, merge them and drop the baseUrl
@@ -192,6 +194,16 @@ function parseFakeRootURLPath(
 function hasNullByte(url: string): boolean {
   const pathname = url.split(/[?#]/)[0]!;
   return pathname.includes('%00');
+}
+
+// The decoded paths that serve-handler's cleanUrls redirects
+function hasCleanUrlSuffix(url: string): boolean {
+  const pathname = url.split(/[?#]/)[0]!;
+  try {
+    return /(?:\.html|\/index)$/.test(decodeURIComponent(pathname));
+  } catch {
+    return false; // Malformed percent-encoding, serve-handler answers 400
+  }
 }
 
 // Pages with a dot in their name look like assets, like "docs/2.x"

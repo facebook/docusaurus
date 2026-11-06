@@ -727,15 +727,27 @@ describe('createServeRequestHandler', () => {
       ).resolves.toBe('200 file.html');
     });
 
-    // TODO fix: keep the baseUrl, "301 /base/missing → 404 404.html"
-    // serve-handler decodes the path before its clean URL redirect
-    it('drops the baseUrl in clean URL redirects of encoded paths', async () => {
-      await expect(
-        serveRequest(
-          {baseUrl: '/base/', trailingSlash: undefined},
-          '/base/missing%2Ehtml',
-        ),
-      ).resolves.toBe('301 /missing → 302 /base/ → 200 index.html');
+    // serve-handler decodes the path before its clean URL redirect, which
+    // would drop the baseUrl
+    describe('answers 404 to encoded clean URL paths', () => {
+      it('with an encoded .html extension', async () => {
+        await expect(
+          serveRequest(
+            {baseUrl: '/base/', trailingSlash: undefined},
+            '/base/missing%2Ehtml',
+          ),
+        ).resolves.toBe('404 404.html');
+      });
+
+      // cspell:ignore Findex
+      it('with an encoded /index segment', async () => {
+        await expect(
+          serveRequest(
+            {baseUrl: '/base/', trailingSlash: undefined},
+            '/base/folder%2Findex',
+          ),
+        ).resolves.toBe('404 404.html');
+      });
     });
 
     it('keeps the query string in redirects without a baseUrl', async () => {
