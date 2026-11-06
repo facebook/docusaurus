@@ -677,6 +677,26 @@ describe('createServeRequestHandler', () => {
       ).resolves.toBe('302 /base/docs/2.x/ → 200 docs/2.x/index.html');
     });
 
+    // __fixtures__/outside.x.html is a page outside of the build output
+    // cspell:ignore Foutside
+    it('never looks for pages outside of the build output', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: true},
+          '/base/..%2Foutside.x',
+        ),
+      ).resolves.toBe('400 Bad Request');
+    });
+
+    it('looks for no page with a malformed percent-encoding', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: true},
+          '/base/%E0%A4%A.x',
+        ),
+      ).resolves.toBe('400 Bad Request');
+    });
+
     it('adds a trailing slash to pages with a dot in their name, without a baseUrl', async () => {
       await expect(
         serveRequest({baseUrl: '/', trailingSlash: true}, '/docs/2.x'),
