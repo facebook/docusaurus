@@ -53,7 +53,9 @@ export function createServeRequestHandler({
       req,
       res,
       {
-        cleanUrls: true,
+        // cleanUrls serves /file with file.html, but also redirects /file.html
+        // to /file, even when the file exists
+        cleanUrls: !(await isHtmlFileRequest(outDir, req.url)),
         public: outDir,
         // We do the trailing slash redirects: serve-handler would decode
         // encoded slashes, merge them and drop the baseUrl
@@ -118,17 +120,20 @@ async function getRedirectLocation(
     return serializeURLPath({pathname: mergedPathname, search});
   }
 
+  const outDirPathname = pathname.slice(baseUrl.length - 1);
+
   const cleanPathname = getCleanPathname(pathname, baseUrl);
-  if (pathname !== cleanPathname) {
+  if (
+    pathname !== cleanPathname &&
+    !(await isHtmlFile(outDir, outDirPathname))
+  ) {
     return serializeURLPath({pathname: cleanPathname, search});
   }
 
   // Not super robust, but should be good enough for our use case
   // See https://github.com/meta/docusaurus/pull/10090
   const looksLikeAsset = !!pathname.match(/\.[a-z\d]+$/i);
-  const isAsset =
-    looksLikeAsset &&
-    !(await isPage(outDir, pathname.slice(baseUrl.length - 1)));
+  const isAsset = looksLikeAsset && !(await isPage(outDir, outDirPathname));
   if (!isAsset) {
     const normalizedPathname = applyTrailingSlash(pathname, {
       trailingSlash,
@@ -155,20 +160,42 @@ function parseRootURLPath(url: string): URLPath | undefined {
 
 // Pages with a dot in their name look like assets, like "docs/2.x"
 async function isPage(outDir: string, urlPath: string): Promise<boolean> {
-  let filePath: string;
-  try {
-    filePath = path.join(outDir, decodeURIComponent(urlPath));
-  } catch {
-    return false; // Malformed percent-encoding
-  }
-  // Encoded slashes can decode to ".." segments: never look outside outDir
-  if (path.relative(outDir, filePath).startsWith('..')) {
+  const filePath = getFilePath(outDir, urlPath);
+  if (filePath === undefined) {
     return false;
   }
   return (
     (await pathExists(path.join(filePath, 'index.html'))) ||
     pathExists(`${filePath}.html`)
   );
+}
+
+// Static hosts serve the existing .html files, without clean URL redirects
+async function isHtmlFile(outDir: string, urlPath: string): Promise<boolean> {
+  const filePath = getFilePath(outDir, urlPath);
+  return !!filePath?.endsWith('.html') && pathExists(filePath);
+}
+
+async function isHtmlFileRequest(
+  outDir: string,
+  url: string,
+): Promise<boolean> {
+  const urlPath = parseRootURLPath(url);
+  return urlPath !== undefined && isHtmlFile(outDir, urlPath.pathname);
+}
+
+function getFilePath(outDir: string, urlPath: string): string | undefined {
+  let filePath: string;
+  try {
+    filePath = path.join(outDir, decodeURIComponent(urlPath));
+  } catch {
+    return undefined; // Malformed percent-encoding
+  }
+  // Encoded slashes can decode to ".." segments: never look outside outDir
+  if (path.relative(outDir, filePath).startsWith('..')) {
+    return undefined;
+  }
+  return filePath;
 }
 
 // The serve-handler cleanUrls redirect, keeping the baseUrl
