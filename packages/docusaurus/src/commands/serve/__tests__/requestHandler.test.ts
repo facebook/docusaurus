@@ -224,19 +224,19 @@ describe('createServeRequestHandler', () => {
       );
       expect(result).toMatchInlineSnapshot(`
         "/base/                           200 index.html
-        /base/index                      301 / → 302 /base/ → 200 index.html
-        /base/index.html                 301 /index → 302 /base/ → 200 index.html
+        /base/index                      302 /base/ → 200 index.html
+        /base/index.html                 302 /base/index → 302 /base/ → 200 index.html
         /base/file                       200 file.html
         /base/file/                      200 file.html
-        /base/file.html                  301 /file → 302 /base/ → 200 index.html
+        /base/file.html                  302 /base/file → 200 file.html
         /base/folder                     200 folder/index.html
         /base/folder/                    200 folder/index.html
-        /base/folder/index               301 /folder → 302 /base/ → 200 index.html
-        /base/folder/index.html          301 /folder/index → 302 /base/ → 200 index.html
+        /base/folder/index               302 /base/folder → 200 folder/index.html
+        /base/folder/index.html          302 /base/folder/index → 302 /base/folder → 200 folder/index.html
         /base/both                       200 both/index.html
         /base/both/                      200 both/index.html
-        /base/both.html                  301 /both → 302 /base/ → 200 index.html
-        /base/both/index.html            301 /both/index → 302 /base/ → 200 index.html
+        /base/both.html                  302 /base/both → 200 both/index.html
+        /base/both/index.html            302 /base/both/index → 302 /base/both → 200 both/index.html
         /base/docs/2.x                   404 404.html
         /base/docs/2.x/                  404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
@@ -249,15 +249,15 @@ describe('createServeRequestHandler', () => {
         /base/site.webmanifest           200 site.webmanifest
         /base/missing                    404 404.html
         /base/missing/                   404 404.html
-        /base/missing.html               301 /missing → 302 /base/ → 200 index.html
+        /base/missing.html               302 /base/missing → 404 404.html
         /base/file?query=1               200 file.html
         /base/file/?query=1              200 file.html
-        /base/file.html?query=1          301 /file → 302 /base/ → 200 index.html
+        /base/file.html?query=1          302 /base/file?query=1 → 200 file.html
         /base/folder?query=1             200 folder/index.html
         /base/with%20space               200 with space.html
-        /base/with%20space.html          301 /with%20space → 302 /base/ → 200 index.html
+        /base/with%20space.html          302 /base/with%20space → 200 with space.html
         /base/файл                       200 файл.html
-        /base/файл.html                  301 /%D1%84%D0%B0%D0%B9%D0%BB → 302 /base/ → 200 index.html
+        /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 200 файл.html
         /base/café                       crash ERR_INVALID_CHAR
         /base//file                      200 file.html
         /base/%E0%A4%A                   400 Bad Request
@@ -275,18 +275,18 @@ describe('createServeRequestHandler', () => {
       expect(result).toMatchInlineSnapshot(`
         "/base/                           200 index.html
         /base/index                      302 /base/index/ → 200 index.html
-        /base/index.html                 301 /index → 302 /base/ → 200 index.html
+        /base/index.html                 302 /base/index → 302 /base/index/ → 200 index.html
         /base/file                       302 /base/file/ → 200 file.html
         /base/file/                      200 file.html
-        /base/file.html                  301 /file → 302 /base/ → 200 index.html
+        /base/file.html                  302 /base/file → 302 /base/file/ → 200 file.html
         /base/folder                     302 /base/folder/ → 200 folder/index.html
         /base/folder/                    200 folder/index.html
         /base/folder/index               302 /base/folder/index/ → 200 folder/index.html
-        /base/folder/index.html          301 /folder/index → 302 /base/ → 200 index.html
+        /base/folder/index.html          302 /base/folder/index → 302 /base/folder/index/ → 200 folder/index.html
         /base/both                       302 /base/both/ → 200 both/index.html
         /base/both/                      200 both/index.html
-        /base/both.html                  301 /both → 302 /base/ → 200 index.html
-        /base/both/index.html            301 /both/index → 302 /base/ → 200 index.html
+        /base/both.html                  302 /base/both → 302 /base/both/ → 200 both/index.html
+        /base/both/index.html            302 /base/both/index → 302 /base/both/index/ → 200 both/index.html
         /base/docs/2.x                   404 404.html
         /base/docs/2.x/                  404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
@@ -299,15 +299,15 @@ describe('createServeRequestHandler', () => {
         /base/site.webmanifest           302 /base/site.webmanifest/ → 404 404.html
         /base/missing                    302 /base/missing/ → 404 404.html
         /base/missing/                   404 404.html
-        /base/missing.html               301 /missing → 302 /base/ → 200 index.html
+        /base/missing.html               302 /base/missing → 302 /base/missing/ → 404 404.html
         /base/file?query=1               302 /base/file/?query=1 → 200 file.html
         /base/file/?query=1              200 file.html
         /base/file.html?query=1          302 /base/file.html/?query=1 → 404 404.html
         /base/folder?query=1             302 /base/folder/?query=1 → 200 folder/index.html
         /base/with%20space               302 /base/with%20space/ → 200 with space.html
-        /base/with%20space.html          301 /with%20space → 302 /base/ → 200 index.html
+        /base/with%20space.html          302 /base/with%20space → 302 /base/with%20space/ → 200 with space.html
         /base/файл                       302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
-        /base/файл.html                  301 /%D1%84%D0%B0%D0%B9%D0%BB → 302 /base/ → 200 index.html
+        /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
         /base/café                       302 /base/caf%C3%A9/ → crash ERR_INVALID_CHAR
         /base//file                      302 /base//file/ → 301 /file/ → 302 /base/ → 200 index.html
         /base/%E0%A4%A                   302 /base/%E0%A4%A/ → 400 Bad Request
@@ -325,18 +325,18 @@ describe('createServeRequestHandler', () => {
         expect(result).toMatchInlineSnapshot(`
           "/base/                           200 index.html
           /base/index                      302 /base/index/ → 200 index.html
-          /base/index.html                 301 /index → 302 /base/ → 200 index.html
+          /base/index.html                 302 /base/index → 302 /base/index/ → 200 index.html
           /base/file                       302 /base/file/ → 200 file.html
           /base/file/                      200 file.html
-          /base/file.html                  301 /file → 302 /base/ → 200 index.html
+          /base/file.html                  302 /base/file → 302 /base/file/ → 200 file.html
           /base/folder                     302 /base/folder/ → 200 folder/index.html
           /base/folder/                    200 folder/index.html
           /base/folder/index               302 /base/folder/index/ → 200 folder/index.html
-          /base/folder/index.html          301 /folder/index → 302 /base/ → 200 index.html
+          /base/folder/index.html          302 /base/folder/index → 302 /base/folder/index/ → 200 folder/index.html
           /base/both                       302 /base/both/ → 200 both/index.html
           /base/both/                      200 both/index.html
-          /base/both.html                  301 /both → 302 /base/ → 200 index.html
-          /base/both/index.html            301 /both/index → 302 /base/ → 200 index.html
+          /base/both.html                  302 /base/both → 302 /base/both/ → 200 both/index.html
+          /base/both/index.html            302 /base/both/index → 302 /base/both/index/ → 200 both/index.html
           /base/docs/2.x                   404 404.html
           /base/docs/2.x/                  404 404.html
           /base/assets/css/styles.css      200 assets/css/styles.css
@@ -349,15 +349,15 @@ describe('createServeRequestHandler', () => {
           /base/site.webmanifest           302 /base/site.webmanifest/ → 200 site.webmanifest
           /base/missing                    302 /base/missing/ → 404 404.html
           /base/missing/                   404 404.html
-          /base/missing.html               301 /missing → 302 /base/ → 200 index.html
+          /base/missing.html               302 /base/missing → 302 /base/missing/ → 404 404.html
           /base/file?query=1               302 /base/file/?query=1 → 200 file.html
           /base/file/?query=1              200 file.html
           /base/file.html?query=1          302 /base/file.html/?query=1 → 200 file.html
           /base/folder?query=1             302 /base/folder/?query=1 → 200 folder/index.html
           /base/with%20space               302 /base/with%20space/ → 200 with space.html
-          /base/with%20space.html          301 /with%20space → 302 /base/ → 200 index.html
+          /base/with%20space.html          302 /base/with%20space → 302 /base/with%20space/ → 200 with space.html
           /base/файл                       302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
-          /base/файл.html                  301 /%D1%84%D0%B0%D0%B9%D0%BB → 302 /base/ → 200 index.html
+          /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
           /base/café                       302 /base/caf%C3%A9/ → crash ERR_INVALID_CHAR
           /base//file                      302 /base//file/ → 301 /file/ → 302 /base/ → 200 index.html
           /base/%E0%A4%A                   302 /base/%E0%A4%A/ → 400 Bad Request
@@ -373,19 +373,19 @@ describe('createServeRequestHandler', () => {
       );
       expect(result).toMatchInlineSnapshot(`
         "/base/                           200 index.html
-        /base/index                      301 / → 302 /base/ → 200 index.html
-        /base/index.html                 301 /index → 302 /base/ → 200 index.html
+        /base/index                      302 /base/ → 200 index.html
+        /base/index.html                 302 /base/index → 302 /base/ → 200 index.html
         /base/file                       200 file.html
         /base/file/                      302 /base/file → 200 file.html
-        /base/file.html                  301 /file → 302 /base/ → 200 index.html
+        /base/file.html                  302 /base/file → 200 file.html
         /base/folder                     200 folder/index.html
         /base/folder/                    302 /base/folder → 200 folder/index.html
-        /base/folder/index               301 /folder → 302 /base/ → 200 index.html
-        /base/folder/index.html          301 /folder/index → 302 /base/ → 200 index.html
+        /base/folder/index               302 /base/folder → 200 folder/index.html
+        /base/folder/index.html          302 /base/folder/index → 302 /base/folder → 200 folder/index.html
         /base/both                       200 both/index.html
         /base/both/                      302 /base/both → 200 both/index.html
-        /base/both.html                  301 /both → 302 /base/ → 200 index.html
-        /base/both/index.html            301 /both/index → 302 /base/ → 200 index.html
+        /base/both.html                  302 /base/both → 200 both/index.html
+        /base/both/index.html            302 /base/both/index → 302 /base/both → 200 both/index.html
         /base/docs/2.x                   404 404.html
         /base/docs/2.x/                  302 /base/docs/2.x → 404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
@@ -398,15 +398,15 @@ describe('createServeRequestHandler', () => {
         /base/site.webmanifest           200 site.webmanifest
         /base/missing                    404 404.html
         /base/missing/                   302 /base/missing → 404 404.html
-        /base/missing.html               301 /missing → 302 /base/ → 200 index.html
+        /base/missing.html               302 /base/missing → 404 404.html
         /base/file?query=1               200 file.html
         /base/file/?query=1              302 /base/file?query=1 → 200 file.html
-        /base/file.html?query=1          301 /file → 302 /base/ → 200 index.html
+        /base/file.html?query=1          302 /base/file?query=1 → 200 file.html
         /base/folder?query=1             200 folder/index.html
         /base/with%20space               200 with space.html
-        /base/with%20space.html          301 /with%20space → 302 /base/ → 200 index.html
+        /base/with%20space.html          302 /base/with%20space → 200 with space.html
         /base/файл                       200 файл.html
-        /base/файл.html                  301 /%D1%84%D0%B0%D0%B9%D0%BB → 302 /base/ → 200 index.html
+        /base/файл.html                  302 /base/%D1%84%D0%B0%D0%B9%D0%BB → 200 файл.html
         /base/café                       crash ERR_INVALID_CHAR
         /base//file                      301 /file → 302 /base/ → 200 index.html
         /base/%E0%A4%A                   400 Bad Request
@@ -443,10 +443,7 @@ describe('createServeRequestHandler', () => {
     // See https://github.com/meta/docusaurus/issues/10078#issuecomment-2084932934
     it('drops the baseUrl in serve-handler redirects', async () => {
       await expect(
-        serveRequest(
-          {baseUrl: '/base/', trailingSlash: undefined},
-          '/base/file.html',
-        ),
+        serveRequest({baseUrl: '/base/', trailingSlash: false}, '/base//file'),
       ).resolves.toBe('301 /file → 302 /base/ → 200 index.html');
     });
 
