@@ -631,13 +631,23 @@ describe('createServeRequestHandler', () => {
       ).resolves.toBe('302 /base/file → 200 file.html');
     });
 
-    // TODO fix: keep the baseUrl, "302 /base/file → 200 file.html"
-    // cspell:ignore Ffile
-    it('drops the baseUrl when serve-handler merges encoded slashes', async () => {
+    // cspell:ignore Ffile Ehtml
+    it('keeps the baseUrl with encoded slashes', async () => {
       await expect(
         serveRequest(
           {baseUrl: '/base/', trailingSlash: false},
           '/base/%2F%2Ffile',
+        ),
+      ).resolves.toBe('200 file.html');
+    });
+
+    // TODO fix: keep the baseUrl, "302 /base/file → 200 file.html"
+    // serve-handler decodes the path before its clean URL redirect
+    it('drops the baseUrl in clean URL redirects of encoded paths', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: undefined},
+          '/base/file%2Ehtml',
         ),
       ).resolves.toBe('301 /file → 302 /base/ → 200 index.html');
     });

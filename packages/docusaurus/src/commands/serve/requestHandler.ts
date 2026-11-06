@@ -55,7 +55,8 @@ export function createServeRequestHandler({
       {
         cleanUrls: true,
         public: outDir,
-        trailingSlash,
+        // We do the trailing slash redirects: serve-handler would decode
+        // encoded slashes, merge them and drop the baseUrl
         directoryListing: false,
         // The default value has the file name, which crashes Node.js when it
         // has Latin-1 characters like "café.html"
