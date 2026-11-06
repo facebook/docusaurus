@@ -85,6 +85,7 @@ Always pass `--no-open` to the start and serve commands (like `pnpm start:websit
 - `pnpm test` - Run all Vitest tests
 - `pnpm test <path/to/test.file.ts>` - Run single test file
 - `pnpm --filter <package-name> test` - Run tests in a specific package:
+- `pnpm typecheck:tests` - Type check the test files, which Vitest strips without checking. Needs built packages. Website tests are type checked by `pnpm --filter website typecheck`
 
 When a test is failing, run only that test file until it passes. Make sure to run all tests at the end to ensure there's no unexpected failure in other places.
 
@@ -106,6 +107,8 @@ Update Vitest failing snapshots with the `-u` option. Do not blindly update snap
 - `pnpm lint:knip:public-api` - Knip to warn about the public API exports that the monorepo doesn't use, not part of `pnpm lint`
 - `pnpm lint:deps` - Check that `pnpm-lock.yaml` is deduplicated (`pnpm dedupe --check`)
 - Add `:fix` suffix to auto-fix issues (e.g., `pnpm lint:js:fix`)
+
+Before pushing, run `pnpm lint`, `pnpm typecheck:tests` (and `pnpm --filter website typecheck` for website or package changes, after building the changed packages) and the tests of the code you changed, as CI does.
 
 The exports of package entry points (`package.json` `main` and `exports`) are public API, even when undocumented (see the comments in `packages/docusaurus-theme-common/src/index.ts`) or unused by the monorepo: third-party sites, plugins and themes use them. Never remove them as dead code: report them, and only remove one when the maintainer explicitly decides to, as a breaking change. `/internal` entry points (like `@docusaurus/theme-common/internal`) have no stability guarantee, but removing their exports is still a breaking change PR.
 
