@@ -14,6 +14,7 @@ Write the description from the GitHub pull request template in `.github/PULL_REQ
 - Remove the `## Pre-flight checklist` section. It is only relevant for external contributors: we assume maintainers did their best, so it only adds noise.
 - Remove all the HTML comments of the template.
 - Remove the `## Related issues/PRs` section if there is nothing relevant to link.
+- If the PR fixes an issue, write `Fixes #<ISSUE-NUMBER>` in the `## Related issues/PRs` section: GitHub links the issue and closes it when the PR is merged.
 - If a benchmark is useful to review the change (performance, bundle size…), add a `## Benchmark` section right after `## Motivation`.
 - If there are breaking changes, start with a `## Breaking Changes` section explaining:
   - The breaking change.
