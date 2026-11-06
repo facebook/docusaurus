@@ -205,6 +205,7 @@ function hasNullByte(url: string): boolean {
 
 // The page of a .html path that isn't a file, like the client redirect files
 // "old-page.html/index.html", or "old-page.html.html" with trailingSlash false
+// See https://github.com/meta/docusaurus/pull/12920
 async function getHtmlPathPageFileUrl(
   outDir: string,
   url: string,
