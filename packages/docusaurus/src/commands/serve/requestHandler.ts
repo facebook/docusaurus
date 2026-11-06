@@ -21,12 +21,16 @@ type ServeRequestHandler = (
 
 export function createServeRequestHandler({
   outDir,
-  baseUrl,
+  baseUrl: configBaseUrl,
   trailingSlash,
 }: {outDir: string} & Pick<
   DocusaurusConfig,
   'baseUrl' | 'trailingSlash'
 >): ServeRequestHandler {
+  // Browsers send the baseUrl percent-encoded, like "/caf%C3%A9/"
+  // A baseUrl already percent-encoded in the config stays the same
+  const baseUrl = parseURLPath(configBaseUrl).pathname;
+
   return async (req, res) => {
     // Browsers must revalidate every response, so that a rebuild or a config
     // change never leaves a stale page or redirect in their cache
@@ -38,6 +42,14 @@ export function createServeRequestHandler({
     // Temporary: this redirect only exists in docusaurus serve, not on hosts
     if (!req.url?.startsWith(baseUrl)) {
       redirect(res, 302, baseUrl);
+      return;
+    }
+
+    // serve-handler answers 500 to null bytes, its file system calls throw
+    // Answer 400 instead, like serve-handler does to malformed encodings
+    if (hasNullByte(req.url)) {
+      res.writeHead(400);
+      res.end('Bad Request');
       return;
     }
 
@@ -155,12 +167,31 @@ async function getRedirectLocation(
 // Like parseURLPath(), but undefined when ".." segments go above the root
 // It also keeps "//host/path" as a path instead of parsing another host
 function parseRootURLPath(url: string): URLPath | undefined {
-  const fakeRoot = '/__docusaurus_root__';
+  // ".." segments going above the root can reach the name of a fake root,
+  // like "/../__docusaurus_root__/file", but not the names of 2 fake roots
+  const urlPath = parseFakeRootURLPath(url, '/__docusaurus_root__');
+  const otherUrlPath = parseFakeRootURLPath(url, '/__docusaurus_other_root__');
+  if (urlPath === undefined || otherUrlPath === undefined) {
+    return undefined;
+  }
+  return urlPath;
+}
+
+function parseFakeRootURLPath(
+  url: string,
+  fakeRoot: string,
+): URLPath | undefined {
   const {pathname, search} = parseURLPath(`.${url}`, `${fakeRoot}/`);
   if (!pathname.startsWith(`${fakeRoot}/`)) {
     return undefined;
   }
   return {pathname: pathname.slice(fakeRoot.length), search};
+}
+
+// Like serve-handler, only the pathname is decoded, not the query string
+function hasNullByte(url: string): boolean {
+  const pathname = url.split(/[?#]/)[0]!;
+  return pathname.includes('%00');
 }
 
 // Pages with a dot in their name look like assets, like "docs/2.x"
