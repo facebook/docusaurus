@@ -46,7 +46,7 @@ function sortComponentNames(componentNames: string[]): string[] {
  * Expand a list of components to include and return parent folders.
  * If a folder is not directly a component (no Folder/index.tsx file),
  * we still want to be able to swizzle --eject that folder.
- * See https://github.com/facebook/docusaurus/pull/7175#issuecomment-1103757218
+ * See https://github.com/meta/docusaurus/pull/7175#issuecomment-1103757218
  *
  * @param componentNames the original list of component names
  */
@@ -58,13 +58,13 @@ export function getMissingIntermediateComponentFolderNames(
     return _.range(1, paths.length + 1).map((i) => paths.slice(0, i).join('/'));
   }
 
-  const expandedComponentNames = _.uniq(
+  const expandedComponentNames = new Set(
     componentNames.flatMap((componentName) =>
       getAllIntermediatePaths(componentName),
     ),
   );
 
-  return _.difference(expandedComponentNames, componentNames);
+  return [...expandedComponentNames.difference(new Set(componentNames))];
 }
 
 const skipReadDirNames = ['__test__', '__tests__', '__mocks__', '__fixtures__'];

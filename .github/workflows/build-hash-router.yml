@@ -10,6 +10,7 @@ on:
     paths:
       - packages/**
       - .github/workflows/build-hash-router.yml
+      - .github/actions/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -31,19 +32,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Install pnpm
-        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+      - name: Set up pnpm, Node.js and dependencies
+        uses: ./.github/actions/setup
         with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
-          install: false
-          node-version-file: false
-      - name: Set up Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          check-latest: true
-      - name: Installation
-        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+          # Security: prevents cache poisoning, as this workflow can write to the repository (GitHub Pages deployment)
+          cache: false
 
       - name: Build Hash Router
         run: pnpm build:website:fast
@@ -51,11 +44,11 @@ jobs:
           DOCUSAURUS_PERF_LOGGER: 'true'
           DOCUSAURUS_ROUTER: 'hash'
           # Note: hash router + baseUrl do not play well together
-          # This would host at https://facebook.github.io/docusaurus/#/docusaurus/
+          # This would host at https://meta.github.io/docusaurus/#/docusaurus/
           # BASE_URL: '/docusaurus/' # hash router +
 
       - name: Upload Website artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: website-hash-router-archive
           path: website/build
@@ -65,7 +58,7 @@ jobs:
       #  with:
       #    path: website/build
 
-      # Deploy to https://facebook.github.io/docusaurus/
+      # Deploy to https://meta.github.io/docusaurus/
       - name: Deploy to GitHub Pages
         if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
@@ -75,7 +68,7 @@ jobs:
 
   ## TODO we should be able to use this new deploy-pages action
   ## However this requires a Meta admin to configure it here
-  ## https://github.com/facebook/docusaurus/settings/pages
+  ## https://github.com/meta/docusaurus/settings/pages
   ## So for now we keep using the former method
   ## See https://docusaurus.io/docs/deployment#triggering-deployment-with-github-actions
   #deploy:

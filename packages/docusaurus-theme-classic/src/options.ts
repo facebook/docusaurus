@@ -55,7 +55,7 @@ const BlogSchema = Joi.object<ThemeConfig['blog']>({
 const DEFAULT_COLOR_MODE_CONFIG: ThemeConfig['colorMode'] = {
   defaultMode: 'light',
   disableSwitch: false,
-  respectPrefersColorScheme: false,
+  respectPrefersColorScheme: true,
 };
 
 export const DEFAULT_CONFIG: ThemeConfig = {
@@ -137,7 +137,7 @@ const HtmlNavbarItemSchema = Joi.object({
 });
 
 // A temporary workaround to allow users to add custom navbar items
-// See https://github.com/facebook/docusaurus/issues/7227
+// See https://github.com/meta/docusaurus/issues/7227
 const CustomNavbarItemRegexp = /custom-.*/;
 const CustomNavbarItemSchema = Joi.object({
   type: Joi.string().regex(CustomNavbarItemRegexp).required(),
@@ -348,7 +348,7 @@ const LogoSchema = Joi.object({
 });
 
 // Normalize prism language to lowercase
-// See https://github.com/facebook/docusaurus/issues/9012
+// See https://github.com/meta/docusaurus/issues/9012
 const PrismLanguage = Joi.string().custom((val) => val.toLowerCase());
 
 export const ThemeConfigSchema = Joi.object<ThemeConfig>({

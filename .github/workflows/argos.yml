@@ -27,7 +27,7 @@ jobs:
     # We only want to trigger Argos on PRs with the 'Argos' label
     # See https://stackoverflow.com/questions/62325286/run-github-actions-when-pull-requests-have-a-specific-label
     if: |
-      github.repository == 'facebook/docusaurus' &&
+      github.repository == 'meta/docusaurus' &&
       (
         (github.event_name != 'pull_request' && github.ref_name == 'main') ||
         (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'Argos'))
@@ -38,22 +38,10 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      - name: Install pnpm
-        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+      - name: Set up pnpm, Node.js and dependencies
+        uses: ./.github/actions/setup
         with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
-          install: false
-          node-version-file: false
-
-      - name: Use Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          check-latest: true
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+          cache: true
 
       # Playwright is a dependency of the argos workspace package
       # With the pnpm isolated nodeLinker, its binary isn't available at the root

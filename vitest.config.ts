@@ -13,6 +13,9 @@ import {transformWithOxc} from 'vite';
 
 // Force UTC so snapshots involving dates are stable across local & CI runs.
 process.env.TZ = 'UTC';
+// Force English Git error messages in snapshots, without changing the locale
+// like LC_ALL would: LANGUAGE only selects the gettext translations.
+process.env.LANGUAGE = 'en';
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
@@ -34,7 +37,6 @@ const ignorePatterns = [
   '**/packages/docusaurus-plugin-content-pages/lib/**',
   '**/packages/docusaurus-theme-classic/lib/**',
   '**/packages/docusaurus-theme-common/lib/**',
-  '**/packages/docusaurus-migrate/lib/**',
   '**/test/**',
   '**/argos/**',
 ];
@@ -132,7 +134,7 @@ export default defineConfig({
       },
     },
     // Default 5s timeout often fails on Windows runners.
-    // See https://github.com/facebook/docusaurus/pull/8259
+    // See https://github.com/meta/docusaurus/pull/8259
     testTimeout: 25000,
     include: [
       // Vitest default

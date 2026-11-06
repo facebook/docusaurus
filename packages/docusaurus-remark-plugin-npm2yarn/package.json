@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/docusaurus.git",
+    "url": "https://github.com/meta/docusaurus.git",
     "directory": "packages/docusaurus-remark-plugin-npm2yarn"
   },
   "license": "MIT",
@@ -32,6 +32,6 @@
     "to-vfile": "catalog:dev"
   },
   "engines": {
-    "node": ">=24.21"
+    "node": ">=26.13"
   }
 }

@@ -12,6 +12,7 @@ on:
       - docusaurus-v**
     paths:
       - .github/workflows/build-perf.yml
+      - .github/actions/**
       - package.json
       - pnpm-lock.yaml
       - packages/**
@@ -46,17 +47,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Install pnpm
-        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+      - name: Set up pnpm and Node.js
+        uses: ./.github/actions/setup
         with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
+          # Security: prevents cache poisoning, as this job can write to pull requests, issues and checks
+          cache: false
+          # compressed-size-action installs the dependencies of each branch
           install: false
-          node-version-file: false
-      - name: Set up Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          check-latest: true
       - name: Track build size changes
         uses: preactjs/compressed-size-action@f322c295dde06a1cb7ccaef105732dd8a726d1d9 # v2.10.0
         with:
@@ -64,7 +61,7 @@ jobs:
           # Always rebuild packages, including for the base branch
           install-script: bash -c "pnpm install --frozen-lockfile --ignore-scripts && pnpm build:packages"
           build-script: build:website:fast
-          clean-script: clear:website # see https://github.com/facebook/docusaurus/pull/6838
+          clean-script: clear:website # see https://github.com/meta/docusaurus/pull/6838
           pattern: '{website/build/assets/js/main*js,website/build/assets/js/runtime~main*js,website/build/assets/css/styles*css,website/.docusaurus/globalData.json,website/.docusaurus/registry.js,website/.docusaurus/routes.js,website/.docusaurus/routesChunkNames.json,website/.docusaurus/site-metadata.json,website/.docusaurus/codeTranslations.json,website/.docusaurus/i18n.json,website/.docusaurus/docusaurus.config.mjs,website/build/index.html,website/build/docs.html,website/build/docs/**/*.html,website/build/blog.html,website/build/blog/**/*.html}'
           # HTML files: exclude versioned docs pages, tags pages, html redirect files
           exclude: '{website/build/docs/?.?.?/**/*.html,website/build/docs/next/**/*.html,website/build/blog/tags/**/*.html,**/*.html.html}'
@@ -84,39 +81,26 @@ jobs:
     strategy:
       matrix:
         DOCUSAURUS_INFRA: ['SLOWER', 'FASTER']
+    env:
+      DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+      DOCUSAURUS_PERF_LOGGER: 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Install pnpm
-        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+      - name: Set up pnpm, Node.js and dependencies
+        uses: ./.github/actions/setup
         with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
-          install: false
-          node-version-file: false
-      - name: Set up Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          check-latest: true
-          cache: pnpm
-      - name: Installation
-        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+          cache: true
 
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)
         run: pnpm build:website:fast
         timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 3 || 2  }}
-        env:
-          DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
-          DOCUSAURUS_PERF_LOGGER: 'true'
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
         run: pnpm build:website:fast
         # Temporary: upper value for Rspack until incremental cache works better
         timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 1 || 2  }}
-        env:
-          DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
-          DOCUSAURUS_PERF_LOGGER: 'true'
 
     # TODO post a GitHub comment with build with perf warnings?

@@ -37,7 +37,7 @@ const plugins = defineConfig([
   docusaurus.configs.flat.all,
 
   // TODO replace by maintained plugin?
-  // See https://github.com/facebook/docusaurus/pull/11803
+  // See https://github.com/meta/docusaurus/pull/11803
   // This adapts the legacy plugin to flat config
   {
     plugins: {
@@ -63,7 +63,6 @@ const ignores = globalIgnores([
   'test-website*/build',
   '**/.docusaurus/**',
   '**/__fixtures__/**',
-  '__mocks__',
   'node_modules',
   '.yarn',
   '.history',
@@ -75,7 +74,6 @@ const ignores = globalIgnores([
   'packages/eslint-plugin/lib/',
   'packages/stylelint-copyright/lib/',
   'packages/create-docusaurus/lib/*',
-  'packages/create-docusaurus/templates/facebook',
   'website/i18n',
   'website/_dogfooding/_swizzle_theme_tests',
   'website/_dogfooding/_asset-tests/badSyntax.js',

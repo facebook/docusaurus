@@ -22,7 +22,6 @@ export function extractLeadingEmoji(input: string): {
 } {
   const it = segmenter.segment(input)[Symbol.iterator]();
 
-  // const first = segmenter.segment(input).containing(0)?.segment;
   const grapheme = it.next().value?.segment;
 
   if (!grapheme) {
@@ -31,7 +30,7 @@ export function extractLeadingEmoji(input: string): {
 
   // Leading grapheme contains an emoji
   // Covers flags/ZWJ/skin tones, excludes digits
-  // See https://github.com/facebook/docusaurus/pull/12072
+  // See https://github.com/meta/docusaurus/pull/12072
   if (!/^\p{RGI_Emoji}$/v.test(grapheme)) {
     return {emoji: null, rest: input};
   }

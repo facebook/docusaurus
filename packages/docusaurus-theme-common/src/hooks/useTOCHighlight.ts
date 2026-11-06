@@ -75,7 +75,7 @@ function getActiveAnchor(
     // we consider the active anchor is the previous one. This is because the
     // main text appearing in the user screen mostly belong to the previous
     // anchor. Returns null for the first anchor, see
-    // https://github.com/facebook/docusaurus/issues/5318
+    // https://github.com/meta/docusaurus/issues/5318
     return anchors[anchors.indexOf(nextVisibleAnchor) - 1] ?? null;
   }
   // No anchor under viewport top (i.e. we are at the bottom of the page),
@@ -155,7 +155,6 @@ export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
         }
         link.classList.add(linkActiveClassName);
         lastActiveLinkRef.current = link;
-        // link.scrollIntoView({block: 'nearest'});
       } else {
         link.classList.remove(linkActiveClassName);
       }

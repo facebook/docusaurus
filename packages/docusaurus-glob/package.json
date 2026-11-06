@@ -13,20 +13,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/docusaurus.git",
+    "url": "https://github.com/meta/docusaurus.git",
     "directory": "packages/docusaurus-glob"
   },
   "license": "MIT",
   "dependencies": {
     "chokidar": "catalog:",
-    "micromatch": "catalog:",
+    "picomatch": "catalog:",
     "tinyglobby": "catalog:",
     "tslib": "catalog:"
   },
   "engines": {
-    "node": ">=24.21"
+    "node": ">=26.13"
   },
   "devDependencies": {
-    "@types/micromatch": "catalog:dev"
+    "@types/picomatch": "catalog:dev"
   }
 }

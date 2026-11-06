@@ -41,10 +41,9 @@ catalog:
   '@playwright/test': ^1.63.0
   '@rsdoctor/core': ^2.0.0
   '@rsdoctor/webpack-plugin': ^1.6.3
-  '@rspack/core': ^2.2.3
-  '@rspack/dev-server': ^2.2.1
+  '@rspack/core': ^2.3.0
+  '@rspack/dev-server': ^2.2.2
   '@slorber/remark-comment': ^1.0.0
-  '@svgr/core': ^8.1.0
   '@svgr/webpack': ^8.1.0
   '@swc/core': ^1.16.2
   '@swc/html': ^1.16.2
@@ -92,21 +91,21 @@ catalog:
   leven: ^4.1.0
   lightningcss: ^1.33.0
   lodash: ^4.18.1
-  mdast-util-directive: 3.1.0
+  mdast-util-directive: 3.1.1
   mdast-util-mdx: ^3.0.0
   mdast-util-to-string: ^4.0.0
   mermaid: ^12.0.0
-  micromatch: ^4.0.8
   mini-css-extract-plugin: ^2.10.2
   minimizer-webpack-plugin: ^5.13.0
   netlify-plugin-cache: ^1.0.3
   npm-to-yarn: ^3.2.0
   nprogress: ^0.2.0
   open: ^11.0.2
-  oxfmt: ^0.70.0
+  oxfmt: ^0.75.0
   p-map: ^7.0.8
   p-queue: ^9.3.3
   parse-numeric-range: ^1.3.0
+  picomatch: ^4.0.7
   postcss: ^8.5.28
   postcss-loader: ^8.2.1
   postcss-preset-env: ^11.5.2
@@ -137,9 +136,9 @@ catalog:
   remark-mdx: ^3.1.1
   resolve-pathname: ^3.0.0
   rtlcss: ^4.3.0
-  schema-dts: ^1.1.5
+  schema-dts: ^2.1.0
   semver: ^7.8.5
-  serve-handler: ^6.1.7
+  serve-handler: ^6.1.8
   sharp: ^0.35.1
   sitemap: ^9.0.1
   srcset: ^5.0.3
@@ -169,6 +168,7 @@ catalogs:
     '@ai-sdk/react': ^3.0.280
     '@crowdin/cli': ^5.0.2
     '@eslint/js': ^10.0.1
+    '@svgr/core': ^8.1.0
     '@svgr/plugin-jsx': ^8.1.0
     '@svgr/plugin-svgo': ^8.1.0
     '@testing-library/dom': ^10.4.1
@@ -184,10 +184,9 @@ catalogs:
     '@types/estree': ^1.0.9
     '@types/hast': ^3.0.5
     '@types/lodash': ^4.17.25
-    '@types/micromatch': ^4.0.10
     '@types/node': ^26.6.1
     '@types/nprogress': ^0.2.3
-    '@types/picomatch': ^2.3.4
+    '@types/picomatch': ^4.0.3
     '@types/prismjs': ^1.26.6
     '@types/prompts': ^2.4.9
     '@types/rtlcss': ^3.5.4
@@ -222,8 +221,7 @@ catalogs:
     lerna-changelog: ^2.2.0
     lint-staged: ^17.5.0
     npm-run-all2: ^9.0.3
-    picomatch: ^2.3.2
-    pkg-pr-new: ^0.0.75
+    pkg-pr-new: ^0.0.92
     rehype-stringify: ^10.0.1
     remark: ^15.0.1
     remark-rehype: ^11.1.2
@@ -263,6 +261,7 @@ minimumReleaseAgeExclude:
   - '@rsdoctor/core@2.0.0'
   - '@rsdoctor/client@2.0.0'
   - '@rsdoctor/shared@2.0.0'
+  - serve-handler@6.1.8
   - pnpm
   - typescript
   - '@rspack/*'

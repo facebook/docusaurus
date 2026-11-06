@@ -96,7 +96,7 @@ function validateCollectedRedirects(
     // We now allow "to" to contain any string
     // We only do this "broken redirect" check from to that looks like pathnames
     // note: we allow querystring/anchors
-    // See https://github.com/facebook/docusaurus/issues/6845
+    // See https://github.com/meta/docusaurus/issues/6845
     .map((to) => {
       if (to.startsWith('/')) {
         const url = URL.parse(to, 'https://example.com');
@@ -169,8 +169,8 @@ function filterUnwantedRedirects(
 ): RedirectItem[] {
   // We don't want to create the same redirect twice, since that would lead to
   // writing the same html redirection file twice.
-  Object.entries(_.groupBy(redirects, (redirect) => redirect.from)).forEach(
-    ([from, groupedFromRedirects]) => {
+  Map.groupBy(redirects, (redirect) => redirect.from).forEach(
+    (groupedFromRedirects, from) => {
       if (groupedFromRedirects.length > 1) {
         logger.report(
           pluginContext.siteConfig.onDuplicateRoutes,

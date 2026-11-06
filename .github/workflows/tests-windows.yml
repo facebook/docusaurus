@@ -13,6 +13,7 @@ on:
       - packages/**
       - tsconfig.*.json
       - .github/workflows/tests-windows.yml
+      - .github/actions/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -28,32 +29,23 @@ jobs:
     runs-on: windows-8-core
     strategy:
       matrix:
-        node: ['24.21', '26']
+        node: ['26.13', '26']
     steps:
       - name: Support longpaths
         run: git config --system core.longpaths true
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Install pnpm
-        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
-        with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
-          install: false
-          node-version-file: false
-      - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      # No pnpm cache on Windows on purpose: restoring it takes 20-80s,
+      # more than it saves on "pnpm install"
+      - name: Set up pnpm, Node.js ${{ matrix.node }} and dependencies
+        uses: ./.github/actions/setup
         with:
           node-version: ${{ matrix.node }}
-          # No pnpm cache on Windows on purpose: restoring it takes 20-80s,
-          # more than it saves on "pnpm install"
-          package-manager-cache: false
-      - name: Installation
-        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
       - name: Docusaurus Tests
         run: pnpm test
       - name: Create a deep path
-        # https://github.com/facebook/docusaurus/pull/4899
-        # https://github.com/facebook/docusaurus/issues/5793
+        # https://github.com/meta/docusaurus/pull/4899
+        # https://github.com/meta/docusaurus/issues/5793
         run: |
           mkdir -p "website/_dogfooding/_pages tests/deep-file-path-test/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar"
           cd "$_"
@@ -67,7 +59,7 @@ jobs:
           DOCUSAURUS_PERF_LOGGER: 'true'
 
       - name: TypeCheck website
-        # see https://github.com/facebook/docusaurus/pull/10486
+        # see https://github.com/meta/docusaurus/pull/10486
         run: pnpm --filter website typecheck
 
       # The TypeScript compiler of the tested version runs with pnpm dlx,
@@ -79,7 +71,7 @@ jobs:
 
       - name: TypeCheck website - max version - Latest
         # For latest TS there are often lib check errors, so we disable it
-        # Details: https://github.com/facebook/docusaurus/pull/10486
+        # Details: https://github.com/meta/docusaurus/pull/10486
         run: |
           pnpm dlx --package=typescript@latest tsc --version
           pnpm dlx --package=typescript@latest tsc --project website/tsconfig.skipLibCheck.json

@@ -13,9 +13,7 @@
     "coverage",
     ".docusaurus",
     ".idea",
-    ".svg",
     "*.svg",
-    "jest/vendor",
     "argos/test-results",
     "packages/lqip-loader/lib/",
     "packages/docusaurus/lib/",
@@ -24,7 +22,7 @@
     "packages/create-docusaurus/lib/*",
     "!packages/create-docusaurus/src/**",
 
-    "!packages/docusaurus-*/lib/theme/**",
+    "!packages/docusaurus-*/lib/theme/",
 
     "packages/create-docusaurus/templates/*/docusaurus.config.js",
     "packages/eslint-plugin/lib/",
@@ -32,7 +30,6 @@
     "__fixtures__",
     "website/i18n",
     "website/versions.json",
-    "website/docusaurus.config.js",
     "website/versioned_docs/",
     "website/versioned_sidebars/*.json",
     "examples/",

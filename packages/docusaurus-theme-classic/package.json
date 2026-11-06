@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/docusaurus.git",
+    "url": "https://github.com/meta/docusaurus.git",
     "directory": "packages/docusaurus-theme-classic"
   },
   "license": "MIT",
@@ -41,7 +41,6 @@
     "postcss": "catalog:",
     "prism-react-renderer": "catalog:",
     "prismjs": "catalog:",
-    "react-router-dom": "catalog:",
     "rtlcss": "catalog:",
     "tslib": "catalog:",
     "utility-types": "catalog:"
@@ -50,13 +49,14 @@
     "@types/nprogress": "catalog:dev",
     "@types/prismjs": "catalog:dev",
     "@types/react-router-dom": "catalog:",
-    "@types/rtlcss": "catalog:dev"
+    "@types/rtlcss": "catalog:dev",
+    "react-router-dom": "catalog:"
   },
   "peerDependencies": {
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "engines": {
-    "node": ">=24.21"
+    "node": ">=26.13"
   }
 }

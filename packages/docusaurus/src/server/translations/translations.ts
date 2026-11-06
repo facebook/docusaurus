@@ -113,10 +113,9 @@ async function writeTranslationFileContent({
   const existingContent = await readTranslationFileContent(filePath);
 
   // Warn about potential legacy keys
-  const unknownKeys = _.difference(
-    Object.keys(existingContent ?? {}),
-    Object.keys(newContent),
-  );
+  const existingKeys = new Set(Object.keys(existingContent ?? {}));
+  const newKeys = new Set(Object.keys(newContent));
+  const unknownKeys = [...existingKeys.difference(newKeys)];
   if (unknownKeys.length > 0) {
     logger.warn`Some translation keys looks unknown to us in file path=${filePath}.
 Maybe you should remove them? ${unknownKeys}`;
@@ -276,10 +275,11 @@ export function applyDefaultCodeTranslations({
   extractedCodeTranslations: TranslationFileContent;
   defaultCodeMessages: CodeTranslations;
 }): TranslationFileContent {
-  const unusedDefaultCodeMessages = _.difference(
-    Object.keys(defaultCodeMessages),
-    Object.keys(extractedCodeTranslations),
-  );
+  const defaultMessageIds = new Set(Object.keys(defaultCodeMessages));
+  const extractedMessageIds = new Set(Object.keys(extractedCodeTranslations));
+  const unusedDefaultCodeMessages = [
+    ...defaultMessageIds.difference(extractedMessageIds),
+  ];
   if (unusedDefaultCodeMessages.length > 0) {
     logger.warn`Unused default message codes found.
 Please report this Docusaurus issue. name=${unusedDefaultCodeMessages}`;

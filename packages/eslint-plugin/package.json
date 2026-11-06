@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/docusaurus.git",
+    "url": "https://github.com/meta/docusaurus.git",
     "directory": "packages/eslint-plugin"
   },
   "publishConfig": {
@@ -33,6 +33,6 @@
     "eslint": ">=8.57.0"
   },
   "engines": {
-    "node": ">=24.21"
+    "node": ">=26.13"
   }
 }

@@ -99,7 +99,7 @@ Our custom Details/Summary also works in CommonMark mode
 
 :::danger
 
-TODO unsupported (yet), see [issue](https://github.com/facebook/docusaurus/issues/9092)
+TODO unsupported (yet), see [issue](https://github.com/meta/docusaurus/issues/9092)
 
 :::
 

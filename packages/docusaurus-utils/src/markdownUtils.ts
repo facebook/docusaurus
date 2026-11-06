@@ -178,7 +178,7 @@ export function createExcerpt(fileString: string): string | undefined {
     }
 
     // Pre/postprocessing to handle MDX special chars within inline code blocks
-    // See https://github.com/facebook/docusaurus/pull/11821
+    // See https://github.com/meta/docusaurus/pull/11821
     function preprocessLine(str: string) {
       return (
         str
@@ -251,8 +251,6 @@ export function parseFileContentFrontMatter(fileContent: string): {
   /** The remaining content, trimmed. */
   content: string;
 } {
-  // TODO Docusaurus v4: replace gray-matter by a better lib
-  // gray-matter is unmaintained, not flexible, and the code doesn't look good
   const {data, content} = matter(fileContent);
 
   // gray-matter has an undocumented front matter caching behavior

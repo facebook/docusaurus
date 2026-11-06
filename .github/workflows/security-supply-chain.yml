@@ -34,19 +34,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Install pnpm
-        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+      - name: Set up pnpm and Node.js
+        uses: ./.github/actions/setup
         with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
-          install: false
-          node-version-file: false
-      - name: Use Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          check-latest: true
           # No cache on purpose! We want SFW to fetch packages
-          package-manager-cache: false
+          cache: false
+          install: false
 
       # See https://socket.dev/blog/introducing-socket-firewall
       - name: Install Socket Firewall Free
@@ -58,7 +51,7 @@ jobs:
 
   # Check our init template deps for new supply chain compromissions
   # This workflow is not ideal but good enough for now
-  # See why https://github.com/facebook/docusaurus/pull/12448
+  # See why https://github.com/meta/docusaurus/pull/12448
   supply-chain-site-template:
     name: Supply Chain - Site Template @${{ matrix.npm_dist_tag }}
     timeout-minutes: 30
@@ -74,20 +67,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      - name: Install pnpm
-        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+      - name: Set up pnpm and Node.js
+        uses: ./.github/actions/setup
         with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
-          install: false
-          node-version-file: false
-
-      - name: Use Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          check-latest: true
           # No cache on purpose! We want SFW to fetch packages
-          package-manager-cache: false
+          cache: false
+          install: false
 
       # See https://socket.dev/blog/introducing-socket-firewall
       - name: Install Socket Firewall Free
