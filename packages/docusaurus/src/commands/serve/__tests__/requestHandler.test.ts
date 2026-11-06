@@ -491,9 +491,9 @@ describe('createServeRequestHandler', () => {
           expect(result).toMatchInlineSnapshot(`
             "/base/file.html#hash              302 /base/file → 302 /base/file/ → 200 file.html
             /base/file.html?query=1#hash      302 /base/file?query=1 → 302 /base/file/?query=1 → 200 file.html
-            /base/file#hash.html              301 /file/ → 302 /base/ → 200 index.html
+            /base/file#hash.html              302 /base/file/ → 200 file.html
             /base/folder/index#hash           302 /base/folder → 302 /base/folder/ → 200 folder/index.html
-            /base/assets/css/styles.css#hash  302 /base/assets/css/styles.css/#hash → 200 assets/css/styles.css
+            /base/assets/css/styles.css#hash  200 assets/css/styles.css
             /base/./file.html                 302 /base/file → 302 /base/file/ → 200 file.html
             /base/folder/../file.html         302 /base/file → 302 /base/file/ → 200 file.html
             /base/../file.html                302 /file → 302 /base/ → 200 index.html
