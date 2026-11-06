@@ -71,6 +71,8 @@ const RequestPaths = [
 
 // Appended to the baseUrl. Browsers normalize these URLs before sending them,
 // but hand-typed requests can send them as-is
+// Not strictly needed for a local preview server, but useful if we ever expose
+// the serve request handler as a Node API
 const HandTypedRequestPaths = [
   '/file.html#hash',
   '/file.html?query=1#hash',
