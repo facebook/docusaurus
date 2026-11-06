@@ -39,6 +39,11 @@ const RequestPaths = [
   '/assets/css/styles.css',
   '/assets/css/styles.css?v=1',
   '/assets/',
+  // Extensions of 1, 3, 4, 5 and 11 characters
+  '/assets/files/main.c',
+  '/assets/files/document.pdf',
+  '/assets/images/photo.jpeg',
+  '/assets/fonts/font.woff2',
   '/site.webmanifest',
 
   '/missing',
@@ -87,6 +92,10 @@ describe('createServeRequestHandler', () => {
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
+        /assets/files/main.c        200 assets/files/main.c
+        /assets/files/document.pdf  200 assets/files/document.pdf
+        /assets/images/photo.jpeg   200 assets/images/photo.jpeg
+        /assets/fonts/font.woff2    200 assets/fonts/font.woff2
         /site.webmanifest           200 site.webmanifest
         /missing                    404 404.html
         /missing/                   404 404.html
@@ -129,6 +138,10 @@ describe('createServeRequestHandler', () => {
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
+        /assets/files/main.c        200 assets/files/main.c
+        /assets/files/document.pdf  200 assets/files/document.pdf
+        /assets/images/photo.jpeg   200 assets/images/photo.jpeg
+        /assets/fonts/font.woff2    200 assets/fonts/font.woff2
         /site.webmanifest           200 site.webmanifest
         /missing                    301 /missing/ → 404 404.html
         /missing/                   404 404.html
@@ -171,6 +184,10 @@ describe('createServeRequestHandler', () => {
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    301 /assets → 404 404.html
+        /assets/files/main.c        200 assets/files/main.c
+        /assets/files/document.pdf  200 assets/files/document.pdf
+        /assets/images/photo.jpeg   200 assets/images/photo.jpeg
+        /assets/fonts/font.woff2    200 assets/fonts/font.woff2
         /site.webmanifest           200 site.webmanifest
         /missing                    404 404.html
         /missing/                   301 /missing → 404 404.html
@@ -215,6 +232,10 @@ describe('createServeRequestHandler', () => {
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
+        /base/assets/files/main.c        200 assets/files/main.c
+        /base/assets/files/document.pdf  200 assets/files/document.pdf
+        /base/assets/images/photo.jpeg   200 assets/images/photo.jpeg
+        /base/assets/fonts/font.woff2    200 assets/fonts/font.woff2
         /base/site.webmanifest           200 site.webmanifest
         /base/missing                    404 404.html
         /base/missing/                   404 404.html
@@ -258,6 +279,10 @@ describe('createServeRequestHandler', () => {
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  302 /base/assets/css/styles.css/?v=1 → 404 404.html
         /base/assets/                    404 404.html
+        /base/assets/files/main.c        200 assets/files/main.c
+        /base/assets/files/document.pdf  200 assets/files/document.pdf
+        /base/assets/images/photo.jpeg   200 assets/images/photo.jpeg
+        /base/assets/fonts/font.woff2    302 /base/assets/fonts/font.woff2/ → 404 404.html
         /base/site.webmanifest           302 /base/site.webmanifest/ → 404 404.html
         /base/missing                    302 /base/missing/ → 404 404.html
         /base/missing/                   404 404.html
@@ -300,6 +325,10 @@ describe('createServeRequestHandler', () => {
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    302 /base/assets → 404 404.html
+        /base/assets/files/main.c        200 assets/files/main.c
+        /base/assets/files/document.pdf  200 assets/files/document.pdf
+        /base/assets/images/photo.jpeg   200 assets/images/photo.jpeg
+        /base/assets/fonts/font.woff2    200 assets/fonts/font.woff2
         /base/site.webmanifest           200 site.webmanifest
         /base/missing                    404 404.html
         /base/missing/                   302 /base/missing → 404 404.html
@@ -382,7 +411,10 @@ describe('createServeRequestHandler', () => {
           );
         });
 
-        it('with a long extension', async () => {
+        it('with an extension longer than 4 characters', async () => {
+          await expect(
+            serveRequest(options, '/base/assets/fonts/font.woff2'),
+          ).resolves.toBe('302 /base/assets/fonts/font.woff2/ → 404 404.html');
           await expect(
             serveRequest(options, '/base/site.webmanifest'),
           ).resolves.toBe('302 /base/site.webmanifest/ → 404 404.html');
