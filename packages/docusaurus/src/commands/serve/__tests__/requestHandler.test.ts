@@ -265,7 +265,8 @@ describe('createServeRequestHandler', () => {
       `);
     });
 
-    // Windows serves file paths with a trailing slash, other platforms 404
+    // TODO remove the skip once looksLikeAsset is fixed: it adds a trailing
+    // slash to some file URLs, which Windows serves while other platforms 404
     it.skipIf(process.platform === 'win32')('trailingSlash true', async () => {
       const result = await describeServing(
         {baseUrl: '/base/', trailingSlash: true},
@@ -419,7 +420,7 @@ describe('createServeRequestHandler', () => {
     // TODO fix: serve these assets without adding a trailing slash
     // The looksLikeAsset regex misses them
     // See https://github.com/meta/docusaurus/pull/10090
-    // Windows serves file paths with a trailing slash, other platforms 404
+    // Skipped on Windows until the fix: it serves URLs with a trailing slash
     describe.skipIf(process.platform === 'win32')(
       'adds a trailing slash to some assets under a baseUrl',
       () => {
