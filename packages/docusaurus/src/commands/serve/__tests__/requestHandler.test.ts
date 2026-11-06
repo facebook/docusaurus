@@ -565,6 +565,17 @@ describe('createServeRequestHandler', () => {
       ).resolves.toBe('302 /base/a$&b → 404 404.html');
     });
 
+    // See https://github.com/meta/docusaurus/pull/12879#discussion_r4493075460
+    it('stays on this host when ".." resolves to "//host"', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: undefined},
+          '/base/..//example.com/index',
+          {asIs: true},
+        ),
+      ).resolves.toBe('302 /base/ → 200 index.html');
+    });
+
     // TODO fix: keep the baseUrl, "301 /base/file → 200 file.html"
     it('drops the baseUrl when serve-handler merges slashes', async () => {
       await expect(

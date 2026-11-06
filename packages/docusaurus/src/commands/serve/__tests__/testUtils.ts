@@ -65,8 +65,11 @@ export async function describeRequests(
 export async function serveRequest(
   options: ServeOptions,
   requestPath: string,
+  requestOptions: RequestOptions = {},
 ): Promise<string> {
-  return withServer(options, (origin) => describeRequest(origin, requestPath));
+  return withServer(options, (origin) =>
+    describeRequest(origin, requestPath, requestOptions),
+  );
 }
 
 async function withServer<T>(
