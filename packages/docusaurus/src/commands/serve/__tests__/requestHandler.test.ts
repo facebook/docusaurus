@@ -51,7 +51,6 @@ const RequestPaths = [
 
   '/assets/css/styles.css',
   '/assets/css/styles.css?v=1',
-  '/assets/css/styles.css/',
   '/assets/',
   // Extensions of 1, 3, 4, 5 and 11 characters
   '/assets/files/main.c',
@@ -137,7 +136,6 @@ describe('createServeRequestHandler', () => {
         /docs/1.x.html              301 /docs/1.x → 200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
-        /assets/css/styles.css/     404 404.html
         /assets/                    404 404.html
         /assets/files/main.c        200 assets/files/main.c
         /assets/files/document.pdf  200 assets/files/document.pdf
@@ -197,7 +195,6 @@ describe('createServeRequestHandler', () => {
         /docs/1.x.html              301 /docs/1.x → 301 /docs/1.x/ → 200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
-        /assets/css/styles.css/     404 404.html
         /assets/                    404 404.html
         /assets/files/main.c        200 assets/files/main.c
         /assets/files/document.pdf  200 assets/files/document.pdf
@@ -257,7 +254,6 @@ describe('createServeRequestHandler', () => {
         /docs/1.x.html              301 /docs/1.x → 200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
-        /assets/css/styles.css/     301 /assets/css/styles.css → 200 assets/css/styles.css
         /assets/                    301 /assets → 404 404.html
         /assets/files/main.c        200 assets/files/main.c
         /assets/files/document.pdf  200 assets/files/document.pdf
@@ -319,7 +315,6 @@ describe('createServeRequestHandler', () => {
         /base/docs/1.x.html              301 /base/docs/1.x → 200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
-        /base/assets/css/styles.css/     404 404.html
         /base/assets/                    404 404.html
         /base/assets/files/main.c        200 assets/files/main.c
         /base/assets/files/document.pdf  200 assets/files/document.pdf
@@ -379,7 +374,6 @@ describe('createServeRequestHandler', () => {
         /base/docs/1.x.html              301 /base/docs/1.x → 301 /base/docs/1.x/ → 200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
-        /base/assets/css/styles.css/     404 404.html
         /base/assets/                    404 404.html
         /base/assets/files/main.c        200 assets/files/main.c
         /base/assets/files/document.pdf  200 assets/files/document.pdf
@@ -439,7 +433,6 @@ describe('createServeRequestHandler', () => {
         /base/docs/1.x.html              301 /base/docs/1.x → 200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
-        /base/assets/css/styles.css/     301 /base/assets/css/styles.css → 200 assets/css/styles.css
         /base/assets/                    301 /base/assets → 404 404.html
         /base/assets/files/main.c        200 assets/files/main.c
         /base/assets/files/document.pdf  200 assets/files/document.pdf
@@ -760,6 +753,20 @@ describe('createServeRequestHandler', () => {
       await expect(
         serveRequest({baseUrl: '/', trailingSlash: true}, '/docs/2.x'),
       ).resolves.toBe('301 /docs/2.x/ → 200 docs/2.x/index.html');
+    });
+
+    // Not in a snapshot: Windows ignores the trailing slash of file paths
+    it('serves no asset with a trailing slash', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: true},
+          '/base/assets/css/styles.css/',
+        ),
+      ).resolves.toBe(
+        process.platform === 'win32'
+          ? '200 assets/css/styles.css'
+          : '404 404.html',
+      );
     });
 
     // TODO fix: answer 400, like the malformed percent-encodings
