@@ -51,7 +51,15 @@ jobs:
         id: canary-check
         run: |
           PUBLISHED_COMMIT_NUMBER=$(npm view @docusaurus/core@canary version | sed -E 's/.*-canary-([0-9]+).*/\1/')
-          LAST_CHANGE_COMMIT_NUMBER=$(git rev-list --count "$(git log -1 --format=%H -- .github/workflows/publish.yml package.json pnpm-lock.yaml pnpm-workspace.yaml packages)")
+          LAST_CHANGE_COMMIT=$(git log -1 --format=%H -- \
+            .github/workflows/publish.yml \
+            package.json \
+            pnpm-lock.yaml \
+            pnpm-workspace.yaml \
+            tsconfig.base.json \
+            tsconfig.base.client.json \
+            packages)
+          LAST_CHANGE_COMMIT_NUMBER=$(git rev-list --count "$LAST_CHANGE_COMMIT")
           if [ "$LAST_CHANGE_COMMIT_NUMBER" -le "$PUBLISHED_COMMIT_NUMBER" ]; then
             echo "No package change since canary commit number $PUBLISHED_COMMIT_NUMBER, skipping"
             echo "skip=true" >> "$GITHUB_OUTPUT"
