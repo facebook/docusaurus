@@ -18,9 +18,8 @@ on:
   workflow_dispatch:
     inputs:
       npm_version:
-        description: 'NPM Version - Including prerelease suffix (optional)'
-        required: true
-        default: 3.0.0-alpha.0
+        description: 'NPM Version - Including prerelease suffix, ignored by canary releases'
+        required: false
       npm_tag:
         type: choice
         description: 'NPM Dist Tag - Use `latest` for official stable releases'
@@ -96,6 +95,11 @@ jobs:
       id-token: write # For OIDC, see https://docs.npmjs.com/trusted-publishers
       contents: write # For GitHub tags
     steps:
+      - name: Check NPM version input
+        if: github.event.inputs.npm_version == ''
+        run: |
+          echo "::error::The npm_version input is required for non-canary releases"
+          exit 1
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
