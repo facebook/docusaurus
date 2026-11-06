@@ -55,6 +55,7 @@ const RequestPaths = [
   '/file?query=1',
   '/file/?query=1',
   '/file.html?query=1',
+  '/missing.html?query=1',
   '/folder?query=1',
   '/folder?v=1.0', // Looks like an extension
 
@@ -131,6 +132,7 @@ describe('createServeRequestHandler', () => {
         /file?query=1               200 file.html
         /file/?query=1              200 file.html
         /file.html?query=1          200 file.html
+        /missing.html?query=1       302 /missing?query=1 → 404 404.html
         /folder?query=1             200 folder/index.html
         /folder?v=1.0               200 folder/index.html
         /with%20space               200 with space.html
@@ -184,6 +186,7 @@ describe('createServeRequestHandler', () => {
         /file?query=1               302 /file/?query=1 → 200 file.html
         /file/?query=1              200 file.html
         /file.html?query=1          200 file.html
+        /missing.html?query=1       302 /missing?query=1 → 302 /missing/?query=1 → 404 404.html
         /folder?query=1             302 /folder/?query=1 → 200 folder/index.html
         /folder?v=1.0               302 /folder/?v=1.0 → 200 folder/index.html
         /with%20space               302 /with%20space/ → 200 with space.html
@@ -237,6 +240,7 @@ describe('createServeRequestHandler', () => {
         /file?query=1               200 file.html
         /file/?query=1              302 /file?query=1 → 200 file.html
         /file.html?query=1          200 file.html
+        /missing.html?query=1       302 /missing?query=1 → 404 404.html
         /folder?query=1             200 folder/index.html
         /folder?v=1.0               200 folder/index.html
         /with%20space               200 with space.html
@@ -292,6 +296,7 @@ describe('createServeRequestHandler', () => {
         /base/file?query=1               200 file.html
         /base/file/?query=1              200 file.html
         /base/file.html?query=1          200 file.html
+        /base/missing.html?query=1       302 /base/missing?query=1 → 404 404.html
         /base/folder?query=1             200 folder/index.html
         /base/folder?v=1.0               200 folder/index.html
         /base/with%20space               200 with space.html
@@ -345,6 +350,7 @@ describe('createServeRequestHandler', () => {
         /base/file?query=1               302 /base/file/?query=1 → 200 file.html
         /base/file/?query=1              200 file.html
         /base/file.html?query=1          200 file.html
+        /base/missing.html?query=1       302 /base/missing?query=1 → 302 /base/missing/?query=1 → 404 404.html
         /base/folder?query=1             302 /base/folder/?query=1 → 200 folder/index.html
         /base/folder?v=1.0               302 /base/folder/?v=1.0 → 200 folder/index.html
         /base/with%20space               302 /base/with%20space/ → 200 with space.html
@@ -398,6 +404,7 @@ describe('createServeRequestHandler', () => {
         /base/file?query=1               200 file.html
         /base/file/?query=1              302 /base/file?query=1 → 200 file.html
         /base/file.html?query=1          200 file.html
+        /base/missing.html?query=1       302 /base/missing?query=1 → 404 404.html
         /base/folder?query=1             200 folder/index.html
         /base/folder?v=1.0               200 folder/index.html
         /base/with%20space               200 with space.html
