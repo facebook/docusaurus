@@ -74,6 +74,9 @@ export function createServeRequestHandler({
     // Requests without url were redirected to the baseUrl
     req.url = req.url!.replace(baseUrl, '/');
 
+    // serve-handler can't serve these pages: cleanUrls would redirect them
+    req.url = (await getHtmlPathPageFileUrl(outDir, req.url)) ?? req.url;
+
     await serveHandler(req, res, {
       // cleanUrls serves /file with file.html, but also redirects /file.html
       // to /file, even when the file exists, and drops the baseUrl
@@ -139,12 +142,15 @@ async function getRedirectLocation(
   }
 
   // Static hosts serve the existing .html files, without clean URL redirects
-  if (await isHtmlFileRequest(outDir, url.slice(baseUrl.length - 1))) {
+  const outDirUrl = url.slice(baseUrl.length - 1);
+  if (await isHtmlFileRequest(outDir, outDirUrl)) {
     return undefined;
   }
 
+  const isHtmlPathPage =
+    (await getHtmlPathPageFileUrl(outDir, outDirUrl)) !== undefined;
   const cleanPathname = getCleanPathname(pathname, baseUrl);
-  if (pathname !== cleanPathname) {
+  if (!isHtmlPathPage && pathname !== cleanPathname) {
     return serializeURLPath({pathname: cleanPathname, search});
   }
 
@@ -197,6 +203,27 @@ function hasNullByte(url: string): boolean {
   return pathname.includes('%00');
 }
 
+// The page of a .html path that isn't a file, like the client redirect files
+// "old-page.html/index.html", or "old-page.html.html" with trailingSlash false
+// See https://github.com/meta/docusaurus/pull/12920
+async function getHtmlPathPageFileUrl(
+  outDir: string,
+  url: string,
+): Promise<string | undefined> {
+  const pathname = url.split(/[?#]/)[0]!;
+  if (!pathname.endsWith('.html')) {
+    return undefined;
+  }
+  const queryAndHash = url.slice(pathname.length);
+  const pageFileUrls = [`${pathname}/index.html`, `${pathname}.html`];
+  for (const pageFileUrl of pageFileUrls) {
+    if (await isHtmlFileRequest(outDir, pageFileUrl)) {
+      return pageFileUrl + queryAndHash;
+    }
+  }
+  return undefined;
+}
+
 // The decoded paths that serve-handler's cleanUrls redirects
 function hasCleanUrlSuffix(url: string): boolean {
   const pathname = url.split(/[?#]/)[0]!;
@@ -231,7 +258,7 @@ async function isHtmlFileRequest(
   if (!filePath?.endsWith('.html')) {
     return false;
   }
-  // Not a folder, like the client redirect file "legacy.html/index.html"
+  // Not a folder, like the client redirect file "old-page.html/index.html"
   const stats = await fs.stat(filePath).catch(() => undefined);
   return stats?.isFile() ?? false;
 }

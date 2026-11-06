@@ -155,9 +155,9 @@ describe('createServeRequestHandler', () => {
         /missing                    404 404.html
         /missing/                   404 404.html
         /missing.html               301 /missing → 404 404.html
-        /redirect-folder.html       301 /redirect-folder → 404 404.html
+        /redirect-folder.html       200 redirect-folder.html/index.html
         /redirect-folder.html/      200 redirect-folder.html/index.html
-        /redirect-file.html         301 /redirect-file → 404 404.html
+        /redirect-file.html         200 redirect-file.html.html
         /redirect-file.html/        200 redirect-file.html.html
         /file?query=1               200 file.html
         /file/?query=1              200 file.html
@@ -219,9 +219,9 @@ describe('createServeRequestHandler', () => {
         /missing                    301 /missing/ → 404 404.html
         /missing/                   404 404.html
         /missing.html               301 /missing → 301 /missing/ → 404 404.html
-        /redirect-folder.html       301 /redirect-folder → 301 /redirect-folder/ → 404 404.html
+        /redirect-folder.html       301 /redirect-folder.html/ → 200 redirect-folder.html/index.html
         /redirect-folder.html/      200 redirect-folder.html/index.html
-        /redirect-file.html         301 /redirect-file → 301 /redirect-file/ → 404 404.html
+        /redirect-file.html         301 /redirect-file.html/ → 200 redirect-file.html.html
         /redirect-file.html/        200 redirect-file.html.html
         /file?query=1               301 /file/?query=1 → 200 file.html
         /file/?query=1              200 file.html
@@ -283,10 +283,10 @@ describe('createServeRequestHandler', () => {
         /missing                    404 404.html
         /missing/                   301 /missing → 404 404.html
         /missing.html               301 /missing → 404 404.html
-        /redirect-folder.html       301 /redirect-folder → 404 404.html
-        /redirect-folder.html/      301 /redirect-folder.html → 301 /redirect-folder → 404 404.html
-        /redirect-file.html         301 /redirect-file → 404 404.html
-        /redirect-file.html/        301 /redirect-file.html → 301 /redirect-file → 404 404.html
+        /redirect-folder.html       200 redirect-folder.html/index.html
+        /redirect-folder.html/      301 /redirect-folder.html → 200 redirect-folder.html/index.html
+        /redirect-file.html         200 redirect-file.html.html
+        /redirect-file.html/        301 /redirect-file.html → 200 redirect-file.html.html
         /file?query=1               200 file.html
         /file/?query=1              301 /file?query=1 → 200 file.html
         /file.html?query=1          200 file.html
@@ -349,9 +349,9 @@ describe('createServeRequestHandler', () => {
         /base/missing                    404 404.html
         /base/missing/                   404 404.html
         /base/missing.html               301 /base/missing → 404 404.html
-        /base/redirect-folder.html       301 /base/redirect-folder → 404 404.html
+        /base/redirect-folder.html       200 redirect-folder.html/index.html
         /base/redirect-folder.html/      200 redirect-folder.html/index.html
-        /base/redirect-file.html         301 /base/redirect-file → 404 404.html
+        /base/redirect-file.html         200 redirect-file.html.html
         /base/redirect-file.html/        200 redirect-file.html.html
         /base/file?query=1               200 file.html
         /base/file/?query=1              200 file.html
@@ -413,9 +413,9 @@ describe('createServeRequestHandler', () => {
         /base/missing                    301 /base/missing/ → 404 404.html
         /base/missing/                   404 404.html
         /base/missing.html               301 /base/missing → 301 /base/missing/ → 404 404.html
-        /base/redirect-folder.html       301 /base/redirect-folder → 301 /base/redirect-folder/ → 404 404.html
+        /base/redirect-folder.html       301 /base/redirect-folder.html/ → 200 redirect-folder.html/index.html
         /base/redirect-folder.html/      200 redirect-folder.html/index.html
-        /base/redirect-file.html         301 /base/redirect-file → 301 /base/redirect-file/ → 404 404.html
+        /base/redirect-file.html         301 /base/redirect-file.html/ → 200 redirect-file.html.html
         /base/redirect-file.html/        200 redirect-file.html.html
         /base/file?query=1               301 /base/file/?query=1 → 200 file.html
         /base/file/?query=1              200 file.html
@@ -477,10 +477,10 @@ describe('createServeRequestHandler', () => {
         /base/missing                    404 404.html
         /base/missing/                   301 /base/missing → 404 404.html
         /base/missing.html               301 /base/missing → 404 404.html
-        /base/redirect-folder.html       301 /base/redirect-folder → 404 404.html
-        /base/redirect-folder.html/      301 /base/redirect-folder.html → 301 /base/redirect-folder → 404 404.html
-        /base/redirect-file.html         301 /base/redirect-file → 404 404.html
-        /base/redirect-file.html/        301 /base/redirect-file.html → 301 /base/redirect-file → 404 404.html
+        /base/redirect-folder.html       200 redirect-folder.html/index.html
+        /base/redirect-folder.html/      301 /base/redirect-folder.html → 200 redirect-folder.html/index.html
+        /base/redirect-file.html         200 redirect-file.html.html
+        /base/redirect-file.html/        301 /base/redirect-file.html → 200 redirect-file.html.html
         /base/file?query=1               200 file.html
         /base/file/?query=1              301 /base/file?query=1 → 200 file.html
         /base/file.html?query=1          200 file.html
@@ -837,27 +837,25 @@ describe('createServeRequestHandler', () => {
       );
     });
 
-    // TODO fix: "200 redirect-folder.html/index.html"
     // plugin-client-redirects writes it for redirects from /redirect-folder.html
-    it('serves no client redirect folder of .html paths', async () => {
+    it('serves the client redirect folder of .html paths', async () => {
       await expect(
         serveRequest(
           {baseUrl: '/base/', trailingSlash: undefined},
           '/base/redirect-folder.html',
         ),
-      ).resolves.toBe('301 /base/redirect-folder → 404 404.html');
+      ).resolves.toBe('200 redirect-folder.html/index.html');
     });
 
-    // TODO fix: "200 redirect-file.html.html"
     // plugin-client-redirects writes it for redirects from /redirect-file.html,
     // with trailingSlash false
-    it('serves no client redirect file of .html paths', async () => {
+    it('serves the client redirect file of .html paths', async () => {
       await expect(
         serveRequest(
           {baseUrl: '/base/', trailingSlash: false},
           '/base/redirect-file.html',
         ),
-      ).resolves.toBe('301 /base/redirect-file → 404 404.html');
+      ).resolves.toBe('200 redirect-file.html.html');
     });
 
     // Like the malformed percent-encodings
