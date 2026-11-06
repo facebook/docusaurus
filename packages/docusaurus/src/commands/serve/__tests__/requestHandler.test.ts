@@ -132,14 +132,14 @@ describe('createServeRequestHandler', () => {
         /docs/2.x                   200 docs/2.x/index.html
         /docs/2.x/                  200 docs/2.x/index.html
         /docs/2.x/index             301 /docs/2.x → 200 docs/2.x/index.html
-        /docs/2.x/index.html        301 /docs/2.x/index → 301 /docs/2.x → 200 docs/2.x/index.html
+        /docs/2.x/index.html        200 docs/2.x/index.html
         /docs/2.x?query=1           200 docs/2.x/index.html
         /docs/2%2Ex                 200 docs/2.x/index.html
         /docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /docs/1.x                   200 docs/1.x.html
         /docs/1.x/                  200 docs/1.x.html
-        /docs/1.x.html              301 /docs/1.x → 200 docs/1.x.html
+        /docs/1.x.html              200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -193,14 +193,14 @@ describe('createServeRequestHandler', () => {
         /docs/2.x                   301 /docs/2.x/ → 200 docs/2.x/index.html
         /docs/2.x/                  200 docs/2.x/index.html
         /docs/2.x/index             301 /docs/2.x → 301 /docs/2.x/ → 200 docs/2.x/index.html
-        /docs/2.x/index.html        301 /docs/2.x/index → 301 /docs/2.x → 301 /docs/2.x/ → 200 docs/2.x/index.html
+        /docs/2.x/index.html        200 docs/2.x/index.html
         /docs/2.x?query=1           301 /docs/2.x/?query=1 → 200 docs/2.x/index.html
         /docs/2%2Ex                 301 /docs/2%2Ex/ → 200 docs/2.x/index.html
         /docs/lodash.debounce       301 /docs/lodash.debounce/ → 200 docs/lodash.debounce/index.html
         /docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /docs/1.x                   301 /docs/1.x/ → 200 docs/1.x.html
         /docs/1.x/                  200 docs/1.x.html
-        /docs/1.x.html              301 /docs/1.x → 301 /docs/1.x/ → 200 docs/1.x.html
+        /docs/1.x.html              200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -254,14 +254,14 @@ describe('createServeRequestHandler', () => {
         /docs/2.x                   200 docs/2.x/index.html
         /docs/2.x/                  301 /docs/2.x → 200 docs/2.x/index.html
         /docs/2.x/index             301 /docs/2.x → 200 docs/2.x/index.html
-        /docs/2.x/index.html        301 /docs/2.x/index → 301 /docs/2.x → 200 docs/2.x/index.html
+        /docs/2.x/index.html        200 docs/2.x/index.html
         /docs/2.x?query=1           200 docs/2.x/index.html
         /docs/2%2Ex                 200 docs/2.x/index.html
         /docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /docs/lodash.debounce/      301 /docs/lodash.debounce → 200 docs/lodash.debounce/index.html
         /docs/1.x                   200 docs/1.x.html
         /docs/1.x/                  301 /docs/1.x → 200 docs/1.x.html
-        /docs/1.x.html              301 /docs/1.x → 200 docs/1.x.html
+        /docs/1.x.html              200 docs/1.x.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    301 /assets → 404 404.html
@@ -317,14 +317,14 @@ describe('createServeRequestHandler', () => {
         /base/docs/2.x                   200 docs/2.x/index.html
         /base/docs/2.x/                  200 docs/2.x/index.html
         /base/docs/2.x/index             301 /base/docs/2.x → 200 docs/2.x/index.html
-        /base/docs/2.x/index.html        301 /base/docs/2.x/index → 301 /base/docs/2.x → 200 docs/2.x/index.html
+        /base/docs/2.x/index.html        200 docs/2.x/index.html
         /base/docs/2.x?query=1           200 docs/2.x/index.html
         /base/docs/2%2Ex                 200 docs/2.x/index.html
         /base/docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /base/docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /base/docs/1.x                   200 docs/1.x.html
         /base/docs/1.x/                  200 docs/1.x.html
-        /base/docs/1.x.html              301 /base/docs/1.x → 200 docs/1.x.html
+        /base/docs/1.x.html              200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
@@ -378,14 +378,14 @@ describe('createServeRequestHandler', () => {
         /base/docs/2.x                   301 /base/docs/2.x/ → 200 docs/2.x/index.html
         /base/docs/2.x/                  200 docs/2.x/index.html
         /base/docs/2.x/index             301 /base/docs/2.x → 301 /base/docs/2.x/ → 200 docs/2.x/index.html
-        /base/docs/2.x/index.html        301 /base/docs/2.x/index → 301 /base/docs/2.x → 301 /base/docs/2.x/ → 200 docs/2.x/index.html
+        /base/docs/2.x/index.html        200 docs/2.x/index.html
         /base/docs/2.x?query=1           301 /base/docs/2.x/?query=1 → 200 docs/2.x/index.html
         /base/docs/2%2Ex                 301 /base/docs/2%2Ex/ → 200 docs/2.x/index.html
         /base/docs/lodash.debounce       301 /base/docs/lodash.debounce/ → 200 docs/lodash.debounce/index.html
         /base/docs/lodash.debounce/      200 docs/lodash.debounce/index.html
         /base/docs/1.x                   301 /base/docs/1.x/ → 200 docs/1.x.html
         /base/docs/1.x/                  200 docs/1.x.html
-        /base/docs/1.x.html              301 /base/docs/1.x → 301 /base/docs/1.x/ → 200 docs/1.x.html
+        /base/docs/1.x.html              200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
@@ -439,14 +439,14 @@ describe('createServeRequestHandler', () => {
         /base/docs/2.x                   200 docs/2.x/index.html
         /base/docs/2.x/                  301 /base/docs/2.x → 200 docs/2.x/index.html
         /base/docs/2.x/index             301 /base/docs/2.x → 200 docs/2.x/index.html
-        /base/docs/2.x/index.html        301 /base/docs/2.x/index → 301 /base/docs/2.x → 200 docs/2.x/index.html
+        /base/docs/2.x/index.html        200 docs/2.x/index.html
         /base/docs/2.x?query=1           200 docs/2.x/index.html
         /base/docs/2%2Ex                 200 docs/2.x/index.html
         /base/docs/lodash.debounce       200 docs/lodash.debounce/index.html
         /base/docs/lodash.debounce/      301 /base/docs/lodash.debounce → 200 docs/lodash.debounce/index.html
         /base/docs/1.x                   200 docs/1.x.html
         /base/docs/1.x/                  301 /base/docs/1.x → 200 docs/1.x.html
-        /base/docs/1.x.html              301 /base/docs/1.x → 200 docs/1.x.html
+        /base/docs/1.x.html              200 docs/1.x.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    301 /base/assets → 404 404.html
