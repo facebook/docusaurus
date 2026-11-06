@@ -7,7 +7,7 @@
 
 import path from 'node:path';
 import serveHandler from 'serve-handler';
-import {fs, pathExists} from '@docusaurus/fs';
+import {pathExists} from '@docusaurus/fs';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {parseURLPath, serializeURLPath} from '@docusaurus/utils';
 import type {URLPath} from '@docusaurus/utils';
@@ -19,8 +19,6 @@ type ServeRequestHandler = (
   res: http.ServerResponse,
 ) => Promise<void>;
 
-type ServeHandlerMethods = NonNullable<Parameters<typeof serveHandler>[3]>;
-
 export function createServeRequestHandler({
   outDir,
   baseUrl,
@@ -30,13 +28,28 @@ export function createServeRequestHandler({
   'baseUrl' | 'trailingSlash'
 >): ServeRequestHandler {
   return async (req, res) => {
+    // Browsers must revalidate every response, so that a rebuild or a config
+    // change never leaves a stale page or redirect in their cache
+    // Set here because serve-handler doesn't apply `headers` to its redirects
+    // See https://github.com/meta/docusaurus/pull/12903
+    res.setHeader('Cache-Control', 'no-cache');
+
+    // Automatically redirect requests to /baseUrl/
+    // Temporary: this redirect only exists in docusaurus serve, not on hosts
+    if (!req.url?.startsWith(baseUrl)) {
+      redirect(res, 302, baseUrl);
+      return;
+    }
+
     const redirectLocation = await getRedirectLocation(req.url, {
       outDir,
       baseUrl,
       trailingSlash,
     });
     if (redirectLocation !== undefined) {
-      redirect(res, redirectLocation);
+      // Permanent, like the serve-handler redirects and most static hosts
+      // See https://github.com/meta/docusaurus/pull/12907
+      redirect(res, 301, redirectLocation);
       return;
     }
 
@@ -49,60 +62,49 @@ export function createServeRequestHandler({
     // Requests without url were redirected to the baseUrl
     req.url = req.url!.replace(baseUrl, '/');
 
-    await serveHandler(
-      req,
-      res,
-      {
-        // cleanUrls serves /file with file.html, but also redirects /file.html
-        // to /file, even when the file exists
-        cleanUrls: !(await isHtmlFileRequest(outDir, req.url)),
-        public: outDir,
-        // We do the trailing slash redirects: serve-handler would decode
-        // encoded slashes, merge them and drop the baseUrl
-        directoryListing: false,
+    await serveHandler(req, res, {
+      // cleanUrls serves /file with file.html, but also redirects /file.html
+      // to /file, even when the file exists
+      cleanUrls: !(await isHtmlFileRequest(outDir, req.url)),
+      public: outDir,
+      // We do the trailing slash redirects: serve-handler would decode
+      // encoded slashes, merge them and drop the baseUrl
+      directoryListing: false,
+      // serve-handler only answers 304 to an ETag revalidation, and the ETag
+      // stays the same when a rebuild doesn't change the file content
+      etag: true,
+      headers: [
         // The default value has the file name, which crashes Node.js when it
         // has Latin-1 characters like "café.html"
         // See https://github.com/vercel/serve-handler/issues/205
-        headers: [
-          {
-            source: '**',
-            headers: [{key: 'Content-Disposition', value: 'inline'}],
-          },
-        ],
-      },
-      // serve-handler awaits it, @types/serve-handler wrongly expects callbacks
-      {
-        lstat:
-          lstatWithoutDottedFolders as unknown as ServeHandlerMethods['lstat'],
-      },
-    );
+        {
+          source: '**',
+          headers: [{key: 'Content-Disposition', value: 'inline'}],
+        },
+        // The bundler adds a content hash to the names of these files
+        // Overrides the Cache-Control set above, only for existing files
+        {
+          source: 'assets/**',
+          headers: [
+            {
+              key: 'Cache-Control',
+              value: 'public, max-age=31536000, immutable',
+            },
+          ],
+        },
+      ],
+    });
   };
 }
 
-// serve-handler doesn't look for the index.html of folders with a dot in their
-// name, like "docs/2.x": hiding them makes it fall back to their index.html
-// TODO remove after the release of https://github.com/vercel/serve-handler/pull/230
-async function lstatWithoutDottedFolders(filePath: string) {
-  const stats = await fs.lstat(filePath);
-  if (stats.isDirectory() && path.extname(filePath) !== '') {
-    throw Object.assign(new Error(`${filePath} is a folder`), {code: 'ENOENT'});
-  }
-  return stats;
-}
-
 async function getRedirectLocation(
-  url: string | undefined,
+  url: string,
   {
     outDir,
     baseUrl,
     trailingSlash,
   }: {outDir: string} & Pick<DocusaurusConfig, 'baseUrl' | 'trailingSlash'>,
 ): Promise<string | undefined> {
-  // Automatically redirect requests to /baseUrl/
-  if (!url?.startsWith(baseUrl)) {
-    return baseUrl;
-  }
-
   // We do all the redirects ourselves for a good reason
   // serve-handler redirects drop the /baseUrl/ and the query string
   // See https://github.com/meta/docusaurus/issues/10078#issuecomment-2084932934
@@ -205,8 +207,12 @@ function getCleanPathname(pathname: string, baseUrl: string): string {
   return cleanPathname === baseUrl.slice(0, -1) ? baseUrl : cleanPathname;
 }
 
-function redirect(res: http.ServerResponse, location: string) {
-  res.writeHead(302, {
+function redirect(
+  res: http.ServerResponse,
+  statusCode: 301 | 302,
+  location: string,
+) {
+  res.writeHead(statusCode, {
     Location: location,
   });
   res.end();
