@@ -462,10 +462,10 @@ describe('createServeRequestHandler', () => {
           /base/assets/css/styles.css#hash  200 assets/css/styles.css
           /base/./file.html                 302 /base/file → 200 file.html
           /base/folder/../file.html         302 /base/file → 200 file.html
-          /base/../file.html                302 /file → 302 /base/ → 200 index.html
-          /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html
-          /base/..//example.com/index       302 //example.com
-          /base/..//example.com/file        400 Bad Request"
+          /base/../file.html                302 /base/ → 200 index.html
+          /base/%2E%2E/file.html            302 /base/ → 200 index.html
+          /base/..//example.com/index       302 /base/ → 200 index.html
+          /base/..//example.com/file        302 /base/ → 200 index.html"
         `);
       });
 
@@ -486,10 +486,10 @@ describe('createServeRequestHandler', () => {
             /base/assets/css/styles.css#hash  302 /base/assets/css/styles.css/#hash → 404 404.html
             /base/./file.html                 302 /base/file → 302 /base/file/ → 200 file.html
             /base/folder/../file.html         302 /base/file → 302 /base/file/ → 200 file.html
-            /base/../file.html                302 /file → 302 /base/ → 200 index.html
-            /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html
-            /base/..//example.com/index       302 //example.com
-            /base/..//example.com/file        302 /base/..//example.com/file/ → 302 /base/ → 200 index.html"
+            /base/../file.html                302 /base/ → 200 index.html
+            /base/%2E%2E/file.html            302 /base/ → 200 index.html
+            /base/..//example.com/index       302 /base/ → 200 index.html
+            /base/..//example.com/file        302 /base/ → 200 index.html"
           `);
         },
       );
@@ -510,10 +510,10 @@ describe('createServeRequestHandler', () => {
             /base/assets/css/styles.css#hash  302 /base/assets/css/styles.css/#hash → 200 assets/css/styles.css
             /base/./file.html                 302 /base/file → 302 /base/file/ → 200 file.html
             /base/folder/../file.html         302 /base/file → 302 /base/file/ → 200 file.html
-            /base/../file.html                302 /file → 302 /base/ → 200 index.html
-            /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html
-            /base/..//example.com/index       302 //example.com
-            /base/..//example.com/file        302 /base/..//example.com/file/ → 302 /base/ → 200 index.html"
+            /base/../file.html                302 /base/ → 200 index.html
+            /base/%2E%2E/file.html            302 /base/ → 200 index.html
+            /base/..//example.com/index       302 /base/ → 200 index.html
+            /base/..//example.com/file        302 /base/ → 200 index.html"
           `);
         },
       );
@@ -532,10 +532,10 @@ describe('createServeRequestHandler', () => {
           /base/assets/css/styles.css#hash  200 assets/css/styles.css
           /base/./file.html                 302 /base/file → 200 file.html
           /base/folder/../file.html         302 /base/file → 200 file.html
-          /base/../file.html                302 /file → 302 /base/ → 200 index.html
-          /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html
-          /base/..//example.com/index       302 //example.com
-          /base/..//example.com/file        400 Bad Request"
+          /base/../file.html                302 /base/ → 200 index.html
+          /base/%2E%2E/file.html            302 /base/ → 200 index.html
+          /base/..//example.com/index       302 /base/ → 200 index.html
+          /base/..//example.com/file        302 /base/ → 200 index.html"
         `);
       });
     });
@@ -570,16 +570,15 @@ describe('createServeRequestHandler', () => {
       ).resolves.toBe('302 /base/a$&b → 404 404.html');
     });
 
-    // TODO fix: stay on this host, "302 /base/ → 200 index.html"
     // See https://github.com/meta/docusaurus/pull/12879#discussion_r4493075460
-    it('redirects to another host when ".." resolves to "//host"', async () => {
+    it('stays on this host when ".." resolves to "//host"', async () => {
       await expect(
         serveRequest(
           {baseUrl: '/base/', trailingSlash: undefined},
           '/base/..//example.com/index',
           {asIs: true},
         ),
-      ).resolves.toBe('302 //example.com');
+      ).resolves.toBe('302 /base/ → 200 index.html');
     });
 
     // TODO fix: keep the baseUrl, "301 /base/file → 200 file.html"
