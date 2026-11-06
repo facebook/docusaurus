@@ -35,13 +35,21 @@ export function createServeRequestHandler({
     // See https://github.com/meta/docusaurus/pull/12903
     res.setHeader('Cache-Control', 'no-cache');
 
+    // Automatically redirect requests to /baseUrl/
+    // Temporary: this redirect only exists in docusaurus serve, not on hosts
+    if (!req.url?.startsWith(baseUrl)) {
+      redirect(res, 302, baseUrl);
+      return;
+    }
+
     const redirectLocation = await getRedirectLocation(req.url, {
       outDir,
       baseUrl,
       trailingSlash,
     });
     if (redirectLocation !== undefined) {
-      redirect(res, redirectLocation);
+      // Permanent, like the serve-handler redirects and most static hosts
+      redirect(res, 301, redirectLocation);
       return;
     }
 
@@ -107,18 +115,13 @@ async function lstatWithoutDottedFolders(filePath: string) {
 }
 
 async function getRedirectLocation(
-  url: string | undefined,
+  url: string,
   {
     outDir,
     baseUrl,
     trailingSlash,
   }: {outDir: string} & Pick<DocusaurusConfig, 'baseUrl' | 'trailingSlash'>,
 ): Promise<string | undefined> {
-  // Automatically redirect requests to /baseUrl/
-  if (!url?.startsWith(baseUrl)) {
-    return baseUrl;
-  }
-
   // We do the redirect ourselves for a good reason
   // server-handler is annoying and won't include /baseUrl/ in redirects
   // See https://github.com/meta/docusaurus/issues/10078#issuecomment-2084932934
@@ -186,8 +189,12 @@ function getCleanPathname(pathname: string, baseUrl: string): string {
   return cleanPathname === baseUrl.slice(0, -1) ? baseUrl : cleanPathname;
 }
 
-function redirect(res: http.ServerResponse, location: string) {
-  res.writeHead(302, {
+function redirect(
+  res: http.ServerResponse,
+  statusCode: 301 | 302,
+  location: string,
+) {
+  res.writeHead(statusCode, {
     Location: location,
   });
   res.end();
