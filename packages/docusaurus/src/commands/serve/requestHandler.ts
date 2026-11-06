@@ -49,6 +49,7 @@ export function createServeRequestHandler({
     });
     if (redirectLocation !== undefined) {
       // Permanent, like the serve-handler redirects and most static hosts
+      // See https://github.com/meta/docusaurus/pull/12907
       redirect(res, 301, redirectLocation);
       return;
     }
