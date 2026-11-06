@@ -45,6 +45,8 @@ website/bundler-cpu-profile.json
 website/profile.json.gz
 
 
-.claude
+# Personal AI agent files, except the shared project settings
+.claude/*
+!.claude/settings.json
 .codex
 
