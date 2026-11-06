@@ -57,6 +57,8 @@ const RequestPaths = [
   '/missing',
   '/missing/',
   '/missing.html',
+  // A client redirect file, from /legacy.html
+  '/legacy.html',
 
   '/file?query=1',
   '/file/?query=1',
@@ -91,6 +93,9 @@ const HandTypedRequestPaths = [
   '/folder/../file.html',
   '/../file.html',
   '/%2E%2E/file.html',
+  '/file%2Ehtml',
+  // serve-handler decodes "%2F" before resolving "..": folder/file.html
+  '/folder%2Fx/../file.html',
   // Open redirect attempts
   '/..//example.com/index',
   '/..//example.com/file',
@@ -135,6 +140,7 @@ describe('createServeRequestHandler', () => {
         /missing                    404 404.html
         /missing/                   404 404.html
         /missing.html               301 /missing → 404 404.html
+        /legacy.html                301 /legacy → 404 404.html
         /file?query=1               200 file.html
         /file/?query=1              200 file.html
         /file.html?query=1          200 file.html
@@ -189,6 +195,7 @@ describe('createServeRequestHandler', () => {
         /missing                    301 /missing/ → 404 404.html
         /missing/                   404 404.html
         /missing.html               301 /missing → 301 /missing/ → 404 404.html
+        /legacy.html                301 /legacy → 301 /legacy/ → 404 404.html
         /file?query=1               301 /file/?query=1 → 200 file.html
         /file/?query=1              200 file.html
         /file.html?query=1          200 file.html
@@ -243,6 +250,7 @@ describe('createServeRequestHandler', () => {
         /missing                    404 404.html
         /missing/                   301 /missing → 404 404.html
         /missing.html               301 /missing → 404 404.html
+        /legacy.html                301 /legacy → 404 404.html
         /file?query=1               200 file.html
         /file/?query=1              301 /file?query=1 → 200 file.html
         /file.html?query=1          200 file.html
@@ -299,6 +307,7 @@ describe('createServeRequestHandler', () => {
         /base/missing                    404 404.html
         /base/missing/                   404 404.html
         /base/missing.html               301 /base/missing → 404 404.html
+        /base/legacy.html                301 /base/legacy → 404 404.html
         /base/file?query=1               200 file.html
         /base/file/?query=1              200 file.html
         /base/file.html?query=1          200 file.html
@@ -353,6 +362,7 @@ describe('createServeRequestHandler', () => {
         /base/missing                    301 /base/missing/ → 404 404.html
         /base/missing/                   404 404.html
         /base/missing.html               301 /base/missing → 301 /base/missing/ → 404 404.html
+        /base/legacy.html                301 /base/legacy → 301 /base/legacy/ → 404 404.html
         /base/file?query=1               301 /base/file/?query=1 → 200 file.html
         /base/file/?query=1              200 file.html
         /base/file.html?query=1          200 file.html
@@ -407,6 +417,7 @@ describe('createServeRequestHandler', () => {
         /base/missing                    404 404.html
         /base/missing/                   301 /base/missing → 404 404.html
         /base/missing.html               301 /base/missing → 404 404.html
+        /base/legacy.html                301 /base/legacy → 404 404.html
         /base/file?query=1               200 file.html
         /base/file/?query=1              301 /base/file?query=1 → 200 file.html
         /base/file.html?query=1          200 file.html
@@ -455,6 +466,8 @@ describe('createServeRequestHandler', () => {
           /base/folder/../file.html         200 file.html
           /base/../file.html                400 Bad Request
           /base/%2E%2E/file.html            400 Bad Request
+          /base/file%2Ehtml                 200 file.html
+          /base/folder%2Fx/../file.html     301 /base/file → 200 file.html
           /base/..//example.com/index       400 Bad Request
           /base/..//example.com/file        400 Bad Request"
         `);
@@ -476,6 +489,8 @@ describe('createServeRequestHandler', () => {
           /base/folder/../file.html         200 file.html
           /base/../file.html                400 Bad Request
           /base/%2E%2E/file.html            400 Bad Request
+          /base/file%2Ehtml                 200 file.html
+          /base/folder%2Fx/../file.html     301 /base/file → 301 /base/file/ → 200 file.html
           /base/..//example.com/index       400 Bad Request
           /base/..//example.com/file        400 Bad Request"
         `);
@@ -497,6 +512,8 @@ describe('createServeRequestHandler', () => {
           /base/folder/../file.html         200 file.html
           /base/../file.html                400 Bad Request
           /base/%2E%2E/file.html            400 Bad Request
+          /base/file%2Ehtml                 200 file.html
+          /base/folder%2Fx/../file.html     301 /base/file → 200 file.html
           /base/..//example.com/index       400 Bad Request
           /base/..//example.com/file        400 Bad Request"
         `);
@@ -650,15 +667,6 @@ describe('createServeRequestHandler', () => {
         serveRequest(
           {baseUrl: '/base/', trailingSlash: false},
           '/base/%2F%2Ffile',
-        ),
-      ).resolves.toBe('200 file.html');
-    });
-
-    it('serves existing .html files with encoded paths', async () => {
-      await expect(
-        serveRequest(
-          {baseUrl: '/base/', trailingSlash: undefined},
-          '/base/file%2Ehtml',
         ),
       ).resolves.toBe('200 file.html');
     });
