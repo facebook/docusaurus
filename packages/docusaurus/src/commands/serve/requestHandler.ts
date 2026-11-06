@@ -258,7 +258,7 @@ async function isHtmlFileRequest(
   if (!filePath?.endsWith('.html')) {
     return false;
   }
-  // Not a folder, like the client redirect file "legacy.html/index.html"
+  // Not a folder, like the client redirect file "old-page.html/index.html"
   const stats = await fs.stat(filePath).catch(() => undefined);
   return stats?.isFile() ?? false;
 }
