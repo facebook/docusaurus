@@ -20,7 +20,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/admin/scripts/claudeBlockAutoMerge.js\""
+            "command": "node \"$CLAUDE_PROJECT_DIR/admin/scripts/claude/blockAutoMerge.js\""
           }
         ]
       }
