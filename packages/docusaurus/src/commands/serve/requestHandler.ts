@@ -7,7 +7,7 @@
 
 import path from 'node:path';
 import serveHandler from 'serve-handler';
-import {pathExists} from '@docusaurus/fs';
+import {fs, pathExists} from '@docusaurus/fs';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {parseURLPath, serializeURLPath} from '@docusaurus/utils';
 import type {URLPath} from '@docusaurus/utils';
@@ -63,7 +63,9 @@ export function createServeRequestHandler({
     req.url = req.url!.replace(baseUrl, '/');
 
     await serveHandler(req, res, {
-      cleanUrls: true,
+      // cleanUrls serves /file with file.html, but also redirects /file.html
+      // to /file, even when the file exists
+      cleanUrls: !(await isHtmlFileRequest(outDir, req.url)),
       public: outDir,
       // We do the trailing slash redirects: serve-handler would decode
       // encoded slashes, merge them and drop the baseUrl
@@ -121,6 +123,11 @@ async function getRedirectLocation(
     return serializeURLPath({pathname: mergedPathname, search});
   }
 
+  // Static hosts serve the existing .html files, without clean URL redirects
+  if (await isHtmlFileRequest(outDir, url.slice(baseUrl.length - 1))) {
+    return undefined;
+  }
+
   const cleanPathname = getCleanPathname(pathname, baseUrl);
   if (pathname !== cleanPathname) {
     return serializeURLPath({pathname: cleanPathname, search});
@@ -158,20 +165,45 @@ function parseRootURLPath(url: string): URLPath | undefined {
 
 // Pages with a dot in their name look like assets, like "docs/2.x"
 async function isPage(outDir: string, urlPath: string): Promise<boolean> {
-  let filePath: string;
-  try {
-    filePath = path.join(outDir, decodeURIComponent(urlPath));
-  } catch {
-    return false; // Malformed percent-encoding
-  }
-  // Encoded slashes can decode to ".." segments: never look outside outDir
-  if (path.relative(outDir, filePath).startsWith('..')) {
+  const filePath = getFilePath(outDir, urlPath);
+  if (filePath === undefined) {
     return false;
   }
   return (
     (await pathExists(path.join(filePath, 'index.html'))) ||
     pathExists(`${filePath}.html`)
   );
+}
+
+// The url without the baseUrl, like serve-handler receives it
+async function isHtmlFileRequest(
+  outDir: string,
+  url: string,
+): Promise<boolean> {
+  // Like serve-handler, decode the path before resolving its ".." segments:
+  // parseURLPath() resolves "/folder%2Fx/../file.html" to "/file.html"
+  const pathname = url.split(/[?#]/)[0]!;
+  const filePath = getFilePath(outDir, pathname);
+  if (!filePath?.endsWith('.html')) {
+    return false;
+  }
+  // Not a folder, like the client redirect file "legacy.html/index.html"
+  const stats = await fs.stat(filePath).catch(() => undefined);
+  return stats?.isFile() ?? false;
+}
+
+function getFilePath(outDir: string, urlPath: string): string | undefined {
+  let filePath: string;
+  try {
+    filePath = path.join(outDir, decodeURIComponent(urlPath));
+  } catch {
+    return undefined; // Malformed percent-encoding
+  }
+  // Encoded slashes can decode to ".." segments: never look outside outDir
+  if (path.relative(outDir, filePath).startsWith('..')) {
+    return undefined;
+  }
+  return filePath;
 }
 
 // The serve-handler cleanUrls redirect, keeping the baseUrl
