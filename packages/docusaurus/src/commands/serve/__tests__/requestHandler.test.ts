@@ -69,6 +69,25 @@ const RequestPaths = [
   '/..%2Fdocusaurus.config.js', // Path traversal
 ];
 
+// Appended to the baseUrl. Browsers normalize these URLs before sending them,
+// but hand-typed requests can send them as-is
+// Not strictly needed for a local preview server, but useful if we ever expose
+// the serve request handler as a Node API
+const HandTypedRequestPaths = [
+  '/file.html#hash',
+  '/file.html?query=1#hash',
+  '/file#hash.html',
+  '/folder/index#hash',
+  '/assets/css/styles.css#hash',
+  '/./file.html',
+  '/folder/../file.html',
+  '/../file.html',
+  '/%2E%2E/file.html',
+  // Open redirect attempts
+  '/..//example.com/index',
+  '/..//example.com/file',
+];
+
 describe('createServeRequestHandler', () => {
   describe('baseUrl /', () => {
     it('trailingSlash undefined', async () => {
@@ -426,6 +445,99 @@ describe('createServeRequestHandler', () => {
         /base?query=1  302 /base/ → 200 index.html
         /basement      302 /base/ → 200 index.html"
       `);
+    });
+
+    describe('hand-typed URLs', () => {
+      it('trailingSlash undefined', async () => {
+        const result = await describeServing(
+          {baseUrl: '/base/', trailingSlash: undefined},
+          HandTypedRequestPaths,
+          {asIs: true},
+        );
+        expect(result).toMatchInlineSnapshot(`
+          "/base/file.html#hash              301 /file → 302 /base/ → 200 index.html
+          /base/file.html?query=1#hash      301 /file → 302 /base/ → 200 index.html
+          /base/file#hash.html              200 file.html
+          /base/folder/index#hash           301 /folder → 302 /base/ → 200 index.html
+          /base/assets/css/styles.css#hash  200 assets/css/styles.css
+          /base/./file.html                 301 /./file → 302 /base/ → 200 index.html
+          /base/folder/../file.html         301 /folder/../file → 302 /base/ → 200 index.html
+          /base/../file.html                400 Bad Request
+          /base/%2E%2E/file.html            400 Bad Request
+          /base/..//example.com/index       400 Bad Request
+          /base/..//example.com/file        400 Bad Request"
+        `);
+      });
+
+      // Windows serves file URLs with a trailing slash, other platforms 404
+      it.skipIf(process.platform === 'win32')(
+        'trailingSlash true',
+        async () => {
+          const result = await describeServing(
+            {baseUrl: '/base/', trailingSlash: true},
+            HandTypedRequestPaths,
+            {asIs: true},
+          );
+          expect(result).toMatchInlineSnapshot(`
+            "/base/file.html#hash              302 /base/file.html/#hash → 404 404.html
+            /base/file.html?query=1#hash      302 /base/file.html/?query=1#hash → 404 404.html
+            /base/file#hash.html              301 /file/ → 302 /base/ → 200 index.html
+            /base/folder/index#hash           302 /base/folder/index/#hash → 200 folder/index.html
+            /base/assets/css/styles.css#hash  302 /base/assets/css/styles.css/#hash → 404 404.html
+            /base/./file.html                 301 /./file → 302 /base/ → 200 index.html
+            /base/folder/../file.html         301 /folder/../file → 302 /base/ → 200 index.html
+            /base/../file.html                400 Bad Request
+            /base/%2E%2E/file.html            400 Bad Request
+            /base/..//example.com/index       302 /base/..//example.com/index/ → 302 /base/ → 200 index.html
+            /base/..//example.com/file        302 /base/..//example.com/file/ → 302 /base/ → 200 index.html"
+          `);
+        },
+      );
+
+      it.skipIf(process.platform !== 'win32')(
+        'trailingSlash true, on Windows',
+        async () => {
+          const result = await describeServing(
+            {baseUrl: '/base/', trailingSlash: true},
+            HandTypedRequestPaths,
+            {asIs: true},
+          );
+          expect(result).toMatchInlineSnapshot(`
+            "/base/file.html#hash              302 /base/file.html/#hash → 200 file.html
+            /base/file.html?query=1#hash      302 /base/file.html/?query=1#hash → 200 file.html
+            /base/file#hash.html              301 /file/ → 302 /base/ → 200 index.html
+            /base/folder/index#hash           302 /base/folder/index/#hash → 200 folder/index.html
+            /base/assets/css/styles.css#hash  302 /base/assets/css/styles.css/#hash → 200 assets/css/styles.css
+            /base/./file.html                 301 /./file → 302 /base/ → 200 index.html
+            /base/folder/../file.html         301 /folder/../file → 302 /base/ → 200 index.html
+            /base/../file.html                400 Bad Request
+            /base/%2E%2E/file.html            400 Bad Request
+            /base/..//example.com/index       302 /base/..//example.com/index/ → 302 /base/ → 200 index.html
+            /base/..//example.com/file        302 /base/..//example.com/file/ → 302 /base/ → 200 index.html"
+          `);
+        },
+      );
+
+      it('trailingSlash false', async () => {
+        const result = await describeServing(
+          {baseUrl: '/base/', trailingSlash: false},
+          HandTypedRequestPaths,
+          {asIs: true},
+        );
+        expect(result).toMatchInlineSnapshot(`
+          "/base/file.html#hash              301 /file → 302 /base/ → 200 index.html
+          /base/file.html?query=1#hash      301 /file → 302 /base/ → 200 index.html
+          /base/file#hash.html              200 file.html
+          /base/folder/index#hash           301 /folder → 302 /base/ → 200 index.html
+          /base/assets/css/styles.css#hash  200 assets/css/styles.css
+          /base/./file.html                 301 /./file → 302 /base/ → 200 index.html
+          /base/folder/../file.html         301 /folder/../file → 302 /base/ → 200 index.html
+          /base/../file.html                400 Bad Request
+          /base/%2E%2E/file.html            400 Bad Request
+          /base/..//example.com/index       400 Bad Request
+          /base/..//example.com/file        400 Bad Request"
+        `);
+      });
     });
   });
 
