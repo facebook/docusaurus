@@ -79,6 +79,7 @@ export function createServeRequestHandler({
       // to /file, even when the file exists, and drops the baseUrl
       // We already did our clean URL redirects: only existing .html files and
       // paths with an encoded ".html" or "/index" get there
+      // See https://github.com/meta/docusaurus/pull/12916
       cleanUrls: !hasCleanUrlSuffix(req.url),
       public: outDir,
       // We do the trailing slash redirects: serve-handler would decode
