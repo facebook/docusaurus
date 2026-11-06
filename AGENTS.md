@@ -78,6 +78,8 @@ The main CLI commands available
 - `pnpm serve:website` - Serve the built website locally
 - `pnpm --filter website typecheck` - Ensure the website pass TypeScript type checking
 
+Always pass `--no-open` to the start and serve commands (like `pnpm start:website --no-open`), or they open a tab in the maintainer's browser.
+
 ### Testing
 
 - `pnpm test` - Run all Vitest tests
