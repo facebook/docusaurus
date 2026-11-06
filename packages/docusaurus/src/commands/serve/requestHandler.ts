@@ -7,6 +7,7 @@
 
 import serveHandler from 'serve-handler';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
+import {parseURLPath, serializeURLPath} from '@docusaurus/utils';
 import type http from 'node:http';
 import type {DocusaurusConfig} from '@docusaurus/types';
 
@@ -64,6 +65,12 @@ function getRedirectLocation(
   // server-handler is annoying and won't include /baseUrl/ in redirects
   // See https://github.com/meta/docusaurus/issues/10078#issuecomment-2084932934
   if (baseUrl !== '/') {
+    const {pathname, search} = parseURLPath(url);
+    const cleanPathname = getCleanPathname(pathname, baseUrl);
+    if (pathname !== cleanPathname) {
+      return serializeURLPath({pathname: cleanPathname, search});
+    }
+
     // Not super robust, but should be good enough for our use case
     // See https://github.com/meta/docusaurus/pull/10090
     const looksLikeAsset = !!url.match(/\.[a-z\d]{1,4}$/i);
@@ -79,6 +86,13 @@ function getRedirectLocation(
   }
 
   return undefined;
+}
+
+// The serve-handler cleanUrls redirect, keeping the baseUrl
+function getCleanPathname(pathname: string, baseUrl: string): string {
+  const cleanPathname = pathname.replace(/(?:\.html|\/index)$/, '');
+  // Like serve-handler, /index redirects to /
+  return cleanPathname === baseUrl.slice(0, -1) ? baseUrl : cleanPathname;
 }
 
 function redirect(res: http.ServerResponse, location: string) {
