@@ -13,6 +13,9 @@ import {transformWithOxc} from 'vite';
 
 // Force UTC so snapshots involving dates are stable across local & CI runs.
 process.env.TZ = 'UTC';
+// Force English Git error messages in snapshots, without changing the locale
+// like LC_ALL would: LANGUAGE only selects the gettext translations.
+process.env.LANGUAGE = 'en';
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
