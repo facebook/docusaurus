@@ -462,10 +462,10 @@ describe('createServeRequestHandler', () => {
           /base/assets/css/styles.css#hash  200 assets/css/styles.css
           /base/./file.html                 302 /base/file → 200 file.html
           /base/folder/../file.html         302 /base/file → 200 file.html
-          /base/../file.html                302 /base/ → 200 index.html
-          /base/%2E%2E/file.html            302 /base/ → 200 index.html
-          /base/..//example.com/index       302 /base/ → 200 index.html
-          /base/..//example.com/file        302 /base/ → 200 index.html"
+          /base/../file.html                400 Bad Request
+          /base/%2E%2E/file.html            400 Bad Request
+          /base/..//example.com/index       400 Bad Request
+          /base/..//example.com/file        400 Bad Request"
         `);
       });
 
@@ -486,10 +486,10 @@ describe('createServeRequestHandler', () => {
             /base/assets/css/styles.css#hash  302 /base/assets/css/styles.css/#hash → 404 404.html
             /base/./file.html                 302 /base/file → 302 /base/file/ → 200 file.html
             /base/folder/../file.html         302 /base/file → 302 /base/file/ → 200 file.html
-            /base/../file.html                302 /base/ → 200 index.html
-            /base/%2E%2E/file.html            302 /base/ → 200 index.html
-            /base/..//example.com/index       302 /base/ → 200 index.html
-            /base/..//example.com/file        302 /base/ → 200 index.html"
+            /base/../file.html                400 Bad Request
+            /base/%2E%2E/file.html            400 Bad Request
+            /base/..//example.com/index       400 Bad Request
+            /base/..//example.com/file        400 Bad Request"
           `);
         },
       );
@@ -510,10 +510,10 @@ describe('createServeRequestHandler', () => {
             /base/assets/css/styles.css#hash  302 /base/assets/css/styles.css/#hash → 200 assets/css/styles.css
             /base/./file.html                 302 /base/file → 302 /base/file/ → 200 file.html
             /base/folder/../file.html         302 /base/file → 302 /base/file/ → 200 file.html
-            /base/../file.html                302 /base/ → 200 index.html
-            /base/%2E%2E/file.html            302 /base/ → 200 index.html
-            /base/..//example.com/index       302 /base/ → 200 index.html
-            /base/..//example.com/file        302 /base/ → 200 index.html"
+            /base/../file.html                400 Bad Request
+            /base/%2E%2E/file.html            400 Bad Request
+            /base/..//example.com/index       400 Bad Request
+            /base/..//example.com/file        400 Bad Request"
           `);
         },
       );
@@ -532,10 +532,10 @@ describe('createServeRequestHandler', () => {
           /base/assets/css/styles.css#hash  200 assets/css/styles.css
           /base/./file.html                 302 /base/file → 200 file.html
           /base/folder/../file.html         302 /base/file → 200 file.html
-          /base/../file.html                302 /base/ → 200 index.html
-          /base/%2E%2E/file.html            302 /base/ → 200 index.html
-          /base/..//example.com/index       302 /base/ → 200 index.html
-          /base/..//example.com/file        302 /base/ → 200 index.html"
+          /base/../file.html                400 Bad Request
+          /base/%2E%2E/file.html            400 Bad Request
+          /base/..//example.com/index       400 Bad Request
+          /base/..//example.com/file        400 Bad Request"
         `);
       });
     });
@@ -571,29 +571,67 @@ describe('createServeRequestHandler', () => {
     });
 
     describe('stays on this host', () => {
+      // Appended to the baseUrl
+      const OpenRedirectPaths = [
+        '/..//example.com/index',
+        '/..//example.com/file.html',
+        '//example.com/index',
+        '//example.com/file',
+        '//example.com/file.html',
+      ];
+
       // See https://github.com/meta/docusaurus/pull/12879#discussion_r4493075460
-      it('when ".." resolves to "//host"', async () => {
-        await expect(
-          serveRequest(
+      describe('with a baseUrl', () => {
+        it('trailingSlash undefined', async () => {
+          const result = await describeServing(
             {baseUrl: '/base/', trailingSlash: undefined},
-            '/base/..//example.com/index',
+            OpenRedirectPaths,
             {asIs: true},
-          ),
-        ).resolves.toBe('302 /base/ → 200 index.html');
+          );
+          expect(result).toMatchInlineSnapshot(`
+            "/base/..//example.com/index      400 Bad Request
+            /base/..//example.com/file.html  400 Bad Request
+            /base//example.com/index         302 /base//example.com → 404 404.html
+            /base//example.com/file          404 404.html
+            /base//example.com/file.html     302 /base//example.com/file → 404 404.html"
+          `);
+        });
+
+        it('trailingSlash true', async () => {
+          const result = await describeServing(
+            {baseUrl: '/base/', trailingSlash: true},
+            OpenRedirectPaths,
+            {asIs: true},
+          );
+          expect(result).toMatchInlineSnapshot(`
+            "/base/..//example.com/index      400 Bad Request
+            /base/..//example.com/file.html  400 Bad Request
+            /base//example.com/index         302 /base//example.com → 301 /example.com → 302 /base/ → 200 index.html
+            /base//example.com/file          302 /base//example.com/file/ → 301 /example.com/file/ → 302 /base/ → 200 index.html
+            /base//example.com/file.html     302 /base//example.com/file → 302 /base//example.com/file/ → 301 /example.com/file/ → 302 /base/ → 200 index.html"
+          `);
+        });
+
+        it('trailingSlash false', async () => {
+          const result = await describeServing(
+            {baseUrl: '/base/', trailingSlash: false},
+            OpenRedirectPaths,
+            {asIs: true},
+          );
+          expect(result).toMatchInlineSnapshot(`
+            "/base/..//example.com/index      400 Bad Request
+            /base/..//example.com/file.html  400 Bad Request
+            /base//example.com/index         302 /base//example.com → 301 /example.com → 302 /base/ → 200 index.html
+            /base//example.com/file          301 /example.com/file → 302 /base/ → 200 index.html
+            /base//example.com/file.html     302 /base//example.com/file → 301 /example.com/file → 302 /base/ → 200 index.html"
+          `);
+        });
       });
 
       // Without a baseUrl, serve-handler handles these requests
       describe('without a baseUrl', () => {
-        const OpenRedirectPaths = [
-          '/..//example.com/index',
-          '/..//example.com/file.html',
-          '//example.com/index',
-          '//example.com/file',
-          '//example.com/file.html',
-        ];
-
         it('trailingSlash undefined', async () => {
-          const result = await describeRequests(
+          const result = await describeServing(
             {baseUrl: '/', trailingSlash: undefined},
             OpenRedirectPaths,
             {asIs: true},
@@ -608,7 +646,7 @@ describe('createServeRequestHandler', () => {
         });
 
         it('trailingSlash true', async () => {
-          const result = await describeRequests(
+          const result = await describeServing(
             {baseUrl: '/', trailingSlash: true},
             OpenRedirectPaths,
             {asIs: true},
@@ -623,7 +661,7 @@ describe('createServeRequestHandler', () => {
         });
 
         it('trailingSlash false', async () => {
-          const result = await describeRequests(
+          const result = await describeServing(
             {baseUrl: '/', trailingSlash: false},
             OpenRedirectPaths,
             {asIs: true},
