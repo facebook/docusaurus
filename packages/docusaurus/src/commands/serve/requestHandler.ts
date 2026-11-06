@@ -65,7 +65,9 @@ export function createServeRequestHandler({
     await serveHandler(req, res, {
       cleanUrls: true,
       public: outDir,
-      trailingSlash,
+      // We do the trailing slash redirects: serve-handler would decode
+      // encoded slashes, merge them and drop the baseUrl
+      trailingSlash: undefined,
       directoryListing: false,
       // serve-handler only answers 304 to an ETag revalidation, and the ETag
       // stays the same when a rebuild doesn't change the file content
