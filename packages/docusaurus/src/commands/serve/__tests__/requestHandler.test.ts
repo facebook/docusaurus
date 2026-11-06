@@ -767,5 +767,16 @@ describe('createServeRequestHandler', () => {
         revalidateRequest({baseUrl: '/', trailingSlash: undefined}, '/file'),
       ).resolves.toBe('304 no-cache');
     });
+
+    // serve-handler doesn't apply `headers` to its 304 responses. Browsers
+    // don't revalidate fresh immutable files, only files cached without it
+    it('answers 304 no-cache to the revalidation of an unchanged asset', async () => {
+      await expect(
+        revalidateRequest(
+          {baseUrl: '/base/', trailingSlash: undefined},
+          '/base/assets/css/styles.css',
+        ),
+      ).resolves.toBe('304 no-cache');
+    });
   });
 });
