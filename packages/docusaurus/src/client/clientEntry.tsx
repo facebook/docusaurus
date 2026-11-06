@@ -64,8 +64,9 @@ if (ExecutionEnvironment.canUseDOM) {
     }
   };
 
-  // Preload the route App renders, or hydration of /page.html URLs can leave
-  // the server HTML in place: https://github.com/facebook/docusaurus/pull/10059
+  // Normalize /page.html to /page, the route App renders: preloading
+  // /page.html would hydrate an empty route and render the page twice
+  // See https://github.com/meta/docusaurus/pull/12810
   preload(normalizeBrowserPathname(window.location.pathname)).then(() => {
     startTransition(renderApp);
   });
