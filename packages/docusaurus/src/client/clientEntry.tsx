@@ -13,6 +13,7 @@ import siteConfig from '@generated/docusaurus.config';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import App from './App';
 import preload from './preload';
+import {normalizeBrowserPathname} from './normalizeLocation';
 import docusaurus from './docusaurus';
 
 function Router({children}: {children: ReactNode}): ReactNode {
@@ -63,7 +64,10 @@ if (ExecutionEnvironment.canUseDOM) {
     }
   };
 
-  preload(window.location.pathname).then(() => {
+  // Normalize /page.html to /page, the route App renders: preloading
+  // /page.html would hydrate an empty route and render the page twice
+  // See https://github.com/meta/docusaurus/pull/12810
+  preload(normalizeBrowserPathname(window.location.pathname)).then(() => {
     startTransition(renderApp);
   });
 
