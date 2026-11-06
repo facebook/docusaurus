@@ -34,9 +34,11 @@ const RequestPaths = [
   '/both.html',
   '/both/index.html',
 
-  // A folder with a dot, like a docs version
+  // Folders with a dot, like a docs version or a package name
   '/docs/2.x',
   '/docs/2.x/',
+  '/docs/lodash.debounce',
+  '/docs/lodash.debounce/',
 
   '/assets/css/styles.css',
   '/assets/css/styles.css?v=1',
@@ -56,6 +58,7 @@ const RequestPaths = [
   '/file/?query=1',
   '/file.html?query=1',
   '/folder?query=1',
+  '/folder?v=1.0', // Looks like an extension
 
   '/with%20space',
   '/with%20space.html',
@@ -112,6 +115,8 @@ describe('createServeRequestHandler', () => {
         /both/index.html            301 /both/index → 301 /both → 200 both/index.html
         /docs/2.x                   404 404.html
         /docs/2.x/                  404 404.html
+        /docs/lodash.debounce       404 404.html
+        /docs/lodash.debounce/      404 404.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -127,6 +132,7 @@ describe('createServeRequestHandler', () => {
         /file/?query=1              200 file.html
         /file.html?query=1          301 /file → 200 file.html
         /folder?query=1             200 folder/index.html
+        /folder?v=1.0               200 folder/index.html
         /with%20space               200 with space.html
         /with%20space.html          301 /with%20space → 200 with space.html
         /файл                       200 файл.html
@@ -160,6 +166,8 @@ describe('createServeRequestHandler', () => {
         /both/index.html            301 /both/index → 301 /both → 301 /both/ → 200 both/index.html
         /docs/2.x                   404 404.html
         /docs/2.x/                  404 404.html
+        /docs/lodash.debounce       404 404.html
+        /docs/lodash.debounce/      404 404.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    404 404.html
@@ -175,6 +183,7 @@ describe('createServeRequestHandler', () => {
         /file/?query=1              200 file.html
         /file.html?query=1          301 /file → 301 /file/ → 200 file.html
         /folder?query=1             301 /folder/ → 200 folder/index.html
+        /folder?v=1.0               301 /folder/ → 200 folder/index.html
         /with%20space               301 /with%20space/ → 200 with space.html
         /with%20space.html          301 /with%20space → 301 /with%20space/ → 200 with space.html
         /файл                       301 /%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
@@ -208,6 +217,8 @@ describe('createServeRequestHandler', () => {
         /both/index.html            301 /both/index → 301 /both → 200 both/index.html
         /docs/2.x                   404 404.html
         /docs/2.x/                  301 /docs/2.x → 404 404.html
+        /docs/lodash.debounce       404 404.html
+        /docs/lodash.debounce/      301 /docs/lodash.debounce → 404 404.html
         /assets/css/styles.css      200 assets/css/styles.css
         /assets/css/styles.css?v=1  200 assets/css/styles.css
         /assets/                    301 /assets → 404 404.html
@@ -223,6 +234,7 @@ describe('createServeRequestHandler', () => {
         /file/?query=1              301 /file → 200 file.html
         /file.html?query=1          301 /file → 200 file.html
         /folder?query=1             200 folder/index.html
+        /folder?v=1.0               200 folder/index.html
         /with%20space               200 with space.html
         /with%20space.html          301 /with%20space → 200 with space.html
         /файл                       200 файл.html
@@ -258,6 +270,8 @@ describe('createServeRequestHandler', () => {
         /base/both/index.html            302 /base/both/index → 302 /base/both → 200 both/index.html
         /base/docs/2.x                   404 404.html
         /base/docs/2.x/                  404 404.html
+        /base/docs/lodash.debounce       404 404.html
+        /base/docs/lodash.debounce/      404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
@@ -273,6 +287,7 @@ describe('createServeRequestHandler', () => {
         /base/file/?query=1              200 file.html
         /base/file.html?query=1          302 /base/file?query=1 → 200 file.html
         /base/folder?query=1             200 folder/index.html
+        /base/folder?v=1.0               200 folder/index.html
         /base/with%20space               200 with space.html
         /base/with%20space.html          302 /base/with%20space → 200 with space.html
         /base/файл                       200 файл.html
@@ -308,6 +323,8 @@ describe('createServeRequestHandler', () => {
         /base/both/index.html            302 /base/both/index → 302 /base/both → 302 /base/both/ → 200 both/index.html
         /base/docs/2.x                   404 404.html
         /base/docs/2.x/                  404 404.html
+        /base/docs/lodash.debounce       302 /base/docs/lodash.debounce/ → 404 404.html
+        /base/docs/lodash.debounce/      404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  302 /base/assets/css/styles.css/?v=1 → 404 404.html
         /base/assets/                    404 404.html
@@ -323,6 +340,7 @@ describe('createServeRequestHandler', () => {
         /base/file/?query=1              200 file.html
         /base/file.html?query=1          302 /base/file?query=1 → 302 /base/file/?query=1 → 200 file.html
         /base/folder?query=1             302 /base/folder/?query=1 → 200 folder/index.html
+        /base/folder?v=1.0               301 /folder/ → 302 /base/ → 200 index.html
         /base/with%20space               302 /base/with%20space/ → 200 with space.html
         /base/with%20space.html          302 /base/with%20space → 302 /base/with%20space/ → 200 with space.html
         /base/файл                       302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
@@ -358,6 +376,8 @@ describe('createServeRequestHandler', () => {
           /base/both/index.html            302 /base/both/index → 302 /base/both → 302 /base/both/ → 200 both/index.html
           /base/docs/2.x                   404 404.html
           /base/docs/2.x/                  404 404.html
+          /base/docs/lodash.debounce       302 /base/docs/lodash.debounce/ → 404 404.html
+          /base/docs/lodash.debounce/      404 404.html
           /base/assets/css/styles.css      200 assets/css/styles.css
           /base/assets/css/styles.css?v=1  302 /base/assets/css/styles.css/?v=1 → 200 assets/css/styles.css
           /base/assets/                    404 404.html
@@ -373,6 +393,7 @@ describe('createServeRequestHandler', () => {
           /base/file/?query=1              200 file.html
           /base/file.html?query=1          302 /base/file?query=1 → 302 /base/file/?query=1 → 200 file.html
           /base/folder?query=1             302 /base/folder/?query=1 → 200 folder/index.html
+          /base/folder?v=1.0               301 /folder/ → 302 /base/ → 200 index.html
           /base/with%20space               302 /base/with%20space/ → 200 with space.html
           /base/with%20space.html          302 /base/with%20space → 302 /base/with%20space/ → 200 with space.html
           /base/файл                       302 /base/%D1%84%D0%B0%D0%B9%D0%BB/ → 200 файл.html
@@ -407,6 +428,8 @@ describe('createServeRequestHandler', () => {
         /base/both/index.html            302 /base/both/index → 302 /base/both → 200 both/index.html
         /base/docs/2.x                   404 404.html
         /base/docs/2.x/                  302 /base/docs/2.x → 404 404.html
+        /base/docs/lodash.debounce       404 404.html
+        /base/docs/lodash.debounce/      302 /base/docs/lodash.debounce → 404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
         /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    302 /base/assets → 404 404.html
@@ -422,6 +445,7 @@ describe('createServeRequestHandler', () => {
         /base/file/?query=1              302 /base/file?query=1 → 200 file.html
         /base/file.html?query=1          302 /base/file?query=1 → 200 file.html
         /base/folder?query=1             200 folder/index.html
+        /base/folder?v=1.0               200 folder/index.html
         /base/with%20space               200 with space.html
         /base/with%20space.html          302 /base/with%20space → 200 with space.html
         /base/файл                       200 файл.html
