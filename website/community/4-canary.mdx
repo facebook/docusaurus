@@ -16,7 +16,7 @@ import {
 
 Docusaurus has a canary releases system.
 
-It permits you to **test new unreleased features** as soon as the pull requests are merged.
+It permits you to **test new unreleased features** the day after the pull requests are merged.
 
 It is a good way to **give feedback to maintainers**, ensuring the newly implemented feature works as intended.
 
@@ -55,7 +55,7 @@ The canary version shown below is directly fetched from npm and **is up-to-date*
 
 ## Canary npm dist tag {/* #canary-npm-dist-tag */}
 
-For any code-related commit on `main`, the continuous integration will publish a canary release under the `@canary` npm dist tag. It generally takes up to 10 minutes.
+Every day, if `main` has new code-related commits, the continuous integration publishes a canary release under the `@canary` npm dist tag.
 
 You can see on [npm](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) the current dist tags:
 
@@ -118,7 +118,7 @@ To ensure the most recent canary release can install successfully, try the follo
 ```bash
 # npm
 # if it doesn't work, try "npm_config_min_release_age=0"
-# see https://github.com/facebook/docusaurus/pull/12437
+# see https://github.com/meta/docusaurus/pull/12437
 npm_config_min_release_age_exclude='create-docusaurus,@docusaurus/*'
 
 # pnpm

@@ -57,9 +57,6 @@ function isBlacklisted(pathname: string) {
     '/tests/blog/archive',
     '/tests/pages/code-block-tests',
     '/tests/pages/embeds',
-    // Flaky because of hydration error with docusaurus serve + .html
-    '/tests/blog/x/y/z.html',
-    '/tests/docs/dummy.html',
     // Cause weird docusaurus serve errors:
     '/tests/docs/tests/ascii/%C3%A6%C3%B8%C3%A5',
     '/tests/docs/tests/ascii/folder/%C3%A6%C3%B8%C3%A5',
@@ -82,9 +79,16 @@ function isBlacklisted(pathname: string) {
   );
 }
 
+// Static hosts like Netlify also serve pages at their .html URL
+// See https://github.com/meta/docusaurus/pull/10059
+const ExtraPathnames = ['/tests.html'];
+
 function getPathnames(): string[] {
   const urls = extractSitemapUrls();
-  const pathnamesUnfiltered = urls.map((url) => new URL(url).pathname);
+  const pathnamesUnfiltered = [
+    ...urls.map((url) => new URL(url).pathname),
+    ...ExtraPathnames,
+  ];
   const pathnames = pathnamesUnfiltered.filter(
     (pathname) => !isBlacklisted(pathname),
   );
@@ -116,7 +120,7 @@ function pathnameToArgosName(pathname: string): string {
   return pathname;
 }
 
-// See https://github.com/facebook/docusaurus/pull/9256
+// See https://github.com/meta/docusaurus/pull/9256
 // Docusaurus adds a <html data-has-hydrated="true">
 function waitForDocusaurusHydration() {
   return document.documentElement.dataset.hasHydrated === 'true';
