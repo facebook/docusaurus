@@ -81,6 +81,9 @@ const HandTypedRequestPaths = [
   '/folder/../file.html',
   '/../file.html',
   '/%2E%2E/file.html',
+  // Open redirect attempts
+  '/..//example.com/index',
+  '/..//example.com/file',
 ];
 
 describe('createServeRequestHandler', () => {
@@ -458,7 +461,9 @@ describe('createServeRequestHandler', () => {
           /base/./file.html                 302 /base/file → 200 file.html
           /base/folder/../file.html         302 /base/file → 200 file.html
           /base/../file.html                302 /file → 302 /base/ → 200 index.html
-          /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html"
+          /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html
+          /base/..//example.com/index       302 //example.com
+          /base/..//example.com/file        400 Bad Request"
         `);
       });
 
@@ -480,7 +485,9 @@ describe('createServeRequestHandler', () => {
             /base/./file.html                 302 /base/file → 302 /base/file/ → 200 file.html
             /base/folder/../file.html         302 /base/file → 302 /base/file/ → 200 file.html
             /base/../file.html                302 /file → 302 /base/ → 200 index.html
-            /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html"
+            /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html
+            /base/..//example.com/index       302 //example.com
+            /base/..//example.com/file        302 /base/..//example.com/file/ → 302 /base/ → 200 index.html"
           `);
         },
       );
@@ -502,7 +509,9 @@ describe('createServeRequestHandler', () => {
             /base/./file.html                 302 /base/file → 302 /base/file/ → 200 file.html
             /base/folder/../file.html         302 /base/file → 302 /base/file/ → 200 file.html
             /base/../file.html                302 /file → 302 /base/ → 200 index.html
-            /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html"
+            /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html
+            /base/..//example.com/index       302 //example.com
+            /base/..//example.com/file        302 /base/..//example.com/file/ → 302 /base/ → 200 index.html"
           `);
         },
       );
@@ -522,7 +531,9 @@ describe('createServeRequestHandler', () => {
           /base/./file.html                 302 /base/file → 200 file.html
           /base/folder/../file.html         302 /base/file → 200 file.html
           /base/../file.html                302 /file → 302 /base/ → 200 index.html
-          /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html"
+          /base/%2E%2E/file.html            302 /file → 302 /base/ → 200 index.html
+          /base/..//example.com/index       302 //example.com
+          /base/..//example.com/file        400 Bad Request"
         `);
       });
     });

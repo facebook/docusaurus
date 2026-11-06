@@ -136,7 +136,12 @@ async function describeRequest(
     if (location === null) {
       break;
     }
-    url = new URL(location, url).href;
+    const nextUrl = new URL(location, url);
+    // Never follow open redirects to other hosts
+    if (nextUrl.origin !== origin) {
+      break;
+    }
+    url = nextUrl.href;
   }
 
   return descriptions.join(' → ');
