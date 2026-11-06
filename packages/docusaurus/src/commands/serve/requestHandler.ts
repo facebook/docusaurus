@@ -45,6 +45,14 @@ export function createServeRequestHandler({
       return;
     }
 
+    // serve-handler answers 500 to null bytes, its file system calls throw
+    // Answer 400 instead, like serve-handler does to malformed encodings
+    if (hasNullByte(req.url)) {
+      res.writeHead(400);
+      res.end('Bad Request');
+      return;
+    }
+
     const redirectLocation = await getRedirectLocation(req.url, {
       outDir,
       baseUrl,
@@ -178,6 +186,12 @@ function parseFakeRootURLPath(
     return undefined;
   }
   return {pathname: pathname.slice(fakeRoot.length), search};
+}
+
+// Like serve-handler, only the pathname is decoded, not the query string
+function hasNullByte(url: string): boolean {
+  const pathname = url.split(/[?#]/)[0]!;
+  return pathname.includes('%00');
 }
 
 // Pages with a dot in their name look like assets, like "docs/2.x"

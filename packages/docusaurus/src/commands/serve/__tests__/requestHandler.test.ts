@@ -165,7 +165,7 @@ describe('createServeRequestHandler', () => {
         /café                       200 café.html
         //file                      301 /file → 200 file.html
         /%E0%A4%A                   400 Bad Request
-        /%00                        500 Internal Server Error
+        /%00                        400 Bad Request
         /..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -226,7 +226,7 @@ describe('createServeRequestHandler', () => {
         /café                       301 /caf%C3%A9/ → 200 café.html
         //file                      301 /file → 301 /file/ → 200 file.html
         /%E0%A4%A                   301 /%E0%A4%A/ → 400 Bad Request
-        /%00                        301 /%00/ → 500 Internal Server Error
+        /%00                        400 Bad Request
         /..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -287,7 +287,7 @@ describe('createServeRequestHandler', () => {
         /café                       200 café.html
         //file                      301 /file → 200 file.html
         /%E0%A4%A                   400 Bad Request
-        /%00                        500 Internal Server Error
+        /%00                        400 Bad Request
         /..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -350,7 +350,7 @@ describe('createServeRequestHandler', () => {
         /base/café                       200 café.html
         /base//file                      301 /base/file → 200 file.html
         /base/%E0%A4%A                   400 Bad Request
-        /base/%00                        500 Internal Server Error
+        /base/%00                        400 Bad Request
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -411,7 +411,7 @@ describe('createServeRequestHandler', () => {
         /base/café                       301 /base/caf%C3%A9/ → 200 café.html
         /base//file                      301 /base/file → 301 /base/file/ → 200 file.html
         /base/%E0%A4%A                   301 /base/%E0%A4%A/ → 400 Bad Request
-        /base/%00                        301 /base/%00/ → 500 Internal Server Error
+        /base/%00                        400 Bad Request
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -472,7 +472,7 @@ describe('createServeRequestHandler', () => {
         /base/café                       200 café.html
         /base//file                      301 /base/file → 200 file.html
         /base/%E0%A4%A                   400 Bad Request
-        /base/%00                        500 Internal Server Error
+        /base/%00                        400 Bad Request
         /base/..%2Fdocusaurus.config.js  400 Bad Request"
       `);
     });
@@ -803,14 +803,23 @@ describe('createServeRequestHandler', () => {
       );
     });
 
-    // TODO fix: answer 400, like the malformed percent-encodings
-    it('answers 500 to null bytes', async () => {
+    // Like the malformed percent-encodings
+    it('answers 400 to null bytes', async () => {
       await expect(
         serveRequest(
           {baseUrl: '/base/', trailingSlash: undefined},
           '/base/%00',
         ),
-      ).resolves.toBe('500 Internal Server Error');
+      ).resolves.toBe('400 Bad Request');
+    });
+
+    it('keeps null bytes in the query string', async () => {
+      await expect(
+        serveRequest(
+          {baseUrl: '/base/', trailingSlash: undefined},
+          '/base/file?query=%00',
+        ),
+      ).resolves.toBe('200 file.html');
     });
 
     // Like other ".." segments going above the root
