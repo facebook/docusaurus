@@ -56,22 +56,6 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0 # Needed to get the commit number with "git rev-list --count HEAD"
-      - name: Install pnpm
-        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
-        with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
-          install: false
-          node-version-file: false
-      - name: Set up Node
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: lts/*
-          check-latest: true
-          #  ⚠️ Do not use any cache on purpose
-          # It increases the chance of a compromised release being publish
-          # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
-          # cache: pnpm
-          package-manager-cache: false
       - name: Check for unpublished canary changes
         id: canary-check
         if: github.event_name == 'schedule'
@@ -82,13 +66,18 @@ jobs:
             echo "No package change since canary commit number $PUBLISHED_COMMIT_NUMBER, skipping"
             echo "skip=true" >> "$GITHUB_OUTPUT"
           fi
+      - name: Set up pnpm, Node.js and dependencies
+        if: steps.canary-check.outputs.skip != 'true'
+        uses: ./.github/actions/setup
+        with:
+          #  ⚠️ Do not use any cache on purpose
+          # It increases the chance of a compromised release being publish
+          # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
+          cache: false
       - name: Prepare git
         run: |
           git config --global user.name "Docusaurus"
           git config --global user.email "github@docusaurus.io"
-      - name: Installation
-        if: steps.canary-check.outputs.skip != 'true'
-        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 
       - name: Publish Canary release
         if: steps.canary-check.outputs.skip != 'true'
@@ -111,28 +100,17 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
-      - name: Install pnpm
-        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
+      - name: Set up pnpm, Node.js and dependencies
+        uses: ./.github/actions/setup
         with:
-          # Only install pnpm: Node.js and dependencies are installed by later steps
-          install: false
-          node-version-file: false
-      - name: Set up Node
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: lts/*
-          check-latest: true
           #  ⚠️ Do not use any cache on purpose
           # It increases the chance of a compromised release being publish
           # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
-          # cache: pnpm
-          package-manager-cache: false
+          cache: false
       - name: Prepare git
         run: |
           git config --global user.name "Docusaurus"
           git config --global user.email "github@docusaurus.io"
-      - name: Installation
-        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 
       - name: Publish NPM release
         run: |
