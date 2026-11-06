@@ -14,8 +14,10 @@
 import {text} from 'node:stream/consumers';
 
 const {tool_input: toolInput} = JSON.parse(await text(process.stdin));
+// The shell removes quotes, so `"--auto"` or `bash -c '…'` still pass --auto
+const command = (toolInput.command ?? '').replaceAll(/["']/g, '');
 
-if (/\bgh\s+pr\s+merge\b[^;&|]*\s--auto\b/.test(toolInput.command ?? '')) {
+if (/\bgh\b[^;&|]*\spr\s+merge\b[^;&|]*\s--auto\b/.test(command)) {
   console.error(
     'Blocked: never use `gh pr merge --auto`, it merges immediately. Wait for all the CI checks to be green, then merge without --auto. See .agents/skills/pull-requests/SKILL.md',
   );
