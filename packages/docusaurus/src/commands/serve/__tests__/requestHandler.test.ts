@@ -6,12 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {
-  describeRequests,
-  describeServing,
-  serveRequest,
-  type ServeOptions,
-} from './testUtils';
+import {describeRequests, describeServing, serveRequest} from './testUtils';
 
 // Appended to the baseUrl. The fixture build extends the static deployment of
 // https://github.com/slorber/trailing-slash-guide
@@ -290,19 +285,19 @@ describe('createServeRequestHandler', () => {
         /base/docs/2.x                   404 404.html
         /base/docs/2.x/                  404 404.html
         /base/assets/css/styles.css      200 assets/css/styles.css
-        /base/assets/css/styles.css?v=1  302 /base/assets/css/styles.css/?v=1 → 404 404.html
+        /base/assets/css/styles.css?v=1  200 assets/css/styles.css
         /base/assets/                    404 404.html
         /base/assets/files/main.c        200 assets/files/main.c
         /base/assets/files/document.pdf  200 assets/files/document.pdf
         /base/assets/images/photo.jpeg   200 assets/images/photo.jpeg
-        /base/assets/fonts/font.woff2    302 /base/assets/fonts/font.woff2/ → 404 404.html
-        /base/site.webmanifest           302 /base/site.webmanifest/ → 404 404.html
+        /base/assets/fonts/font.woff2    200 assets/fonts/font.woff2
+        /base/site.webmanifest           200 site.webmanifest
         /base/missing                    302 /base/missing/ → 404 404.html
         /base/missing/                   404 404.html
         /base/missing.html               301 /missing → 302 /base/ → 200 index.html
         /base/file?query=1               302 /base/file/?query=1 → 200 file.html
         /base/file/?query=1              200 file.html
-        /base/file.html?query=1          302 /base/file.html/?query=1 → 404 404.html
+        /base/file.html?query=1          301 /file → 302 /base/ → 200 index.html
         /base/folder?query=1             302 /base/folder/?query=1 → 200 folder/index.html
         /base/with%20space               302 /base/with%20space/ → 200 with space.html
         /base/with%20space.html          301 /with%20space → 302 /base/ → 200 index.html
@@ -340,19 +335,19 @@ describe('createServeRequestHandler', () => {
           /base/docs/2.x                   404 404.html
           /base/docs/2.x/                  404 404.html
           /base/assets/css/styles.css      200 assets/css/styles.css
-          /base/assets/css/styles.css?v=1  302 /base/assets/css/styles.css/?v=1 → 200 assets/css/styles.css
+          /base/assets/css/styles.css?v=1  200 assets/css/styles.css
           /base/assets/                    404 404.html
           /base/assets/files/main.c        200 assets/files/main.c
           /base/assets/files/document.pdf  200 assets/files/document.pdf
           /base/assets/images/photo.jpeg   200 assets/images/photo.jpeg
-          /base/assets/fonts/font.woff2    302 /base/assets/fonts/font.woff2/ → 200 assets/fonts/font.woff2
-          /base/site.webmanifest           302 /base/site.webmanifest/ → 200 site.webmanifest
+          /base/assets/fonts/font.woff2    200 assets/fonts/font.woff2
+          /base/site.webmanifest           200 site.webmanifest
           /base/missing                    302 /base/missing/ → 404 404.html
           /base/missing/                   404 404.html
           /base/missing.html               301 /missing → 302 /base/ → 200 index.html
           /base/file?query=1               302 /base/file/?query=1 → 200 file.html
           /base/file/?query=1              200 file.html
-          /base/file.html?query=1          302 /base/file.html/?query=1 → 200 file.html
+          /base/file.html?query=1          301 /file → 302 /base/ → 200 index.html
           /base/folder?query=1             302 /base/folder/?query=1 → 200 folder/index.html
           /base/with%20space               302 /base/with%20space/ → 200 with space.html
           /base/with%20space.html          301 /with%20space → 302 /base/ → 200 index.html
@@ -466,62 +461,6 @@ describe('createServeRequestHandler', () => {
       await expect(
         serveRequest({baseUrl: '/', trailingSlash: undefined}, '/docs/2.x/'),
       ).resolves.toBe('404 404.html');
-    });
-
-    // TODO fix: serve these assets without adding a trailing slash
-    // The looksLikeAsset regex misses them
-    // See https://github.com/meta/docusaurus/pull/10090
-    // Windows serves file URLs with a trailing slash, other platforms 404
-    describe('adds a trailing slash to some assets under a baseUrl', () => {
-      const options: ServeOptions = {baseUrl: '/base/', trailingSlash: true};
-
-      it.skipIf(process.platform === 'win32')(
-        'with a query string',
-        async () => {
-          await expect(
-            serveRequest(options, '/base/assets/css/styles.css?v=1'),
-          ).resolves.toBe(
-            '302 /base/assets/css/styles.css/?v=1 → 404 404.html',
-          );
-        },
-      );
-
-      it.skipIf(process.platform !== 'win32')(
-        'with a query string, on Windows',
-        async () => {
-          await expect(
-            serveRequest(options, '/base/assets/css/styles.css?v=1'),
-          ).resolves.toBe(
-            '302 /base/assets/css/styles.css/?v=1 → 200 assets/css/styles.css',
-          );
-        },
-      );
-
-      it.skipIf(process.platform === 'win32')(
-        'with an extension longer than 4 characters',
-        async () => {
-          await expect(
-            serveRequest(options, '/base/assets/fonts/font.woff2'),
-          ).resolves.toBe('302 /base/assets/fonts/font.woff2/ → 404 404.html');
-          await expect(
-            serveRequest(options, '/base/site.webmanifest'),
-          ).resolves.toBe('302 /base/site.webmanifest/ → 404 404.html');
-        },
-      );
-
-      it.skipIf(process.platform !== 'win32')(
-        'with an extension longer than 4 characters, on Windows',
-        async () => {
-          await expect(
-            serveRequest(options, '/base/assets/fonts/font.woff2'),
-          ).resolves.toBe(
-            '302 /base/assets/fonts/font.woff2/ → 200 assets/fonts/font.woff2',
-          );
-          await expect(
-            serveRequest(options, '/base/site.webmanifest'),
-          ).resolves.toBe('302 /base/site.webmanifest/ → 200 site.webmanifest');
-        },
-      );
     });
   });
 });

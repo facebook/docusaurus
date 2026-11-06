@@ -66,7 +66,8 @@ function getRedirectLocation(
   if (baseUrl !== '/') {
     // Not super robust, but should be good enough for our use case
     // See https://github.com/meta/docusaurus/pull/10090
-    const looksLikeAsset = !!url.match(/\.[a-z\d]{1,4}$/i);
+    const [pathname] = url.split('?') as [string, ...string[]];
+    const looksLikeAsset = !!pathname.match(/\.[a-z\d]+$/i);
     if (!looksLikeAsset) {
       const normalizedUrl = applyTrailingSlash(url, {
         trailingSlash,
