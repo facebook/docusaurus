@@ -5,21 +5,105 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import http from 'node:http';
 import path from 'node:path';
 import {pathExists} from '@docusaurus/fs';
+import {listenToServer} from '../listenToServer';
+import {createServeRequestHandler} from '../requestHandler';
+import type {AddressInfo} from 'node:net';
+import type {DocusaurusConfig} from '@docusaurus/types';
 
-export const fixtureOutDir = path.join(__dirname, '__fixtures__/build');
+export type ServeOptions = Pick<DocusaurusConfig, 'baseUrl' | 'trailingSlash'>;
 
-// Added by test servers when the request handler rejects
-export const CrashHeader = 'x-test-crash';
+const fixtureOutDir = path.join(__dirname, '__fixtures__/build');
+
+// Added by the test server when the request handler rejects
+const CrashHeader = 'x-test-crash';
 
 const MaxRedirects = 5;
+
+// The request paths are appended to the baseUrl
+export async function describeServing(
+  options: ServeOptions,
+  requestPaths: string[],
+): Promise<string> {
+  const baseUrlPrefix = options.baseUrl.replace(/\/$/, '');
+  const paths = requestPaths.map((requestPath) => baseUrlPrefix + requestPath);
+  return describeRequests(options, paths);
+}
+
+// One line per request, aligned to be easy to review in snapshots
+export async function describeRequests(
+  options: ServeOptions,
+  paths: string[],
+): Promise<string> {
+  const descriptions = await withServer(options, (origin) =>
+    Promise.all(
+      paths.map((requestPath) => describeRequest(origin, requestPath)),
+    ),
+  );
+  const pathWidth = Math.max(...paths.map((requestPath) => requestPath.length));
+  return paths
+    .map(
+      (requestPath, index) =>
+        `${requestPath.padEnd(pathWidth)}  ${descriptions[index]}`,
+    )
+    .join('\n');
+}
+
+export async function serveRequest(
+  options: ServeOptions,
+  requestPath: string,
+): Promise<string> {
+  return withServer(options, (origin) => describeRequest(origin, requestPath));
+}
+
+async function withServer<T>(
+  options: ServeOptions,
+  callback: (origin: string) => Promise<T>,
+): Promise<T> {
+  const handleRequest = createServeRequestHandler({
+    outDir: fixtureOutDir,
+    ...options,
+  });
+  const server = http.createServer((req, res) => {
+    handleRequest(req, res).catch((error: NodeJS.ErrnoException) =>
+      respondWithCrash(res, error),
+    );
+  });
+
+  await listenToServer({server, host: '127.0.0.1', port: 0});
+  try {
+    const {port} = server.address() as AddressInfo;
+    return await callback(`http://127.0.0.1:${port}`);
+  } finally {
+    server.closeAllConnections();
+    server.close();
+  }
+}
+
+// In production, this rejection is unhandled and crashes the server process
+function respondWithCrash(
+  res: http.ServerResponse,
+  error: NodeJS.ErrnoException,
+) {
+  if (res.headersSent) {
+    res.destroy();
+    return;
+  }
+  // A failed writeHead() can leave the Content-Length of the file to serve
+  res.writeHead(500, {
+    [CrashHeader]: error.code ?? 'unknown',
+    'Content-Length': 0,
+  });
+  res.end();
+}
 
 /**
  * Requests a path and follows its redirects, to describe how it's served:
  * "301 /file → 200 file.html"
  */
-export async function describeRequest(
+async function describeRequest(
   origin: string,
   requestPath: string,
 ): Promise<string> {

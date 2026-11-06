@@ -6,14 +6,12 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import http from 'node:http';
-import {listenToServer} from '../listenToServer';
-import {createServeRequestHandler} from '../requestHandler';
-import {CrashHeader, describeRequest, fixtureOutDir} from './testUtils';
-import type {AddressInfo} from 'node:net';
-import type {DocusaurusConfig} from '@docusaurus/types';
-
-type ServeOptions = Pick<DocusaurusConfig, 'baseUrl' | 'trailingSlash'>;
+import {
+  describeRequests,
+  describeServing,
+  serveRequest,
+  type ServeOptions,
+} from './testUtils';
 
 // Appended to the baseUrl. The fixture build extends the static deployment of
 // https://github.com/slorber/trailing-slash-guide
@@ -74,10 +72,10 @@ const RequestPaths = [
 describe('createServeRequestHandler', () => {
   describe('baseUrl /', () => {
     it('trailingSlash undefined', async () => {
-      const result = await describeServing({
-        baseUrl: '/',
-        trailingSlash: undefined,
-      });
+      const result = await describeServing(
+        {baseUrl: '/', trailingSlash: undefined},
+        RequestPaths,
+      );
       expect(result).toMatchInlineSnapshot(`
         "/                           200 index.html
         /index                      301 / → 200 index.html
@@ -122,10 +120,10 @@ describe('createServeRequestHandler', () => {
     });
 
     it('trailingSlash true', async () => {
-      const result = await describeServing({
-        baseUrl: '/',
-        trailingSlash: true,
-      });
+      const result = await describeServing(
+        {baseUrl: '/', trailingSlash: true},
+        RequestPaths,
+      );
       expect(result).toMatchInlineSnapshot(`
         "/                           200 index.html
         /index                      301 / → 200 index.html
@@ -170,10 +168,10 @@ describe('createServeRequestHandler', () => {
     });
 
     it('trailingSlash false', async () => {
-      const result = await describeServing({
-        baseUrl: '/',
-        trailingSlash: false,
-      });
+      const result = await describeServing(
+        {baseUrl: '/', trailingSlash: false},
+        RequestPaths,
+      );
       expect(result).toMatchInlineSnapshot(`
         "/                           200 index.html
         /index                      301 / → 200 index.html
@@ -220,10 +218,10 @@ describe('createServeRequestHandler', () => {
 
   describe('baseUrl /base/', () => {
     it('trailingSlash undefined', async () => {
-      const result = await describeServing({
-        baseUrl: '/base/',
-        trailingSlash: undefined,
-      });
+      const result = await describeServing(
+        {baseUrl: '/base/', trailingSlash: undefined},
+        RequestPaths,
+      );
       expect(result).toMatchInlineSnapshot(`
         "/base/                           200 index.html
         /base/index                      301 / → 302 /base/ → 200 index.html
@@ -269,10 +267,10 @@ describe('createServeRequestHandler', () => {
 
     // Windows serves file paths with a trailing slash, other platforms 404
     it.skipIf(process.platform === 'win32')('trailingSlash true', async () => {
-      const result = await describeServing({
-        baseUrl: '/base/',
-        trailingSlash: true,
-      });
+      const result = await describeServing(
+        {baseUrl: '/base/', trailingSlash: true},
+        RequestPaths,
+      );
       expect(result).toMatchInlineSnapshot(`
         "/base/                           200 index.html
         /base/index                      302 /base/index/ → 200 index.html
@@ -317,10 +315,10 @@ describe('createServeRequestHandler', () => {
     });
 
     it('trailingSlash false', async () => {
-      const result = await describeServing({
-        baseUrl: '/base/',
-        trailingSlash: false,
-      });
+      const result = await describeServing(
+        {baseUrl: '/base/', trailingSlash: false},
+        RequestPaths,
+      );
       expect(result).toMatchInlineSnapshot(`
         "/base/                           200 index.html
         /base/index                      301 / → 302 /base/ → 200 index.html
@@ -447,71 +445,3 @@ describe('createServeRequestHandler', () => {
     );
   });
 });
-
-async function describeServing(options: ServeOptions): Promise<string> {
-  const baseUrlPrefix = options.baseUrl.replace(/\/$/, '');
-  const paths = RequestPaths.map((requestPath) => baseUrlPrefix + requestPath);
-  return describeRequests(options, paths);
-}
-
-// One line per request, aligned to be easy to review in snapshots
-async function describeRequests(
-  options: ServeOptions,
-  paths: string[],
-): Promise<string> {
-  const descriptions = await withServer(options, (origin) =>
-    Promise.all(paths.map((path) => describeRequest(origin, path))),
-  );
-  const pathWidth = Math.max(...paths.map((path) => path.length));
-  return paths
-    .map((path, index) => `${path.padEnd(pathWidth)}  ${descriptions[index]}`)
-    .join('\n');
-}
-
-async function serveRequest(
-  options: ServeOptions,
-  path: string,
-): Promise<string> {
-  return withServer(options, (origin) => describeRequest(origin, path));
-}
-
-async function withServer<T>(
-  options: ServeOptions,
-  callback: (origin: string) => Promise<T>,
-): Promise<T> {
-  const handleRequest = createServeRequestHandler({
-    outDir: fixtureOutDir,
-    ...options,
-  });
-  const server = http.createServer((req, res) => {
-    handleRequest(req, res).catch((error: NodeJS.ErrnoException) =>
-      respondWithCrash(res, error),
-    );
-  });
-
-  await listenToServer({server, host: '127.0.0.1', port: 0});
-  try {
-    const {port} = server.address() as AddressInfo;
-    return await callback(`http://127.0.0.1:${port}`);
-  } finally {
-    server.closeAllConnections();
-    server.close();
-  }
-}
-
-// In production, this rejection is unhandled and crashes the server process
-function respondWithCrash(
-  res: http.ServerResponse,
-  error: NodeJS.ErrnoException,
-) {
-  if (res.headersSent) {
-    res.destroy();
-    return;
-  }
-  // A failed writeHead() can leave the Content-Length of the file to serve
-  res.writeHead(500, {
-    [CrashHeader]: error.code ?? 'unknown',
-    'Content-Length': 0,
-  });
-  res.end();
-}
