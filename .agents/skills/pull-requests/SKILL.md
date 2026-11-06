@@ -22,7 +22,21 @@ Write the description from the GitHub pull request template in `.github/PULL_REQ
 
 Be concise in every section. If something important is verbose (long logs, detailed benchmark results…), hide it in a `<details><summary>…</summary>…</details>` block.
 
+Write the description to a uniquely named file in your session scratchpad (like `pr-<topic>-body.md`, without the slashes of branch names), never to a shared path like `$TMPDIR/pr-body.md`: parallel sessions overwrite it.
+
 After creating the PR, update the deploy preview link in its description with the assigned PR number: `https://deploy-preview-<PR-NUMBER>--docusaurus-2.netlify.app/`. Include links to relevant preview pages in the template's Test links section so that reviewers can easily find them.
+
+## Scope and stacked PRs
+
+- Keep each PR strictly minimal: every hunk must be required by the PR. Put unrelated refactors and cleanups in another PR, stacked on top.
+- For a bug fix, start the stack with a PR that only reproduces the bug. For a bug visible on the site, add a dogfood page (see [Dogfooding](../../../AGENTS.md#dogfooding)): its deploy preview and Argos show the bug, and the fix PR shows the fix as a visual diff. Otherwise, add tests capturing the current behavior.
+- To stack a PR, create it with the lower PR branch as its base, then run `gh stack link <bottom-PR> <top-PR>` ([`gh-stack`](https://github.com/github/gh-stack) extension) from the checkout. Otherwise, GitHub doesn't show the stack, and the CI doesn't run on the upper PR.
+- Linking doesn't trigger `argos.yml`: if the upper PR has the `Argos` label, remove and re-add it.
+- After the bottom PR is merged, GitHub rebases the upper PR onto `main` and force-pushes it: `git fetch` before rebasing it locally.
+
+## Dependabot PRs
+
+When a Dependabot PR needs more than the version bump to pass CI, don't push to its branch: open a dedicated PR with the bump and the fixes, then close the Dependabot PR with a comment linking it.
 
 ## Labels
 

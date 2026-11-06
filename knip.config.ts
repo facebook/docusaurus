@@ -107,7 +107,7 @@ const config: KnipConfig = ({
     },
     'admin/scripts': {
       // Run directly with node, or through the package bin commands
-      entry: ['*.js'],
+      entry: ['*.js', 'claude/*.js'],
     },
     'packages/create-docusaurus': {
       // Used to test the CLI package
