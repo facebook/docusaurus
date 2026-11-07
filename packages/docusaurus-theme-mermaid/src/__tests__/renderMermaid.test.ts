@@ -133,8 +133,8 @@ describe('renderMermaid', () => {
 
   it('clean up error container from document on error if present', async () => {
     const removeFn = vi.fn();
-    const querySelectorSpy = vi.fn().mockReturnValue({remove: removeFn});
-    vi.stubGlobal('document', {querySelector: querySelectorSpy});
+    const getElementByIdSpy = vi.fn().mockReturnValue({remove: removeFn});
+    vi.stubGlobal('document', {getElementById: getElementByIdSpy});
 
     const mockMermaid = {
       initialize: vi.fn(),
@@ -151,15 +151,16 @@ describe('renderMermaid', () => {
         : never,
     );
 
+    // Verify handling of React useId() IDs containing colons (e.g. :r0:-0)
     await expect(
       renderMermaid({
-        id: 'error-id',
+        id: ':r0:-0',
         text: 'invalid',
         config: {theme: 'default'},
       }),
     ).rejects.toThrow('Render failed');
 
-    expect(querySelectorSpy).toHaveBeenCalledWith('#derror-id');
+    expect(getElementByIdSpy).toHaveBeenCalledWith('d:r0:-0');
     expect(removeFn).toHaveBeenCalled();
 
     vi.unstubAllGlobals();
