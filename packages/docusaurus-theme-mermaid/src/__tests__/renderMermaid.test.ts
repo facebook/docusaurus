@@ -152,6 +152,7 @@ describe('renderMermaid', () => {
     );
 
     // Verify handling of React useId() IDs containing colons (e.g. :r0:-0)
+    // Non-alphanumeric characters are sanitized to underscores for CSS selector compatibility
     await expect(
       renderMermaid({
         id: ':r0:-0',
@@ -160,7 +161,8 @@ describe('renderMermaid', () => {
       }),
     ).rejects.toThrow('Render failed');
 
-    expect(getElementByIdSpy).toHaveBeenCalledWith('d:r0:-0');
+    expect(mockMermaid.render).toHaveBeenCalledWith('_r0_-0', 'invalid');
+    expect(getElementByIdSpy).toHaveBeenCalledWith('d_r0_-0');
     expect(removeFn).toHaveBeenCalled();
 
     vi.unstubAllGlobals();
