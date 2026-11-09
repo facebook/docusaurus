@@ -358,6 +358,36 @@ describe('headings remark plugin', () => {
         await expect(
           headingIdFor('# {#text-after} custom ID', format),
         ).resolves.toEqual('text-after-custom-id');
+
+        await expect(
+          process(
+            '## Heading {#legacy}<!-- note -->',
+            [[remarkComment, {ast: true}]],
+            {},
+            format,
+          ),
+        ).resolves.toEqual(
+          u('root', [
+            u(
+              'heading',
+              {
+                depth: 2,
+                data: {
+                  hProperties: {id: 'legacy'},
+                  id: 'legacy',
+                },
+              },
+              [
+                u('text', 'Heading'),
+                {
+                  type: 'comment',
+                  value: '',
+                  commentValue: ' note ',
+                },
+              ],
+            ),
+          ]),
+        );
       }
       it('works for format CommonMark', async () => {
         await testHeadingIds('md');

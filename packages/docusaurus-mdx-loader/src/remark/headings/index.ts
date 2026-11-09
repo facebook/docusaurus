@@ -95,23 +95,30 @@ function extractClassicSyntaxHeadingId(heading: Heading, headingText: string) {
   const parsedHeading = parseMarkdownHeadingId(headingText, 'classic');
   // Remove the heading text from its id (legacy syntax)
   if (parsedHeading.id) {
-    // When there's an id, it is always in the last child node
-    const lastNode = heading.children.at(-1) as Text;
-    if (heading.children.length > 1) {
-      const lastNodeText = parseMarkdownHeadingId(
-        lastNode.value,
-        'classic',
-      ).text;
-      // When the last part contains text + id, remove the id
-      if (lastNodeText) {
-        lastNode.value = lastNodeText;
+    // When there's an id, locate the last text node containing the classic syntax
+    const targetNode = heading.children
+      .filter((node): node is Text => node.type === 'text')
+      .at(-1);
+    if (targetNode) {
+      if (heading.children.length > 1) {
+        const targetNodeText = parseMarkdownHeadingId(
+          targetNode.value,
+          'classic',
+        ).text;
+        // When the last part contains text + id, remove the id
+        if (targetNodeText) {
+          targetNode.value = targetNodeText;
+        }
+        // When last part contains only the id: completely remove that node
+        else {
+          const index = heading.children.indexOf(targetNode);
+          if (index !== -1) {
+            heading.children.splice(index, 1);
+          }
+        }
+      } else {
+        targetNode.value = parsedHeading.text;
       }
-      // When last part contains only the id: completely remove that node
-      else {
-        heading.children.pop();
-      }
-    } else {
-      lastNode.value = parsedHeading.text;
     }
     return parsedHeading.id;
   }
