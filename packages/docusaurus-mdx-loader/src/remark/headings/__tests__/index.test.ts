@@ -414,6 +414,40 @@ describe('headings remark plugin', () => {
             ),
           ]),
         );
+
+        await expect(
+          process(
+            '## Heading {#custom-id}',
+            [
+              function splitTextPlugin() {
+                return (root) => {
+                  const heading = (root as Parent).children[0] as Heading;
+                  heading.children = [
+                    u('text', 'Heading '),
+                    u('text', '{#custom'),
+                    u('text', '-id}'),
+                  ];
+                };
+              },
+            ],
+            {},
+            format,
+          ),
+        ).resolves.toEqual(
+          u('root', [
+            u(
+              'heading',
+              {
+                depth: 2,
+                data: {
+                  hProperties: {id: 'custom-id'},
+                  id: 'custom-id',
+                },
+              },
+              [u('text', 'Heading')],
+            ),
+          ]),
+        );
       }
       it('works for format CommonMark', async () => {
         await testHeadingIds('md');
