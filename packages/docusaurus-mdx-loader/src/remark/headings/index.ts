@@ -89,14 +89,14 @@ function extractCommentId(heading: Heading) {
   return undefined;
 }
 
-// Recursively finds all text nodes contributing to visible heading text
+// Recursively finds all text-bearing leaf nodes contributing to visible heading text
 function findAllTextNodes(parent: {children?: unknown[]}): {
-  node: Text;
+  node: {value: string};
   parent: {children: unknown[]};
   index: number;
 }[] {
   const result: {
-    node: Text;
+    node: {value: string};
     parent: {children: unknown[]};
     index: number;
   }[] = [];
@@ -106,17 +106,21 @@ function findAllTextNodes(parent: {children?: unknown[]}): {
       return;
     }
     for (let i = 0; i < node.children.length; i++) {
-      const child = node.children[i] as {type: string; children?: unknown[]};
-      if (child.type === 'text') {
+      const child = node.children[i] as {
+        type: string;
+        value?: string;
+        children?: unknown[];
+      };
+      if (['html', 'jsx', 'comment'].includes(child.type)) {
+        continue;
+      }
+      if (typeof child.value === 'string') {
         result.push({
-          node: child as unknown as Text,
+          node: child as {value: string},
           parent: node as {children: unknown[]},
           index: i,
         });
-      } else if (
-        !['html', 'jsx', 'comment'].includes(child.type) &&
-        child.children
-      ) {
+      } else if (child.children) {
         walk(child);
       }
     }

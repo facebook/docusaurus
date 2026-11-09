@@ -448,6 +448,59 @@ describe('headings remark plugin', () => {
             ),
           ]),
         );
+
+        await expect(
+          process('## Title `code` {#custom-id}', [], {}, format),
+        ).resolves.toEqual(
+          u('root', [
+            u(
+              'heading',
+              {
+                depth: 2,
+                data: {
+                  hProperties: {id: 'custom-id'},
+                  id: 'custom-id',
+                },
+              },
+              [u('text', 'Title '), u('inlineCode', 'code')],
+            ),
+          ]),
+        );
+
+        await expect(
+          process(
+            '## Title {#`custom`}',
+            [
+              function inlineCodeIdPlugin() {
+                return (root) => {
+                  const heading = (root as Parent).children[0] as Heading;
+                  heading.children = [
+                    u('text', 'Title '),
+                    u('text', '{#'),
+                    u('inlineCode', 'custom'),
+                    u('text', '}'),
+                  ];
+                };
+              },
+            ],
+            {},
+            format,
+          ),
+        ).resolves.toEqual(
+          u('root', [
+            u(
+              'heading',
+              {
+                depth: 2,
+                data: {
+                  hProperties: {id: 'custom'},
+                  id: 'custom',
+                },
+              },
+              [u('text', 'Title')],
+            ),
+          ]),
+        );
       }
       it('works for format CommonMark', async () => {
         await testHeadingIds('md');
