@@ -63,9 +63,8 @@ function getCommentHeadingId(heading: Heading): string | undefined {
 
   // HTML comment parsed by @slorber/remark-comment when mdx1Compat.comments is enabled
   if ((lastChild?.type as string) === 'comment') {
-    const commentContent = (
-      lastChild as unknown as {commentValue?: string}
-    ).commentValue;
+    const commentContent = (lastChild as unknown as {commentValue?: string})
+      .commentValue;
     if (commentContent) {
       return getCommentContentHeadingId(commentContent);
     }
@@ -90,34 +89,59 @@ function extractCommentId(heading: Heading) {
   return undefined;
 }
 
+// Recursively finds the last text node contributing to visible heading text
+function findLastTextNode(parent: {
+  children?: unknown[];
+}): {node: Text; parent: {children: unknown[]}; index: number} | undefined {
+  if (!parent.children || parent.children.length === 0) {
+    return undefined;
+  }
+  for (let i = parent.children.length - 1; i >= 0; i--) {
+    const child = parent.children[i] as {type: string; children?: unknown[]};
+    if (child.type === 'text') {
+      return {
+        node: child as unknown as Text,
+        parent: parent as {children: unknown[]},
+        index: i,
+      };
+    }
+    if (!['html', 'jsx', 'comment'].includes(child.type) && child.children) {
+      const nested = findLastTextNode(child);
+      if (nested) {
+        return nested;
+      }
+    }
+  }
+  return undefined;
+}
+
 // Try to find an explicit id in the heading text (classic {#id} syntax)
 function extractClassicSyntaxHeadingId(heading: Heading, headingText: string) {
   const parsedHeading = parseMarkdownHeadingId(headingText, 'classic');
   // Remove the heading text from its id (legacy syntax)
   if (parsedHeading.id) {
-    // When there's an id, locate the last text node containing the classic syntax
-    const targetNode = heading.children
-      .filter((node): node is Text => node.type === 'text')
-      .at(-1);
-    if (targetNode) {
-      if (heading.children.length > 1) {
-        const targetNodeText = parseMarkdownHeadingId(
-          targetNode.value,
-          'classic',
-        ).text;
-        // When the last part contains text + id, remove the id
-        if (targetNodeText) {
-          targetNode.value = targetNodeText;
+    // Locate the text node containing the classic syntax (even if nested or followed by comments)
+    const targetInfo = findLastTextNode(heading);
+    if (targetInfo) {
+      const {node: targetNode, parent: targetParent, index} = targetInfo;
+      const targetNodeText = parseMarkdownHeadingId(
+        targetNode.value,
+        'classic',
+      ).text;
+      // When the node contains text + id, remove the id
+      if (targetNodeText) {
+        targetNode.value = targetNodeText;
+      }
+      // When the node contains only the id: completely remove that node
+      else {
+        targetParent.children.splice(index, 1);
+        // Trim trailing whitespace from preceding text node if present
+        const prevNode = targetParent.children[index - 1] as
+          | {type?: string; value?: string}
+          | undefined;
+        if (prevNode?.type === 'text' && typeof prevNode.value === 'string') {
+          prevNode.value = prevNode.value.trimEnd();
         }
-        // When last part contains only the id: completely remove that node
-        else {
-          const index = heading.children.indexOf(targetNode);
-          if (index !== -1) {
-            heading.children.splice(index, 1);
-          }
-        }
-      } else {
-        targetNode.value = parsedHeading.text;
       }
     }
     return parsedHeading.id;

@@ -388,6 +388,32 @@ describe('headings remark plugin', () => {
             ),
           ]),
         );
+
+        await expect(
+          process(
+            '## Heading *with emphasis {#nested-legacy}*',
+            [],
+            {},
+            format,
+          ),
+        ).resolves.toEqual(
+          u('root', [
+            u(
+              'heading',
+              {
+                depth: 2,
+                data: {
+                  hProperties: {id: 'nested-legacy'},
+                  id: 'nested-legacy',
+                },
+              },
+              [
+                u('text', 'Heading '),
+                u('emphasis', [u('text', 'with emphasis')]),
+              ],
+            ),
+          ]),
+        );
       }
       it('works for format CommonMark', async () => {
         await testHeadingIds('md');
