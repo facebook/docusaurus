@@ -105,6 +105,11 @@ describe('inlineScripts', () => {
       fn(mockLocalStorage, mockDocument);
       expect(attributeValue).toBe('false');
 
+      // Simulate missing stored announcement ID while dismissal flag is true
+      store.delete('docusaurus.announcement.id');
+      fn(mockLocalStorage, mockDocument);
+      expect(attributeValue).toBe('false');
+
       // Simulate when user has dismissed current announcement-v2
       mockLocalStorage.setItem('docusaurus.announcement.id', 'announcement-v2');
 

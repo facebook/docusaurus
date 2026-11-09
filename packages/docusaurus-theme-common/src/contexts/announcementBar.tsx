@@ -59,9 +59,12 @@ function useContextValue(): ContextValue {
   }, [announcementBar?.id]);
 
   const handleClose = useCallback(() => {
+    if (announcementBar) {
+      IdStorage.set(announcementBar.id);
+    }
     setDismissedInStorage(true);
     setClosed(true);
-  }, []);
+  }, [announcementBar]);
 
   useEffect(() => {
     if (!announcementBar) {
