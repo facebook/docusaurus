@@ -10,6 +10,7 @@
 import {describe, expect, it} from 'vitest';
 import {remark} from 'remark';
 import mdx from 'remark-mdx';
+import remarkComment from '@slorber/remark-comment';
 import {u} from 'unist-builder';
 import {visit} from 'unist-util-visit';
 import {escapeMarkdownHeadingIds} from '@docusaurus/utils';
@@ -432,6 +433,17 @@ describe('headings remark plugin', () => {
         it('removes the comment node when it is the only heading content', async () => {
           const heading = await processHeading('## <!-- #id-only -->', 'md');
           expect(heading).toEqual(h(null, 2, 'id-only'));
+        });
+
+        it('supports HTML comment syntax when remark-comment is enabled', async () => {
+          const result = await process(
+            '## Heading <!-- #my-id -->',
+            [[remarkComment, {ast: true}]],
+            {},
+            'md',
+          );
+          const heading = result.children[0] as Heading;
+          expect(heading).toEqual(h('Heading', 2, 'my-id'));
         });
 
         it('does NOT support MDX comment syntax {/* #id */} in CommonMark', async () => {
