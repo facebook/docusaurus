@@ -90,12 +90,15 @@ export function getAnnouncementBarInlineScript({
   const AnnouncementBarDismissDataAttribute =
     'data-announcement-bar-initially-dismissed';
   const id = announcementBar?.id ?? 'announcement-bar';
+  // Escape '<' to prevent breaking out of inline <script> tags
+  // See https://redux.js.org/recipes/server-rendering/#security-considerations
+  const serializedId = JSON.stringify(id).replace(/</g, '\\u003c');
 
   /* language=js */
   return `(function() {
   function isDismissed() {
     try {
-      if (localStorage.getItem('${AnnouncementBarIdStorageKey}') !== ${JSON.stringify(id)}) {
+      if (localStorage.getItem('${AnnouncementBarIdStorageKey}') !== ${serializedId}) {
         return false;
       }
       return localStorage.getItem('${AnnouncementBarDismissStorageKey}') === 'true';
