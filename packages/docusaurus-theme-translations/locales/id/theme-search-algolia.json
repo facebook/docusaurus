@@ -1,7 +1,7 @@
 {
   "theme.SearchBar.label": "Cari",
   "theme.SearchBar.seeAll": "Lihat semua {count} hasilnya",
-  "theme.SearchModal.askAiScreen.afterToolCallText": "Mencari",
+  "theme.SearchModal.askAiScreen.afterToolCallText": "Telah mencari",
   "theme.SearchModal.askAiScreen.copyButtonCopiedText": "Disalin!",
   "theme.SearchModal.askAiScreen.copyButtonText": "Salin",
   "theme.SearchModal.askAiScreen.copyButtonTitle": "Salin",
