@@ -18,12 +18,24 @@ export function formatStatsErrorMessage(
     // TODO formatWebpackMessages does not print stack-traces
     // Also the error causal chain is lost here
     // We log the stacktrace inside serverEntry.tsx for now (not ideal)
-    const {errors} = formatWebpackMessages(statsJson);
+    const {errors} = formatWebpackMessages({
+      ...statsJson,
+      errors: statsJson.errors.map(withErrorSource),
+    });
     return errors
       .map((str) => logger.red(str))
       .join(`\n\n${logger.yellow('--------------------------')}\n\n`);
   }
   return undefined;
+}
+
+function withErrorSource(error: webpack.StatsError): webpack.StatsError {
+  const source = error.moduleName ?? error.file;
+  if (!source) {
+    return error;
+  }
+  const sourceLocation = error.loc ? `${source}:${error.loc}` : source;
+  return {...error, message: `${sourceLocation}\n${error.message}`};
 }
 
 export function printStatsWarnings(
