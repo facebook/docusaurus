@@ -79,6 +79,45 @@ describe('formatStatsErrorMessage', () => {
     expect(result).not.toContain('Another error');
   });
 
+  it('preserves module-resolution details when adding the source', () => {
+    const result = formatStatsErrorMessage({
+      errors: [
+        {
+          moduleName: './src/index.js',
+          loc: '1:0-24',
+          message: [
+            "Module not found: Error: Can't resolve 'buffer'",
+            'BREAKING CHANGE: webpack < 5 included polyfills by default.',
+            'Configure resolve.fallback to provide a polyfill.',
+          ].join('\n'),
+        },
+      ],
+      warnings: [],
+    });
+    expect(result).toContain('./src/index.js:1:0-24');
+    expect(result).toContain("Can't resolve 'buffer'");
+    expect(result).toContain('BREAKING CHANGE:');
+    expect(result).toContain('Configure resolve.fallback');
+  });
+
+  it('preserves Sass installation guidance when adding the source', () => {
+    const result = formatStatsErrorMessage({
+      errors: [
+        {
+          moduleName: './src/styles.scss',
+          message:
+            "./src/styles.scss\nCannot find module 'sass'\nRequire stack:",
+        },
+      ],
+      warnings: [],
+    });
+    expect(result).toContain('./src/styles.scss');
+    expect(result).toContain(
+      'To import Sass files, you first need to install sass.',
+    );
+    expect(result).toContain('npm install sass');
+  });
+
   it('returns undefined when there are no errors', () => {
     expect(formatStatsErrorMessage(undefined)).toBeUndefined();
     expect(formatStatsErrorMessage({errors: [], warnings: []})).toBeUndefined();
@@ -88,6 +127,35 @@ describe('formatStatsErrorMessage', () => {
 describe.each(['webpack', 'rspack'] as const)(
   '%s error diagnostics',
   (name) => {
+    it('preserves real module-resolution diagnostics', async () => {
+      await using dir = await fs.mkdtempDisposable(
+        path.join(await fs.realpath(tmpdir()), 'docusaurus-compiler-'),
+      );
+      await fs.mkdir(path.join(dir.path, 'src'));
+      await fs.writeFile(
+        path.join(dir.path, 'src/index.js'),
+        "import 'buffer';",
+      );
+      const currentBundler = await getCurrentBundler({
+        siteConfig: {webpack: name === 'webpack' ? {} : undefined},
+      });
+      const compilation = compile({
+        currentBundler,
+        configs: [
+          {
+            mode: 'development',
+            context: dir.path,
+            entry: './src/index.js',
+            output: {path: path.join(dir.path, 'build')},
+          },
+        ],
+      });
+      await expect(compilation).rejects.toThrow('./src/index.js');
+      await expect(compilation).rejects.toThrow(
+        name === 'webpack' ? 'resolve.fallback' : "Can't resolve 'buffer'",
+      );
+    });
+
     it('identifies the source of a real module parse failure', async () => {
       await using dir = await fs.mkdtempDisposable(
         path.join(await fs.realpath(tmpdir()), 'docusaurus-compiler-'),
