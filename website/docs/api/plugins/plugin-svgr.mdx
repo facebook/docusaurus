@@ -69,6 +69,9 @@ const defaultSvgrConfig = {
           overrides: {
             removeTitle: false,
             removeViewBox: false,
+            mergePaths: {
+              noSpaceAfterFlags: true,
+            },
           },
         },
       },
@@ -81,11 +84,20 @@ const defaultSvgrConfig = {
           prefixClassNames: false,
         },
       },
+      {
+        name: 'removeXlink',
+        params: {
+          includeLegacy: true,
+        },
+      },
+      'removeXMLNS',
     ],
   },
 };
 ```
 
 The `prefixIds` plugin prefixes SVG ids (for example, `id="a"` becomes `id="svg-3f2a1c-a"`) to avoid clashes between multiple SVGs inlined in the same page. Class names are not prefixed.
+
+The `removeXlink` and `removeXMLNS` plugins remove the XML namespaces (`xmlns`, `xlink:href`…) that browsers ignore in SVGs inlined in HTML.
 
 Providing `svgoConfig` replaces the default [SVGO](https://svgo.dev/) config entirely. Use `svgoConfig: undefined` to read your own [`svgo.config.js` file](https://svgo.dev/docs/introduction/#configuration) instead.
