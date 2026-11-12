@@ -33,7 +33,7 @@ jobs:
           cache: true
       - name: Generate test-website project
         # Generated in the workspace to use the current packages instead of the npm ones
-        run: node ./packages/create-docusaurus/bin/index.js test-website-in-workspace classic
+        run: node ./packages/create-docusaurus/bin/index.js test-website-in-workspace classic --javascript
       - name: Install test-website project
         run: pnpm install --no-frozen-lockfile --ignore-scripts
         working-directory: test-website-in-workspace
