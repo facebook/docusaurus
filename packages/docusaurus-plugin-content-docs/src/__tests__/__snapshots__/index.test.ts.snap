@@ -53,7 +53,7 @@ Available document ids are:
 
 exports[`simple website > content > data 1`] = `
 {
-  "site-docs-custom-last-update-md-b8d.json": {
+  "site-docs-custom-last-update-md-301.json": {
     "description": "Custom last update",
     "draft": false,
     "editUrl": undefined,
@@ -80,7 +80,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-doc-draft-md-584.json": {
+  "site-docs-doc-draft-md-64d.json": {
     "description": "This is a draft document",
     "draft": false,
     "editUrl": undefined,
@@ -103,7 +103,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-doc-unlisted-md-80b.json": {
+  "site-docs-doc-unlisted-md-b0a.json": {
     "description": "This is an unlisted document",
     "draft": false,
     "editUrl": undefined,
@@ -132,7 +132,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-doc-with-space-md-e90.json": {
+  "site-docs-doc-with-space-md-8a9.json": {
     "description": "",
     "draft": false,
     "editUrl": undefined,
@@ -153,7 +153,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-foo-bar-md-8c2.json": {
+  "site-docs-foo-bar-md-57f.json": {
     "description": "This is custom description",
     "draft": false,
     "editUrl": undefined,
@@ -180,7 +180,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-foo-baz-md-a69.json": {
+  "site-docs-foo-baz-md-b69.json": {
     "description": "Images",
     "draft": false,
     "editUrl": undefined,
@@ -243,7 +243,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-heading-as-title-md-c6d.json": {
+  "site-docs-heading-as-title-md-508.json": {
     "description": "",
     "draft": false,
     "editUrl": undefined,
@@ -270,7 +270,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-hello-md-9df.json": {
+  "site-docs-hello-md-e47.json": {
     "description": "Hi, Endilie here :)",
     "draft": false,
     "editUrl": undefined,
@@ -316,7 +316,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-ipsum-md-c61.json": {
+  "site-docs-ipsum-md-350.json": {
     "description": "Lorem ipsum.",
     "draft": false,
     "editUrl": null,
@@ -343,7 +343,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-last-update-author-only-md-352.json": {
+  "site-docs-last-update-author-only-md-c02.json": {
     "description": "Only custom author, so it will still use the date from Git",
     "draft": false,
     "editUrl": undefined,
@@ -369,7 +369,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-last-update-date-only-md-987.json": {
+  "site-docs-last-update-date-only-md-148.json": {
     "description": "Only custom date, so it will still use the author from Git",
     "draft": false,
     "editUrl": undefined,
@@ -395,7 +395,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-lorem-md-b27.json": {
+  "site-docs-lorem-md-7fc.json": {
     "description": "Lorem ipsum.",
     "draft": false,
     "editUrl": "https://github.com/customUrl/docs/lorem.md",
@@ -419,7 +419,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-root-absolute-slug-md-db5.json": {
+  "site-docs-root-absolute-slug-md-5d1.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -450,7 +450,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-root-relative-slug-md-3dd.json": {
+  "site-docs-root-relative-slug-md-844.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -481,7 +481,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-root-resolved-slug-md-4d1.json": {
+  "site-docs-root-resolved-slug-md-c56.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -512,7 +512,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-root-try-to-escape-slug-md-9ee.json": {
+  "site-docs-root-try-to-escape-slug-md-7aa.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -543,7 +543,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-slugs-absolute-slug-md-4e8.json": {
+  "site-docs-slugs-absolute-slug-md-714.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -566,7 +566,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-slugs-relative-slug-md-d1c.json": {
+  "site-docs-slugs-relative-slug-md-7eb.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -589,7 +589,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-slugs-resolved-slug-md-02b.json": {
+  "site-docs-slugs-resolved-slug-md-001.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -612,7 +612,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-slugs-try-to-escape-slug-md-70d.json": {
+  "site-docs-slugs-try-to-escape-slug-md-6be.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -635,7 +635,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-unlisted-category-index-md-efa.json": {
+  "site-docs-unlisted-category-index-md-a7b.json": {
     "description": "This is an unlisted category index",
     "draft": false,
     "editUrl": undefined,
@@ -665,7 +665,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-unlisted-category-unlisted-category-doc-md-bd6.json": {
+  "site-docs-unlisted-category-unlisted-category-doc-md-865.json": {
     "description": "This is an unlisted category doc",
     "draft": false,
     "editUrl": undefined,
@@ -695,7 +695,7 @@ exports[`simple website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "version-current-43b.json": {
+  "version-current-97b.json": {
     "badge": false,
     "banner": null,
     "className": "docs-version-current",
@@ -1148,7 +1148,7 @@ exports[`simple website > content > route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "context": {
-          "docsVersion": "~docs/version-current-43b.json",
+          "docsVersion": "~docs/version-current-97b.json",
         },
         "exact": false,
         "path": "/docs",
@@ -3021,7 +3021,7 @@ exports[`versioned website (community) > content > current version sidebars 1`] 
 
 exports[`versioned website (community) > content > data 1`] = `
 {
-  "site-community-versioned-docs-version-1-0-0-team-md-359.json": {
+  "site-community-versioned-docs-version-1-0-0-team-md-425.json": {
     "description": "Team 1.0.0",
     "draft": false,
     "editUrl": undefined,
@@ -3042,7 +3042,7 @@ exports[`versioned website (community) > content > data 1`] = `
     "unlisted": false,
     "version": "1.0.0",
   },
-  "site-i-18-n-en-docusaurus-plugin-content-docs-community-current-team-md-7e5.json": {
+  "site-i-18-n-en-docusaurus-plugin-content-docs-community-current-team-md-6f7.json": {
     "description": "Team current version (translated)",
     "draft": false,
     "editUrl": undefined,
@@ -3065,7 +3065,7 @@ exports[`versioned website (community) > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "version-1-0-0-47c.json": {
+  "version-1-0-0-925.json": {
     "badge": true,
     "banner": null,
     "className": "docs-version-1.0.0",
@@ -3096,7 +3096,7 @@ exports[`versioned website (community) > content > data 1`] = `
     "pluginId": "community",
     "version": "1.0.0",
   },
-  "version-current-43b.json": {
+  "version-current-97b.json": {
     "badge": true,
     "banner": "unreleased",
     "className": "docs-version-current",
@@ -3199,7 +3199,7 @@ exports[`versioned website (community) > content > route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "context": {
-          "docsVersion": "~docs/version-current-43b.json",
+          "docsVersion": "~docs/version-current-97b.json",
         },
         "exact": false,
         "path": "/community/next",
@@ -3230,7 +3230,7 @@ exports[`versioned website (community) > content > route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "context": {
-          "docsVersion": "~docs/version-1-0-0-47c.json",
+          "docsVersion": "~docs/version-1-0-0-925.json",
         },
         "exact": false,
         "path": "/community",
@@ -3418,7 +3418,7 @@ exports[`versioned website > content > current version sidebars 1`] = `
 
 exports[`versioned website > content > data 1`] = `
 {
-  "site-docs-foo-bar-md-8c2.json": {
+  "site-docs-foo-bar-md-57f.json": {
     "description": "This is next version of bar.",
     "draft": false,
     "editUrl": undefined,
@@ -3468,7 +3468,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-hello-md-9df.json": {
+  "site-docs-hello-md-e47.json": {
     "description": "Hello next !",
     "draft": false,
     "editUrl": undefined,
@@ -3494,7 +3494,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-slugs-absolute-slug-md-4e8.json": {
+  "site-docs-slugs-absolute-slug-md-714.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3517,7 +3517,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-slugs-relative-slug-md-d1c.json": {
+  "site-docs-slugs-relative-slug-md-7eb.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3540,7 +3540,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-slugs-resolved-slug-md-02b.json": {
+  "site-docs-slugs-resolved-slug-md-001.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3563,7 +3563,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-docs-slugs-try-to-escape-slug-md-70d.json": {
+  "site-docs-slugs-try-to-escape-slug-md-6be.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3586,7 +3586,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "current",
   },
-  "site-i-18-n-en-docusaurus-plugin-content-docs-version-1-0-0-hello-md-fe5.json": {
+  "site-i-18-n-en-docusaurus-plugin-content-docs-version-1-0-0-hello-md-5c1.json": {
     "description": "Hello 1.0.0 ! (translated en)",
     "draft": false,
     "editUrl": undefined,
@@ -3629,7 +3629,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "1.0.0",
   },
-  "site-versioned-docs-version-1-0-0-foo-bar-md-7a6.json": {
+  "site-versioned-docs-version-1-0-0-foo-bar-md-978.json": {
     "description": "Bar 1.0.0 !",
     "draft": false,
     "editUrl": undefined,
@@ -3655,7 +3655,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "1.0.0",
   },
-  "site-versioned-docs-version-1-0-0-foo-baz-md-883.json": {
+  "site-versioned-docs-version-1-0-0-foo-baz-md-705.json": {
     "description": "Baz 1.0.0 ! This will be deleted in next subsequent versions.",
     "draft": false,
     "editUrl": undefined,
@@ -3682,7 +3682,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "1.0.0",
   },
-  "site-versioned-docs-version-1-0-1-foo-bar-md-7a3.json": {
+  "site-versioned-docs-version-1-0-1-foo-bar-md-f0c.json": {
     "description": "Bar 1.0.1 !",
     "draft": false,
     "editUrl": undefined,
@@ -3706,7 +3706,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "1.0.1",
   },
-  "site-versioned-docs-version-1-0-1-hello-md-0c7.json": {
+  "site-versioned-docs-version-1-0-1-hello-md-344.json": {
     "description": "Hello 1.0.1 !",
     "draft": false,
     "editUrl": undefined,
@@ -3749,7 +3749,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "1.0.1",
   },
-  "site-versioned-docs-version-with-slugs-root-absolute-slug-md-4d2.json": {
+  "site-versioned-docs-version-with-slugs-root-absolute-slug-md-926.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3772,7 +3772,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "withSlugs",
   },
-  "site-versioned-docs-version-with-slugs-root-relative-slug-md-32a.json": {
+  "site-versioned-docs-version-with-slugs-root-relative-slug-md-e6d.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3795,7 +3795,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "withSlugs",
   },
-  "site-versioned-docs-version-with-slugs-root-resolved-slug-md-aee.json": {
+  "site-versioned-docs-version-with-slugs-root-resolved-slug-md-2b4.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3818,7 +3818,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "withSlugs",
   },
-  "site-versioned-docs-version-with-slugs-root-try-to-escape-slug-md-b5d.json": {
+  "site-versioned-docs-version-with-slugs-root-try-to-escape-slug-md-641.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3841,7 +3841,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "withSlugs",
   },
-  "site-versioned-docs-version-with-slugs-slugs-absolute-slug-md-47a.json": {
+  "site-versioned-docs-version-with-slugs-slugs-absolute-slug-md-a18.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3864,7 +3864,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "withSlugs",
   },
-  "site-versioned-docs-version-with-slugs-slugs-relative-slug-md-a95.json": {
+  "site-versioned-docs-version-with-slugs-slugs-relative-slug-md-c0f.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3887,7 +3887,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "withSlugs",
   },
-  "site-versioned-docs-version-with-slugs-slugs-resolved-slug-md-5a1.json": {
+  "site-versioned-docs-version-with-slugs-slugs-resolved-slug-md-0d0.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3910,7 +3910,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "withSlugs",
   },
-  "site-versioned-docs-version-with-slugs-slugs-try-to-escape-slug-md-4e1.json": {
+  "site-versioned-docs-version-with-slugs-slugs-try-to-escape-slug-md-ea1.json": {
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3933,7 +3933,7 @@ exports[`versioned website > content > data 1`] = `
     "unlisted": false,
     "version": "withSlugs",
   },
-  "version-1-0-0-47c.json": {
+  "version-1-0-0-925.json": {
     "badge": true,
     "banner": "unmaintained",
     "className": "docs-version-1.0.0",
@@ -4010,7 +4010,7 @@ exports[`versioned website > content > data 1`] = `
     "pluginId": "default",
     "version": "1.0.0",
   },
-  "version-1-0-1-3ac.json": {
+  "version-1-0-1-d51.json": {
     "badge": true,
     "banner": null,
     "className": "docs-version-1.0.1",
@@ -4072,7 +4072,7 @@ exports[`versioned website > content > data 1`] = `
     "pluginId": "default",
     "version": "1.0.1",
   },
-  "version-current-43b.json": {
+  "version-current-97b.json": {
     "badge": true,
     "banner": "unreleased",
     "className": "docs-version-current",
@@ -4158,7 +4158,7 @@ exports[`versioned website > content > data 1`] = `
     "pluginId": "default",
     "version": "current",
   },
-  "version-with-slugs-068.json": {
+  "version-with-slugs-551.json": {
     "badge": true,
     "banner": "unmaintained",
     "className": "docs-version-withSlugs",
@@ -4432,7 +4432,7 @@ exports[`versioned website > content > route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "context": {
-          "docsVersion": "~docs/version-1-0-0-47c.json",
+          "docsVersion": "~docs/version-1-0-0-925.json",
         },
         "exact": false,
         "path": "/docs/1.0.0",
@@ -4556,7 +4556,7 @@ exports[`versioned website > content > route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "context": {
-          "docsVersion": "~docs/version-current-43b.json",
+          "docsVersion": "~docs/version-current-97b.json",
         },
         "exact": false,
         "path": "/docs/next",
@@ -4744,7 +4744,7 @@ exports[`versioned website > content > route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "context": {
-          "docsVersion": "~docs/version-with-slugs-068.json",
+          "docsVersion": "~docs/version-with-slugs-551.json",
         },
         "exact": false,
         "path": "/docs/withSlugs",
@@ -4859,7 +4859,7 @@ exports[`versioned website > content > route config 1`] = `
       {
         "component": "@theme/DocVersionRoot",
         "context": {
-          "docsVersion": "~docs/version-1-0-1-3ac.json",
+          "docsVersion": "~docs/version-1-0-1-d51.json",
         },
         "exact": false,
         "path": "/docs",

@@ -140,7 +140,7 @@ describe('loadSite', () => {
             baseUrl: '/zh-Hans/',
           }),
           siteStorage: {
-            namespace: '-3c3',
+            namespace: '-4f5',
             type: 'localStorage',
           },
           plugins: site.props.plugins,

@@ -9,26 +9,18 @@ import {hash} from 'node:crypto';
 import _ from 'lodash';
 import {shortName, isNameTooLong} from './pathUtils';
 
-/** Thin wrapper around `crypto.hash("md5")`. */
+/**
+ * Thin wrapper around `crypto.hash("md5")`.
+ * @deprecated FIPS mode forbids MD5: use `hashString` instead.
+ */
+// TODO Docusaurus v5: remove md5Hash
 export function md5Hash(str: string): string {
   return hash('md5', str);
 }
 
-// FIPS mode forbids MD5, see https://github.com/meta/docusaurus/pull/13007
-const hashAlgorithm = isMd5Available() ? 'md5' : 'sha256';
-
-function isMd5Available(): boolean {
-  try {
-    md5Hash('');
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-/** Hashes a string with MD5, or SHA-256 when MD5 is not available. */
+/** Hashes a string with SHA-256, which FIPS mode allows. */
 export function hashString(str: string): string {
-  return hash(hashAlgorithm, str);
+  return hash('sha256', str);
 }
 
 /** Creates a hash with `hashString` and truncates it to the given length. */

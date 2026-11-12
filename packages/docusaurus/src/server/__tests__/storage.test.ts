@@ -30,10 +30,10 @@ function test({
 }
 
 // Storage is namespaced by default, from url + baseUrl
-// https://docusaurus.io/ => -189
+// https://docusaurus.io/ => -070
 const DefaultSiteStorage: SiteStorage = {
   type: 'localStorage',
-  namespace: '-189',
+  namespace: '-070',
 };
 
 describe('storage', () => {
@@ -80,7 +80,7 @@ describe('storage', () => {
             url: 'https://docusaurus.io',
             baseUrl: '/',
           },
-          '-189',
+          '-070',
         );
       });
 
@@ -90,7 +90,7 @@ describe('storage', () => {
             url: 'https://docusaurus.io',
             baseUrl: '/baseUrl/',
           },
-          '-b21',
+          '-87b',
         );
       });
 
@@ -100,7 +100,7 @@ describe('storage', () => {
             url: 'https://example.com',
             baseUrl: '/',
           },
-          '-182',
+          '-0f1',
         );
       });
 
@@ -110,12 +110,12 @@ describe('storage', () => {
             url: 'https://example.com',
             baseUrl: '/baseUrl/',
           },
-          '-ad6',
+          '-78f',
         );
       });
 
       it('automatic namespace - is not slash sensitive', () => {
-        const expectedNamespace = '-b21';
+        const expectedNamespace = '-87b';
         testAutomaticNamespace(
           {
             url: 'https://docusaurus.io',

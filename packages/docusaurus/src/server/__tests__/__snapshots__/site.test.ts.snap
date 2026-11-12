@@ -163,7 +163,7 @@ exports[`loadSite > custom-i18n-site > loads site 1`] = `
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-182",
+    "namespace": "-0f1",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -314,7 +314,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom config 1`] = 
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-e70",
+    "namespace": "-b18",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -465,7 +465,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom outDir 1`] = 
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-249",
+    "namespace": "-be0",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -616,7 +616,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site 1`] = `
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-249",
+    "namespace": "-be0",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -833,7 +833,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site -  locale fr + cu
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-1e8",
+    "namespace": "-4fd",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -1050,7 +1050,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - custom outDir 1
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-249",
+    "namespace": "-be0",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -1267,7 +1267,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale de 1`] =
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-887",
+    "namespace": "-a2e",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -1484,7 +1484,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale en 1`] =
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-249",
+    "namespace": "-be0",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -1701,7 +1701,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale es 1`] =
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-694",
+    "namespace": "-eda",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -1918,7 +1918,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale fr 1`] =
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-1e8",
+    "namespace": "-4fd",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -2135,7 +2135,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale it 1`] =
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-f94",
+    "namespace": "-b4e",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -2352,7 +2352,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site 1`] = `
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "-249",
+    "namespace": "-be0",
     "type": "localStorage",
   },
   "siteVersion": undefined,
