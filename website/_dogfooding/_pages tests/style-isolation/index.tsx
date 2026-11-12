@@ -157,7 +157,7 @@ export default function StyleIsolation(): ReactNode {
 
         <p>
           This shows how to isolate your components from Docusaurus global
-          styles, with the solution{' '}
+          styles by reverting CSS Cascade Layers, the solution{' '}
           <Link target="_blank" to="/docs/styling-layout#reverting-layers">
             recommended in our docs
           </Link>
