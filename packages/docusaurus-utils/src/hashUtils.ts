@@ -5,21 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {hash} from 'node:crypto';
+import {getHashes, hash} from 'node:crypto';
 import _ from 'lodash';
 import {shortName, isNameTooLong} from './pathUtils';
 
 // FIPS mode forbids MD5, see https://github.com/meta/docusaurus/pull/13007
-const hashAlgorithm = isMd5Available() ? 'md5' : 'sha256';
-
-function isMd5Available(): boolean {
-  try {
-    hash('md5', '');
-    return true;
-  } catch {
-    return false;
-  }
-}
+const hashAlgorithm = getHashes().includes('md5') ? 'md5' : 'sha256';
 
 /** Hashes with MD5, or SHA-256 when MD5 is not available. */
 export function hashString(data: string | Buffer): string {

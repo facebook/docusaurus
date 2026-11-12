@@ -59,11 +59,13 @@ function disableMd5() {
     return createHash(algorithm, ...args);
   });
 
-  // Docusaurus checks once on load if crypto.hash() supports MD5
+  // Docusaurus checks once on load if crypto.getHashes() lists MD5
   vi.doMock('node:crypto', async (importOriginal) => {
     const originalCrypto = await importOriginal<typeof import('node:crypto')>();
     return {
       ...originalCrypto,
+      getHashes: () =>
+        originalCrypto.getHashes().filter((name) => name !== 'md5'),
       hash: (algorithm: string, data: string) => {
         unsupported(algorithm);
         return originalCrypto.hash(algorithm, data);
