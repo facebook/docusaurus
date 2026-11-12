@@ -27,23 +27,13 @@ describe('glob', () => {
     return dir;
   }
 
-  it('returns files in a stable order, whatever their creation order', async () => {
-    const dir = await createFiles([
-      'b/z.md',
-      'c.md',
-      'b/a.md',
-      'a/b.md',
-      'a.md',
-      'B.md',
-    ]);
-    await expect(glob('**/*.md', {cwd: dir})).resolves.toEqual([
-      'B.md',
-      'a.md',
-      'c.md',
-      'a/b.md',
-      'b/a.md',
-      'b/z.md',
-    ]);
+  it('sorts the files of folders read concurrently', async () => {
+    const sortedFiles = Array.from(
+      {length: 30},
+      (_, i) => `post-${String(i).padStart(2, '0')}/index.md`,
+    );
+    const dir = await createFiles(sortedFiles);
+    await expect(glob('**/*.md', {cwd: dir})).resolves.toEqual(sortedFiles);
   });
 
   it('sorts absolute file paths', async () => {

@@ -27,37 +27,9 @@ export async function glob(
 ): Promise<string[]> {
   // Other lib options are still forwarded at runtime for retro-compatibility
   const files = await Tinyglobby.glob(patterns, {...options});
-  // The crawl order depends on the file system and the JS runtime
+  // Tinyglobby reads folders concurrently: their files come in a random order
   // See https://github.com/meta/docusaurus/pull/13031
-  return files.sort(compareFilePaths);
-}
-
-/**
- * Sorts like a crawl: the files of a folder come before its subfolders.
- * Names are compared by UTF-16 code unit, so the order ignores the locale.
- */
-function compareFilePaths(a: string, b: string): number {
-  if (a === b) {
-    return 0;
-  }
-  const aSegments = a.split('/');
-  const bSegments = b.split('/');
-  const i = findFirstDifferentIndex(aSegments, bSegments);
-
-  const aIsFile = i === aSegments.length - 1;
-  const bIsFile = i === bSegments.length - 1;
-  if (aIsFile !== bIsFile) {
-    return aIsFile ? -1 : 1;
-  }
-  return aSegments[i]! < bSegments[i]! ? -1 : 1;
-}
-
-function findFirstDifferentIndex(a: string[], b: string[]): number {
-  let i = 0;
-  while (a[i] === b[i]) {
-    i += 1;
-  }
-  return i;
+  return files.sort();
 }
 
 /**
