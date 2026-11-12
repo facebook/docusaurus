@@ -13,7 +13,7 @@ import {findAsyncSequential} from './jsUtils';
 const fileHash = new Map<string, string>();
 
 const hashContent = (content: string): string => {
-  return hash('md5', content);
+  return hash('sha256', content);
 };
 
 /**

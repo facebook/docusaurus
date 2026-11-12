@@ -15,7 +15,7 @@ import {
 import {
   ASSET_INLINE_MAX_SIZE,
   getAssetRuleUtils,
-  md5Hash,
+  sha256Hash,
 } from '@docusaurus/utils';
 import {realpath} from '@docusaurus/fs';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
@@ -126,7 +126,7 @@ export async function createBaseConfig({
       // Changing the asset inline max size must evict the cache
       ASSET_INLINE_MAX_SIZE,
     ];
-    return md5Hash(JSON.stringify(versionParts));
+    return sha256Hash(JSON.stringify(versionParts));
   }
 
   // When one of those modules/dependencies change (including transitive

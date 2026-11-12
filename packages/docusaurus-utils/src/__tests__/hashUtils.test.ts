@@ -11,17 +11,17 @@ import {simpleHash, docuHash} from '../hashUtils';
 describe('hashUtils', () => {
   it('simpleHash', () => {
     const asserts: {[key: string]: string} = {
-      '': 'd41',
-      '/foo-bar': '096',
-      '/foo/bar': '1df',
-      '/endi/lie': '9fa',
-      '/endi-lie': 'fd3',
-      '/yangshun/tay': '48d',
-      '/yangshun-tay': 'f3b',
+      '': 'e3b',
+      '/foo-bar': 'f2b',
+      '/foo/bar': 'a05',
+      '/endi/lie': 'aec',
+      '/endi-lie': '11d',
+      '/yangshun/tay': '3f1',
+      '/yangshun-tay': '81e',
       '/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar':
-        'd46',
+        'dbb',
       '/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/test1-test2':
-        '787',
+        '255',
     };
     Object.keys(asserts).forEach((str) => {
       expect(simpleHash(str, 3)).toBe(asserts[str]);
@@ -32,18 +32,18 @@ describe('hashUtils', () => {
 describe('docuHash', () => {
   it('docuHash works', () => {
     const asserts: {[key: string]: string} = {
-      '': '-d41',
+      '': '-e3b',
       '/': 'index',
-      '/foo-bar': 'foo-bar-096',
-      '/foo/bar': 'foo-bar-1df',
-      '/endi/lie': 'endi-lie-9fa',
-      '/endi-lie': 'endi-lie-fd3',
-      '/yangshun/tay': 'yangshun-tay-48d',
-      '/yangshun-tay': 'yangshun-tay-f3b',
+      '/foo-bar': 'foo-bar-f2b',
+      '/foo/bar': 'foo-bar-a05',
+      '/endi/lie': 'endi-lie-aec',
+      '/endi-lie': 'endi-lie-11d',
+      '/yangshun/tay': 'yangshun-tay-3f1',
+      '/yangshun-tay': 'yangshun-tay-81e',
       '/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar':
-        'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo--d46',
+        'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo--dbb',
       '/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/test1-test2':
-        'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-test-1-test--787',
+        'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-test-1-test--255',
     };
     Object.keys(asserts).forEach((file) => {
       expect(docuHash(file)).toBe(asserts[file]);
@@ -52,10 +52,10 @@ describe('docuHash', () => {
 
   it('docuHash works with hashLength option', () => {
     const asserts: {[key: string]: string} = {
-      '': '-d41d8',
+      '': '-e3b0c',
       '/': 'index',
-      '/foo-bar': 'foo-bar-09652',
-      '/foo/bar': 'foo-bar-1df48',
+      '/foo-bar': 'foo-bar-f2b7d',
+      '/foo/bar': 'foo-bar-a05d9',
     };
     Object.keys(asserts).forEach((file) => {
       expect(docuHash(file, {hashLength: 5})).toBe(asserts[file]);
@@ -63,16 +63,16 @@ describe('docuHash', () => {
   });
 
   it('docuHash works with hashExtra option', () => {
-    expect(docuHash('')).toBe('-d41');
-    expect(docuHash('', {hashExtra: ''})).toBe('-d41');
-    expect(docuHash('', {hashExtra: 'some-extra'})).toBe('-928');
+    expect(docuHash('')).toBe('-e3b');
+    expect(docuHash('', {hashExtra: ''})).toBe('-e3b');
+    expect(docuHash('', {hashExtra: 'some-extra'})).toBe('-696');
 
     expect(docuHash('/')).toBe('index');
-    expect(docuHash('/', {hashExtra: ''})).toBe('index-6a9');
-    expect(docuHash('/', {hashExtra: 'some-extra'})).toBe('index-68e');
+    expect(docuHash('/', {hashExtra: ''})).toBe('index-1bc');
+    expect(docuHash('/', {hashExtra: 'some-extra'})).toBe('index-961');
 
-    expect(docuHash('/foo/bar')).toBe('foo-bar-1df');
-    expect(docuHash('/foo/bar', {hashExtra: ''})).toBe('foo-bar-1df');
-    expect(docuHash('/foo/bar', {hashExtra: 'some-extra'})).toBe('foo-bar-7d4');
+    expect(docuHash('/foo/bar')).toBe('foo-bar-a05');
+    expect(docuHash('/foo/bar', {hashExtra: ''})).toBe('foo-bar-a05');
+    expect(docuHash('/foo/bar', {hashExtra: 'some-extra'})).toBe('foo-bar-c4d');
   });
 });
