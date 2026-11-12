@@ -143,6 +143,20 @@ describe('injectPrecacheManifest', () => {
     await expect(readSwManifest(outDir.path)).resolves.toEqual([]);
   });
 
+  it('delegates templatedURLs to Workbox', async () => {
+    await using outDir = await createOutDir();
+
+    await injectPrecacheManifest({
+      ...getOptions(outDir.path),
+      templatedURLs: {'/app-shell': 'shell'},
+    });
+
+    await expect(readSwManifest(outDir.path)).resolves.toContainEqual({
+      url: '/app-shell',
+      revision: crypto.createHash('md5').update('shell').digest('hex'),
+    });
+  });
+
   it('applies the Workbox manifest options', async () => {
     await using outDir = await createOutDir();
 

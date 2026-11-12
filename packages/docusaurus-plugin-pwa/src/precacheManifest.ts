@@ -26,6 +26,12 @@ export async function injectPrecacheManifest(
 ): Promise<void> {
   const options = validateInjectManifestOptions(config);
 
+  // Options our file hashing doesn't support: Workbox (and MD5) handles them
+  if (options.templatedURLs || !options.globFollow) {
+    await injectManifest(config);
+    return;
+  }
+
   const files = await globFilesToPrecache(options);
   const fileDetails = await getFileDetails(files, options.globDirectory);
   const {manifestEntries} = await transformManifest({...options, fileDetails});

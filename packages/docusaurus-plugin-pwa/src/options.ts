@@ -38,13 +38,9 @@ const optionsSchema = Joi.object<PluginOptions>({
         .required(),
     )
     .default(DEFAULT_OPTIONS.offlineModeActivationStrategies),
-  injectManifestConfig: Joi.object({
-    // Not supported by our own file hashing, see ./precacheManifest.ts
-    globFollow: Joi.forbidden(),
-    templatedURLs: Joi.forbidden(),
-  })
-    .unknown()
-    .default(DEFAULT_OPTIONS.injectManifestConfig),
+  injectManifestConfig: Joi.object().default(
+    DEFAULT_OPTIONS.injectManifestConfig,
+  ),
   pwaHead: Joi.array()
     .items(Joi.object({tagName: Joi.string().required()}).unknown().required())
     .default(DEFAULT_OPTIONS.pwaHead),
