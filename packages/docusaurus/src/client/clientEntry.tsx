@@ -5,23 +5,31 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {startTransition, type ReactNode} from 'react';
+import {startTransition, useState, type ReactNode} from 'react';
 import ReactDOM, {type ErrorInfo} from 'react-dom/client';
 import {HelmetProvider} from 'react-helmet-async';
-import {BrowserRouter, HashRouter} from 'react-router-dom';
+import {Router as ReactRouter} from 'react-router-dom';
+import {createBrowserHistory, createHashHistory, type History} from 'history';
 import siteConfig from '@generated/docusaurus.config';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import App from './App';
 import preload from './preload';
 import {normalizeBrowserPathname} from './normalizeLocation';
 import docusaurus from './docusaurus';
+import {enableMultipleBlockers} from './historyBlockers';
 
+function createHistory(): History {
+  const history =
+    siteConfig.future.experimental_router === 'hash'
+      ? createHashHistory()
+      : createBrowserHistory();
+  return enableMultipleBlockers(history);
+}
+
+// BrowserRouter or HashRouter, with a history supporting multiple blockers
 function Router({children}: {children: ReactNode}): ReactNode {
-  return siteConfig.future.experimental_router === 'hash' ? (
-    <HashRouter>{children}</HashRouter>
-  ) : (
-    <BrowserRouter>{children}</BrowserRouter>
-  );
+  const [history] = useState(createHistory);
+  return <ReactRouter history={history}>{children}</ReactRouter>;
 }
 
 const hydrate = Boolean(process.env.HYDRATE_CLIENT_ENTRY);

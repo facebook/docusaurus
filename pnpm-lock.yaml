@@ -287,6 +287,9 @@ catalogs:
     hast-util-to-estree:
       specifier: ^3.1.3
       version: 3.1.3
+    history:
+      specifier: ^4.10.1
+      version: 4.10.1
     html-tags:
       specifier: ^5.1.0
       version: 5.1.0
@@ -1149,6 +1152,9 @@ importers:
       execa:
         specifier: 'catalog:'
         version: 10.0.1
+      history:
+        specifier: 'catalog:'
+        version: 4.10.1
       html-tags:
         specifier: 'catalog:'
         version: 5.1.0

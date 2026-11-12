@@ -89,6 +89,9 @@ updates:
         update-types: ['version-update:semver-major']
       - dependency-name: 'react-router-dom'
         update-types: ['version-update:semver-major']
+      # react-router v5 needs history v4
+      - dependency-name: 'history'
+        update-types: ['version-update:semver-major']
       # We postponed the Babel 8 upgrade, and may drop Babel support instead
       # See https://github.com/meta/docusaurus/pull/12408
       - dependency-name: '@babel/*'
