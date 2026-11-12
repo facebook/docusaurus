@@ -9,11 +9,6 @@ import {getHashes, hash} from 'node:crypto';
 import _ from 'lodash';
 import {shortName, isNameTooLong} from './pathUtils';
 
-/** Thin wrapper around `crypto.hash("md5")`. */
-export function md5Hash(str: string): string {
-  return hash('md5', str);
-}
-
 // FIPS mode forbids MD5, see https://github.com/meta/docusaurus/pull/13007
 const hashAlgorithm = getHashes().includes('md5') ? 'md5' : 'sha256';
 
