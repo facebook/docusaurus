@@ -11,7 +11,7 @@ import type {PluginOptions} from './options';
 
 // The layer order is the order of first appearance in the CSS bundle
 // Declaring it in each file makes it independent of the bundler CSS order
-// See https://github.com/meta/docusaurus/pull/TODO
+// See https://github.com/meta/docusaurus/pull/13032
 function prependLayersDeclaration(root: Root, layerNames: string[]): void {
   root.prepend({type: 'atrule', name: 'layer', params: layerNames.join(', ')});
 }
