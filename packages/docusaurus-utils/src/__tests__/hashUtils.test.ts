@@ -92,6 +92,7 @@ describe('hashString', () => {
       const crypto = await importOriginal<typeof import('node:crypto')>();
       return {
         ...crypto,
+        getHashes: () => crypto.getHashes().filter((name) => name !== 'md5'),
         hash: (algorithm: string, data: string) => {
           if (algorithm === 'md5') {
             throw new Error(
