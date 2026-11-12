@@ -15,7 +15,12 @@ export function md5Hash(str: string): string {
 }
 
 // FIPS mode forbids MD5, see https://github.com/meta/docusaurus/pull/13007
-const hashAlgorithm = getHashes().includes('md5') ? 'md5' : 'sha256';
+const hashAlgorithm = getHashAlgorithm(getHashes());
+
+/** MD5, or SHA-256 when MD5 is not available. */
+export function getHashAlgorithm(availableHashes: string[]): 'md5' | 'sha256' {
+  return availableHashes.includes('md5') ? 'md5' : 'sha256';
+}
 
 /** Hashes with MD5, or SHA-256 when MD5 is not available. */
 export function hashString(data: string | Buffer): string {

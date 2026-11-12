@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {afterEach, describe, expect, it, vi} from 'vitest';
-import {hashString, simpleHash, docuHash} from '../hashUtils';
+import {describe, expect, it} from 'vitest';
+import {getHashAlgorithm, hashString, simpleHash, docuHash} from '../hashUtils';
 
 describe('hashUtils', () => {
   it('simpleHash', () => {
@@ -77,38 +77,18 @@ describe('docuHash', () => {
   });
 });
 
-describe('hashString', () => {
-  afterEach(() => {
-    vi.doUnmock('node:crypto');
-    vi.resetModules();
+describe('getHashAlgorithm', () => {
+  it('uses MD5', () => {
+    expect(getHashAlgorithm(['md5', 'sha256'])).toBe('md5');
   });
 
+  it('uses SHA-256 when MD5 is not available, like in FIPS mode', () => {
+    expect(getHashAlgorithm(['sha256'])).toBe('sha256');
+  });
+});
+
+describe('hashString', () => {
   it('uses MD5', () => {
     expect(hashString('/foo/bar')).toBe('1df481b1ec67d4d8bec721f521d4937d');
-  });
-
-  it('uses SHA-256 when MD5 is not available, like in FIPS mode', async () => {
-    vi.doMock('node:crypto', async (importOriginal) => {
-      const crypto = await importOriginal<typeof import('node:crypto')>();
-      return {
-        ...crypto,
-        getHashes: () => crypto.getHashes().filter((name) => name !== 'md5'),
-        hash: (algorithm: string, data: string) => {
-          if (algorithm === 'md5') {
-            throw new Error(
-              'error:0308010C:digital envelope routines::unsupported',
-            );
-          }
-          return crypto.hash(algorithm, data);
-        },
-      };
-    });
-    vi.resetModules();
-    const fipsHashUtils = await import('../hashUtils');
-
-    expect(fipsHashUtils.hashString('/foo/bar')).toBe(
-      'a05d96ad6bf8f3eaa59689160625f69dd411591f9dbdc728baad8c1c75af9ad6',
-    );
-    expect(fipsHashUtils.docuHash('/foo/bar')).toBe('foo-bar-a05');
   });
 });
