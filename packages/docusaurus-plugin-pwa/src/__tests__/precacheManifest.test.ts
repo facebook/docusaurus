@@ -30,11 +30,13 @@ async function createOutDir() {
   return dir;
 }
 
+// Sorted by URL, because Workbox doesn't sort the manifest
 async function readSwManifest(outDir: string): Promise<ManifestEntry[]> {
   const swContent = await fs.readFile(path.join(outDir, 'sw.js'), 'utf8');
   const manifestJson = /^const manifest = (?<json>.*);$/.exec(swContent)!
     .groups!.json!;
-  return JSON.parse(manifestJson);
+  const manifest: ManifestEntry[] = JSON.parse(manifestJson);
+  return manifest.toSorted((a, b) => a.url.localeCompare(b.url));
 }
 
 function getOptions(outDir: string) {
@@ -56,9 +58,8 @@ describe('injectPrecacheManifest', () => {
     await injectPrecacheManifest(getOptions(outDir.path));
 
     const workboxManifest = await readSwManifest(workboxOutDir.path);
-    await expect(readSwManifest(outDir.path)).resolves.toEqual(
-      workboxManifest.toSorted((a, b) => a.url.localeCompare(b.url)),
-    );
+    const manifest = await readSwManifest(outDir.path);
+    expect(manifest).toEqual(workboxManifest);
   });
 
   it('injects files hashed with MD5, except the service worker', async () => {
@@ -66,7 +67,8 @@ describe('injectPrecacheManifest', () => {
 
     await injectPrecacheManifest(getOptions(outDir.path));
 
-    await expect(readSwManifest(outDir.path)).resolves.toEqual([
+    const manifest = await readSwManifest(outDir.path);
+    expect(manifest).toEqual([
       {url: 'assets/main.css', revision: 'aa676972bbd2b68e94ef8e91e81d20be'},
       {url: 'assets/main.js', revision: '238e96d5b62a1aec3739730469f27192'},
       {url: 'index.html', revision: 'fe919dfbe925337c176e602ebbf0d15c'},
@@ -81,7 +83,8 @@ describe('injectPrecacheManifest', () => {
       templatedURLs: {'/app-shell': 'shell'},
     });
 
-    await expect(readSwManifest(outDir.path)).resolves.toContainEqual({
+    const manifest = await readSwManifest(outDir.path);
+    expect(manifest).toContainEqual({
       url: '/app-shell',
       revision: crypto.createHash('md5').update('shell').digest('hex'),
     });
@@ -104,9 +107,10 @@ describe('injectPrecacheManifest', () => {
       additionalManifestEntries: [{url: '/extra.txt', revision: '42'}],
     });
 
-    await expect(readSwManifest(outDir.path)).resolves.toEqual([
-      {url: '/static/main.js', revision: null},
+    const manifest = await readSwManifest(outDir.path);
+    expect(manifest).toEqual([
       {url: '/extra.txt', revision: '42'},
+      {url: '/static/main.js', revision: null},
     ]);
   });
 });
