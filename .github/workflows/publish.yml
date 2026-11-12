@@ -28,11 +28,12 @@ on:
 # See https://docs.zizmor.sh/audits/#excessive-permissions
 permissions: {}
 
-# Queues releases, without cancelling the one in progress
+# Queues releases, without cancelling the one in progress or the pending ones
 # See https://docs.zizmor.sh/audits/#concurrency-limits
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: false
+  queue: max
 
 # ⚠️ No GitHub Actions cache on purpose, enforced by GitHub for every step
 # A poisoned cache increases the chance of a compromised release being published
