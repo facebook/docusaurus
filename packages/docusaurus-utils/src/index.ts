@@ -90,7 +90,7 @@ export {
   escapePath,
   addTrailingPathSeparator,
 } from './pathUtils';
-export {md5Hash, simpleHash, docuHash} from './hashUtils';
+export {md5Hash, hashString, simpleHash, docuHash} from './hashUtils';
 export {
   getAssetRuleUtils,
   findAssetRule,

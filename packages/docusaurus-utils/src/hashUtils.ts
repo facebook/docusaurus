@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {hash} from 'node:crypto';
+import {getHashes, hash} from 'node:crypto';
 import _ from 'lodash';
 import {shortName, isNameTooLong} from './pathUtils';
 
@@ -14,9 +14,17 @@ export function md5Hash(str: string): string {
   return hash('md5', str);
 }
 
-/** Creates an MD5 hash and truncates it to the given length. */
+// FIPS mode forbids MD5, see https://github.com/meta/docusaurus/pull/13007
+const hashAlgorithm = getHashes().includes('md5') ? 'md5' : 'sha256';
+
+/** Hashes a string with MD5, or SHA-256 when MD5 is not available. */
+export function hashString(str: string): string {
+  return hash(hashAlgorithm, str);
+}
+
+/** Creates a hash with `hashString` and truncates it to the given length. */
 export function simpleHash(str: string, length: number): string {
-  return md5Hash(str).substring(0, length);
+  return hashString(str).substring(0, length);
 }
 
 // Based on https://github.com/gatsbyjs/gatsby/pull/21518/files
