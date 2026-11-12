@@ -68,6 +68,8 @@ export async function readVersionDocs(
   const sources = await glob(options.include, {
     cwd: versionMetadata.contentPath,
     ignore: options.exclude,
+    // Don't load all the files of a folder named like `folder.md/`
+    expandDirectories: false,
   });
   return Promise.all(
     sources.map((source) => readDocFile(versionMetadata, source)),

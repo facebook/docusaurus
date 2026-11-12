@@ -423,6 +423,8 @@ export async function generateBlogPosts(
   const blogSourceFiles = await glob(include, {
     cwd: contentPaths.contentPath,
     ignore: exclude,
+    // Don't load all the files of a folder named like `folder.md/`
+    expandDirectories: false,
   });
 
   async function doProcessBlogSourceFile(blogSourceFile: string) {

@@ -106,7 +106,6 @@ describe('docusaurus-plugin-content-pages', () => {
     const pagesMetadata = await plugin.loadContent!();
 
     expect(pagesMetadata!.map((page) => page.source).sort()).toEqual([
-      '@site/src/pages/folder.md/notes.txt',
       '@site/src/pages/folder.md/page.md',
     ]);
   });

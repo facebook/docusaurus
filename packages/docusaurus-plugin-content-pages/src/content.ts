@@ -72,6 +72,8 @@ export async function loadPagesContent(
   const pagesFiles = await glob(params.options.include, {
     cwd: params.contentPaths.contentPath,
     ignore: options.exclude,
+    // Don't load all the files of a folder named like `folder.md/`
+    expandDirectories: false,
   });
 
   async function doProcessPageSourceFile(relativeSource: string) {
