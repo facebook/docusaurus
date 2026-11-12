@@ -115,7 +115,7 @@ catalog:
   raw-loader: ^4.0.2
   react: ^19.3.0
   react-dom: ^19.3.0
-  react-helmet-async: npm:@slorber/react-helmet-async@1.3.0
+  react-helmet-async: ^3.1.0
   react-json-view-lite: ^2.5.0
   react-lite-youtube-embed: ^3.7.0
   react-live: ^5.0.0
@@ -262,6 +262,7 @@ minimumReleaseAgeExclude:
   - '@rsdoctor/client@2.0.0'
   - '@rsdoctor/shared@2.0.0'
   - serve-handler@6.1.8
+  - react-helmet-async@3.1.0
   - pnpm
   - typescript
   - '@rspack/*'

@@ -41,37 +41,6 @@ describe('Head', () => {
         Content
       </div>
     `);
-    expect(helmetContext).toMatchInlineSnapshot(`
-      {
-        "helmet": <html>
-          <head>
-            <meta
-              content="article"
-              data-rh={true}
-              property="og:type"
-            />
-            <meta
-              content="some description overridden"
-              data-rh={true}
-              property="og:description"
-            />
-            <meta
-              content="this property is duplicated"
-              data-rh={true}
-              property="duplicated?"
-            />
-            <meta
-              content="another one"
-              data-rh={true}
-              property="duplicated?"
-            />
-            <title
-              data-rh={true}
-            />
-          </head>
-          <body />
-        </html>,
-      }
-    `);
+    expect(helmetContext).toMatchInlineSnapshot(`{}`);
   });
 });

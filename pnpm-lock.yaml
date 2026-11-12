@@ -390,8 +390,8 @@ catalogs:
       specifier: ^19.3.0
       version: 19.3.0
     react-helmet-async:
-      specifier: npm:@slorber/react-helmet-async@1.3.0
-      version: 1.3.0
+      specifier: ^3.1.0
+      version: 3.1.0
     react-json-view-lite:
       specifier: ^2.5.0
       version: 2.5.0
@@ -852,7 +852,7 @@ importers:
         version: 5.0.0
       jest-serializer-react-helmet-async:
         specifier: catalog:dev
-        version: 1.0.21(@slorber/react-helmet-async@1.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
+        version: 1.0.21(react-helmet-async@3.1.0(react@19.3.0))(react@19.3.0)
       jiti:
         specifier: 'catalog:'
         version: 2.7.0
@@ -891,7 +891,7 @@ importers:
         version: 19.3.0(react@19.3.0)
       react-helmet-async:
         specifier: 'catalog:'
-        version: '@slorber/react-helmet-async@1.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)'
+        version: 3.1.0(react@19.3.0)
       rimraf:
         specifier: catalog:dev
         version: 6.1.3
@@ -1175,7 +1175,7 @@ importers:
         version: 19.3.0(react@19.3.0)
       react-helmet-async:
         specifier: 'catalog:'
-        version: '@slorber/react-helmet-async@1.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)'
+        version: 3.1.0(react@19.3.0)
       react-loadable:
         specifier: 'catalog:'
         version: '@docusaurus/react-loadable@6.0.0(react@19.3.0)'
@@ -1573,7 +1573,7 @@ importers:
         version: 19.3.0(react@19.3.0)
       react-helmet-async:
         specifier: 'catalog:'
-        version: '@slorber/react-helmet-async@1.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)'
+        version: 3.1.0(react@19.3.0)
       react-loadable:
         specifier: 'catalog:'
         version: '@docusaurus/react-loadable@6.0.0(react@19.3.0)'
@@ -6407,12 +6407,6 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
-  '@slorber/react-helmet-async@1.3.0':
-    resolution: {integrity: sha512-e9/OK8VhwUSc67diWI8Rb3I0YgI9/SBQtnhe9aEuK6MhZm7ntZZimXgwXnd8W96YTmSOb9M4d8LwhRZyhWr/1A==}
-    peerDependencies:
-      react: ^16.6.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
   '@slorber/remark-comment@1.0.0':
     resolution: {integrity: sha512-RCE24n7jsOj1M0UPvIQCHTe7fI0sFL4S2nwKVWwHyVr/wI/H8GosgsJGyhnsZoGFnD/P2hLf1mSbrrgSLN93NA==}
 
@@ -9755,9 +9749,6 @@ packages:
     resolution: {integrity: sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg==}
     engines: {node: '>=12'}
 
-  invariant@2.2.4:
-    resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
-
   ip-address@10.7.0:
     resolution: {integrity: sha512-BGFsyJd5mpXp3rK6jIdADLNgpJUK1jnjzvYF8lK+VyDab9JAmqN0YOKDdP17HlgKb2+ehPgDc8EtnRLbGCAMhA==}
     engines: {node: '>= 12'}
@@ -11943,6 +11934,11 @@ packages:
   react-fast-compare@3.2.2:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
 
+  react-helmet-async@3.1.0:
+    resolution: {integrity: sha512-IRwyrrgRCrtEEZoFb54Q/otpzGpWnOFV8bdY1C5VWovgtyOXq1jC/KCFs4xOxDaoKdTHPLta3qP2tI8QjDunQA==}
+    peerDependencies:
+      react: ^16.6.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -12379,9 +12375,6 @@ packages:
   shallow-clone@3.0.1:
     resolution: {integrity: sha512-/6KqX+GVUdqPuPPd2LxDDxzX6CAbjJehAAOKlNpqqUpAqPM6HeL8f+o3a+JsyGjn2lv0WY8UsTgUJjU9Ok55NA==}
     engines: {node: '>=8'}
-
-  shallowequal@1.1.0:
-    resolution: {integrity: sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ==}
 
   sharp@0.35.5:
     resolution: {integrity: sha512-Ywn4OnzGukp7CDMrp08RQ50YKmuwG47brZgIVPTvBaaAfQlRlygrRqSrxdCiL9M+LlzLBiJ68IR1QqvzHyjC7g==}
@@ -17443,16 +17436,6 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@slorber/react-helmet-async@1.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
-    dependencies:
-      '@babel/runtime': 7.29.7
-      invariant: 2.2.4
-      prop-types: 15.8.1
-      react: 19.3.0
-      react-dom: 19.3.0(react@19.3.0)
-      react-fast-compare: 3.2.2
-      shallowequal: 1.1.0
-
   '@slorber/remark-comment@1.0.0':
     dependencies:
       micromark-factory-space: 1.1.0
@@ -21367,10 +21350,6 @@ snapshots:
 
   internmap@2.0.3: {}
 
-  invariant@2.2.4:
-    dependencies:
-      loose-envify: 1.4.0
-
   ip-address@10.7.0: {}
 
   ipaddr.js@1.9.1: {}
@@ -21616,10 +21595,10 @@ snapshots:
     dependencies:
       pretty-ansi: 4.0.0
 
-  jest-serializer-react-helmet-async@1.0.21(@slorber/react-helmet-async@1.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0):
+  jest-serializer-react-helmet-async@1.0.21(react-helmet-async@3.1.0(react@19.3.0))(react@19.3.0):
     dependencies:
       react: 19.3.0
-      react-helmet-async: '@slorber/react-helmet-async@1.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)'
+      react-helmet-async: 3.1.0(react@19.3.0)
 
   jest-worker@27.5.1:
     dependencies:
@@ -24242,6 +24221,11 @@ snapshots:
 
   react-fast-compare@3.2.2: {}
 
+  react-helmet-async@3.1.0(react@19.3.0):
+    dependencies:
+      react: 19.3.0
+      react-fast-compare: 3.2.2
+
   react-is@16.13.1: {}
 
   react-is@17.0.2: {}
@@ -24862,8 +24846,6 @@ snapshots:
   shallow-clone@3.0.1:
     dependencies:
       kind-of: 6.0.3
-
-  shallowequal@1.1.0: {}
 
   sharp@0.35.5(@types/node@26.6.1):
     dependencies:

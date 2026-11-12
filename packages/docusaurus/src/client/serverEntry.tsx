@@ -6,7 +6,7 @@
  */
 
 import {StaticRouter} from 'react-router-dom';
-import {HelmetProvider, type FilledContext} from 'react-helmet-async';
+import {HelmetProvider, type HelmetServerState} from 'react-helmet-async';
 import Loadable from 'react-loadable';
 import {renderToHtml} from './renderToHtml';
 import preload from './preload';
@@ -23,7 +23,7 @@ const render: AppRenderer['render'] = async ({pathname}) => {
 
   const modules = new Set<string>();
   const routerContext = {};
-  const helmetContext = {};
+  const helmetContext: {helmet?: HelmetServerState | null} = {};
   const statefulBrokenLinks = createStatefulBrokenLinks();
 
   const app = (
@@ -41,9 +41,9 @@ const render: AppRenderer['render'] = async ({pathname}) => {
 
   const html = await renderToHtml(app);
 
-  const {helmet} = helmetContext as FilledContext;
-
-  const metadata = toPageCollectedMetadataInternal({helmet});
+  const metadata = toPageCollectedMetadataInternal({
+    helmet: helmetContext.helmet,
+  });
 
   const collectedData: PageCollectedDataInternal = {
     metadata,

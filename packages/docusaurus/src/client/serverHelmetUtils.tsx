@@ -12,9 +12,8 @@ import type {HelmetServerState} from 'react-helmet-async';
 type BuildMetaTag = {name?: string; content?: string};
 
 function getBuildMetaTags(helmet: HelmetServerState): BuildMetaTag[] {
-  // @ts-expect-error: see  https://github.com/staylor/react-helmet-async/pull/167
-  const metaElements: ReactElement<BuildMetaTag>[] =
-    helmet.meta.toComponent() ?? [];
+  const metaElements =
+    helmet.meta.toComponent() as ReactElement<BuildMetaTag>[];
   return metaElements.map((el) => el.props);
 }
 
@@ -33,8 +32,23 @@ function isNoIndexTag(tag: BuildMetaTag): boolean {
 export function toPageCollectedMetadataInternal({
   helmet,
 }: {
-  helmet: HelmetServerState;
+  helmet: HelmetServerState | null | undefined;
 }): PageCollectedMetadataInternal {
+  // React 19: react-helmet-async v3 renders the tags and doesn't fill helmet
+  // See https://github.com/staylor/react-helmet-async#react-19
+  if (!helmet) {
+    return {
+      public: {noIndex: false},
+      internal: {
+        htmlAttributes: '',
+        bodyAttributes: '',
+        title: '',
+        meta: '',
+        link: '',
+        script: '',
+      },
+    };
+  }
   const tags = getBuildMetaTags(helmet);
   const noIndex = tags.some(isNoIndexTag);
 
