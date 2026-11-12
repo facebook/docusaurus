@@ -17,6 +17,7 @@ import {injectManifest} from 'workbox-build';
 import {normalizeUrl} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import {getGlobPatterns} from './globPatterns';
 import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';
 
@@ -176,13 +177,7 @@ export default function pluginPWA(
 
       await injectManifest({
         ...injectManifestConfig,
-        globPatterns: [
-          '**/*.{js,json,css,html}',
-          '**/*.{png,jpg,jpeg,gif,svg,ico}',
-          '**/*.{woff,woff2,eot,ttf,otf}',
-          // @ts-expect-error: internal API?
-          ...((injectManifest.globPatterns as string[] | undefined) ?? []),
-        ],
+        globPatterns: getGlobPatterns(injectManifestConfig),
         // Those attributes are not overrideable
         swDest,
         swSrc: swDest,
