@@ -221,7 +221,7 @@ catalogs:
     lerna-changelog: ^2.2.0
     lint-staged: ^17.5.0
     npm-run-all2: ^9.0.3
-    pkg-pr-new: ^0.0.92
+    pkg-pr-new: ^0.0.93
     rehype-stringify: ^10.0.1
     remark: ^15.0.1
     remark-rehype: ^11.1.2
