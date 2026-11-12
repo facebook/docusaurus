@@ -62,7 +62,7 @@ function createDefaultSVGOConfig({siteDir}: {siteDir: string}): SVGOConfig {
         },
       },
       // These plugins are only safe for SVGs inlined in HTML, where browsers
-      // ignore XML namespaces. See https://github.com/meta/docusaurus/issues/10679
+      // ignore XML namespaces. See https://github.com/meta/docusaurus/pull/13005
       {
         name: 'removeXlink',
         params: {
