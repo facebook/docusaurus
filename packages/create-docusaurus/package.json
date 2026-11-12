@@ -24,13 +24,15 @@
   "dependencies": {
     "@docusaurus/fs": "workspace:*",
     "@docusaurus/logger": "workspace:*",
+    "@inquirer/input": "catalog:",
+    "@inquirer/select": "catalog:",
     "commander": "catalog:",
     "cross-spawn": "catalog:",
-    "prompts": "catalog:",
     "semver": "catalog:",
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@inquirer/testing": "catalog:dev",
     "@types/cross-spawn": "catalog:dev"
   },
   "engines": {
