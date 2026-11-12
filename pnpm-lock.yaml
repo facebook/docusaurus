@@ -1989,12 +1989,6 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
-      '@docusaurus/fs':
-        specifier: workspace:*
-        version: link:../docusaurus-fs
-      '@docusaurus/glob':
-        specifier: workspace:*
-        version: link:../docusaurus-glob
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger

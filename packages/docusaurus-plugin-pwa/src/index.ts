@@ -13,10 +13,10 @@ import {
   getProgressBarPlugin,
   getMinimizers,
 } from '@docusaurus/bundler';
+import {injectManifest} from 'workbox-build';
 import {normalizeUrl} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
-import {injectPrecacheManifest} from './precacheManifest';
 import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';
 
@@ -174,13 +174,14 @@ export default function pluginPWA(
 
       const swDest = path.resolve(props.outDir, 'sw.js');
 
-      await injectPrecacheManifest({
+      await injectManifest({
         ...injectManifestConfig,
         globPatterns: [
           '**/*.{js,json,css,html}',
           '**/*.{png,jpg,jpeg,gif,svg,ico}',
           '**/*.{woff,woff2,eot,ttf,otf}',
-          ...(injectManifestConfig.globPatterns ?? []),
+          // @ts-expect-error: internal API?
+          ...((injectManifest.globPatterns as string[] | undefined) ?? []),
         ],
         // Those attributes are not overrideable
         swDest,
