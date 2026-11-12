@@ -18,6 +18,7 @@ export async function prompt<T extends string>(
 ): Promise<Answers<T>> {
   const noAnswer = Promise.withResolvers<never>();
   // The event loop drains when stdin is closed before the prompt is answered
+  // See https://github.com/terkelg/prompts/issues/316
   const onBeforeExit = () =>
     noAnswer.reject(
       new Error(
