@@ -56,8 +56,7 @@ jobs:
           make -j"$(nproc)" > /dev/null
           make install_fips
 
-      # The next steps run in FIPS mode
-      - name: Enable FIPS mode
+      - name: Configure Node.js to load the OpenSSL FIPS provider
         run: |
           fips_dir="$RUNNER_TEMP/openssl-fips"
           cat > "$fips_dir/nodejs.cnf" <<EOF
@@ -75,10 +74,12 @@ jobs:
           {
             echo "OPENSSL_CONF=$fips_dir/nodejs.cnf"
             echo "OPENSSL_MODULES=$fips_dir/lib/ossl-modules"
-            echo "NODE_OPTIONS=--enable-fips"
           } >> "$GITHUB_ENV"
 
+      # GitHub forbids setting NODE_OPTIONS through $GITHUB_ENV
       - name: Check that FIPS mode rejects MD5
+        env:
+          NODE_OPTIONS: --enable-fips
         run: |
           node -e "
             const crypto = require('node:crypto');
@@ -98,7 +99,10 @@ jobs:
         run: node node_modules/@docusaurus/core/bin/docusaurus.mjs start --no-open
         working-directory: test-website-in-workspace
         env:
+          NODE_OPTIONS: --enable-fips
           E2E_TEST: true
       - name: Build test-website project
         run: node node_modules/@docusaurus/core/bin/docusaurus.mjs build
         working-directory: test-website-in-workspace
+        env:
+          NODE_OPTIONS: --enable-fips
