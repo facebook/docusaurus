@@ -166,7 +166,7 @@ export default async function beforeCli() {
   }
 
   // Bun reports an older Node.js version than our requirement, like v26.12.1
-  // See https://github.com/meta/docusaurus/pull/13022
+  // See https://github.com/meta/docusaurus/pull/13024
   const isBun = process.versions.bun !== undefined;
 
   // Notify user if node version needs to be updated
