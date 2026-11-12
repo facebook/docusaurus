@@ -165,8 +165,12 @@ export default async function beforeCli() {
     console.log(docusaurusUpdateMessage);
   }
 
+  // Bun reports an older Node.js version than our requirement, like v26.12.1
+  // See https://github.com/meta/docusaurus/pull/13024
+  const isBun = process.versions.bun !== undefined;
+
   // Notify user if node version needs to be updated
-  if (!semver.satisfies(process.version, requiredVersion)) {
+  if (!isBun && !semver.satisfies(process.version, requiredVersion)) {
     logger.error('Minimum Node.js version not met :(');
     logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;
     process.exit(1);
