@@ -103,7 +103,7 @@ catalog:
   open: ^11.0.2
   oxfmt: ^0.76.0
   p-map: ^7.0.8
-  p-queue: ^9.3.3
+  p-queue: ^10.0.0
   parse-numeric-range: ^1.3.0
   picomatch: ^4.0.7
   postcss: ^8.5.28
