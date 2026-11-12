@@ -244,7 +244,6 @@ The Infima CSS doesn't apply anymore to elements with the `isolated` class and t
 
 - `:not(#\#)` is only a trick to increase the specificity of the rule, so that `all: revert-layer` wins over the other rules of the layer. It adds the specificity of an id without filtering anything: no element has a `#` id, so it matches all elements. Repeat it (`:not(#\#):not(#\#)`) to win over rules that use ids.
 - Reverting a layer doesn't revert its sub-layers: revert each layer you want to isolate from, one by one.
-- `all: revert-layer` doesn't revert the `!important` declarations of the layer, such as the `shadow--tl` Infima utility.
 - The isolated subtree still inherits the properties set on its ancestors, such as the `color` and `font` that Infima sets on `html`. Set them on the isolated element if needed, for example `color: initial`.
 - Your own global CSS can conflict with that content too. To isolate from it, put it in a layer, such as `@layer website {...}`, and revert that layer the same way.
 
