@@ -1,6 +1,13 @@
 name: Build FIPS
 
 on:
+  # Saves the FIPS provider cache on main, which PRs can restore
+  push:
+    branches: [main]
+    paths:
+      - packages/**
+      - .github/workflows/build-fips.yml
+      - .github/actions/**
   pull_request:
     branches:
       - main
@@ -38,9 +45,20 @@ jobs:
         run: pnpm install --no-frozen-lockfile --ignore-scripts
         working-directory: test-website-in-workspace
 
+      - name: Get the OpenSSL version of Node.js
+        id: openssl
+        run: echo "version=$(node -p process.versions.openssl)" >> "$GITHUB_OUTPUT"
+      - name: Cache the OpenSSL FIPS provider
+        id: fips-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/openssl-fips
+          key: openssl-fips-${{ runner.os }}-${{ runner.arch }}-${{ steps.openssl.outputs.version }}
+
       # Official Node.js binaries don't ship the OpenSSL FIPS provider
       # See https://nodejs.org/api/crypto.html#fips-mode
       - name: Install the OpenSSL FIPS provider
+        if: steps.fips-cache.outputs.cache-hit != 'true'
         working-directory: ${{ runner.temp }}
         run: |
           version=$(node -p process.versions.openssl)
