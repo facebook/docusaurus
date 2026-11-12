@@ -26,9 +26,9 @@ function isMd5Available(): boolean {
   }
 }
 
-/** Hashes a string with MD5, or SHA-256 when MD5 is not available. */
-export function hashString(str: string): string {
-  return hash(hashAlgorithm, str);
+/** Hashes with MD5, or SHA-256 when MD5 is not available. */
+export function hashString(data: string | Buffer): string {
+  return hash(hashAlgorithm, data);
 }
 
 /** Creates a hash with `hashString` and truncates it to the given length. */

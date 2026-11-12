@@ -34,6 +34,17 @@ jobs:
       - name: Generate test-website project
         # Generated in the workspace to use the current packages instead of the npm ones
         run: node ./packages/create-docusaurus/bin/index.js test-website-in-workspace classic --javascript --skip-install
+      - name: Add the PWA plugin to test-website project
+        working-directory: test-website-in-workspace
+        run: |
+          version=$(node -p "require('./package.json').dependencies['@docusaurus/core']")
+          npm pkg set "dependencies.@docusaurus/plugin-pwa=$version"
+
+          mv docusaurus.config.js docusaurus.config.base.js
+          cat > docusaurus.config.js <<'EOF'
+          import config from './docusaurus.config.base.js';
+          export default {...config, plugins: ['@docusaurus/plugin-pwa']};
+          EOF
       - name: Install test-website project
         run: pnpm install --no-frozen-lockfile --ignore-scripts
         working-directory: test-website-in-workspace
@@ -106,3 +117,13 @@ jobs:
         working-directory: test-website-in-workspace
         env:
           NODE_OPTIONS: --enable-fips
+      # Workbox doesn't fail without MD5: it only warns and precaches nothing
+      - name: Check the PWA precache manifest
+        working-directory: test-website-in-workspace
+        run: |
+          count=$(grep -oE '"revision":"[0-9a-f]{64}"' build/sw.js | wc -l)
+          echo "Precached files hashed with SHA-256: $count"
+          if [ "$count" -eq 0 ]; then
+            echo "The service worker precaches no file"
+            exit 1
+          fi
