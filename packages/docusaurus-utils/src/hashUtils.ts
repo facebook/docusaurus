@@ -12,9 +12,9 @@ import {shortName, isNameTooLong} from './pathUtils';
 // FIPS mode forbids MD5, see https://github.com/meta/docusaurus/pull/13007
 const hashAlgorithm = getHashes().includes('md5') ? 'md5' : 'sha256';
 
-/** Hashes a string with MD5, or SHA-256 when MD5 is not available. */
-export function hashString(str: string): string {
-  return hash(hashAlgorithm, str);
+/** Hashes with MD5, or SHA-256 when MD5 is not available. */
+export function hashString(data: string | Buffer): string {
+  return hash(hashAlgorithm, data);
 }
 
 /** Creates a hash with `hashString` and truncates it to the given length. */
