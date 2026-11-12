@@ -28,7 +28,7 @@ export async function glob(
   // Other lib options are still forwarded at runtime for retro-compatibility
   const files = await Tinyglobby.glob(patterns, {...options});
   // The crawl order depends on the file system and the JS runtime
-  // See https://github.com/meta/docusaurus/pull/_____
+  // See https://github.com/meta/docusaurus/pull/13031
   return files.sort(compareFilePaths);
 }
 
