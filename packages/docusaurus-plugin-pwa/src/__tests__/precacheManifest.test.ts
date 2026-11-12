@@ -23,6 +23,9 @@ async function createOutDir() {
   await fs.writeFile(path.join(dir.path, 'index.html'), '<h1>Home</h1>');
   await fs.writeFile(path.join(dir.path, 'assets/main.css'), 'body{}');
   await fs.writeFile(path.join(dir.path, 'assets/main.js'), 'alert(1)');
+  // A directory named like a file to precache, like the /docs/next.js route
+  await fs.mkdir(path.join(dir.path, 'next.js'));
+  await fs.writeFile(path.join(dir.path, 'next.js/photo.webp'), 'webp');
   await fs.writeFile(path.join(dir.path, 'sw.js'), SwSource);
   return dir;
 }

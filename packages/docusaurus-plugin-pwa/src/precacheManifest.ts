@@ -60,6 +60,8 @@ async function globFilesToPrecache({
   const files = await glob(globPatterns, {
     cwd: globDirectory,
     ignore: [...globIgnores, ...swFiles],
+    // Like Workbox, don't precache all the files of a next.js/ directory
+    expandDirectories: false,
   });
   // Sorted for a deterministic sw.js output
   return files.toSorted();

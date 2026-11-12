@@ -17,7 +17,7 @@ import * as Tinyglobby from 'tinyglobby';
  */
 export type GlobOptions = Pick<
   Tinyglobby.GlobOptions,
-  'cwd' | 'ignore' | 'absolute'
+  'cwd' | 'ignore' | 'absolute' | 'expandDirectories'
 >;
 
 /** Finds the files matching the given glob patterns. */
