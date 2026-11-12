@@ -29,6 +29,7 @@ jobs:
   # Check our monorepo for new supply chain compromissions
   supply-chain-monorepo:
     name: Supply Chain - Monorepo
+    if: github.repository == 'meta/docusaurus'
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
@@ -56,6 +57,7 @@ jobs:
   # See why https://github.com/meta/docusaurus/pull/12448
   supply-chain-site-template:
     name: Supply Chain - Site Template @${{ matrix.npm_dist_tag }}
+    if: github.repository == 'meta/docusaurus'
     timeout-minutes: 30
     runs-on: ubuntu-latest
 
