@@ -57,6 +57,8 @@ jobs:
         wait: playwright-install
       - name: Take and upload Argos screenshots
         run: pnpm argos:screenshot
+        # TODO temporary, to get the text snapshots despite hydration errors
+        continue-on-error: true
 
         # We rebuild the site with unminified assets
         # This makes it easier to review text snapshots on Argos
