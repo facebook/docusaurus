@@ -34,7 +34,7 @@ jobs:
         run: pnpm build:website:fast
       - name: Build with a warm client cache and a cold server cache
         # Another server Node.js target only evicts the server cache, like a Node.js upgrade
-        # See https://github.com/meta/docusaurus/pull/PR_NUMBER
+        # See https://github.com/meta/docusaurus/pull/13034
         run: pnpm build:website:fast
         timeout-minutes: 5
         env:
