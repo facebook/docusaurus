@@ -232,6 +232,16 @@ describe('base webpack config', () => {
       expect(oldNodeVersion).not.toBe(newNodeVersion);
     });
 
+    // TODO a warm client cache with a cold server cache hangs the build
+    // See https://github.com/meta/docusaurus/pull/13034
+    it('keeps the client cache when the server Node.js target changes', async () => {
+      stubServerNodeTarget('24.11.1');
+      const oldNodeVersion = await getCacheVersion({isServer: false});
+      stubServerNodeTarget('24.11.2');
+      const newNodeVersion = await getCacheVersion({isServer: false});
+      expect(oldNodeVersion).toBe(newNodeVersion);
+    });
+
     it('is evicted when a plugin package version changes', async () => {
       const oldPluginVersion = await getCacheVersion({
         siteMetadata: createSiteMetadata({pluginVersion: '1.0.0'}),
