@@ -14,7 +14,7 @@ type BlockerResult = ReturnType<TransitionPromptHook>;
  * history v4 only supports one blocker at a time: a new `history.block()` call
  * replaces the previous blocker. This patches `history.block()` so that any
  * number of blockers can coexist.
- * See https://github.com/meta/docusaurus/issues/10988
+ * See https://github.com/meta/docusaurus/pull/13028
  */
 export function enableMultipleBlockers(history: History): History {
   const historyBlock = history.block;
