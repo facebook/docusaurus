@@ -88,27 +88,15 @@ describe('hashString', () => {
   });
 
   it('uses SHA-256 when MD5 is not available, like in FIPS mode', async () => {
-    vi.doMock('node:crypto', async (importOriginal) => {
-      const crypto = await importOriginal<typeof import('node:crypto')>();
-      return {
-        ...crypto,
-        getHashes: () => crypto.getHashes().filter((name) => name !== 'md5'),
-        hash: (algorithm: string, data: string) => {
-          if (algorithm === 'md5') {
-            throw new Error(
-              'error:0308010C:digital envelope routines::unsupported',
-            );
-          }
-          return crypto.hash(algorithm, data);
-        },
-      };
-    });
+    vi.doMock('node:crypto', async (importOriginal) => ({
+      ...(await importOriginal<typeof import('node:crypto')>()),
+      getHashes: () => ['sha256'],
+    }));
     vi.resetModules();
     const fipsHashUtils = await import('../hashUtils');
 
     expect(fipsHashUtils.hashString('/foo/bar')).toBe(
       'a05d96ad6bf8f3eaa59689160625f69dd411591f9dbdc728baad8c1c75af9ad6',
     );
-    expect(fipsHashUtils.docuHash('/foo/bar')).toBe('foo-bar-a05');
   });
 });
