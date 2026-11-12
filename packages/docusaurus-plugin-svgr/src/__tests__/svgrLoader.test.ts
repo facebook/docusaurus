@@ -99,6 +99,22 @@ describe('createSVGRConfig', () => {
     expect(code).toContain('<title id={titleId}>');
   });
 
+  it('removes the XML namespaces that inline SVGs do not need', async () => {
+    const code = await transformSvg({
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 10 10">
+  <defs>
+    <rect id="square" width="5" height="5" />
+  </defs>
+  <use xlink:href="#square" />
+  <use xlink:href="#square" x="5" y="5" />
+</svg>`,
+      filePath: 'src/xlink.svg',
+    });
+    expect(code).not.toContain('xmlns');
+    expect(code).not.toContain('xlink');
+    expect(code).toMatch(/<use href="#svg-[\da-f]{6}-a" \/>/);
+  });
+
   it('can restore the Docusaurus v3 SVGO config', async () => {
     const code = await transformSvg({
       svg: gradientSvg('red'),
