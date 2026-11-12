@@ -3,24 +3,24 @@
 exports[`loadRoutes > loads flat route config 1`] = `
 {
   "registry": {
-    "__comp---theme-blog-list-pagebfb-b0c": "@theme/BlogListPage",
-    "content---blogdb-4-379": "blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true",
-    "content---blogeb-2-c51": "blog/2018-12-14-Happy-First-Birthday-Slash.md",
-    "metadata---bloge-1-a-cde": "blog-2018-12-14-happy-first-birthday-slash-d2c.json",
+    "__comp---theme-blog-list-pagea-6-a-7ba": "@theme/BlogListPage",
+    "content---blog-0-b-4-09e": "blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true",
+    "content---blog-7-b-8-fd9": "blog/2018-12-14-Happy-First-Birthday-Slash.md",
+    "metadata---blog-0-b-6-74c": "blog-2018-12-14-happy-first-birthday-slash-d2c.json",
   },
   "routesChunkNames": {
-    "/blog-4da": {
-      "__comp": "__comp---theme-blog-list-pagebfb-b0c",
+    "/blog-030": {
+      "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
       "items": [
         {
-          "content": "content---blogdb-4-379",
-          "metadata": "metadata---bloge-1-a-cde",
+          "content": "content---blog-0-b-4-09e",
+          "metadata": "metadata---blog-0-b-6-74c",
         },
         {
-          "content": "content---blogeb-2-c51",
+          "content": "content---blog-7-b-8-fd9",
         },
         {
-          "content": "content---blogeb-2-c51",
+          "content": "content---blog-7-b-8-fd9",
         },
       ],
     },
@@ -31,7 +31,7 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   {
     path: '/blog',
-    component: ComponentCreator('/blog', '4da'),
+    component: ComponentCreator('/blog', '030'),
     exact: true
   },
   {
@@ -46,35 +46,35 @@ export default [
 exports[`loadRoutes > loads nested route config 1`] = `
 {
   "registry": {
-    "__comp---theme-doc-itemdc-5-989": "@theme/DocItem",
-    "__comp---theme-doc-rootd-1-b-c52": "@theme/DocRoot",
-    "content---docs-foo-baz-4-cb-7a7": "docs/foo/baz.md",
-    "content---docs-helloe-16-a15": "docs/hello.md",
-    "docsMetadata---docs-route-193-dbc": "docs-b5f.json",
-    "metadata---docs-foo-baz-458-f8a": "docs-foo-baz-dd9.json",
-    "metadata---docs-hello-5-fb-847": "docs-hello-da2.json",
-    "plugin---docs-hello-55-a-e41": "pluginRouteContextModule-100.json",
+    "__comp---theme-doc-item-178-a40": "@theme/DocItem",
+    "__comp---theme-doc-roota-94-67a": "@theme/DocRoot",
+    "content---docs-foo-baz-8-ce-61e": "docs/foo/baz.md",
+    "content---docs-helloaff-811": "docs/hello.md",
+    "docsMetadata---docs-routef-34-881": "docs-b5f.json",
+    "metadata---docs-foo-baz-2-cf-fa7": "docs-foo-baz-dd9.json",
+    "metadata---docs-hello-956-741": "docs-hello-da2.json",
+    "plugin---docs-hello-665-3ca": "pluginRouteContextModule-100.json",
   },
   "routesChunkNames": {
-    "/docs/hello-f97": {
-      "__comp": "__comp---theme-doc-itemdc-5-989",
+    "/docs/hello-ab4": {
+      "__comp": "__comp---theme-doc-item-178-a40",
       "__context": {
-        "plugin": "plugin---docs-hello-55-a-e41",
+        "plugin": "plugin---docs-hello-665-3ca",
       },
-      "content": "content---docs-helloe-16-a15",
-      "metadata": "metadata---docs-hello-5-fb-847",
+      "content": "content---docs-helloaff-811",
+      "metadata": "metadata---docs-hello-956-741",
     },
-    "/docs:route-dcf": {
-      "__comp": "__comp---theme-doc-rootd-1-b-c52",
-      "docsMetadata": "docsMetadata---docs-route-193-dbc",
+    "/docs:route-001": {
+      "__comp": "__comp---theme-doc-roota-94-67a",
+      "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
-    "docs/foo/baz-4bd": {
-      "__comp": "__comp---theme-doc-itemdc-5-989",
+    "docs/foo/baz-125": {
+      "__comp": "__comp---theme-doc-item-178-a40",
       "__context": {
-        "plugin": "plugin---docs-hello-55-a-e41",
+        "plugin": "plugin---docs-hello-665-3ca",
       },
-      "content": "content---docs-foo-baz-4-cb-7a7",
-      "metadata": "metadata---docs-foo-baz-458-f8a",
+      "content": "content---docs-foo-baz-8-ce-61e",
+      "metadata": "metadata---docs-foo-baz-2-cf-fa7",
     },
   },
   "routesConfig": "import React from 'react';
@@ -83,17 +83,17 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   {
     path: '/docs:route',
-    component: ComponentCreator('/docs:route', 'dcf'),
+    component: ComponentCreator('/docs:route', '001'),
     routes: [
       {
         path: '/docs/hello',
-        component: ComponentCreator('/docs/hello', 'f97'),
+        component: ComponentCreator('/docs/hello', 'ab4'),
         exact: true,
         sidebar: "main"
       },
       {
         path: 'docs/foo/baz',
-        component: ComponentCreator('docs/foo/baz', '4bd'),
+        component: ComponentCreator('docs/foo/baz', '125'),
         sidebar: "secondary",
         "key:a": "containing colon",
         "key'b": "containing quote",
@@ -115,11 +115,11 @@ export default [
 exports[`loadRoutes > loads route config with empty (but valid) path string 1`] = `
 {
   "registry": {
-    "__comp---hello-world-js-242-c76": "hello/world.js",
+    "__comp---hello-world-jse-0-f-b6c": "hello/world.js",
   },
   "routesChunkNames": {
-    "-f22": {
-      "__comp": "__comp---hello-world-js-242-c76",
+    "-b2a": {
+      "__comp": "__comp---hello-world-jse-0-f-b6c",
     },
   },
   "routesConfig": "import React from 'react';
@@ -128,7 +128,7 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   {
     path: '',
-    component: ComponentCreator('', 'f22')
+    component: ComponentCreator('', 'b2a')
   },
   {
     path: '*',

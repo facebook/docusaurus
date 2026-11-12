@@ -83,14 +83,14 @@ describe('generateRoutePropFilename', () => {
 describe('genChunkName', () => {
   it('works', () => {
     const firstAssert: {[key: string]: string} = {
-      '/docs/adding-blog': 'docs-adding-blog-3a2',
-      '/docs/versioning': 'docs-versioning-735',
+      '/docs/adding-blog': 'docs-adding-blog-062',
+      '/docs/versioning': 'docs-versioning-8a8',
       '/': 'index',
       '/blog/2018/04/30/How-I-Converted-Profilo-To-Docusaurus':
-        'blog-2018-04-30-how-i-converted-profilo-to-docusaurus-bbe',
-      '/youtube': 'youtube-98d',
-      '/users/en/': 'users-en-554',
-      '/blog': 'blog-8ca',
+        'blog-2018-04-30-how-i-converted-profilo-to-docusaurus-4f2',
+      '/youtube': 'youtube-429',
+      '/users/en/': 'users-en-f7a',
+      '/blog': 'blog-c06',
     };
     Object.keys(firstAssert).forEach((str) => {
       expect(genChunkName(str)).toBe(firstAssert[str]);
@@ -105,8 +105,8 @@ describe('genChunkName', () => {
 
   it('emits different chunk names for different paths even with same preferred name', () => {
     const secondAssert: {[key: string]: string} = {
-      '/blog/1': 'blog-132-8f0',
-      '/blog/2': 'blog-382-095',
+      '/blog/1': 'blog-85-f-089',
+      '/blog/2': 'blog-353-489',
     };
     Object.keys(secondAssert).forEach((str) => {
       expect(genChunkName(str, undefined, 'blog')).toBe(secondAssert[str]);
@@ -115,17 +115,17 @@ describe('genChunkName', () => {
 
   it('only generates short unique IDs', () => {
     const thirdAssert: {[key: string]: string} = {
-      a: 'ca978112',
-      b: '3e23e816',
-      c: '2e7d2c03',
-      d: '18ac3e73',
+      a: '0cc175b9',
+      b: '92eb5ffe',
+      c: '4a8a08f0',
+      d: '8277e091',
     };
     Object.keys(thirdAssert).forEach((str) => {
       expect(genChunkName(str, undefined, undefined, true)).toBe(
         thirdAssert[str],
       );
     });
-    expect(genChunkName('d', undefined, undefined, true)).toBe('18ac3e73');
+    expect(genChunkName('d', undefined, undefined, true)).toBe('8277e091');
   });
 
   // https://github.com/facebook/docusaurus/issues/8536
@@ -315,17 +315,17 @@ describe('loadRoutes', () => {
     expect(Object.keys(result.routesChunkNames)).toHaveLength(4);
     expect(result.routesChunkNames).toMatchInlineSnapshot(`
       {
-        "/docs-4a4": {
-          "__comp": "__comp---theme-version-25-c-025",
+        "/docs-611": {
+          "__comp": "__comp---theme-version-6-f-8-19f",
         },
-        "/docs-938": {
-          "__comp": "__comp---theme-root-10-e-798",
+        "/docs-96a": {
+          "__comp": "__comp---theme-root-1-dd-d3a",
         },
-        "/docs-9a0": {
-          "__comp": "__comp---theme-root-10-e-798",
+        "/docs-d3d": {
+          "__comp": "__comp---theme-version-6-f-8-19f",
         },
-        "/docs-a53": {
-          "__comp": "__comp---theme-version-25-c-025",
+        "/docs-e4f": {
+          "__comp": "__comp---theme-root-1-dd-d3a",
         },
       }
     `);

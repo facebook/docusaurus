@@ -241,7 +241,7 @@ describe('buildAllRoutes', () => {
           "blogBasePath": "/blog",
           "blogTitle": "Blog Title",
         },
-        "site-blog-blog-post-md-514.json": {
+        "site-blog-blog-post-md-0d7.json": {
           "authors": [],
           "date": 2020-01-01T00:00:00.000Z,
           "description": "Description for blog-post",
