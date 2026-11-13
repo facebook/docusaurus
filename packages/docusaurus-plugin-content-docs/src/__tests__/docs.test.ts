@@ -7,6 +7,7 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import * as path from 'node:path';
+import {fromPartial} from '@total-typescript/shoehorn';
 import {loadContext} from '@docusaurus/core/src/server/site';
 import {
   createSlugger,
@@ -1523,5 +1524,24 @@ describe('isConventionalDocIndex', () => {
         extension: '',
       }),
     ).toBe(false);
+  });
+});
+
+describe('readVersionDocs', () => {
+  it('reads the docs of a folder named like a Markdown file', async () => {
+    const contentPath = path.join(
+      __dirname,
+      '__fixtures__',
+      'site-with-folder-named-like-doc',
+      'docs',
+    );
+    const docs = await readVersionDocs(
+      fromPartial({contentPath}),
+      DEFAULT_OPTIONS,
+    );
+    expect(docs.map((doc) => doc.source)).toEqual([
+      'folder.md/doc.md',
+      'folder.md/notes.txt',
+    ]);
   });
 });
