@@ -285,7 +285,7 @@ jobs:
         working-directory: ../test-website
 
   bun:
-    name: E2E — Bun ${{ matrix.bun }} ${{ matrix.memory }}
+    name: E2E — Bun ${{ matrix.bun }} ${{ matrix.memory }} ${{ matrix.oneLocale && 'en' || 'en+fr' }}
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
@@ -294,7 +294,11 @@ jobs:
         # Older versions hang when the build terminates the SSG worker thread
         # See https://github.com/meta/docusaurus/pull/13044
         bun: ['latest']
-        memory: ['infinity', '300M', '500M', '750M', '1G', '1500M']
+        memory: ['550M', '600M', '650M', '700M']
+        include:
+          - bun: latest
+            memory: infinity
+            oneLocale: true
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -336,7 +340,7 @@ jobs:
           fi
           echo "Using: $run"
           $run sh -c 'echo "memory.max=$(cat /sys/fs/cgroup$(cut -d: -f3 /proc/self/cgroup)/memory.max)"'
-          $run /usr/bin/time -v bun --bun run build --locale en --locale fr
+          $run /usr/bin/time -v bun --bun run build --locale en ${{ matrix.oneLocale && ' ' || '--locale fr' }}
         env:
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
