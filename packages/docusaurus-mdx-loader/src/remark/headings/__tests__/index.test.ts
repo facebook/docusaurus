@@ -16,7 +16,7 @@ import {visit} from 'unist-util-visit';
 import {escapeMarkdownHeadingIds} from '@docusaurus/utils';
 import plugin from '../index';
 import type {PluginOptions} from '../index';
-import type {Plugin} from 'unified';
+import type {Pluggable} from 'unified';
 import type {Parent, Node} from 'unist';
 import type {Heading, Root} from 'mdast';
 
@@ -30,12 +30,12 @@ function removePositions(tree: Node) {
 
 async function process(
   input: string,
-  plugins: Plugin[] = [],
+  plugins: Pluggable[] = [],
   options: Partial<PluginOptions> = {anchorsMaintainCase: false},
   format: 'md' | 'mdx' = 'mdx',
 ): Promise<Root> {
   let content = input;
-  let formatPlugins: Plugin[] = [];
+  let formatPlugins: Pluggable[] = [];
 
   if (format === 'mdx') {
     // Preprocess the input to support our invalid heading ids syntax
