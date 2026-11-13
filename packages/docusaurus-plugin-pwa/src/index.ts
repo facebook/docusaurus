@@ -13,11 +13,12 @@ import {
   getProgressBarPlugin,
   getMinimizers,
 } from '@docusaurus/bundler';
+import {injectManifest} from 'workbox-build';
 import {normalizeUrl} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import {getGlobPatterns} from './globPatterns';
-import {injectPrecacheManifest} from './precacheManifest';
+import {injectManifestFIPS, isMD5Available} from './injectManifestFIPS';
 import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';
 
@@ -175,7 +176,9 @@ export default function pluginPWA(
 
       const swDest = path.resolve(props.outDir, 'sw.js');
 
-      await injectPrecacheManifest({
+      const inject = isMD5Available() ? injectManifest : injectManifestFIPS;
+
+      await inject({
         ...injectManifestConfig,
         globPatterns: getGlobPatterns(injectManifestConfig),
         // Those attributes are not overrideable

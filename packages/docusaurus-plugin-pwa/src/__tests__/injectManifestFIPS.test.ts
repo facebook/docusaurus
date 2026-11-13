@@ -5,13 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {injectManifest, type ManifestEntry} from 'workbox-build';
-import {injectPrecacheManifest} from '../precacheManifest';
+import {injectManifestFIPS} from '../injectManifestFIPS';
+
+// injectManifestFIPS() only runs when MD5 is not available
+vi.mock('node:crypto', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('node:crypto')>()),
+  getHashes: () => ['sha256'],
+}));
 
 const SwSource = 'const manifest = self.__WB_MANIFEST;';
 
@@ -49,36 +55,63 @@ function getOptions(outDir: string) {
   };
 }
 
-describe('injectPrecacheManifest', () => {
-  it('injects the same manifest as Workbox', async () => {
+describe('injectManifestFIPS', () => {
+  it('injects the same files as Workbox', async () => {
     await using workboxOutDir = await createOutDir();
     await using outDir = await createOutDir();
 
     await injectManifest(getOptions(workboxOutDir.path));
-    await injectPrecacheManifest(getOptions(outDir.path));
+    await injectManifestFIPS(getOptions(outDir.path));
 
     const workboxManifest = await readSwManifest(workboxOutDir.path);
     const manifest = await readSwManifest(outDir.path);
-    expect(manifest).toEqual(workboxManifest);
+    expect(manifest.map((entry) => entry.url)).toEqual(
+      workboxManifest.map((entry) => entry.url),
+    );
+    // Workbox hashes with MD5 anyway
+    manifest.forEach((entry, index) => {
+      expect(entry.revision).not.toBe(workboxManifest[index]!.revision);
+    });
   });
 
-  it('injects files hashed with MD5, except the service worker', async () => {
+  it('injects files hashed with SHA-256', async () => {
     await using outDir = await createOutDir();
 
-    await injectPrecacheManifest(getOptions(outDir.path));
+    await injectManifestFIPS(getOptions(outDir.path));
 
     const manifest = await readSwManifest(outDir.path);
     expect(manifest).toEqual([
-      {url: 'assets/main.css', revision: 'aa676972bbd2b68e94ef8e91e81d20be'},
-      {url: 'assets/main.js', revision: '238e96d5b62a1aec3739730469f27192'},
-      {url: 'index.html', revision: 'fe919dfbe925337c176e602ebbf0d15c'},
+      {
+        url: 'assets/main.css',
+        revision:
+          '7c98040a541657584690ae2a1cc3b42a8b53b159cc60c5d3abbfecbaeac6c94a',
+      },
+      {
+        url: 'assets/main.js',
+        revision:
+          '6e11c72f7cf6bc383152dd16ddd5903aba6bb1c99d6b6639a4bb0b838185fa92',
+      },
+      {
+        url: 'index.html',
+        revision:
+          '1a7133067a4ac7fe06565943dd44870f232041b1d28b4340e2b678244a3b79f6',
+      },
     ]);
+  });
+
+  it("doesn't precache the service worker", async () => {
+    await using outDir = await createOutDir();
+
+    await injectManifestFIPS(getOptions(outDir.path));
+
+    const manifest = await readSwManifest(outDir.path);
+    expect(manifest.map((entry) => entry.url)).not.toContain('sw.js');
   });
 
   it('delegates templatedURLs to Workbox', async () => {
     await using outDir = await createOutDir();
 
-    await injectPrecacheManifest({
+    await injectManifestFIPS({
       ...getOptions(outDir.path),
       templatedURLs: {'/app-shell': 'shell'},
     });
@@ -93,7 +126,7 @@ describe('injectPrecacheManifest', () => {
   it('applies the Workbox manifest options', async () => {
     await using outDir = await createOutDir();
 
-    await injectPrecacheManifest({
+    await injectManifestFIPS({
       ...getOptions(outDir.path),
       globIgnores: ['**/*.css'],
       maximumFileSizeToCacheInBytes: 10,

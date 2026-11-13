@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {getHashes} from 'node:crypto';
 import path from 'node:path';
 import {injectManifest} from 'workbox-build';
 // Internal Workbox APIs, to apply the user options the same way Workbox does
@@ -16,12 +17,21 @@ import logger from '@docusaurus/logger';
 import {hashString, posixPath} from '@docusaurus/utils';
 import type {FileDetails, InjectManifestOptions} from 'workbox-build';
 
+/** FIPS mode rejects MD5 */
+export function isMD5Available(): boolean {
+  return getHashes().includes('md5');
+}
+
 /**
  * Same as Workbox `injectManifest()`, but falls back to SHA-256 to hash the
  * files when MD5 is not available. Workbox hardcodes MD5, which FIPS mode
- * rejects. See https://github.com/GoogleChrome/workbox/issues/3366
+ * rejects. Only use it when MD5 is not available, to keep the Workbox code
+ * path everywhere else.
+ *
+ * TODO temporary workaround: remove once Workbox supports FIPS mode
+ *  See https://github.com/GoogleChrome/workbox/issues/3366
  */
-export async function injectPrecacheManifest(
+export async function injectManifestFIPS(
   config: InjectManifestOptions,
 ): Promise<void> {
   const options = validateInjectManifestOptions(config);
