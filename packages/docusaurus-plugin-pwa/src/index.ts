@@ -18,7 +18,7 @@ import {normalizeUrl} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import {getGlobPatterns} from './globPatterns';
-import {injectManifestFIPS, isMD5Available} from './precacheManifest';
+import {injectManifestFIPS, isMD5Available} from './injectManifestFIPS';
 import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';
 

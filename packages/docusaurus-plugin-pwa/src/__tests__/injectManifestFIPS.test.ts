@@ -11,7 +11,7 @@ import fs from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {injectManifest, type ManifestEntry} from 'workbox-build';
-import {injectManifestFIPS} from '../precacheManifest';
+import {injectManifestFIPS} from '../injectManifestFIPS';
 
 // injectManifestFIPS() only runs when MD5 is not available
 vi.mock('node:crypto', async (importOriginal) => ({
