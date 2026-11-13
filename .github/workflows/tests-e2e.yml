@@ -285,7 +285,7 @@ jobs:
         working-directory: ../test-website
 
   bun:
-    name: E2E — Bun ${{ matrix.bun }} ${{ matrix.memory }} ${{ matrix.oneLocale && 'en' || 'en+fr' }}
+    name: E2E — Bun ${{ matrix.bun }} ${{ matrix.memory }} #${{ matrix.attempt }}
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
@@ -294,11 +294,8 @@ jobs:
         # Older versions hang when the build terminates the SSG worker thread
         # See https://github.com/meta/docusaurus/pull/13044
         bun: ['latest']
-        memory: ['550M', '600M', '650M', '700M']
-        include:
-          - bun: latest
-            memory: infinity
-            oneLocale: true
+        memory: ['525M', '550M']
+        attempt: [1, 2, 3]
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
