@@ -147,8 +147,8 @@ catalogs:
       specifier: ^1.57.0
       version: 1.57.0
     '@docsearch/react':
-      specifier: ^5.1.1
-      version: 5.1.2
+      specifier: ^5.2.0
+      version: 5.2.0
     '@docusaurus/responsive-loader':
       specifier: ^1.7.1
       version: 1.7.1
@@ -2506,7 +2506,7 @@ importers:
         version: 1.19.10(@algolia/client-search@5.57.0)(algoliasearch@5.57.0)(search-insights@2.17.3)
       '@docsearch/react':
         specifier: 'catalog:'
-        version: 5.1.2(@algolia/client-search@5.57.0)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(search-insights@2.17.3)
+        version: 5.2.0(@algolia/client-search@5.57.0)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(search-insights@2.17.3)
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
@@ -4389,8 +4389,8 @@ packages:
     peerDependencies:
       postcss: ^8.4
 
-  '@docsearch/core@5.1.2':
-    resolution: {integrity: sha512-6PG51N+eimQIgfO2cUTHNvjy3iWVmzxz7fyqHT6CwkFFb6Wz/w2F6UtZL/bxSYy1WAl52Q8b08O/akFZjh3F7A==}
+  '@docsearch/core@5.2.0':
+    resolution: {integrity: sha512-vLFEkAnN+kt8C3P5XRKE7ZouMBgCbDT+ihLAI/uWbRU4A0xUJiAns/GSdKOLAnyxNKK3K2mt1WepINi+7AS2IQ==}
     peerDependencies:
       '@types/react': '>= 16.8.0 < 20.0.0'
       react: '>= 16.8.0 < 20.0.0'
@@ -4403,11 +4403,11 @@ packages:
       react-dom:
         optional: true
 
-  '@docsearch/css@5.1.2':
-    resolution: {integrity: sha512-zPkSBM8y6XbMfRwq4DeDSRyE0Jsx/phd2KYRgug7PvoZd9cYLqwf6nb2na4whprxCYe4NB6M5RL84C7NgRv0XA==}
+  '@docsearch/css@5.2.0':
+    resolution: {integrity: sha512-KqJjLYMniiiKgZFdK+f7LTy3ZTL5r13buvxagNjDnYVGfa0NR+bb9BnjZq3FTl3VvsmkeW3aSr9AGIZsiQXY/A==}
 
-  '@docsearch/react@5.1.2':
-    resolution: {integrity: sha512-on36SOMQxU4/5zfdtrv9pR/0SOhfD/TFKHoIjjAZSW9bW1xPsgiot+hfGXzHnJo/7O5bmmIN0kYZ0iokrUcKmw==}
+  '@docsearch/react@5.2.0':
+    resolution: {integrity: sha512-ZJrYePS2+UK7M3X5xWmKsm8VJ0GuslnAk8jcIcjPfd20GoCEjce9e+3X/8UH0lAtWokesAm2ERUJzlwr/9YCpg==}
     peerDependencies:
       '@types/react': '>= 16.8.0 < 20.0.0'
       react: '>= 16.8.0 < 20.0.0'
@@ -15468,21 +15468,21 @@ snapshots:
     dependencies:
       postcss: 8.5.28
 
-  '@docsearch/core@5.1.2(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+  '@docsearch/core@5.2.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     optionalDependencies:
       '@types/react': 19.3.0
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
 
-  '@docsearch/css@5.1.2': {}
+  '@docsearch/css@5.2.0': {}
 
-  '@docsearch/react@5.1.2(@algolia/client-search@5.57.0)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(search-insights@2.17.3)':
+  '@docsearch/react@5.2.0(@algolia/client-search@5.57.0)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(search-insights@2.17.3)':
     dependencies:
       '@ai-sdk/react': 3.0.280(react@19.3.0)(zod@4.5.4)
       '@algolia/autocomplete-core': 1.19.2(@algolia/client-search@5.57.0)(algoliasearch@5.57.0)(search-insights@2.17.3)
       '@base-ui/react': 1.9.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@docsearch/core': 5.1.2(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@docsearch/css': 5.1.2
+      '@docsearch/core': 5.2.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@docsearch/css': 5.2.0
       ai: 6.0.277(zod@4.5.4)
       algoliasearch: 5.57.0
       marked: 16.4.2
