@@ -65,13 +65,16 @@ describe('injectManifestFIPS', () => {
 
     const workboxManifest = await readSwManifest(workboxOutDir.path);
     const manifest = await readSwManifest(outDir.path);
-    // Only the URLs can match: Workbox hashes with MD5
     expect(manifest.map((entry) => entry.url)).toEqual(
       workboxManifest.map((entry) => entry.url),
     );
+    // Workbox hashes with MD5 anyway
+    manifest.forEach((entry, index) => {
+      expect(entry.revision).not.toBe(workboxManifest[index]!.revision);
+    });
   });
 
-  it('injects files hashed with SHA-256, except the service worker', async () => {
+  it('injects files hashed with SHA-256', async () => {
     await using outDir = await createOutDir();
 
     await injectManifestFIPS(getOptions(outDir.path));
@@ -94,6 +97,15 @@ describe('injectManifestFIPS', () => {
           '1a7133067a4ac7fe06565943dd44870f232041b1d28b4340e2b678244a3b79f6',
       },
     ]);
+  });
+
+  it("doesn't precache the service worker", async () => {
+    await using outDir = await createOutDir();
+
+    await injectManifestFIPS(getOptions(outDir.path));
+
+    const manifest = await readSwManifest(outDir.path);
+    expect(manifest.map((entry) => entry.url)).not.toContain('sw.js');
   });
 
   it('delegates templatedURLs to Workbox', async () => {
