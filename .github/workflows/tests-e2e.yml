@@ -293,8 +293,8 @@ jobs:
       matrix:
         # Older versions hang when the build terminates the SSG worker thread
         # See https://github.com/meta/docusaurus/pull/13044
-        bun: ['1.4.0', 'latest']
-        locales: ['en', 'en fr', 'en fr de es ja', 'en fr de es ja it pt ko']
+        bun: ['1.4.1', '1.4.2', '1.4.3']
+        locales: ['en fr de es ja it pt ko']
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
