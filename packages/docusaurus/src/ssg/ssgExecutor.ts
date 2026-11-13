@@ -125,10 +125,6 @@ async function createSSGExecutor({
         // See https://github.com/meta/docusaurus/pull/11166
         // See https://github.com/meta/docusaurus/issues/11161
         maxMemoryLimitBeforeRecycle: SSGWorkerThreadRecyclerMaxMemory,
-        resourceLimits: {
-          // For some reason I can't figure out how to limit memory on a worker
-          // See https://x.com/sebastienlorber/status/1920781195618513143
-        },
       });
     },
   );
