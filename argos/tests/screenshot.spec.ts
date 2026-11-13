@@ -145,6 +145,10 @@ function throwOnConsole(page: Page) {
 
     // Mermaid warning, see https://github.com/mermaid-js/mermaid/issues/6031
     'Do not assign mappings to elements without corresponding data',
+
+    // TODO history v4 supports only one blocker, on /tests/pages/history-tests
+    //  See https://github.com/meta/docusaurus/issues/10988
+    'Warning: A history supports only one prompt at a time',
   ];
 
   page.on('console', (message) => {
