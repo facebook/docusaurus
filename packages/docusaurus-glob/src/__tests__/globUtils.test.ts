@@ -10,10 +10,11 @@ import os from 'node:os';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import {
+  glob,
+  safeGlob,
   GlobExcludeDefault,
   createMatcher,
   createAbsoluteFilePathMatcher,
-  glob,
 } from '../globUtils';
 
 describe('glob', () => {
@@ -44,6 +45,45 @@ describe('glob', () => {
       'b.md',
       path.join('b', 'a.md'),
     ]);
+  });
+
+  describe('with a folder named like a file', () => {
+    const cwd = path.join(__dirname, '__fixtures__', 'folder-named-like-file');
+
+    it('does not match the files of a folder named like the pattern', async () => {
+      await expect(glob(['**/*.md'], {cwd})).resolves.toEqual([
+        'doc.md',
+        'folder.md/doc.md',
+      ]);
+    });
+
+    it('matches all the files of a directory pattern', async () => {
+      await expect(glob(['folder.md'], {cwd})).resolves.toEqual([
+        'folder.md/doc.md',
+        'folder.md/notes.txt',
+      ]);
+    });
+
+    it('matches all the files of a directory pattern with a trailing slash', async () => {
+      await expect(glob(['folder.md/'], {cwd})).resolves.toEqual([
+        'folder.md/doc.md',
+        'folder.md/notes.txt',
+      ]);
+    });
+
+    it('ignores all the files of a directory', async () => {
+      await expect(
+        glob(['**/*'], {cwd, ignore: ['folder.md']}),
+      ).resolves.toEqual(['doc.md']);
+    });
+  });
+
+  it('matches all the files of a directory named with glob characters', async () => {
+    await expect(
+      glob(['folder (copy) [old]'], {
+        cwd: path.join(__dirname, '__fixtures__', 'glob-characters'),
+      }),
+    ).resolves.toEqual(['folder (copy) [old]/doc.md']);
   });
 });
 
@@ -167,5 +207,21 @@ describe('createAbsoluteFilePathMatcher', () => {
     expect(
       overlapMatcher('/root/versioned_docs/version-2.0.0/no-partial.mdx'),
     ).toBe(false);
+  });
+});
+
+describe('safeGlob', () => {
+  it('matches all the files of an absolute directory path', async () => {
+    const dirPath = path.join(
+      __dirname,
+      '__fixtures__',
+      'folder-named-like-file',
+      'folder.md',
+    );
+    const files = await safeGlob([dirPath], {absolute: true});
+    expect(files.map((file) => path.relative(dirPath, file))).toEqual([
+      'doc.md',
+      'notes.txt',
+    ]);
   });
 });

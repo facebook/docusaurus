@@ -464,7 +464,6 @@ describe('blog plugin', () => {
     const blogPosts = await getBlogPosts(siteDir);
 
     expect(blogPosts.map((post) => post.metadata.source).sort()).toEqual([
-      '@site/blog/folder.md/notes.txt',
       '@site/blog/folder.md/post.md',
     ]);
   });
