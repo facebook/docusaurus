@@ -38,6 +38,7 @@
     "@docusaurus/theme-common": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
+    "d3-transition": "catalog:",
     "mermaid": "catalog:",
     "tslib": "catalog:"
   },
