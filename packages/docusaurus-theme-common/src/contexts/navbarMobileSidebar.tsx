@@ -91,9 +91,9 @@ export function NavbarMobileSidebarProvider({
       {
         // Close mobile sidebar on navigation pop
         // Most likely firing when using the Android back button (but not only)
-        // Important: we can only have a single history blocker at a time
-        // That's why this needs to be rendered conditionally
-        // See bug report https://github.com/meta/docusaurus/issues/10988
+        // Rendered conditionally to be the most recent history blocker, the
+        // first one to run, so that pop closes the sidebar before anything else
+        // See https://github.com/meta/docusaurus/pull/13028
         value.shown && (
           <OnHistoryPop
             handler={() => {
