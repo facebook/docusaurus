@@ -32,7 +32,7 @@ try {
 
 const {
   name,
-  engines: {node: requiredVersion},
+  engines: {node: requiredNodeVersion, bun: requiredBunVersion},
 } = packageJson;
 
 /**
@@ -167,12 +167,24 @@ export default async function beforeCli() {
 
   // Bun reports an older Node.js version than our requirement, like v26.12.1
   // See https://github.com/meta/docusaurus/pull/13024
-  const isBun = process.versions.bun !== undefined;
+  const bunVersion = process.versions.bun;
+  const isBun = bunVersion !== undefined;
+  const runtime = isBun
+    ? {
+        name: 'Bun',
+        version: bunVersion,
+        requiredVersion: requiredBunVersion,
+      }
+    : {
+        name: 'Node.js',
+        version: process.version,
+        requiredVersion: requiredNodeVersion,
+      };
 
-  // Notify user if node version needs to be updated
-  if (!isBun && !semver.satisfies(process.version, requiredVersion)) {
-    logger.error('Minimum Node.js version not met :(');
-    logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;
+  // Notify user if the runtime version needs to be updated
+  if (!semver.satisfies(runtime.version, runtime.requiredVersion)) {
+    logger.error(`Minimum ${runtime.name} version not met :(`);
+    logger.info`You are using ${runtime.name} number=${runtime.version}, Requirement: ${runtime.name} number=${runtime.requiredVersion}.`;
     process.exit(1);
   }
 }
