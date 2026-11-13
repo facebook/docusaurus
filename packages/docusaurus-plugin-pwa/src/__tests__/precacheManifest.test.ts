@@ -11,7 +11,7 @@ import fs from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {injectManifest, type ManifestEntry} from 'workbox-build';
-import {injectPrecacheManifest} from '../precacheManifest';
+import {injectManifestFIPS} from '../precacheManifest';
 
 const SwSource = 'const manifest = self.__WB_MANIFEST;';
 
@@ -49,13 +49,13 @@ function getOptions(outDir: string) {
   };
 }
 
-describe('injectPrecacheManifest', () => {
+describe('injectManifestFIPS', () => {
   it('injects the same manifest as Workbox', async () => {
     await using workboxOutDir = await createOutDir();
     await using outDir = await createOutDir();
 
     await injectManifest(getOptions(workboxOutDir.path));
-    await injectPrecacheManifest(getOptions(outDir.path));
+    await injectManifestFIPS(getOptions(outDir.path));
 
     const workboxManifest = await readSwManifest(workboxOutDir.path);
     const manifest = await readSwManifest(outDir.path);
@@ -65,7 +65,7 @@ describe('injectPrecacheManifest', () => {
   it('injects files hashed with MD5, except the service worker', async () => {
     await using outDir = await createOutDir();
 
-    await injectPrecacheManifest(getOptions(outDir.path));
+    await injectManifestFIPS(getOptions(outDir.path));
 
     const manifest = await readSwManifest(outDir.path);
     expect(manifest).toEqual([
@@ -78,7 +78,7 @@ describe('injectPrecacheManifest', () => {
   it('delegates templatedURLs to Workbox', async () => {
     await using outDir = await createOutDir();
 
-    await injectPrecacheManifest({
+    await injectManifestFIPS({
       ...getOptions(outDir.path),
       templatedURLs: {'/app-shell': 'shell'},
     });
@@ -93,7 +93,7 @@ describe('injectPrecacheManifest', () => {
   it('applies the Workbox manifest options', async () => {
     await using outDir = await createOutDir();
 
-    await injectPrecacheManifest({
+    await injectManifestFIPS({
       ...getOptions(outDir.path),
       globIgnores: ['**/*.css'],
       maximumFileSizeToCacheInBytes: 10,
