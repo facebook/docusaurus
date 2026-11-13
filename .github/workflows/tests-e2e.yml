@@ -285,7 +285,7 @@ jobs:
         working-directory: ../test-website
 
   bun:
-    name: E2E — Bun ${{ matrix.bun }}
+    name: E2E — Bun ${{ matrix.bun }} ${{ matrix.memory }} #${{ matrix.attempt }}
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
@@ -294,6 +294,8 @@ jobs:
         # Older versions hang or leak memory when building
         # See https://github.com/meta/docusaurus/pull/13044
         bun: ['1.4.3', 'latest']
+        memory: ['475M', '500M', '510M', '525M']
+        attempt: [1, 2]
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -328,7 +330,7 @@ jobs:
         # See https://github.com/meta/docusaurus/issues/10944
         # Bun ignores --max-old-space-size: we limit the whole process memory
         # See https://github.com/meta/docusaurus/pull/13044
-        run: systemd-run --user --scope --quiet -p MemoryMax=600M -p MemorySwapMax=0 bun --bun run build --locale en --locale fr
+        run: systemd-run --user --scope --quiet -p MemoryMax=${{ matrix.memory }} -p MemorySwapMax=0 bun --bun run build --locale en --locale fr
         env:
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
