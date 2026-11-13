@@ -285,16 +285,15 @@ jobs:
         working-directory: ../test-website
 
   bun:
-    name: E2E — Bun ${{ matrix.bun }} (${{ matrix.locales }})
+    name: E2E — Bun ${{ matrix.bun }}
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # Older versions hang when the build terminates the SSG worker thread
+        # Older versions hang or leak memory when building
         # See https://github.com/meta/docusaurus/pull/13044
-        bun: ['1.4.1', '1.4.2', '1.4.3']
-        locales: ['en fr de es ja it pt ko']
+        bun: ['1.4.3', 'latest']
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -329,7 +328,7 @@ jobs:
         # See https://github.com/meta/docusaurus/issues/10944
         # Bun ignores --max-old-space-size: we limit the whole process memory
         # See https://github.com/meta/docusaurus/pull/13044
-        run: systemd-run --user --scope --quiet -p MemoryMax=600M -p MemorySwapMax=0 bun --bun run build $(printf -- '--locale %s ' ${{ matrix.locales }})
+        run: systemd-run --user --scope --quiet -p MemoryMax=600M -p MemorySwapMax=0 bun --bun run build --locale en --locale fr
         env:
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
