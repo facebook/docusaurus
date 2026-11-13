@@ -1539,9 +1539,6 @@ describe('readVersionDocs', () => {
       fromPartial({contentPath}),
       DEFAULT_OPTIONS,
     );
-    expect(docs.map((doc) => doc.source)).toEqual([
-      'folder.md/doc.md',
-      'folder.md/notes.txt',
-    ]);
+    expect(docs.map((doc) => doc.source)).toEqual(['folder.md/doc.md']);
   });
 });

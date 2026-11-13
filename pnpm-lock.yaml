@@ -1392,6 +1392,9 @@ importers:
 
   packages/docusaurus-glob:
     dependencies:
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../docusaurus-fs
       chokidar:
         specifier: 'catalog:'
         version: 3.6.0
