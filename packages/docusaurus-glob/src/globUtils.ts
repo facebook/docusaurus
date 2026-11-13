@@ -20,13 +20,16 @@ export type GlobOptions = Pick<
   'cwd' | 'ignore' | 'absolute' | 'expandDirectories'
 >;
 
-/** Finds the files matching the given glob patterns. */
+/** Finds the files matching the given glob patterns, in a stable order. */
 export async function glob(
   patterns: string | string[],
   options?: GlobOptions,
 ): Promise<string[]> {
   // Other lib options are still forwarded at runtime for retro-compatibility
-  return Tinyglobby.glob(patterns, {...options});
+  const files = await Tinyglobby.glob(patterns, {...options});
+  // Tinyglobby reads folders concurrently: their files come in a random order
+  // See https://github.com/meta/docusaurus/pull/13031
+  return files.sort();
 }
 
 /**

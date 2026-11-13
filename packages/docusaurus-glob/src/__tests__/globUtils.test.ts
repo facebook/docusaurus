@@ -5,12 +5,47 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, onTestFinished} from 'vitest';
+import os from 'node:os';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 import {
   GlobExcludeDefault,
   createMatcher,
   createAbsoluteFilePathMatcher,
+  glob,
 } from '../globUtils';
+
+describe('glob', () => {
+  async function createFiles(files: string[]): Promise<string> {
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'glob-test-'));
+    onTestFinished(() => fs.rm(dir, {recursive: true, force: true}));
+    for (const file of files) {
+      await fs.mkdir(path.dirname(path.join(dir, file)), {recursive: true});
+      await fs.writeFile(path.join(dir, file), '');
+    }
+    return dir;
+  }
+
+  it('sorts the files of folders read concurrently', async () => {
+    const sortedFiles = Array.from(
+      {length: 30},
+      (_, i) => `post-${String(i).padStart(2, '0')}/index.md`,
+    );
+    const dir = await createFiles(sortedFiles);
+    await expect(glob('**/*.md', {cwd: dir})).resolves.toEqual(sortedFiles);
+  });
+
+  it('sorts absolute file paths', async () => {
+    const dir = await createFiles(['b/a.md', 'b.md', 'a.md']);
+    const files = await glob('**/*.md', {cwd: dir, absolute: true});
+    expect(files.map((file) => path.relative(dir, file))).toEqual([
+      'a.md',
+      'b.md',
+      path.join('b', 'a.md'),
+    ]);
+  });
+});
 
 describe('createMatcher', () => {
   it('match default exclude MD/MDX partials correctly', () => {
