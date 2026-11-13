@@ -36,6 +36,8 @@ catalog:
   '@crowdin/crowdin-api-client': ^1.57.0
   '@docsearch/react': ^4.7.0
   '@docusaurus/responsive-loader': ^1.7.1
+  '@inquirer/input': ^5.1.9
+  '@inquirer/select': ^5.2.8
   '@mdx-js/mdx': ^3.1.1
   '@mdx-js/react': ^3.1.1
   '@playwright/test': ^1.63.0
@@ -168,6 +170,7 @@ catalogs:
     '@ai-sdk/react': ^3.0.280
     '@crowdin/cli': ^5.0.2
     '@eslint/js': ^10.0.1
+    '@inquirer/testing': ^3.3.16
     '@svgr/core': ^8.1.0
     '@svgr/plugin-jsx': ^8.1.0
     '@svgr/plugin-svgo': ^8.1.0

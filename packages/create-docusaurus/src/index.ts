@@ -13,7 +13,6 @@ import path from 'node:path';
 
 // TODO try to remove these third-party dependencies if possible
 import {logger} from '@docusaurus/logger';
-import prompts, {type Choice} from 'prompts';
 import {fs, pathExists} from '@docusaurus/fs';
 import {
   LockfileNames,
@@ -35,7 +34,7 @@ import {
   updatePkg,
   printPackageManagerHelp,
 } from './utils.js';
-import {askPreferredLanguage} from './prompts.js';
+import {askInput, askPreferredLanguage, askSelect} from './prompts.js';
 
 type LanguagesOptions = {
   javascript?: boolean;
@@ -87,24 +86,11 @@ async function askForPackageManagerChoice(): Promise<PackageManager> {
     return packageManagers[0]!;
   }
 
-  const choices = packageManagers.map((p) => ({title: p, value: p}));
-  return (
-    (
-      (await prompts(
-        {
-          type: 'select',
-          name: 'packageManager',
-          message: 'Select a package manager...',
-          choices,
-        },
-        {
-          onCancel() {
-            logger.info`Falling back to name=${DefaultPackageManager}`;
-          },
-        },
-      )) as {packageManager?: PackageManager}
-    ).packageManager ?? DefaultPackageManager
-  );
+  return askSelect({
+    message: 'Select a package manager...',
+    choices: packageManagers.map((p) => ({name: p, value: p})),
+    answerHint: 'the --package-manager option',
+  });
 }
 
 async function getPackageManager(
@@ -193,16 +179,20 @@ async function copyTemplate(
   });
 }
 
-function createTemplateChoices(templates: Template[]): Choice[] {
-  function makeNameAndValueChoice(value: string | Template): Choice {
+type TemplateChoice = Template | 'Git repository' | 'Local template';
+
+function createTemplateChoices(
+  templates: Template[],
+): {name: string; value: TemplateChoice}[] {
+  function makeNameAndValueChoice(value: TemplateChoice) {
     if (typeof value === 'string') {
-      return {title: value, value};
+      return {name: value, value};
     }
-    const title =
+    const name =
       value.name === recommendedTemplate
         ? `${value.name} (recommended)`
         : value.name;
-    return {title, value};
+    return {name, value};
   }
 
   return [
@@ -218,25 +208,14 @@ async function askTemplateChoice({
 }: {
   templates: Template[];
   cliOptions: CLIOptions;
-}) {
+}): Promise<TemplateChoice> {
   return cliOptions.gitStrategy
     ? 'Git repository'
-    : (
-        (await prompts(
-          {
-            type: 'select',
-            name: 'template',
-            message: 'Select a template below...',
-            choices: createTemplateChoices(templates),
-          },
-          {
-            onCancel() {
-              logger.error('A choice is required.');
-              process.exit(1);
-            },
-          },
-        )) as {template: Template | 'Git repository' | 'Local template'}
-      ).template;
+    : askSelect({
+        message: 'Select a template below...',
+        choices: createTemplateChoices(templates),
+        answerHint: 'the [template] argument',
+      });
 }
 
 function isValidGitRepoUrl(gitRepoUrl: string): boolean {
@@ -267,22 +246,12 @@ async function getSiteName(
     }
     return reqName;
   }
-  const {siteName} = (await prompts(
-    {
-      type: 'text',
-      name: 'siteName',
-      message: 'What should we name this site?',
-      initial: 'website',
-      validate: validateSiteName,
-    },
-    {
-      onCancel() {
-        logger.error('A website name is required.');
-        process.exit(1);
-      },
-    },
-  )) as {siteName: string};
-  return siteName;
+  return askInput({
+    message: 'What should we name this site?',
+    default: 'website',
+    validate: validateSiteName,
+    answerHint: 'the [siteName] argument',
+  });
 }
 
 async function createTemplateSource({
@@ -365,87 +334,58 @@ async function askGitRepositorySource({
 }: {
   cliOptions: CLIOptions;
 }): Promise<Source> {
-  const {gitRepoUrl} = (await prompts(
-    {
-      type: 'text',
-      name: 'gitRepoUrl',
-      validate: (url?: string) => {
-        if (url && isValidGitRepoUrl(url)) {
-          return true;
-        }
-        return logger.red('Invalid repository URL');
-      },
-      message: logger.interpolate`Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.
+  const gitRepoUrl = await askInput({
+    validate: (url) => {
+      if (isValidGitRepoUrl(url)) {
+        return true;
+      }
+      return logger.red('Invalid repository URL');
+    },
+    message: logger.interpolate`Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.
 (e.g: url=${'https://github.com/ownerName/repoName.git'})`,
-    },
-    {
-      onCancel() {
-        logger.error('A git repo URL is required.');
-        process.exit(1);
-      },
-    },
-  )) as {gitRepoUrl: string};
-  let strategy = cliOptions.gitStrategy;
-  if (!strategy) {
-    ({strategy} = (await prompts(
-      {
-        type: 'select',
-        name: 'strategy',
-        message: 'How should we clone this repo?',
-        choices: [
-          {title: 'Deep clone: preserve full history', value: 'deep'},
-          {title: 'Shallow clone: clone with --depth=1', value: 'shallow'},
-          {
-            title: 'Copy: do a shallow clone, but do not create a git repo',
-            value: 'copy',
-          },
-          {
-            title: 'Custom: enter your custom git clone command',
-            value: 'custom',
-          },
-        ],
-      },
-      {
-        onCancel() {
-          logger.info`Falling back to name=${'deep'}`;
+    answerHint: 'the [template] argument',
+  });
+  const strategy =
+    cliOptions.gitStrategy ??
+    (await askSelect<GitCloneStrategy>({
+      message: 'How should we clone this repo?',
+      choices: [
+        {name: 'Deep clone: preserve full history', value: 'deep'},
+        {name: 'Shallow clone: clone with --depth=1', value: 'shallow'},
+        {
+          name: 'Copy: do a shallow clone, but do not create a git repo',
+          value: 'copy',
         },
-      },
-    )) as {strategy?: GitCloneStrategy});
-  }
+        {
+          name: 'Custom: enter your custom git clone command',
+          value: 'custom',
+        },
+      ],
+      answerHint: 'the --git-strategy option',
+    }));
   return {
     type: 'git',
     url: gitRepoUrl,
-    strategy: strategy ?? 'deep',
+    strategy,
   };
 }
 
 async function askLocalSource(): Promise<Source> {
-  const {templateDir} = (await prompts(
-    {
-      type: 'text',
-      name: 'templateDir',
-      validate: async (dir?: string) => {
-        if (dir) {
-          const fullDir = path.resolve(dir);
-          if (await pathExists(fullDir)) {
-            return true;
-          }
-          return logger.red(
-            logger.interpolate`path=${fullDir} does not exist.`,
-          );
+  const templateDir = await askInput({
+    validate: async (dir) => {
+      if (dir) {
+        const fullDir = path.resolve(dir);
+        if (await pathExists(fullDir)) {
+          return true;
         }
-        return logger.red('Please enter a valid path.');
-      },
-      message:
-        'Enter a local folder path, relative to the current working directory.',
+        return logger.red(logger.interpolate`path=${fullDir} does not exist.`);
+      }
+      return logger.red('Please enter a valid path.');
     },
-    {
-      onCancel() {
-        logger.error('A file path is required.');
-        process.exit(1);
-      },
-    },
-  )) as {templateDir: string};
+    message:
+      'Enter a local folder path, relative to the current working directory.',
+    answerHint: 'the [template] argument',
+  });
   return {
     type: 'local',
     path: templateDir,
