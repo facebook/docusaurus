@@ -73,6 +73,7 @@ catalog:
   copy-text-to-clipboard: ^3.2.2
   cross-spawn: ^7.0.6
   css-loader: ^7.1.5
+  d3-transition: ^3.0.1
   detect-port: ^2.1.0
   escape-html: ^1.0.3
   estree-util-value-to-estree: ^3.5.0
