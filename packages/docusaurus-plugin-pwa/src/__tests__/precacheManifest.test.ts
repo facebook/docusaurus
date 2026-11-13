@@ -11,6 +11,7 @@ import fs from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {injectManifest, type ManifestEntry} from 'workbox-build';
+import {hashString} from '@docusaurus/utils';
 import {injectManifestFIPS} from '../precacheManifest';
 
 const SwSource = 'const manifest = self.__WB_MANIFEST;';
@@ -62,16 +63,16 @@ describe('injectManifestFIPS', () => {
     expect(manifest).toEqual(workboxManifest);
   });
 
-  it('injects files hashed with MD5, except the service worker', async () => {
+  it('injects the hashed files, except the service worker', async () => {
     await using outDir = await createOutDir();
 
     await injectManifestFIPS(getOptions(outDir.path));
 
     const manifest = await readSwManifest(outDir.path);
     expect(manifest).toEqual([
-      {url: 'assets/main.css', revision: 'aa676972bbd2b68e94ef8e91e81d20be'},
-      {url: 'assets/main.js', revision: '238e96d5b62a1aec3739730469f27192'},
-      {url: 'index.html', revision: 'fe919dfbe925337c176e602ebbf0d15c'},
+      {url: 'assets/main.css', revision: hashString('body{}')},
+      {url: 'assets/main.js', revision: hashString('alert(1)')},
+      {url: 'index.html', revision: hashString('<h1>Home</h1>')},
     ]);
   });
 
