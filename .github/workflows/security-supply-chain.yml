@@ -116,7 +116,6 @@ jobs:
             - 'semver@6.3.1'
             - 'webpack-dev-middleware@7.4.6'
             - 'undici-types@6.21.0'
-            - 'encodeurl@2.0.2' # TODO remove once https://github.com/pillarjs/encodeurl/issues/43 is closed
           YAML
 
           sfw pnpm install || sfw pnpm install || sfw pnpm install
