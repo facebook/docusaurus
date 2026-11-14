@@ -291,8 +291,8 @@ catalogs:
       specifier: ^5.1.0
       version: 5.1.0
     image-size:
-      specifier: ^2.0.4
-      version: 2.0.4
+      specifier: npm:@carboneio/image-size@3.0.1
+      version: 3.0.1
     infima:
       specifier: 0.2.0-alpha.45
       version: 0.2.0-alpha.45
@@ -938,7 +938,7 @@ importers:
         version: 10.0.1
       image-size:
         specifier: 'catalog:'
-        version: 2.0.4
+        version: '@carboneio/image-size@3.0.1'
       js-yaml:
         specifier: 'catalog:'
         version: 5.4.1
@@ -1455,7 +1455,7 @@ importers:
         version: 3.1.3(supports-color@10.2.2)
       image-size:
         specifier: 'catalog:'
-        version: 2.0.4
+        version: '@carboneio/image-size@3.0.1'
       mdast-util-mdx:
         specifier: 'catalog:'
         version: 3.0.0(supports-color@10.2.2)
@@ -2938,7 +2938,7 @@ importers:
         version: 10.1.0
       image-size:
         specifier: 'catalog:'
-        version: 2.0.4
+        version: '@carboneio/image-size@3.0.1'
       lodash:
         specifier: 'catalog:'
         version: 4.18.1
@@ -3716,6 +3716,11 @@ packages:
 
   '@cacheable/utils@2.5.0':
     resolution: {integrity: sha512-buipgOVDkkPXNR5+xBpDw7Zk2n1EvU7qBJCNUcL7rhQ//kfpOXPAvQ511Os0vpLYJ1pZnvudNytkQt2hst3wqA==}
+
+  '@carboneio/image-size@3.0.1':
+    resolution: {integrity: sha512-mtKFdZk99PVFVKQvGiLWlzOTilNmDCcNZYlK/K4wzqOdLui3m5P3lzQv2jjSbevXZNpvST49wIw0Qk34OYT8mw==}
+    engines: {node: '>=16.x'}
+    hasBin: true
 
   '@chevrotain/cst-dts-gen@11.1.2':
     resolution: {integrity: sha512-XTsjvDVB5nDZBQB8o0o/0ozNelQtn2KrUVteIHSlPd2VAV2utEb6JzyCJaJ8tGxACR4RiBNWy5uYUHX2eji88Q==}
@@ -9676,11 +9681,6 @@ packages:
   image-q@4.0.0:
     resolution: {integrity: sha512-PfJGVgIfKQJuq3s0tTDOKtztksibuUEbJQIYT3by6wctQo+Rdlh7ef4evJ5NCdxY4CfMbvFkocEwbl4BF8RlJw==}
 
-  image-size@2.0.4:
-    resolution: {integrity: sha512-QRUkFFsRV/6fuESxb9Vkq+a0LkSrgKXuc2NEqfikiXxxN/G3tjWt5EVUlMaImRBZRZK/jRBEbYvpPYZL8t08Zw==}
-    engines: {node: '>=18'}
-    hasBin: true
-
   import-fresh@3.3.1:
     resolution: {integrity: sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==}
     engines: {node: '>=6'}
@@ -14807,6 +14807,8 @@ snapshots:
     dependencies:
       hashery: 1.5.1
       keyv: 5.6.0
+
+  '@carboneio/image-size@3.0.1': {}
 
   '@chevrotain/cst-dts-gen@11.1.2':
     dependencies:
@@ -21293,8 +21295,6 @@ snapshots:
     dependencies:
       '@types/node': 16.9.1
     optional: true
-
-  image-size@2.0.4: {}
 
   import-fresh@3.3.1:
     dependencies:

@@ -82,7 +82,7 @@ catalog:
   github-slugger: ^2.0.0
   hast-util-to-estree: ^3.1.3
   html-tags: ^5.1.0
-  image-size: ^2.0.4
+  image-size: npm:@carboneio/image-size@3.0.1
   infima: 0.2.0-alpha.45
   jimp: ^1.6.1
   jiti: ^2.7.0
