@@ -5,28 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {select} from 'd3-selection';
 import {describe, expect, it, vi} from 'vitest';
+import {loadMermaid} from '../loadMermaid';
 
-const loadedModules = vi.hoisted(() => [] as string[]);
-
-vi.mock('d3-transition', () => {
-  loadedModules.push('d3-transition');
-  return {};
-});
+const mermaidImport = vi.hoisted(() => ({
+  onLoad: vi.fn(),
+}));
 
 vi.mock('mermaid', () => {
-  loadedModules.push('mermaid');
+  mermaidImport.onLoad();
   return {default: {}};
 });
 
-import {loadMermaid} from '../loadMermaid';
-
 describe('loadMermaid', () => {
-  it('loads d3-transition before Mermaid and keeps both imports lazy', async () => {
-    expect(loadedModules).toEqual([]);
+  it('registers D3 transitions before importing Mermaid', async () => {
+    const selection = select(null);
+    const getTransition = () =>
+      (selection as unknown as {transition?: unknown}).transition;
 
-    await loadMermaid();
+    expect(getTransition()).toBeUndefined();
 
-    expect(loadedModules).toEqual(['d3-transition', 'mermaid']);
+    mermaidImport.onLoad.mockImplementation(() => {
+      expect(getTransition()).toBeTypeOf('function');
+    });
+
+    await expect(loadMermaid()).resolves.toEqual({});
+    expect(mermaidImport.onLoad).toHaveBeenCalledOnce();
   });
 });
